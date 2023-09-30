@@ -1,15 +1,37 @@
 XL2
-H 1 areas 3 global symbols
+H 1 areas 7 global symbols
 M Physics_System
 S .__.ABS. Def0000
-A _CODE size 2 flags 0 addr 0
-S physicssys_update Def0001
-S physicssys_init Def0000
+S e_vx Ref0000
+S entity_size Ref0000
+S e_w Ref0000
+S e_x Ref0000
+A _CODE size 28 flags 0 addr 0
+S physics_sys_init Def0000
+S physics_sys_update Def0001
 T 00 00
 R 00 00 00 00
 T 00 00 C9
 R 00 00 00 00
 T 01 00
 R 00 00 00 00
-T 01 00 C9
+T 01 00 47
 R 00 00 00 00
+T 02 00
+R 00 00 00 00
+T 02 00 3E 51 DD 96 00 00 4F DD 7E 00 00 DD 86
+R 00 00 00 00 0B 06 03 00 0B 0B 04 00
+T 0D 00 00 00 B9 30 05
+R 00 00 00 00 0B 02 01 00
+T 11 00
+R 00 00 00 00
+T 11 00 DD 77 00 00 18 08
+R 00 00 00 00 0B 04 04 00
+T 16 00
+R 00 00 00 00
+T 16 00 DD 7E 00 00 ED 44 DD 77 00 00
+R 00 00 00 00 0B 04 01 00 0B 0A 01 00
+T 1E 00
+R 00 00 00 00
+T 1E 00 05 C8 11 00 00 DD 19 18 DB C9
+R 00 00 00 00 02 05 02 00

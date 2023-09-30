@@ -9,14 +9,49 @@ Hexadecimal [16-Bits]
                               4 ;;
                               5 .module Physics_System
                               6 
-                              7 
-                              8 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                              9 ;; Code
-                             10 ;;
-                             11 .area _CODE
-                             12 
-   0000                      13 physicssys_init::
-   0000 C9            [10]   14     ret
-                             15 
-   0001                      16 physicssys_update::
-   0001 C9            [10]   17     ret
+                     0050     7 screen_width  = 80
+                     00C8     8 screen_height = 200
+                              9 
+                             10 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             11 ;; Code
+                             12 ;;
+                             13 .area _CODE
+                             14 
+   0000                      15 physics_sys_init::
+   0000 C9            [10]   16     ret
+                             17 
+                             18 ;; Input
+                             19 ;;   IX: Pointer to first entity to render
+                             20 ;;    A: Number of entities to render
+   0001                      21 physics_sys_update::
+   0001 47            [ 4]   22     ld  b, a
+                             23 
+   0002                      24 _update_loop:
+                             25     ;; Update X
+   0002 3E 51         [ 7]   26     ld    a, #screen_width + 1
+   0004 DD 96 00      [19]   27     sub   e_w(ix)
+   0007 4F            [ 4]   28     ld    c, a
+                             29 
+   0008 DD 7E 00      [19]   30     ld    a, e_x(ix)
+   000B DD 86 00      [19]   31     add   e_vx(ix)
+   000E B9            [ 4]   32     cp    c             ;; Comprueba con la primera posicion invalida
+   000F 30 05         [12]   33     jr   nc, invalid_x
+   0011                      34 valid_x:
+   0011 DD 77 00      [19]   35     ld   e_x(ix), a
+   0014 18 08         [12]   36     jr   endif_x
+   0016                      37 invalid_x:
+   0016 DD 7E 00      [19]   38     ld   a, e_vx(ix)
+   0019 ED 44         [ 8]   39     neg
+   001B DD 77 00      [19]   40     ld   e_vx(ix), a
+   001E                      41 endif_x:
+                             42 
+                             43     ;; Update Y ;; todo
+                             44 
+   001E 05            [ 4]   45     dec  b
+   001F C8            [11]   46     ret  z
+                             47 
+   0020 11 00 00      [10]   48     ld  de, #entity_size
+   0023 DD 19         [15]   49     add ix, de
+   0025 18 DB         [12]   50     jr _update_loop
+                             51 
+   0027 C9            [10]   52     ret

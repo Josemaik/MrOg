@@ -7,7 +7,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Global Symbols
 ;;
-.globl rendersys_update
+.globl render_sys_update
 .globl cpct_getScreenPtr_asm
 .globl cpct_drawSolidBox_asm
 
@@ -16,26 +16,26 @@
 ;;
 .area _CODE
 
-rendersys_init::
+render_sys_init::
     ret
 
 ;; Input
 ;;   IX: Pointer to first entity to render
 ;;    A: Number of entities to render
-rendersys_update::
+render_sys_update::
 
-_renloop:
+_render_loop:
     push af
 
     ld  de, #0xC000
-    ld   c, 1(ix)    ;; X
-    ld   b, 2(ix)    ;; Y
+    ld   c, e_x(ix)    ;; X
+    ld   b, e_y(ix)    ;; Y
     call cpct_getScreenPtr_asm
 
     ex  de, hl
-    ld   a, 4(ix)    ;; Color
-    ld   c, #2       ;; Width 
-    ld   b, #8       ;; Height 
+    ld   a, e_color(ix)    ;; Color
+    ld   c, e_w(ix)        ;; Width 
+    ld   b, e_h(ix)        ;; Height 
     call cpct_drawSolidBox_asm
 
     pop af
@@ -45,4 +45,4 @@ _renloop:
 
     ld  bc, #entity_size
     add ix, bc
-    jr _renloop
+    jr _render_loop

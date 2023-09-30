@@ -10,17 +10,18 @@
 
 .globl _num_entities
 .globl _entity_array
-.globl man_entity_create
+.globl entity_man_init
+.globl entity_man_create
 
-.globl rendersys_init
-.globl rendersys_update
+.globl render_sys_init
+.globl render_sys_update
 
-.globl physicssys_init
-.globl physicssys_update
+.globl physics_sys_init
+.globl physics_sys_update
 
-;; tipo , x , y , vx , color
-prueba:  .db 1, 20, 20 , 2 , 0xFF
-prueba2: .db 1, 12, 30 , 2 , 0xF0
+;;;;;;;;;; tipo , x , y , vx , vy , w , h , color 
+prueba:  .db 1 , 30 , 20 , -2 , 0 , 1 , 1 , 0xCC
+prueba2: .db 1 , 42 , 60 , -5 , 0 , 1 , 1 , 0xF0
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MAIN 
@@ -28,27 +29,28 @@ prueba2: .db 1, 12, 30 , 2 , 0xF0
 _main::
 
    ;; Init systems
-   call rendersys_init
-   call physicssys_init
+   call render_sys_init
+   call physics_sys_init
 
    ld   hl, #prueba
-   call man_entity_create
+   call entity_man_create
    ld   hl, #prueba2
-   call man_entity_create
+   call entity_man_create
 
 loop:
 
    ;;;;;;;;;;;;;;;;;;;
    ;; Physics
    ;;
-   call physicssys_update
+   call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   call physics_sys_update
 
    ;; waitNVSyncs 2
    call cpct_waitVSYNC_asm
    ;;;;;;;;;;;;;;;;;;;
    ;; Render
    ;;
-   call man_entity_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
-   call rendersys_update
+   call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   call render_sys_update
 
    jr   loop

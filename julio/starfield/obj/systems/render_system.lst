@@ -12,7 +12,7 @@ Hexadecimal [16-Bits]
                               7 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                               8 ;; Global Symbols
                               9 ;;
-                             10 .globl rendersys_update
+                             10 .globl render_sys_update
                              11 .globl cpct_getScreenPtr_asm
                              12 .globl cpct_drawSolidBox_asm
                              13 
@@ -21,33 +21,33 @@ Hexadecimal [16-Bits]
                              16 ;;
                              17 .area _CODE
                              18 
-   0000                      19 rendersys_init::
+   0000                      19 render_sys_init::
    0000 C9            [10]   20     ret
                              21 
                              22 ;; Input
                              23 ;;   IX: Pointer to first entity to render
                              24 ;;    A: Number of entities to render
-   0001                      25 rendersys_update::
+   0001                      25 render_sys_update::
                              26 
-   0001                      27 _renloop:
+   0001                      27 _render_loop:
    0001 F5            [11]   28     push af
                              29 
    0002 11 00 C0      [10]   30     ld  de, #0xC000
-   0005 DD 4E 01      [19]   31     ld   c, 1(ix)    ;; X
-   0008 DD 46 02      [19]   32     ld   b, 2(ix)    ;; Y
+   0005 DD 4E 00      [19]   31     ld   c, e_x(ix)    ;; X
+   0008 DD 46 00      [19]   32     ld   b, e_y(ix)    ;; Y
    000B CD 00 00      [17]   33     call cpct_getScreenPtr_asm
                              34 
    000E EB            [ 4]   35     ex  de, hl
-   000F DD 7E 04      [19]   36     ld   a, 4(ix)    ;; Color
-   0012 0E 02         [ 7]   37     ld   c, #2       ;; Width 
-   0014 06 08         [ 7]   38     ld   b, #8       ;; Height 
-   0016 CD 00 00      [17]   39     call cpct_drawSolidBox_asm
+   000F DD 7E 00      [19]   36     ld   a, e_color(ix)    ;; Color
+   0012 DD 4E 00      [19]   37     ld   c, e_w(ix)        ;; Width 
+   0015 DD 46 00      [19]   38     ld   b, e_h(ix)        ;; Height 
+   0018 CD 00 00      [17]   39     call cpct_drawSolidBox_asm
                              40 
-   0019 F1            [10]   41     pop af
+   001B F1            [10]   41     pop af
                              42 
-   001A 3D            [ 4]   43     dec a
-   001B C8            [11]   44     ret z
+   001C 3D            [ 4]   43     dec a
+   001D C8            [11]   44     ret z
                              45 
-   001C 01 00 00      [10]   46     ld  bc, #entity_size
-   001F DD 09         [15]   47     add ix, bc
-   0021 18 DE         [12]   48     jr _renloop
+   001E 01 00 00      [10]   46     ld  bc, #entity_size
+   0021 DD 09         [15]   47     add ix, bc
+   0023 18 DC         [12]   48     jr _render_loop

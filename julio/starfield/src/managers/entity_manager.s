@@ -5,7 +5,7 @@
 .module Entity_Manager
 
 max_entities == 10
-entity_size  == 5
+entity_size  == 8
 
 _num_entities:: .db 0
 _last_elem_ptr:: .dw _entity_array
@@ -15,26 +15,41 @@ _entity_array::
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Struct of entity
 ;;
-;; tipo , x , y , vx , color
+;; tipo , x , y , vx , vy , w , h , color , (posible memory pointer value)
+
+e_tipo      == 0
+e_x         == 1
+e_y         == 2
+e_vx        == 3
+e_vy        == 4
+e_w         == 5
+e_h         == 6
+e_color     == 7
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Global Symbols
 ;;
-.globl man_entity_init
-.globl man_entity_create
+.globl entity_man_init
+.globl entity_man_create
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Code
 ;;
 .area _CODE
 
-man_entity_init:
-    call man_entity_create
+entity_man_init:
+    ;; Reset all component vector values
+    xor a
+    ld  (_num_entities), a
+
+    ld  hl, #_entity_array
+    ld  (_last_elem_ptr), hl
+    
     ret
 
 ;; Input
 ;;   HL: pointer to entity initializer
-man_entity_create:
+entity_man_create:
     ld      de, (_last_elem_ptr)
     ld      bc, #entity_size
     ldir                        ;; Copia desde donde apunta HL hasta el registro DE, tantos bytes como ponga en el registro BC
@@ -53,7 +68,7 @@ man_entity_create:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Getters
 ;;
-man_entity_getArray::
+entity_man_getArray::
     ld      ix, #_entity_array
     ld       a, (_num_entities)
     ret

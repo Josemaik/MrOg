@@ -1,30 +1,33 @@
 XL2
-H 2 areas B global symbols
+H 2 areas C global symbols
 M Main
-S rendersys_update Ref0000
-S physicssys_update Ref0000
-S man_entity_create Ref0000
-S man_entity_getArray Ref0000
+S entity_man_create Ref0000
+S entity_man_init Ref0000
+S render_sys_init Ref0000
+S physics_sys_init Ref0000
+S entity_man_getArray Ref0000
 S .__.ABS. Def0000
+S render_sys_update Ref0000
+S physics_sys_update Ref0000
 S cpct_waitVSYNC_asm Ref0000
-S rendersys_init Ref0000
 S _num_entities Ref0000
-S physicssys_init Ref0000
 S _entity_array Ref0000
-A _CODE size 2A flags 0 addr 0
-S _main Def000A
+A _CODE size 33 flags 0 addr 0
+S _main Def0010
 A _DATA size 0 flags 0 addr 0
-T 00 00 01 14 14 02 FF 01 0C 1E 02 F0
+T 00 00 01 1E 14 FE 00 01 01 CC 01 2A 3C FB 00 01
 R 00 00 00 00
-T 0A 00
+T 0E 00 01 F0
 R 00 00 00 00
-T 0A 00 CD 00 00 CD 00 00 21 00 00 CD
-R 00 00 00 00 02 03 06 00 02 06 08 00 00 09 00 00
-T 14 00 00 00 21 05 00 CD 00 00
-R 00 00 00 00 02 02 02 00 00 05 00 00 02 08 02 00
-T 1C 00
+T 10 00
 R 00 00 00 00
-T 1C 00 CD 00 00 CD 00 00 CD 00 00 CD
-R 00 00 00 00 02 03 01 00 02 06 05 00 02 09 03 00
-T 26 00 00 00 18 F2
-R 00 00 00 00 02 02 00 00
+T 10 00 CD 00 00 CD 00 00 21 00 00 CD
+R 00 00 00 00 02 03 02 00 02 06 03 00 00 09 00 00
+T 1A 00 00 00 21 08 00 CD 00 00
+R 00 00 00 00 02 02 00 00 00 05 00 00 02 08 00 00
+T 22 00
+R 00 00 00 00
+T 22 00 CD 00 00 CD 00 00 CD 00 00 CD
+R 00 00 00 00 02 03 04 00 02 06 07 00 02 09 08 00
+T 2C 00 00 00 CD 00 00 18 EF
+R 00 00 00 00 02 02 04 00 02 05 06 00

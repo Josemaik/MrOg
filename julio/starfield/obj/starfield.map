@@ -8,38 +8,45 @@ Area                                    Addr        Size        Decimal Bytes (A
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
      00000000  .__.ABS.                           cpct_video
+     00000000  e_tipo                             Entity_Manager
      00000000  l__DATA                         
-     00000005  entity_size                        Entity_Manager
+     00000001  e_x                                Entity_Manager
+     00000002  e_y                                Entity_Manager
+     00000003  e_vx                               Entity_Manager
+     00000004  e_vy                               Entity_Manager
+     00000005  e_w                                Entity_Manager
+     00000006  e_h                                Entity_Manager
+     00000007  e_color                            Entity_Manager
+     00000008  entity_size                        Entity_Manager
      0000000A  max_entities                       Entity_Manager
-     00000169  l__CODE                         
+     000001BF  l__CODE                         
      00004000  s__CODE                         
-     00004169  s__DATA                         
-
+     000041BF  s__DATA                         
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    00000169 =         361. bytes (REL,CON)
+_CODE                               00004000    000001BF =         447. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     0000400A  _main                              Main
-     0000402A  _num_entities                      Entity_Manager
-     0000402B  _last_elem_ptr                     Entity_Manager
-     0000402D  _entity_array                      Entity_Manager
-     0000405F  man_entity_init                    Entity_Manager
-     00004063  man_entity_create                  Entity_Manager
-     0000407E  man_entity_getArray                Entity_Manager
-     00004086  physicssys_init                    Physics_System
-     00004087  physicssys_update                  Physics_System
-     00004088  rendersys_init                     Render_System
-     00004089  rendersys_update                   Render_System
-     000040AB  _cpct_waitVSYNC                    cpct_video
-     000040AB  cpct_waitVSYNC_asm                 cpct_video
-     000040B3  cpct_drawSolidBox_asm              cpct_sprites
-     00004156  _cpct_mode_rom_status              cpct_firmware
-     00004157  cpct_getScreenPtr_asm              cpct_video
+     00004010  _main                              Main
+     00004033  _num_entities                      Entity_Manager
+     00004034  _last_elem_ptr                     Entity_Manager
+     00004036  _entity_array                      Entity_Manager
+     00004086  entity_man_init                    Entity_Manager
+     00004091  entity_man_create                  Entity_Manager
+     000040AC  entity_man_getArray                Entity_Manager
+     000040B4  physics_sys_init                   Physics_System
+     000040B5  physics_sys_update                 Physics_System
+     000040DC  render_sys_init                    Render_System
+     000040DD  render_sys_update                  Render_System
+     00004101  _cpct_waitVSYNC                    cpct_video
+     00004101  cpct_waitVSYNC_asm                 cpct_video
+     00004109  cpct_drawSolidBox_asm              cpct_sprites
+     000041AC  _cpct_mode_rom_status              cpct_firmware
+     000041AD  cpct_getScreenPtr_asm              cpct_video
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 

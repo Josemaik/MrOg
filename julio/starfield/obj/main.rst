@@ -15,45 +15,54 @@ Hexadecimal [16-Bits]
                              10 
                              11 .globl _num_entities
                              12 .globl _entity_array
-                             13 .globl man_entity_create
-                             14 
-                             15 .globl rendersys_init
-                             16 .globl rendersys_update
-                             17 
-                             18 .globl physicssys_init
-                             19 .globl physicssys_update
-                             20 
-                             21 ;; tipo , x , y , vx , color
-   4000 01 14 14 02 FF       22 prueba:  .db 1, 20, 20 , 2 , 0xFF
-   4005 01 0C 1E 02 F0       23 prueba2: .db 1, 12, 30 , 2 , 0xF0
-                             24 
-                             25 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             26 ;; MAIN 
-                             27 ;;
-   400A                      28 _main::
-                             29 
-                             30    ;; Init systems
-   400A CD 88 40      [17]   31    call rendersys_init
-   400D CD 86 40      [17]   32    call physicssys_init
-                             33 
-   4010 21 00 40      [10]   34    ld   hl, #prueba
-   4013 CD 63 40      [17]   35    call man_entity_create
-   4016 21 05 40      [10]   36    ld   hl, #prueba2
-   4019 CD 63 40      [17]   37    call man_entity_create
-                             38 
-   401C                      39 loop:
-                             40 
-                             41    ;;;;;;;;;;;;;;;;;;;
-                             42    ;; Physics
-                             43    ;;
-   401C CD 87 40      [17]   44    call physicssys_update
-                             45 
-                             46    ;; waitNVSyncs 2
-   401F CD AB 40      [17]   47    call cpct_waitVSYNC_asm
-                             48    ;;;;;;;;;;;;;;;;;;;
-                             49    ;; Render
-                             50    ;;
-   4022 CD 7E 40      [17]   51    call man_entity_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
-   4025 CD 89 40      [17]   52    call rendersys_update
-                             53 
-   4028 18 F2         [12]   54    jr   loop
+                             13 .globl entity_man_init
+                             14 .globl entity_man_create
+                             15 
+                             16 .globl render_sys_init
+                             17 .globl render_sys_update
+                             18 
+                             19 .globl physics_sys_init
+                             20 .globl physics_sys_update
+                             21 
+                             22 ;;;;;;;;;; tipo , x , y , vx , vy , w , h , color 
+   4000 01 1E 14 FE 00 01    23 prueba:  .db 1 , 30 , 20 , -2 , 0 , 1 , 1 , 0xCC
+        01 CC
+   4008 01 2A 3C FB 00 01    24 prueba2: .db 1 , 42 , 60 , -5 , 0 , 1 , 1 , 0xF0
+        01 F0
+                             25 
+                             26 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             27 ;; MAIN 
+                             28 ;;
+   4010                      29 _main::
+                             30 
+                             31    ;; Init systems
+   4010 CD DC 40      [17]   32    call render_sys_init
+   4013 CD B4 40      [17]   33    call physics_sys_init
+                             34 
+   4016 21 00 40      [10]   35    ld   hl, #prueba
+   4019 CD 91 40      [17]   36    call entity_man_create
+   401C 21 08 40      [10]   37    ld   hl, #prueba2
+   401F CD 91 40      [17]   38    call entity_man_create
+                             39 
+   4022                      40 loop:
+                             41 
+                             42    ;;;;;;;;;;;;;;;;;;;
+                             43    ;; Physics
+                             44    ;;
+   4022 CD AC 40      [17]   45    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   4025 CD B5 40      [17]   46    call physics_sys_update
+                             47 
+                             48    ;; waitNVSyncs 2
+   4028 CD 01 41      [17]   49    call cpct_waitVSYNC_asm
+                             50    ;;;;;;;;;;;;;;;;;;;
+                             51    ;; Render
+                             52    ;;
+   402B CD AC 40      [17]   53    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+
+
+   402E CD DD 40      [17]   54    call render_sys_update
+                             55 
+   4031 18 EF         [12]   56    jr   loop
