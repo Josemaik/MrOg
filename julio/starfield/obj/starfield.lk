@@ -9,5 +9,6 @@
 -l z80
 obj/main.rel
 obj/man/entity_manager.rel
+obj/man/render_system.rel
 
 -e

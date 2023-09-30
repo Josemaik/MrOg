@@ -20,10 +20,10 @@ Hexadecimal [16-Bits]
                      000A     5 max_entities = 10
                      0005     6 entity_size = 5
                               7 
-   4010 00                    8 _num_entities:: .db 0
-   4011 13 40                 9 _last_elem_ptr:: .dw _entity_array
-   4013                      10 _entity_array::
-   4013                      11     .ds max_entities*entity_size
+   401A 00                    8 _num_entities:: .db 0
+   401B 1D 40                 9 _last_elem_ptr:: .dw _entity_array
+   401D                      10 _entity_array::
+   401D                      11     .ds max_entities*entity_size
                              12 
                              13 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              14 ;; Struct of entity
@@ -5029,28 +5029,28 @@ Hexadecimal [16-Bits]
 
 
                               7 
-   4045                       8 man_entity_init:
+   404F                       8 man_entity_init:
                               9     ;; call man_own_place
-   4045 CD 49 40      [17]   10     call man_entity_create
-   4048 C9            [10]   11     ret
+   404F CD 53 40      [17]   10     call man_entity_create
+   4052 C9            [10]   11     ret
                              12 
                              13 ;; Input
                              14 ;;   HL: pointer to entity initializer
-   4049                      15 man_entity_create:
-   4049 ED 5B 11 40   [20]   16     ld      de, (_last_elem_ptr)
-   404D 01 05 00      [10]   17     ld      bc, #entity_size
-   4050 ED B0         [21]   18     ldir                        ;; Copia desde donde apunta HL hasta el registro DE, tantos bytes como ponga en el registro BC
+   4053                      15 man_entity_create:
+   4053 ED 5B 1B 40   [20]   16     ld      de, (_last_elem_ptr)
+   4057 01 05 00      [10]   17     ld      bc, #entity_size
+   405A ED B0         [21]   18     ldir                        ;; Copia desde donde apunta HL hasta el registro DE, tantos bytes como ponga en el registro BC
                              19 
-   4052 3A 10 40      [13]   20     ld       a, (_num_entities)
-   4055 3C            [ 4]   21     inc      a
-   4056 32 10 40      [13]   22     ld       (_num_entities), a  
+   405C 3A 1A 40      [13]   20     ld       a, (_num_entities)
+   405F 3C            [ 4]   21     inc      a
+   4060 32 1A 40      [13]   22     ld       (_num_entities), a  
                              23 
-   4059 2A 11 40      [16]   24     ld      hl, (_last_elem_ptr)
-   405C 01 05 00      [10]   25     ld      bc, #entity_size  
-   405F 09            [11]   26     add     hl, bc
-   4060 22 11 40      [16]   27     ld      (_last_elem_ptr), hl
+   4063 2A 1B 40      [16]   24     ld      hl, (_last_elem_ptr)
+   4066 01 05 00      [10]   25     ld      bc, #entity_size  
+   4069 09            [11]   26     add     hl, bc
+   406A 22 1B 40      [16]   27     ld      (_last_elem_ptr), hl
                              28 
-   4063 C9            [10]   29     ret
+   406D C9            [10]   29     ret
                              30 
                              31 ;; man_own_place:
                              32 ;;     .ds 50

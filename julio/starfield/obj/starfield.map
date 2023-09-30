@@ -9,42 +9,53 @@ Area                                    Addr        Size        Decimal Bytes (A
       -----  --------------------------------   ------------------------
      00000000  .__.ABS.                           cpct_firmware
      00000000  l__DATA                         
-     00000074  l__CODE                         
+     0000014D  l__CODE                         
      00004000  s__CODE                         
-     00004074  s__DATA                         
+     0000414D  s__DATA                         
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    00000074 =         116. bytes (REL,CON)
+_CODE                               00004000    0000014D =         333. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
      00004005  _main                              Main
-     00004010  _num_entities                      Entity_Manager
-     00004011  _last_elem_ptr                     Entity_Manager
-     00004013  _entity_array                      Entity_Manager
-     00004045  man_entity_init                    Entity_Manager
-     00004049  man_entity_create                  Entity_Manager
-     00004064  _cpct_disableFirmware              cpct_firmware
-     00004064  _cpct_removeInterruptHandler       cpct_firmware
-     00004064  cpct_disableFirmware_asm           cpct_firmware
-     00004064  cpct_removeInterruptHandler_asm    cpct_firmware
-
+     0000401A  _num_entities                      Entity_Manager
+     0000401B  _last_elem_ptr                     Entity_Manager
+     0000401D  _entity_array                      Entity_Manager
+     0000404F  man_entity_init                    Entity_Manager
+     00004053  man_entity_create                  Entity_Manager
+     0000406E  rendersys_init                     Render_System
+     0000406F  rendersys_update                   Render_System
+     00004087  _cpct_disableFirmware              cpct_firmware
+     00004087  _cpct_removeInterruptHandler       cpct_firmware
+     00004087  cpct_disableFirmware_asm           cpct_firmware
+     00004087  cpct_removeInterruptHandler_asm    cpct_firmware
+     00004097  cpct_drawSolidBox_asm              cpct_sprites
+     0000413A  cpct_getScreenPtr_asm              cpct_video
+     0000414C  _cpct_mode_rom_status              cpct_firmware
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 
 Files Linked                              [ module(s) ]
 
 obj/main.rel                              [ Main ]
 obj/man/entity_manager.rel                [ Entity_Manager ]
+obj/man/render_system.rel                 [ Render_System ]
 
 
 Libraries Linked                          [ object file ]
 
 /home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_removeInterruptHandler.rel ]
+/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawSolidBox_asmbindings.re ]
+/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_getScreenPtr_asmbindings.re ]
+/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpc_mode_rom_status.rel ]
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 

@@ -1,0 +1,52 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+
+
+                              1 .module Render_System
+                              2 
+                              3     .area _CODE
+                              4 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+
+
+                              5     .include "render_system.inc"
+                              1 ;;;;;;;;;;;;;;;;;;;;;;;
+                              2 ;; Render System
+                              3 
+                              4 
+                              5 ;;;;;;;;;;;;;;;;;;;;;;;;
+                              6 ;; Global Symbols
+                              7 .globl rendersys_update
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+
+
+                              6 
+                              7 .globl cpct_getScreenPtr_asm
+                              8 .globl cpct_drawSolidBox_asm
+                              9 
+   0000                      10 rendersys_init::
+   0000 C9            [10]   11     ret
+                             12 
+                             13 ;; Input
+                             14 ;;   IX: Pointer to first entity to render
+                             15 ;;    A: Number of entities to render
+   0001                      16 rendersys_update::
+                             17     ;; tipo , x , y , vx , color
+                             18 
+   0001 11 00 C0      [10]   19     ld  de, #0xC000
+   0004 DD 4E 01      [19]   20     ld   c, 1(ix)    ;; X
+   0007 DD 46 02      [19]   21     ld   b, 2(ix)    ;; Y
+   000A CD 00 00      [17]   22     call cpct_getScreenPtr_asm
+                             23 
+   000D EB            [ 4]   24     ex  de, hl
+   000E DD 7E 04      [19]   25     ld   a, 4(ix)    ;; Color
+   0011 0E 02         [ 7]   26     ld   c, #2       ;; Width 
+   0013 06 08         [ 7]   27     ld   b, #8       ;; Height 
+   0015 CD 00 00      [17]   28     call cpct_drawSolidBox_asm
+                             29 
+   0018 C9            [10]   30     ret
