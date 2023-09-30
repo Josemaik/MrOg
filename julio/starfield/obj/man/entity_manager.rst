@@ -17,26 +17,24 @@ Hexadecimal [16-Bits]
                               2 ;; Entity Manager
                               3 ;;   Definition of entity structure
                               4 
-                     000A     5 max_entities = 10
-                     0005     6 entity_size = 5
+                     000A     5 max_entities == 10
+                     0005     6 entity_size  == 5
                               7 
-   401A 00                    8 _num_entities:: .db 0
-   401B 1D 40                 9 _last_elem_ptr:: .dw _entity_array
-   401D                      10 _entity_array::
-   401D                      11     .ds max_entities*entity_size
+   4027 00                    8 _num_entities:: .db 0
+   4028 2A 40                 9 _last_elem_ptr:: .dw _entity_array
+   402A                      10 _entity_array::
+   402A                      11     .ds max_entities*entity_size
                              12 
                              13 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              14 ;; Struct of entity
                              15 ;;
                              16 ;; tipo , x , y , vx , color
                              17 
-                             18 
-                             19 ;;;;;;;;;;;;;;;;;;;;;;;;
-                             20 ;; Global Symbols
-                             21 
-                             22 .globl man_entity_init
-                             23 .globl man_entity_create
-                             24 ;; .globl man_own_place
+                             18 ;;;;;;;;;;;;;;;;;;;;;;;;
+                             19 ;; Global Symbols
+                             20 
+                             21 .globl man_entity_init
+                             22 .globl man_entity_create
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
@@ -5029,29 +5027,39 @@ Hexadecimal [16-Bits]
 
 
                               7 
-   404F                       8 man_entity_init:
-                              9     ;; call man_own_place
-   404F CD 53 40      [17]   10     call man_entity_create
-   4052 C9            [10]   11     ret
-                             12 
-                             13 ;; Input
-                             14 ;;   HL: pointer to entity initializer
-   4053                      15 man_entity_create:
-   4053 ED 5B 1B 40   [20]   16     ld      de, (_last_elem_ptr)
-   4057 01 05 00      [10]   17     ld      bc, #entity_size
-   405A ED B0         [21]   18     ldir                        ;; Copia desde donde apunta HL hasta el registro DE, tantos bytes como ponga en el registro BC
-                             19 
-   405C 3A 1A 40      [13]   20     ld       a, (_num_entities)
-   405F 3C            [ 4]   21     inc      a
-   4060 32 1A 40      [13]   22     ld       (_num_entities), a  
-                             23 
-   4063 2A 1B 40      [16]   24     ld      hl, (_last_elem_ptr)
-   4066 01 05 00      [10]   25     ld      bc, #entity_size  
-   4069 09            [11]   26     add     hl, bc
-   406A 22 1B 40      [16]   27     ld      (_last_elem_ptr), hl
-                             28 
-   406D C9            [10]   29     ret
-                             30 
-                             31 ;; man_own_place:
-                             32 ;;     .ds 50
-                             33 ;;     ret
+   405C                       8 man_entity_init:
+   405C CD 60 40      [17]    9     call man_entity_create
+   405F C9            [10]   10     ret
+                             11 
+                             12 ;; Input
+                             13 ;;   HL: pointer to entity initializer
+   4060                      14 man_entity_create:
+   4060 ED 5B 28 40   [20]   15     ld      de, (_last_elem_ptr)
+   4064 01 05 00      [10]   16     ld      bc, #entity_size
+   4067 ED B0         [21]   17     ldir                        ;; Copia desde donde apunta HL hasta el registro DE, tantos bytes como ponga en el registro BC
+                             18 
+   4069 3A 27 40      [13]   19     ld       a, (_num_entities)
+   406C 3C            [ 4]   20     inc      a
+   406D 32 27 40      [13]   21     ld       (_num_entities), a  
+                             22 
+   4070 2A 28 40      [16]   23     ld      hl, (_last_elem_ptr)
+   4073 01 05 00      [10]   24     ld      bc, #entity_size  
+   4076 09            [11]   25     add     hl, bc
+   4077 22 28 40      [16]   26     ld      (_last_elem_ptr), hl
+                             27 
+   407A C9            [10]   28     ret
+                             29 
+                             30 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             31 ;; Getters
+                             32 ;;
+   407B                      33 man_entity_getEntityArray_IX:
+   407B DD 21 2A 40   [14]   34     ld      ix, #_entity_array
+   407F C9            [10]   35     ret
+                             36 
+   4080                      37 man_entity_getNumEntities:
+   4080 3E 27         [ 7]   38     ld       a, #_num_entities
+   4082 C9            [10]   39     ret
+                             40 
+   4083                      41 man_entity_getEntitySize:
+   4083 01 05 00      [10]   42     ld      bc, #entity_size  
+   4086 C9            [10]   43     ret

@@ -9,34 +9,39 @@ Area                                    Addr        Size        Decimal Bytes (A
       -----  --------------------------------   ------------------------
      00000000  .__.ABS.                           cpct_firmware
      00000000  l__DATA                         
-     0000014D  l__CODE                         
+     00000000  man_entity_getEntityArray_IX    
+     00000000  man_entity_getEntitySize        
+     00000000  man_entity_getNumEntities       
+     00000005  entity_size                        Entity_Manager
+     0000000A  max_entities                       Entity_Manager
+     00000170  l__CODE                         
      00004000  s__CODE                         
-     0000414D  s__DATA                         
+     00004170  s__DATA                         
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    0000014D =         333. bytes (REL,CON)
+_CODE                               00004000    00000170 =         368. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00004005  _main                              Main
-     0000401A  _num_entities                      Entity_Manager
-     0000401B  _last_elem_ptr                     Entity_Manager
-     0000401D  _entity_array                      Entity_Manager
-     0000404F  man_entity_init                    Entity_Manager
-     00004053  man_entity_create                  Entity_Manager
-     0000406E  rendersys_init                     Render_System
-     0000406F  rendersys_update                   Render_System
-     00004087  _cpct_disableFirmware              cpct_firmware
-     00004087  _cpct_removeInterruptHandler       cpct_firmware
-     00004087  cpct_disableFirmware_asm           cpct_firmware
-     00004087  cpct_removeInterruptHandler_asm    cpct_firmware
-     00004097  cpct_drawSolidBox_asm              cpct_sprites
-     0000413A  cpct_getScreenPtr_asm              cpct_video
-     0000414C  _cpct_mode_rom_status              cpct_firmware
+     0000400A  _main                              Main
+     00004027  _num_entities                      Entity_Manager
+     00004028  _last_elem_ptr                     Entity_Manager
+     0000402A  _entity_array                      Entity_Manager
+     0000405C  man_entity_init                    Entity_Manager
+     00004060  man_entity_create                  Entity_Manager
+     00004087  rendersys_init                     Render_System
+     00004088  rendersys_update                   Render_System
+     000040AA  _cpct_disableFirmware              cpct_firmware
+     000040AA  _cpct_removeInterruptHandler       cpct_firmware
+     000040AA  cpct_disableFirmware_asm           cpct_firmware
+     000040AA  cpct_removeInterruptHandler_asm    cpct_firmware
+     000040BA  cpct_drawSolidBox_asm              cpct_sprites
+     0000415D  cpct_getScreenPtr_asm              cpct_video
+     0000416F  _cpct_mode_rom_status              cpct_firmware
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 
 Files Linked                              [ module(s) ]
@@ -65,3 +70,8 @@ _CODE = 0x4000
 _DATA = 0x0000
 
 
+?ASlink-Warning-Undefined Global 'man_entity_getNumEntities' referenced by module 'Main'
+
+?ASlink-Warning-Undefined Global 'man_entity_getEntityArray_IX' referenced by module 'Main'
+
+?ASlink-Warning-Undefined Global 'man_entity_getEntitySize' referenced by module 'Render_System'

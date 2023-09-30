@@ -1,12 +1,34 @@
+;;;;;;;;;;;;;;;;;;;;;;;
+;; Entity Manager
+;;   Definition of entity structure
+;; 
 .module Entity_Manager
 
-    .area _CODE
+max_entities == 10
+entity_size  == 5
 
-    .include "entity_manager.inc"
-    .include "cpctelera.h.s"
+_num_entities:: .db 0
+_last_elem_ptr:: .dw _entity_array
+_entity_array::
+    .ds max_entities*entity_size
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Struct of entity
+;;
+;; tipo , x , y , vx , color
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Global Symbols
+;;
+.globl man_entity_init
+.globl man_entity_create
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Code
+;;
+.area _CODE
 
 man_entity_init:
-    ;; call man_own_place
     call man_entity_create
     ret
 
@@ -28,6 +50,13 @@ man_entity_create:
 
     ret
 
-;; man_own_place:
-;;     .ds 50
-;;     ret
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Getters
+;;
+man_entity_getEntityArray_IX:
+    ld      ix, #_entity_array
+    ret
+
+man_entity_getNumEntities:
+    ld       a, #_num_entities
+    ret

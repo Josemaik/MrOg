@@ -1,11 +1,21 @@
+;;;;;;;;;;;;;;;;;;;;;;;
+;; Render System
+;;   Definition to render entities
+;;
 .module Render_System
 
-    .area _CODE
-
-    .include "render_system.inc"
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Global Symbols
+;;
+.globl rendersys_update
 .globl cpct_getScreenPtr_asm
 .globl cpct_drawSolidBox_asm
+.globl man_entity_getEntitySize
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Code
+;;
+.area _CODE
 
 rendersys_init::
     ret
@@ -14,7 +24,9 @@ rendersys_init::
 ;;   IX: Pointer to first entity to render
 ;;    A: Number of entities to render
 rendersys_update::
-    ;; tipo , x , y , vx , color
+
+_renloop:
+    push af
 
     ld  de, #0xC000
     ld   c, 1(ix)    ;; X
@@ -27,4 +39,11 @@ rendersys_update::
     ld   b, #8       ;; Height 
     call cpct_drawSolidBox_asm
 
-    ret
+    pop af
+
+    dec a
+    ret z
+
+    ld  bc, #entity_size
+    add ix, bc
+    jr _renloop

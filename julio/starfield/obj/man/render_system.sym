@@ -4,7 +4,8 @@ Hexadecimal [16-Bits]
 Symbol Table
 
     .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
-    .__.H$L.=  0000 L   |     cpct_dra   **** GX  |     cpct_get   **** GX
+    .__.H$L.=  0000 L   |     _entity_   **** X   |   0 _renloop   0001 R
+    cpct_dra   **** GX  |     cpct_get   **** GX  |     man_enti   **** GX
   0 rendersy   0000 GR  |   0 rendersy   0001 GR
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
@@ -12,5 +13,5 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   19   flags    0
+   0 _CODE      size   23   flags    0
 
