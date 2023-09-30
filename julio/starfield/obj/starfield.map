@@ -7,54 +7,60 @@ Area                                    Addr        Size        Decimal Bytes (A
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00000000  .__.ABS.                           cpct_firmware
+     00000000  .__.ABS.                           cpct_video
      00000000  l__DATA                         
      00000005  entity_size                        Entity_Manager
      0000000A  max_entities                       Entity_Manager
-     0000015A  l__CODE                         
+     00000169  l__CODE                         
      00004000  s__CODE                         
-     0000415A  s__DATA                         
+     00004169  s__DATA                         
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    0000015A =         346. bytes (REL,CON)
+_CODE                               00004000    00000169 =         361. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
      0000400A  _main                              Main
-     00004024  _num_entities                      Entity_Manager
-     00004025  _last_elem_ptr                     Entity_Manager
-     00004027  _entity_array                      Entity_Manager
-     00004059  man_entity_init                    Entity_Manager
-     0000405D  man_entity_create                  Entity_Manager
-     00004078  man_entity_getEntityArray_IX       Entity_Manager
-     0000407D  man_entity_getNumEntities_A        Entity_Manager
-     00004081  rendersys_init                     Render_System
-     00004082  rendersys_update                   Render_System
-     000040A4  cpct_drawSolidBox_asm              cpct_sprites
-     00004147  cpct_getScreenPtr_asm              cpct_video
-     00004159  _cpct_mode_rom_status              cpct_firmware
+     0000402A  _num_entities                      Entity_Manager
+     0000402B  _last_elem_ptr                     Entity_Manager
+     0000402D  _entity_array                      Entity_Manager
+     0000405F  man_entity_init                    Entity_Manager
+     00004063  man_entity_create                  Entity_Manager
+     0000407E  man_entity_getArray                Entity_Manager
+     00004086  physicssys_init                    Physics_System
+     00004087  physicssys_update                  Physics_System
+     00004088  rendersys_init                     Render_System
+     00004089  rendersys_update                   Render_System
+     000040AB  _cpct_waitVSYNC                    cpct_video
+     000040AB  cpct_waitVSYNC_asm                 cpct_video
+     000040B3  cpct_drawSolidBox_asm              cpct_sprites
+     00004156  _cpct_mode_rom_status              cpct_firmware
+     00004157  cpct_getScreenPtr_asm              cpct_video
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 
 Files Linked                              [ module(s) ]
 
 obj/main.rel                              [ Main ]
-obj/man/entity_manager.rel                [ Entity_Manager ]
-obj/man/render_system.rel                 [ Render_System ]
+obj/managers/entity_manager.rel           [ Entity_Manager ]
+obj/systems/physics_system.rel            [ Physics_System ]
+obj/systems/render_system.rel             [ Render_System ]
 
 
 Libraries Linked                          [ object file ]
 
 /home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_waitVSYNC.rel ]
+/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_drawSolidBox_asmbindings.re ]
 /home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
-                                          [ cpct_getScreenPtr_asmbindings.re ]
-/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
                                           [ cpc_mode_rom_status.rel ]
+/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_getScreenPtr_asmbindings.re ]
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 

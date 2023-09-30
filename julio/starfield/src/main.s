@@ -6,12 +6,17 @@
    .area _DATA
    .area _CODE
 
+.globl cpct_waitVSYNC_asm
+
 .globl _num_entities
 .globl _entity_array
 .globl man_entity_create
 
 .globl rendersys_init
 .globl rendersys_update
+
+.globl physicssys_init
+.globl physicssys_update
 
 ;; tipo , x , y , vx , color
 prueba:  .db 1, 20, 20 , 2 , 0xFF
@@ -24,6 +29,7 @@ _main::
 
    ;; Init systems
    call rendersys_init
+   call physicssys_init
 
    ld   hl, #prueba
    call man_entity_create
@@ -31,8 +37,18 @@ _main::
    call man_entity_create
 
 loop:
-   call man_entity_getEntityArray_IX   ;; guarda en IX el _entity_array
-   call man_entity_getNumEntities_A    ;; guarda en  A el _num_entities
+
+   ;;;;;;;;;;;;;;;;;;;
+   ;; Physics
+   ;;
+   call physicssys_update
+
+   ;; waitNVSyncs 2
+   call cpct_waitVSYNC_asm
+   ;;;;;;;;;;;;;;;;;;;
+   ;; Render
+   ;;
+   call man_entity_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
    call rendersys_update
 
    jr   loop

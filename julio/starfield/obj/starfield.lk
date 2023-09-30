@@ -8,7 +8,8 @@
 -l /home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
 -l z80
 obj/main.rel
-obj/man/entity_manager.rel
-obj/man/render_system.rel
+obj/managers/entity_manager.rel
+obj/systems/physics_system.rel
+obj/systems/render_system.rel
 
 -e
