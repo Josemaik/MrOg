@@ -1,0 +1,16 @@
+DEF .__.ABS. 0x0
+DEF l__DATA 0x0
+DEF l__CODE 0x74
+DEF s__CODE 0x4000
+DEF s__DATA 0x4074
+DEF _main 0x4005
+DEF _num_entities 0x4010
+DEF _last_elem_ptr 0x4011
+DEF _entity_array 0x4013
+DEF man_entity_init 0x4045
+DEF man_entity_create 0x4049
+DEF _cpct_disableFirmware 0x4064
+DEF _cpct_removeInterruptHandler 0x4064
+DEF cpct_disableFirmware_asm 0x4064
+DEF cpct_removeInterruptHandler_asm 0x4064
+LOAD obj/starfield.ihx
