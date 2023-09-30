@@ -10,7 +10,6 @@
 .globl rendersys_update
 .globl cpct_getScreenPtr_asm
 .globl cpct_drawSolidBox_asm
-.globl man_entity_getEntitySize
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Code

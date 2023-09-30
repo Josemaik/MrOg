@@ -1,13 +1,15 @@
 XL2
-H 1 areas 8 global symbols
+H 1 areas A global symbols
 M Entity_Manager
 S max_entities Def000A
 S .__.ABS. Def0000
 S entity_size Def0005
-A _CODE size 5C flags 0 addr 0
+A _CODE size 5D flags 0 addr 0
 S _last_elem_ptr Def0001
 S man_entity_create Def0039
 S man_entity_init Def0035
+S man_entity_getEntityArray_IX Def0054
+S man_entity_getNumEntities_A Def0059
 S _num_entities Def0000
 S _entity_array Def0003
 T 00 00 00 03 00
@@ -32,5 +34,5 @@ T 54 00 DD 21 03 00 C9
 R 00 00 00 00 00 04 00 00
 T 59 00
 R 00 00 00 00
-T 59 00 3E 00 00 C9
-R 00 00 00 00 09 03 00 00
+T 59 00 3A 00 00 C9
+R 00 00 00 00 00 03 00 00

@@ -53,10 +53,10 @@ man_entity_create:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Getters
 ;;
-man_entity_getEntityArray_IX:
+man_entity_getEntityArray_IX::
     ld      ix, #_entity_array
     ret
 
-man_entity_getNumEntities:
-    ld       a, #_num_entities
+man_entity_getNumEntities_A::
+    ld       a, (_num_entities)
     ret
