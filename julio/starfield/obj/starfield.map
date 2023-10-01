@@ -20,37 +20,40 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000008  e_ptr_h                            Entity_Manager
      00000009  entity_size                        Entity_Manager
      0000000A  max_entities                       Entity_Manager
-     00000208  l__CODE                         
+     0000021F  l__CODE                         
      00004000  s__CODE                         
-     00004208  s__DATA                         
+     0000421F  s__DATA                         
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    00000208 =         520. bytes (REL,CON)
+_CODE                               00004000    0000021F =         543. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00004012  _main                              Main
-     00004035  _num_entities                      Entity_Manager
-     00004036  _last_elem_ptr                     Entity_Manager
-     00004038  _entity_array                      Entity_Manager
-     00004092  entity_man_init                    Entity_Manager
-     0000409D  entity_man_create                  Entity_Manager
-     000040B8  entity_man_getArray                Entity_Manager
-     000040C0  physics_sys_init                   Physics_System
-     000040C1  physics_sys_update                 Physics_System
-     000040E8  render_sys_init                    Render_System
-     000040EE  render_sys_update                  Render_System
-     0000412A  cpct_setPalette_asm                cpct_video
-     0000413D  cpct_setVideoMode_asm              cpct_video
-     0000414A  _cpct_waitVSYNC                    cpct_video
-     0000414A  cpct_waitVSYNC_asm                 cpct_video
-     00004152  cpct_drawSolidBox_asm              cpct_sprites
-     000041F5  _cpct_mode_rom_status              cpct_firmware
-     000041F6  cpct_getScreenPtr_asm              cpct_video
+     00004000  _main                              Main
+     0000401A  _num_entities                      Entity_Manager
+     0000401B  _last_elem_ptr                     Entity_Manager
+     0000401D  _entity_array                      Entity_Manager
+     00004089  entity_man_init                    Entity_Manager
+     00004097  entity_man_create_stars            Entity_Manager
+     000040A4  entity_man_create                  Entity_Manager
+     000040BF  entity_man_getArray                Entity_Manager
+     000040C7  physics_sys_init                   Physics_System
+     000040C8  physics_sys_update                 Physics_System
+     000040EF  render_sys_init                    Render_System
+     000040FB  render_sys_update                  Render_System
+     00004137  cpct_setPalette_asm                cpct_video
+     0000414A  cpct_setPALColour_asm              cpct_video
+     00004154  cpct_setVideoMode_asm              cpct_video
+     00004161  _cpct_waitVSYNC                    cpct_video
+     00004161  cpct_waitVSYNC_asm                 cpct_video
+     00004169  cpct_drawSolidBox_asm              cpct_sprites
+     0000420C  _cpct_mode_rom_status              cpct_firmware
+     0000420D  cpct_getScreenPtr_asm              cpct_video
+
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 
 Files Linked                              [ module(s) ]
@@ -65,6 +68,8 @@ Libraries Linked                          [ object file ]
 
 /home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_setPalette_asmbindings.rel ]
+/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setPALColour_asmbindings.re ]
 /home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_setVideoMode_asmbindings.re ]
 /home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib

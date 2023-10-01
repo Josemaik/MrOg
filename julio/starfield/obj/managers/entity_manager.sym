@@ -8,13 +8,14 @@ Symbol Table
   0 _num_ent   0000 GR  |     e_color =  0006 G   |     e_h     =  0005 G
     e_ptr_h =  0008 G   |     e_ptr_l =  0007 G   |     e_vx    =  0002 G
     e_vy    =  0003 G   |     e_w     =  0004 G   |     e_x     =  0000 G
-    e_y     =  0001 G   |   0 entity_m   0068 GR  |   0 entity_m   0083 GR
-  0 entity_m   005D GR  |     entity_s=  0009 G   |     max_enti=  000A G
+    e_y     =  0001 G   |   0 entity_m   008A GR  |   0 entity_m   007D GR
+  0 entity_m   00A5 GR  |   0 entity_m   006F GR  |     entity_s=  0009 G
+  0 estrella   005D R   |   0 estrella   0066 R   |     max_enti=  000A G
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   8B   flags    0
+   0 _CODE      size   AD   flags    0
 

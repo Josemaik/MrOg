@@ -34,6 +34,13 @@ e_ptr_h     == 8
 .globl entity_man_create
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Estrellas
+;;
+;;;;;;;;;;;;; x , y  , vx , vy , w , h , color , ptr_l , ptr_h
+estrella:  .db 30 , 20 , -1 , 0  , 1 , 1 , 0xCC  ,  00   , 00
+estrella2: .db 42 , 60 , -1 , 0  , 1 , 1 , 0xF0  ,  00   , 00
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Code
 ;;
 .area _CODE
@@ -45,7 +52,18 @@ entity_man_init:
 
     ld  hl, #_entity_array
     ld  (_last_elem_ptr), hl
+
+    call entity_man_create_stars
     
+    ret
+
+entity_man_create_stars::
+
+    ld   hl, #estrella
+    call entity_man_create
+    ld   hl, #estrella2
+    call entity_man_create
+
     ret
 
 ;; Input
@@ -53,7 +71,7 @@ entity_man_init:
 entity_man_create:
     ld      de, (_last_elem_ptr)
     ld      bc, #entity_size
-    ldir                        ;; Copia desde donde apunta HL hasta el registro DE, tantos bytes como ponga en el registro BC
+    ldir                        ;; Copia desde donde apunta HL en el registro DE, tantos bytes como ponga en el registro BC
 
     ld       a, (_num_entities)
     inc      a

@@ -4,6 +4,8 @@
 ;;
 .module Render_System
 
+.include "cpctelera.h.s"
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Global Symbols
 ;;
@@ -26,7 +28,7 @@ render_sys_init::
     ;; ld  de, #16
     ;; call cpct_setPalette_asm
 
-    ;; todo - cpctm_setBorder_asm HW_WHITE
+    cpctm_setBorder_asm HW_WHITE
 
     ret
 

@@ -39,47 +39,67 @@ Hexadecimal [16-Bits]
                              34 .globl entity_man_create
                              35 
                              36 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             37 ;; Code
+                             37 ;; Estrellas
                              38 ;;
-                             39 .area _CODE
-                             40 
-   005D                      41 entity_man_init:
-                             42     ;; Reset all component vector values
-   005D AF            [ 4]   43     xor a
-   005E 32 00 00      [13]   44     ld  (_num_entities), a
-                             45 
-   0061 21 03 00      [10]   46     ld  hl, #_entity_array
-   0064 22 01 00      [16]   47     ld  (_last_elem_ptr), hl
-                             48     
-   0067 C9            [10]   49     ret
-                             50 
-                             51 ;; Input
-                             52 ;;   HL: pointer to entity initializer
-   0068                      53 entity_man_create:
-   0068 ED 5B 01 00   [20]   54     ld      de, (_last_elem_ptr)
-   006C 01 09 00      [10]   55     ld      bc, #entity_size
+                             39 ;;;;;;;;;;;;; x , y  , vx , vy , w , h , color , ptr_l , ptr_h
+   005D 1E 14 FF 00 01 01    40 estrella:  .db 30 , 20 , -1 , 0  , 1 , 1 , 0xCC  ,  00   , 00
+        CC 00 00
+   0066 2A 3C FF 00 01 01    41 estrella2: .db 42 , 60 , -1 , 0  , 1 , 1 , 0xF0  ,  00   , 00
+        F0 00 00
+                             42 
+                             43 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             44 ;; Code
+                             45 ;;
+                             46 .area _CODE
+                             47 
+   006F                      48 entity_man_init:
+                             49     ;; Reset all component vector values
+   006F AF            [ 4]   50     xor a
+   0070 32 00 00      [13]   51     ld  (_num_entities), a
+                             52 
+   0073 21 03 00      [10]   53     ld  hl, #_entity_array
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 
 
-   006F ED B0         [21]   56     ldir                        ;; Copia desde donde apunta HL hasta el registro DE, tantos bytes como ponga en el registro BC
-                             57 
-   0071 3A 00 00      [13]   58     ld       a, (_num_entities)
-   0074 3C            [ 4]   59     inc      a
-   0075 32 00 00      [13]   60     ld       (_num_entities), a  
+   0076 22 01 00      [16]   54     ld  (_last_elem_ptr), hl
+                             55 
+   0079 CD 7D 00      [17]   56     call entity_man_create_stars
+                             57     
+   007C C9            [10]   58     ret
+                             59 
+   007D                      60 entity_man_create_stars::
                              61 
-   0078 2A 01 00      [16]   62     ld      hl, (_last_elem_ptr)
-   007B 01 09 00      [10]   63     ld      bc, #entity_size  
-   007E 09            [11]   64     add     hl, bc
-   007F 22 01 00      [16]   65     ld      (_last_elem_ptr), hl
+   007D 21 5D 00      [10]   62     ld   hl, #estrella
+   0080 CD 8A 00      [17]   63     call entity_man_create
+   0083 21 66 00      [10]   64     ld   hl, #estrella2
+   0086 CD 8A 00      [17]   65     call entity_man_create
                              66 
-   0082 C9            [10]   67     ret
+   0089 C9            [10]   67     ret
                              68 
-                             69 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             70 ;; Getters
-                             71 ;;
-   0083                      72 entity_man_getArray::
-   0083 DD 21 03 00   [14]   73     ld      ix, #_entity_array
-   0087 3A 00 00      [13]   74     ld       a, (_num_entities)
-   008A C9            [10]   75     ret
+                             69 ;; Input
+                             70 ;;   HL: pointer to entity initializer
+   008A                      71 entity_man_create:
+   008A ED 5B 01 00   [20]   72     ld      de, (_last_elem_ptr)
+   008E 01 09 00      [10]   73     ld      bc, #entity_size
+   0091 ED B0         [21]   74     ldir                        ;; Copia desde donde apunta HL en el registro DE, tantos bytes como ponga en el registro BC
+                             75 
+   0093 3A 00 00      [13]   76     ld       a, (_num_entities)
+   0096 3C            [ 4]   77     inc      a
+   0097 32 00 00      [13]   78     ld       (_num_entities), a  
+                             79 
+   009A 2A 01 00      [16]   80     ld      hl, (_last_elem_ptr)
+   009D 01 09 00      [10]   81     ld      bc, #entity_size  
+   00A0 09            [11]   82     add     hl, bc
+   00A1 22 01 00      [16]   83     ld      (_last_elem_ptr), hl
+                             84 
+   00A4 C9            [10]   85     ret
+                             86 
+                             87 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             88 ;; Getters
+                             89 ;;
+   00A5                      90 entity_man_getArray::
+   00A5 DD 21 03 00   [14]   91     ld      ix, #_entity_array
+   00A9 3A 00 00      [13]   92     ld       a, (_num_entities)
+   00AC C9            [10]   93     ret

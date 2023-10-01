@@ -1,7 +1,6 @@
 XL2
-H 2 areas C global symbols
+H 2 areas 9 global symbols
 M Main
-S entity_man_create Ref0000
 S entity_man_init Ref0000
 S render_sys_init Ref0000
 S physics_sys_init Ref0000
@@ -10,24 +9,16 @@ S .__.ABS. Def0000
 S render_sys_update Ref0000
 S physics_sys_update Ref0000
 S cpct_waitVSYNC_asm Ref0000
-S _num_entities Ref0000
-S _entity_array Ref0000
-A _CODE size 35 flags 0 addr 0
-S _main Def0012
+A _CODE size 1A flags 0 addr 0
+S _main Def0000
 A _DATA size 0 flags 0 addr 0
-T 00 00 1E 14 FF 00 01 01 CC 00 00 2A 3C FF 00 01
+T 00 00
 R 00 00 00 00
-T 0E 00 01 F0 00 00
+T 00 00 CD 00 00 CD 00 00 CD 00 00
+R 00 00 00 00 02 03 01 00 02 06 02 00 02 09 00 00
+T 09 00
 R 00 00 00 00
-T 12 00
-R 00 00 00 00
-T 12 00 CD 00 00 CD 00 00 21 00 00 CD
-R 00 00 00 00 02 03 02 00 02 06 03 00 00 09 00 00
-T 1C 00 00 00 21 09 00 CD 00 00
-R 00 00 00 00 02 02 00 00 00 05 00 00 02 08 00 00
-T 24 00
-R 00 00 00 00
-T 24 00 CD 00 00 CD 00 00 CD 00 00 CD
-R 00 00 00 00 02 03 04 00 02 06 07 00 02 09 08 00
-T 2E 00 00 00 CD 00 00 18 EF
-R 00 00 00 00 02 02 04 00 02 05 06 00
+T 09 00 CD 00 00 CD 00 00 CD 00 00 CD
+R 00 00 00 00 02 03 03 00 02 06 06 00 02 09 07 00
+T 13 00 00 00 CD 00 00 18 EF
+R 00 00 00 00 02 02 03 00 02 05 05 00

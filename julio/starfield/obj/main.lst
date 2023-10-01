@@ -13,57 +13,39 @@ Hexadecimal [16-Bits]
                               8 
                               9 .globl cpct_waitVSYNC_asm
                              10 
-                             11 .globl _num_entities
-                             12 .globl _entity_array
-                             13 .globl entity_man_init
-                             14 .globl entity_man_create
+                             11 .globl entity_man_init
+                             12 
+                             13 .globl render_sys_init
+                             14 .globl render_sys_update
                              15 
-                             16 .globl render_sys_init
-                             17 .globl render_sys_update
+                             16 .globl physics_sys_init
+                             17 .globl physics_sys_update
                              18 
-                             19 .globl physics_sys_init
-                             20 .globl physics_sys_update
-                             21 
-                             22 ;;;;;;;;;;;;; x , y  , vx , vy , w , h , color , ptr_l , ptr_h
-   0000 1E 14 FF 00 01 01    23 estrella:  .db 30 , 20 , -1 , 0  , 1 , 1 , 0xCC  ,  00   , 00
-        CC 00 00
-   0009 2A 3C FF 00 01 01    24 estrella2: .db 42 , 60 , -1 , 0  , 1 , 1 , 0xF0  ,  00   , 00
-        F0 00 00
-                             25 
-                             26 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             27 ;; MAIN 
-                             28 ;;
-   0012                      29 _main::
+                             19 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             20 ;; MAIN 
+                             21 ;;
+   0000                      22 _main::
+                             23 
+                             24    ;; Init systems
+   0000 CD 00 00      [17]   25    call render_sys_init
+   0003 CD 00 00      [17]   26    call physics_sys_init
+   0006 CD 00 00      [17]   27    call entity_man_init
+                             28 
+   0009                      29 loop:
                              30 
-                             31    ;; Init systems
-   0012 CD 00 00      [17]   32    call render_sys_init
-   0015 CD 00 00      [17]   33    call physics_sys_init
-                             34 
-   0018 21 00 00      [10]   35    ld   hl, #estrella
-   001B CD 00 00      [17]   36    call entity_man_create
-   001E 21 09 00      [10]   37    ld   hl, #estrella2
-   0021 CD 00 00      [17]   38    call entity_man_create
+                             31    ;;;;;;;;;;;;;;;;;;;
+                             32    ;; Physics
+                             33    ;;
+   0009 CD 00 00      [17]   34    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   000C CD 00 00      [17]   35    call physics_sys_update
+                             36 
+                             37    ;; waitNVSyncs 2
+   000F CD 00 00      [17]   38    call cpct_waitVSYNC_asm
                              39 
-   0024                      40 loop:
-                             41 
-                             42    ;;;;;;;;;;;;;;;;;;;
-                             43    ;; Physics
-                             44    ;;
-   0024 CD 00 00      [17]   45    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
-   0027 CD 00 00      [17]   46    call physics_sys_update
-                             47 
-                             48    ;; waitNVSyncs 2
-   002A CD 00 00      [17]   49    call cpct_waitVSYNC_asm
-                             50 
-                             51    ;;;;;;;;;;;;;;;;;;;
-                             52    ;; Render
-                             53    ;;
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
-Hexadecimal [16-Bits]
-
-
-
-   002D CD 00 00      [17]   54    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
-   0030 CD 00 00      [17]   55    call render_sys_update
-                             56 
-   0033 18 EF         [12]   57    jr   loop
+                             40    ;;;;;;;;;;;;;;;;;;;
+                             41    ;; Render
+                             42    ;;
+   0012 CD 00 00      [17]   43    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   0015 CD 00 00      [17]   44    call render_sys_update
+                             45 
+   0018 18 EF         [12]   46    jr   loop
