@@ -24,45 +24,46 @@ Hexadecimal [16-Bits]
                              19 .globl physics_sys_init
                              20 .globl physics_sys_update
                              21 
-                             22 ;;;;;;;;;; tipo , x , y , vx , vy , w , h , color 
-   0000 01 1E 14 FE 00 01    23 prueba:  .db 1 , 30 , 20 , -2 , 0 , 1 , 1 , 0xCC
-        01 CC
-   0008 01 2A 3C FB 00 01    24 prueba2: .db 1 , 42 , 60 , -5 , 0 , 1 , 1 , 0xF0
-        01 F0
+                             22 ;;;;;;;;;;;;; x , y  , vx , vy , w , h , color , ptr_l , ptr_h
+   0000 1E 14 FF 00 01 01    23 estrella:  .db 30 , 20 , -1 , 0  , 1 , 1 , 0xCC  ,  00   , 00
+        CC 00 00
+   0009 2A 3C FF 00 01 01    24 estrella2: .db 42 , 60 , -1 , 0  , 1 , 1 , 0xF0  ,  00   , 00
+        F0 00 00
                              25 
                              26 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              27 ;; MAIN 
                              28 ;;
-   0010                      29 _main::
+   0012                      29 _main::
                              30 
                              31    ;; Init systems
-   0010 CD 00 00      [17]   32    call render_sys_init
-   0013 CD 00 00      [17]   33    call physics_sys_init
+   0012 CD 00 00      [17]   32    call render_sys_init
+   0015 CD 00 00      [17]   33    call physics_sys_init
                              34 
-   0016 21 00 00      [10]   35    ld   hl, #prueba
-   0019 CD 00 00      [17]   36    call entity_man_create
-   001C 21 08 00      [10]   37    ld   hl, #prueba2
-   001F CD 00 00      [17]   38    call entity_man_create
+   0018 21 00 00      [10]   35    ld   hl, #estrella
+   001B CD 00 00      [17]   36    call entity_man_create
+   001E 21 09 00      [10]   37    ld   hl, #estrella2
+   0021 CD 00 00      [17]   38    call entity_man_create
                              39 
-   0022                      40 loop:
+   0024                      40 loop:
                              41 
                              42    ;;;;;;;;;;;;;;;;;;;
                              43    ;; Physics
                              44    ;;
-   0022 CD 00 00      [17]   45    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
-   0025 CD 00 00      [17]   46    call physics_sys_update
+   0024 CD 00 00      [17]   45    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   0027 CD 00 00      [17]   46    call physics_sys_update
                              47 
                              48    ;; waitNVSyncs 2
-   0028 CD 00 00      [17]   49    call cpct_waitVSYNC_asm
-                             50    ;;;;;;;;;;;;;;;;;;;
-                             51    ;; Render
-                             52    ;;
-   002B CD 00 00      [17]   53    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   002A CD 00 00      [17]   49    call cpct_waitVSYNC_asm
+                             50 
+                             51    ;;;;;;;;;;;;;;;;;;;
+                             52    ;; Render
+                             53    ;;
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 
 
-   002E CD 00 00      [17]   54    call render_sys_update
-                             55 
-   0031 18 EF         [12]   56    jr   loop
+   002D CD 00 00      [17]   54    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   0030 CD 00 00      [17]   55    call render_sys_update
+                             56 
+   0033 18 EF         [12]   57    jr   loop

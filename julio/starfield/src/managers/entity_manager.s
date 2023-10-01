@@ -5,7 +5,7 @@
 .module Entity_Manager
 
 max_entities == 10
-entity_size  == 8
+entity_size  == 9
 
 _num_entities:: .db 0
 _last_elem_ptr:: .dw _entity_array
@@ -15,16 +15,17 @@ _entity_array::
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Struct of entity
 ;;
-;; tipo , x , y , vx , vy , w , h , color , (posible memory pointer value)
+;; x , y , vx , vy , w , h , color , ptr_l , ptr_h
 
-e_tipo      == 0
-e_x         == 1
-e_y         == 2
-e_vx        == 3
-e_vy        == 4
-e_w         == 5
-e_h         == 6
-e_color     == 7
+e_x         == 0
+e_y         == 1
+e_vx        == 2
+e_vy        == 3
+e_w         == 4
+e_h         == 5
+e_color     == 6
+e_ptr_l     == 7
+e_ptr_h     == 8
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Global Symbols

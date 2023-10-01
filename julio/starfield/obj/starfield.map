@@ -8,46 +8,49 @@ Area                                    Addr        Size        Decimal Bytes (A
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
      00000000  .__.ABS.                           cpct_video
-     00000000  e_tipo                             Entity_Manager
+     00000000  e_x                                Entity_Manager
      00000000  l__DATA                         
-     00000001  e_x                                Entity_Manager
-     00000002  e_y                                Entity_Manager
-     00000003  e_vx                               Entity_Manager
-     00000004  e_vy                               Entity_Manager
-     00000005  e_w                                Entity_Manager
-     00000006  e_h                                Entity_Manager
-     00000007  e_color                            Entity_Manager
-     00000008  entity_size                        Entity_Manager
+     00000001  e_y                                Entity_Manager
+     00000002  e_vx                               Entity_Manager
+     00000003  e_vy                               Entity_Manager
+     00000004  e_w                                Entity_Manager
+     00000005  e_h                                Entity_Manager
+     00000006  e_color                            Entity_Manager
+     00000007  e_ptr_l                            Entity_Manager
+     00000008  e_ptr_h                            Entity_Manager
+     00000009  entity_size                        Entity_Manager
      0000000A  max_entities                       Entity_Manager
-     000001BF  l__CODE                         
+     00000208  l__CODE                         
      00004000  s__CODE                         
-     000041BF  s__DATA                         
+     00004208  s__DATA                         
+
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    000001BF =         447. bytes (REL,CON)
+_CODE                               00004000    00000208 =         520. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00004010  _main                              Main
-     00004033  _num_entities                      Entity_Manager
-     00004034  _last_elem_ptr                     Entity_Manager
-     00004036  _entity_array                      Entity_Manager
-     00004086  entity_man_init                    Entity_Manager
-     00004091  entity_man_create                  Entity_Manager
-     000040AC  entity_man_getArray                Entity_Manager
-     000040B4  physics_sys_init                   Physics_System
-     000040B5  physics_sys_update                 Physics_System
-     000040DC  render_sys_init                    Render_System
-     000040DD  render_sys_update                  Render_System
-     00004101  _cpct_waitVSYNC                    cpct_video
-     00004101  cpct_waitVSYNC_asm                 cpct_video
-     00004109  cpct_drawSolidBox_asm              cpct_sprites
-     000041AC  _cpct_mode_rom_status              cpct_firmware
-     000041AD  cpct_getScreenPtr_asm              cpct_video
-
+     00004012  _main                              Main
+     00004035  _num_entities                      Entity_Manager
+     00004036  _last_elem_ptr                     Entity_Manager
+     00004038  _entity_array                      Entity_Manager
+     00004092  entity_man_init                    Entity_Manager
+     0000409D  entity_man_create                  Entity_Manager
+     000040B8  entity_man_getArray                Entity_Manager
+     000040C0  physics_sys_init                   Physics_System
+     000040C1  physics_sys_update                 Physics_System
+     000040E8  render_sys_init                    Render_System
+     000040EE  render_sys_update                  Render_System
+     0000412A  cpct_setPalette_asm                cpct_video
+     0000413D  cpct_setVideoMode_asm              cpct_video
+     0000414A  _cpct_waitVSYNC                    cpct_video
+     0000414A  cpct_waitVSYNC_asm                 cpct_video
+     00004152  cpct_drawSolidBox_asm              cpct_sprites
+     000041F5  _cpct_mode_rom_status              cpct_firmware
+     000041F6  cpct_getScreenPtr_asm              cpct_video
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 
 Files Linked                              [ module(s) ]
@@ -60,6 +63,10 @@ obj/systems/render_system.rel             [ Render_System ]
 
 Libraries Linked                          [ object file ]
 
+/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setPalette_asmbindings.rel ]
+/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setVideoMode_asmbindings.re ]
 /home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_waitVSYNC.rel ]
 /home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib

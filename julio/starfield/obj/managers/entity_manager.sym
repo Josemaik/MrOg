@@ -5,16 +5,16 @@ Symbol Table
 
     .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
     .__.H$L.=  0000 L   |   0 _entity_   0003 GR  |   0 _last_el   0001 GR
-  0 _num_ent   0000 GR  |     e_color =  0007 G   |     e_h     =  0006 G
-    e_tipo  =  0000 G   |     e_vx    =  0003 G   |     e_vy    =  0004 G
-    e_w     =  0005 G   |     e_x     =  0001 G   |     e_y     =  0002 G
-  0 entity_m   005E GR  |   0 entity_m   0079 GR  |   0 entity_m   0053 GR
-    entity_s=  0008 G   |     max_enti=  000A G
+  0 _num_ent   0000 GR  |     e_color =  0006 G   |     e_h     =  0005 G
+    e_ptr_h =  0008 G   |     e_ptr_l =  0007 G   |     e_vx    =  0002 G
+    e_vy    =  0003 G   |     e_w     =  0004 G   |     e_x     =  0000 G
+    e_y     =  0001 G   |   0 entity_m   0068 GR  |   0 entity_m   0083 GR
+  0 entity_m   005D GR  |     entity_s=  0009 G   |     max_enti=  000A G
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   81   flags    0
+   0 _CODE      size   8B   flags    0
 

@@ -12,42 +12,72 @@ Hexadecimal [16-Bits]
                               7 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                               8 ;; Global Symbols
                               9 ;;
-                             10 .globl render_sys_update
-                             11 .globl cpct_getScreenPtr_asm
-                             12 .globl cpct_drawSolidBox_asm
-                             13 
-                             14 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             15 ;; Code
-                             16 ;;
-                             17 .area _CODE
-                             18 
-   40DC                      19 render_sys_init::
-   40DC C9            [10]   20     ret
-                             21 
-                             22 ;; Input
-                             23 ;;   IX: Pointer to first entity to render
-                             24 ;;    A: Number of entities to render
-   40DD                      25 render_sys_update::
-                             26 
-   40DD                      27 _render_loop:
-   40DD F5            [11]   28     push af
-                             29 
-   40DE 11 00 C0      [10]   30     ld  de, #0xC000
-   40E1 DD 4E 01      [19]   31     ld   c, e_x(ix)    ;; X
-   40E4 DD 46 02      [19]   32     ld   b, e_y(ix)    ;; Y
-   40E7 CD AD 41      [17]   33     call cpct_getScreenPtr_asm
-                             34 
-   40EA EB            [ 4]   35     ex  de, hl
-   40EB DD 7E 07      [19]   36     ld   a, e_color(ix)    ;; Color
-   40EE DD 4E 05      [19]   37     ld   c, e_w(ix)        ;; Width 
-   40F1 DD 46 06      [19]   38     ld   b, e_h(ix)        ;; Height 
-   40F4 CD 09 41      [17]   39     call cpct_drawSolidBox_asm
-                             40 
-   40F7 F1            [10]   41     pop af
-                             42 
-   40F8 3D            [ 4]   43     dec a
-   40F9 C8            [11]   44     ret z
-                             45 
-   40FA 01 08 00      [10]   46     ld  bc, #entity_size
-   40FD DD 09         [15]   47     add ix, bc
-   40FF 18 DC         [12]   48     jr _render_loop
+                             10 .globl cpct_setVideoMode_asm
+                             11 .globl cpct_setPalette_asm
+                             12 
+                             13 .globl cpct_getScreenPtr_asm
+                             14 .globl cpct_drawSolidBox_asm
+                             15 
+                             16 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             17 ;; Code
+                             18 ;;
+                             19 .area _CODE
+                             20 
+   40E8                      21 render_sys_init::
+   40E8 0E 00         [ 7]   22     ld   c, #0
+   40EA CD 3D 41      [17]   23     call cpct_setVideoMode_asm
+                             24 
+                             25     ;; ld  hl, #_pal_main
+                             26     ;; ld  de, #16
+                             27     ;; call cpct_setPalette_asm
+                             28 
+                             29     ;; todo - cpctm_setBorder_asm HW_WHITE
+                             30 
+   40ED C9            [10]   31     ret
+                             32 
+                             33 ;; Input
+                             34 ;;   IX: Pointer to first entity to render
+                             35 ;;    A: Number of entities to render
+   40EE                      36 render_sys_update::
+   40EE 32 1D 41      [13]   37     ld  (_ent_counter), a
+                             38 
+   40F1                      39 _render_loop:
+                             40     ;; Erase Previous Instance
+   40F1 DD 5E 07      [19]   41     ld    e, e_ptr_l(ix)
+   40F4 DD 56 08      [19]   42     ld    d, e_ptr_h(ix)
+   40F7 AF            [ 4]   43     xor   a
+   40F8 DD 4E 04      [19]   44     ld    c, e_w(ix)
+   40FB DD 46 05      [19]   45     ld    b, e_h(ix)
+   40FE C5            [11]   46     push bc
+   40FF CD 52 41      [17]   47     call  cpct_drawSolidBox_asm
+                             48 
+                             49     ;; Calculate new Video Memory Pointer
+   4102 11 00 C0      [10]   50     ld  de, #0xC000
+   4105 DD 4E 00      [19]   51     ld   c, e_x(ix)    ;; X
+   4108 DD 46 01      [19]   52     ld   b, e_y(ix)    ;; Y
+   410B CD F6 41      [17]   53     call cpct_getScreenPtr_asm
+                             54 
+                             55     ;; Store Video Memory Pointer as Last
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+
+
+   410E DD 75 07      [19]   56     ld    e_ptr_l(ix), l
+   4111 DD 74 08      [19]   57     ld    e_ptr_h(ix), h
+                             58 
+                             59     ;; Draw Entity
+   4114 EB            [ 4]   60     ex  de, hl
+   4115 DD 7E 06      [19]   61     ld   a, e_color(ix)   
+   4118 C1            [10]   62     pop bc
+   4119 CD 52 41      [17]   63     call cpct_drawSolidBox_asm
+                             64 
+                     0035    65 _ent_counter = .+1
+   411C 3E 00         [ 7]   66     ld   a, #0
+   411E 3D            [ 4]   67     dec a
+   411F C8            [11]   68     ret z
+                             69 
+   4120 32 1D 41      [13]   70     ld  (_ent_counter), a
+   4123 01 09 00      [10]   71     ld  bc, #entity_size
+   4126 DD 09         [15]   72     add ix, bc
+   4128 18 C7         [12]   73     jr _render_loop

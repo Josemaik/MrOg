@@ -19,9 +19,9 @@
 .globl physics_sys_init
 .globl physics_sys_update
 
-;;;;;;;;;; tipo , x , y , vx , vy , w , h , color 
-prueba:  .db 1 , 30 , 20 , -2 , 0 , 1 , 1 , 0xCC
-prueba2: .db 1 , 42 , 60 , -5 , 0 , 1 , 1 , 0xF0
+;;;;;;;;;;;;; x , y  , vx , vy , w , h , color , ptr_l , ptr_h
+estrella:  .db 30 , 20 , -1 , 0  , 1 , 1 , 0xCC  ,  00   , 00
+estrella2: .db 42 , 60 , -1 , 0  , 1 , 1 , 0xF0  ,  00   , 00
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MAIN 
@@ -32,9 +32,9 @@ _main::
    call render_sys_init
    call physics_sys_init
 
-   ld   hl, #prueba
+   ld   hl, #estrella
    call entity_man_create
-   ld   hl, #prueba2
+   ld   hl, #estrella2
    call entity_man_create
 
 loop:
@@ -47,6 +47,7 @@ loop:
 
    ;; waitNVSyncs 2
    call cpct_waitVSYNC_asm
+
    ;;;;;;;;;;;;;;;;;;;
    ;; Render
    ;;
