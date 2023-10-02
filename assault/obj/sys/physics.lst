@@ -1,0 +1,129 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+
+
+                              1 .module Control_physics
+                              2 .area _DATA
+                              3 .area _CODE
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+
+
+                              4 .include "man/entity.h.s"
+                              1 
+                              2         ;;;;;;;;;;;;;;;;;;;;
+                              3         ;; DEFINED VALUES ;;
+                              4         ;;;;;;;;;;;;;;;;;;;;
+                              5 
+                              6     ;; Entity struct                 
+                     0000     7         TYPE    = 0     ;;u8            
+                     0001     8         X       = 1     ;;u8            
+                     0002     9         Y       = 2     ;;u8
+                     0003    10         Width   = 3     ;;u8
+                     0004    11         Height  = 4     ;;u8       
+                     0005    12         VX      = 5     ;;i8
+                     0006    13         VY      = 6     ;;i8             
+                     0007    14         sprite  = 7     ;;*u8 (2b)      
+                             15                                         
+                             16     ;; Entity types                  
+                     0000    17         E_TYPE_INVALID  = 0x00          
+                     0001    18         E_TYPE_RENDER    = 0x01         
+                     0002    19         E_TYPE_MOVABLE    = 0x02 
+                     0004    20         E_TYPE_INPUT    = 0x04 
+                     0080    21         E_TYPE_DEAD     = 0x80          
+                     007F    22         E_TYPE_DEFAULT  = 0x7F          
+                             23                                         
+                             24     ;; OTHERS                              
+                     0009    25         SPACE_4_ONE_ENTITY     = 9      
+                     000C    26         TOTAL_ENTITIES         = 12
+                     006C    27         MAX_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY * TOTAL_ENTITIES;      
+                             28                                         
+                             29 
+                             30 
+                             31     ;;;;;;;;;;;;;;;;;;;;
+                             32     ;; GLOBAL SYMBOLS ;;
+                             33     ;;;;;;;;;;;;;;;;;;;;
+                             34     .globl cpct_memset_asm      
+                             35     .globl cpct_memcpy_asm      
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+
+
+                              5 .include "physics.h.s"
+                              1 ;;;;;;;;;;;;;;;;;;;;
+                              2 ;; GLOBAL SYMBOLS ;;
+                              3 ;;;;;;;;;;;;;;;;;;;;
+                              4    ;; managers                                   
+                              5       .globl _man_entity_for_all                 
+                              6       .globl _man_entity_set_for_destruction     
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
+Hexadecimal [16-Bits]
+
+
+
+                              6 
+                              7 
+                              8 ;;;;;;;;;;;;;;;
+                              9 ;; FUNCTIONS ;;
+                             10 ;;;;;;;;;;;;;;;
+                             11 
+                             12 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             13 ;; UPDATE PHYSICS FOR ONE ENTITY ;;
+                             14 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             15     ;; INPUTS ;;                  ;                                      
+                             16         ;; DE -> entity to update ;                                      
+                             17 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   0000                      18 sys_physics_update_for_one:
+                             19 
+                             20     ;; go to entity->x and load it in a
+   0000 21 01 00      [10]   21         ld      hl, #X
+   0003 19            [11]   22         add     hl, de
+   0004 7E            [ 7]   23         ld      a, (hl)     ;; we have in a the value of ex
+                             24 
+                             25     ;; go to entity-vx
+   0005 21 05 00      [10]   26         ld      hl, #VX
+   0008 19            [11]   27         add     hl, de
+                             28 
+                             29     ;; res vx to a
+   0009 96            [ 7]   30         sub     (hl)
+                             31 
+                             32     ;; conditional to know if entity has reach the end
+   000A 38 02         [12]   33         jr      c, sys_destroy_entity ;; 
+                             34 
+                             35     ;; position > 0        
+   000C 18 03         [12]   36         jr      sys_save_vx
+                             37 
+                             38     ;; position < 0
+   000E                      39     sys_destroy_entity:
+   000E CD 00 00      [17]   40         call    _man_entity_set_for_destruction
+                             41 
+   0011                      42     sys_save_vx:    ;; position > 0
+                             43     ;; go to entity->x and load a
+   0011 21 01 00      [10]   44         ld      hl, #X
+   0014 19            [11]   45         add     hl, de
+   0015 77            [ 7]   46         ld      (hl), a
+                             47 
+   0016 C9            [10]   48     ret
+                             49 
+                             50 
+                             51 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             52 ;; CAll PHYSICS FOR ALL ENTITY :;
+                             53 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   0017                      54 _sys_physics_update::
+                             55 
+                             56     ;; for all entities -> sys_physics_update_for_one
+                             57         ;; INPUTS ;;
+                             58             ;; BC -> memory position of the function
+                             59             
+   0017 01 00 00      [10]   60         ld      bc, #sys_physics_update_for_one
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
+Hexadecimal [16-Bits]
+
+
+
+   001A CD 00 00      [17]   61         call    _man_entity_for_all
+                             62 
+   001D C9            [10]   63     ret

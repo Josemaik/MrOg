@@ -1,0 +1,8 @@
+XL2
+H 1 areas 5 global symbols
+S _man_entity_free_space Ref0000
+S .__.ABS. Def0000
+S _man_entity_create Ref0000
+S cpct_memcpy_asm Ref0000
+S cpct_getRandom_mxor_u8_asm Ref0000
+A _CODE size 0 flags 0 addr 0
