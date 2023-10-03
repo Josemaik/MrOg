@@ -68,19 +68,19 @@ obj/systems/render_system.rel             [ Render_System ]
 
 Libraries Linked                          [ object file ]
 
-/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+/home/cpc/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_setPalette_asmbindings.rel ]
-/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+/home/cpc/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_setPALColour_asmbindings.re ]
-/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+/home/cpc/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_setVideoMode_asmbindings.re ]
-/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+/home/cpc/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_waitVSYNC.rel ]
-/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+/home/cpc/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_drawSolidBox_asmbindings.re ]
-/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+/home/cpc/cpctelera/cpctelera/cpctelera.lib
                                           [ cpc_mode_rom_status.rel ]
-/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+/home/cpc/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_getScreenPtr_asmbindings.re ]
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
