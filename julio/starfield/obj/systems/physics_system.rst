@@ -17,41 +17,54 @@ Hexadecimal [16-Bits]
                              12 ;;
                              13 .area _CODE
                              14 
-   40C7                      15 physics_sys_init::
-   40C7 C9            [10]   16     ret
+   40E4                      15 physics_sys_init::
+   40E4 C9            [10]   16     ret
                              17 
                              18 ;; Input
                              19 ;;   IX: Pointer to first entity to render
                              20 ;;    A: Number of entities to render
-   40C8                      21 physics_sys_update::
-   40C8 47            [ 4]   22     ld  b, a
+   40E5                      21 physics_sys_update::
+   40E5 47            [ 4]   22     ld  b, a
                              23 
-   40C9                      24 _update_loop:
+   40E6                      24 _update_loop:
                              25     ;; Update X
-   40C9 3E 51         [ 7]   26     ld    a, #screen_width + 1
-   40CB DD 96 04      [19]   27     sub   e_w(ix)
-   40CE 4F            [ 4]   28     ld    c, a
+   40E6 3E 51         [ 7]   26     ld    a, #screen_width + 1
+   40E8 DD 96 04      [19]   27     sub   e_w(ix)
+   40EB 4F            [ 4]   28     ld    c, a
                              29 
-   40CF DD 7E 00      [19]   30     ld    a, e_x(ix)
-   40D2 DD 86 02      [19]   31     add   e_vx(ix)
-   40D5 B9            [ 4]   32     cp    c             ;; Comprueba con la primera posicion invalida
-   40D6 30 05         [12]   33     jr   nc, invalid_x
-   40D8                      34 valid_x:
-   40D8 DD 77 00      [19]   35     ld   e_x(ix), a
-   40DB 18 08         [12]   36     jr   endif_x
-   40DD                      37 invalid_x:
-   40DD DD 7E 02      [19]   38     ld   a, e_vx(ix)
-   40E0 ED 44         [ 8]   39     neg
-   40E2 DD 77 02      [19]   40     ld   e_vx(ix), a
-   40E5                      41 endif_x:
-                             42 
-                             43     ;; Update Y ;; todo
-                             44 
-   40E5 05            [ 4]   45     dec  b
-   40E6 C8            [11]   46     ret  z
-                             47 
-   40E7 11 09 00      [10]   48     ld  de, #entity_size
-   40EA DD 19         [15]   49     add ix, de
-   40EC 18 DB         [12]   50     jr _update_loop
-                             51 
-   40EE C9            [10]   52     ret
+   40EC DD 7E 00      [19]   30     ld    a, e_x(ix)
+   40EF DD 86 02      [19]   31     add   e_vx(ix)
+   40F2 B9            [ 4]   32     cp    c             ;; Comprueba con la primera posicion invalida
+   40F3 30 05         [12]   33     jr   nc, invalid_x
+   40F5                      34 valid_x:
+   40F5 DD 77 00      [19]   35     ld   e_x(ix), a
+   40F8 18 0A         [12]   36     jr   endif_x
+   40FA                      37 invalid_x:
+                             38     ;; ld   a, e_vx(ix)
+                             39     ;; neg
+                             40     ;; ld   e_vx(ix), a
+                             41     ;; IX
+   40FA C5            [11]   42     push bc
+   40FB D5            [11]   43     push de
+   40FC CD BF 40      [17]   44     call entity_man_destroy  ;; Modify HL, DE, BC
+   40FF D1            [10]   45     pop de
+   4100 C1            [10]   46     pop bc
+   4101 05            [ 4]   47     dec b
+   4102 18 E2         [12]   48     jr _update_loop
+   4104                      49 endif_x:
+                             50 
+                             51     ;; Update Y ;; todo
+                             52 
+   4104 05            [ 4]   53     dec  b
+   4105 C8            [11]   54     ret  z
+                             55 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+
+
+   4106 11 09 00      [10]   56     ld  de, #entity_size
+   4109 DD 19         [15]   57     add ix, de
+   410B 18 D9         [12]   58     jr _update_loop
+                             59 
+   410D C9            [10]   60     ret

@@ -35,9 +35,14 @@ valid_x:
     ld   e_x(ix), a
     jr   endif_x
 invalid_x:
-    ld   a, e_vx(ix)
-    neg
-    ld   e_vx(ix), a
+    ;; IX
+    push bc
+    push de
+    call entity_man_destroy  ;; Modify HL, DE, BC
+    pop de
+    pop bc
+    dec b
+    jr _update_loop
 endif_x:
 
     ;; Update Y ;; todo

@@ -20,16 +20,16 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000008  e_ptr_h                            Entity_Manager
      00000009  entity_size                        Entity_Manager
      0000000A  max_entities                       Entity_Manager
-     0000021F  l__CODE                         
+     0000023E  l__CODE                         
      00004000  s__CODE                         
-     0000421F  s__DATA                         
+     0000423E  s__DATA                         
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    0000021F =         543. bytes (REL,CON)
+_CODE                               00004000    0000023E =         574. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -40,20 +40,20 @@ _CODE                               00004000    0000021F =         543. bytes (R
      00004089  entity_man_init                    Entity_Manager
      00004097  entity_man_create_stars            Entity_Manager
      000040A4  entity_man_create                  Entity_Manager
-     000040BF  entity_man_getArray                Entity_Manager
-     000040C7  physics_sys_init                   Physics_System
-     000040C8  physics_sys_update                 Physics_System
-     000040EF  render_sys_init                    Render_System
-     000040FB  render_sys_update                  Render_System
-     00004137  cpct_setPalette_asm                cpct_video
-     0000414A  cpct_setPALColour_asm              cpct_video
-     00004154  cpct_setVideoMode_asm              cpct_video
-     00004161  _cpct_waitVSYNC                    cpct_video
-     00004161  cpct_waitVSYNC_asm                 cpct_video
-     00004169  cpct_drawSolidBox_asm              cpct_sprites
-     0000420C  _cpct_mode_rom_status              cpct_firmware
-     0000420D  cpct_getScreenPtr_asm              cpct_video
-
+     000040BF  entity_man_destroy                 Entity_Manager
+     000040DC  entity_man_getArray                Entity_Manager
+     000040E4  physics_sys_init                   Physics_System
+     000040E5  physics_sys_update                 Physics_System
+     0000410E  render_sys_init                    Render_System
+     0000411A  render_sys_update                  Render_System
+     00004156  cpct_setPalette_asm                cpct_video
+     00004169  cpct_setPALColour_asm              cpct_video
+     00004173  cpct_setVideoMode_asm              cpct_video
+     00004180  _cpct_waitVSYNC                    cpct_video
+     00004180  cpct_waitVSYNC_asm                 cpct_video
+     00004188  cpct_drawSolidBox_asm              cpct_sprites
+     0000422B  _cpct_mode_rom_status              cpct_firmware
+     0000422C  cpct_getScreenPtr_asm              cpct_video
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 
 Files Linked                              [ module(s) ]

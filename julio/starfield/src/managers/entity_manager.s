@@ -4,6 +4,8 @@
 ;; 
 .module Entity_Manager
 
+.include "cpctelera.h.s"
+
 max_entities == 10
 entity_size  == 9
 
@@ -81,6 +83,31 @@ entity_man_create:
     ld      bc, #entity_size  
     add     hl, bc
     ld      (_last_elem_ptr), hl
+
+    ret
+
+;; Input
+;;   IX: Pointer to entity
+entity_man_destroy::
+    ;; Reposicionar el _last_elem_ptr
+    ld       a, (_last_elem_ptr)
+    ld       b, #entity_size  
+    sub      b
+    ld      (_last_elem_ptr), a
+
+    ;; Copiar la ultima entidad 
+    ld__de_ix
+    ld      hl, (_last_elem_ptr)
+    ld      bc, #entity_size
+    ldir
+
+    ;; Borrar la entidad de pantalla
+    ;; todo
+
+    ;; Restar el numero de entidades actuales
+    ld       a, (_num_entities)
+    dec      a
+    ld       (_num_entities), a
 
     ret
 
