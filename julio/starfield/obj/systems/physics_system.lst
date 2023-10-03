@@ -40,31 +40,28 @@ Hexadecimal [16-Bits]
    0011 DD 77 00      [19]   35     ld   e_x(ix), a
    0014 18 0A         [12]   36     jr   endif_x
    0016                      37 invalid_x:
-                             38     ;; ld   a, e_vx(ix)
-                             39     ;; neg
-                             40     ;; ld   e_vx(ix), a
-                             41     ;; IX
-   0016 C5            [11]   42     push bc
-   0017 D5            [11]   43     push de
-   0018 CD 00 00      [17]   44     call entity_man_destroy  ;; Modify HL, DE, BC
-   001B D1            [10]   45     pop de
-   001C C1            [10]   46     pop bc
-   001D 05            [ 4]   47     dec b
-   001E 18 E2         [12]   48     jr _update_loop
-   0020                      49 endif_x:
-                             50 
-                             51     ;; Update Y ;; todo
+                             38     ;; IX
+   0016 C5            [11]   39     push bc
+   0017 D5            [11]   40     push de
+   0018 CD 00 00      [17]   41     call entity_man_destroy  ;; Modify HL, DE, BC
+   001B D1            [10]   42     pop de
+   001C C1            [10]   43     pop bc
+   001D 05            [ 4]   44     dec b
+   001E 18 E2         [12]   45     jr _update_loop
+   0020                      46 endif_x:
+                             47 
+                             48     ;; Update Y ;; todo
+                             49 
+   0020 05            [ 4]   50     dec  b
+   0021 C8            [11]   51     ret  z
                              52 
-   0020 05            [ 4]   53     dec  b
-   0021 C8            [11]   54     ret  z
-                             55 
+   0022 11 00 00      [10]   53     ld  de, #entity_size
+   0025 DD 19         [15]   54     add ix, de
+   0027 18 D9         [12]   55     jr _update_loop
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 
 
-   0022 11 00 00      [10]   56     ld  de, #entity_size
-   0025 DD 19         [15]   57     add ix, de
-   0027 18 D9         [12]   58     jr _update_loop
-                             59 
-   0029 C9            [10]   60     ret
+                             56 
+   0029 C9            [10]   57     ret

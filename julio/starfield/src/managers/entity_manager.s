@@ -89,6 +89,9 @@ entity_man_create:
 ;; Input
 ;;   IX: Pointer to entity
 entity_man_destroy::
+    ;; Borrar la entidad de pantalla
+    call render_sys_erase_previous_instance
+    
     ;; Reposicionar el _last_elem_ptr
     ld       a, (_last_elem_ptr)
     ld       b, #entity_size  
@@ -100,9 +103,6 @@ entity_man_destroy::
     ld      hl, (_last_elem_ptr)
     ld      bc, #entity_size
     ldir
-
-    ;; Borrar la entidad de pantalla
-    ;; todo
 
     ;; Restar el numero de entidades actuales
     ld       a, (_num_entities)

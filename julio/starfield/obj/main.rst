@@ -27,8 +27,8 @@ Hexadecimal [16-Bits]
    4000                      22 _main::
                              23 
                              24    ;; Init systems
-   4000 CD 0E 41      [17]   25    call render_sys_init
-   4003 CD E4 40      [17]   26    call physics_sys_init
+   4000 CD 11 41      [17]   25    call render_sys_init
+   4003 CD E7 40      [17]   26    call physics_sys_init
    4006 CD 89 40      [17]   27    call entity_man_init
                              28 
    4009                      29 loop:
@@ -36,16 +36,16 @@ Hexadecimal [16-Bits]
                              31    ;;;;;;;;;;;;;;;;;;;
                              32    ;; Physics
                              33    ;;
-   4009 CD DC 40      [17]   34    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
-   400C CD E5 40      [17]   35    call physics_sys_update
+   4009 CD DF 40      [17]   34    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   400C CD E8 40      [17]   35    call physics_sys_update
                              36 
                              37    ;; waitNVSyncs 2
-   400F CD 80 41      [17]   38    call cpct_waitVSYNC_asm
+   400F CD 8B 41      [17]   38    call cpct_waitVSYNC_asm
                              39 
                              40    ;;;;;;;;;;;;;;;;;;;
                              41    ;; Render
                              42    ;;
-   4012 CD DC 40      [17]   43    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
-   4015 CD 1A 41      [17]   44    call render_sys_update
+   4012 CD DF 40      [17]   43    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   4015 CD 2E 41      [17]   44    call render_sys_update
                              45 
    4018 18 EF         [12]   46    jr   loop

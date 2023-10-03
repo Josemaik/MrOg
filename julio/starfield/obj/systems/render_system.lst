@@ -5033,49 +5033,55 @@ Hexadecimal [16-Bits]
                              32 
    000B C9            [10]   33     ret
                              34 
-                             35 ;; Input
-                             36 ;;   IX: Pointer to first entity to render
-                             37 ;;    A: Number of entities to render
-   000C                      38 render_sys_update::
-   000C 32 3B 00      [13]   39     ld  (_ent_counter), a
-                             40 
-   000F                      41 _render_loop:
-                             42     ;; Erase Previous Instance
-   000F DD 5E 00      [19]   43     ld    e, e_ptr_l(ix)
-   0012 DD 56 00      [19]   44     ld    d, e_ptr_h(ix)
-   0015 AF            [ 4]   45     xor   a
-   0016 DD 4E 00      [19]   46     ld    c, e_w(ix)
-   0019 DD 46 00      [19]   47     ld    b, e_h(ix)
-   001C C5            [11]   48     push bc
-   001D CD 00 00      [17]   49     call  cpct_drawSolidBox_asm
-                             50 
-                             51     ;; Calculate new Video Memory Pointer
-   0020 11 00 C0      [10]   52     ld  de, #0xC000
-   0023 DD 4E 00      [19]   53     ld   c, e_x(ix)    ;; X
-   0026 DD 46 00      [19]   54     ld   b, e_y(ix)    ;; Y
-   0029 CD 00 00      [17]   55     call cpct_getScreenPtr_asm
-                             56 
+                             35 ;; Erase Previous Instance
+   000C                      36 render_sys_erase_previous_instance::
+   000C DD 5E 00      [19]   37     ld    e, e_ptr_l(ix)
+   000F DD 56 00      [19]   38     ld    d, e_ptr_h(ix)
+   0012 AF            [ 4]   39     xor   a
+   0013 DD 4E 00      [19]   40     ld    c, e_w(ix)
+   0016 DD 46 00      [19]   41     ld    b, e_h(ix)
+   0019 CD 00 00      [17]   42     call  cpct_drawSolidBox_asm
+                             43 
+   001C C9            [10]   44     ret
+                             45 
+                             46 ;; Input
+                             47 ;;   IX: Pointer to first entity to render
+                             48 ;;    A: Number of entities to render
+   001D                      49 render_sys_update::
+   001D 32 43 00      [13]   50     ld  (_ent_counter), a
+                             51 
+   0020                      52 _render_loop:
+                             53     ;; Erase Previous Instance
+   0020 CD 0C 00      [17]   54     call render_sys_erase_previous_instance
+                             55 
+                             56     ;; Calculate new Video Memory Pointer
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
 Hexadecimal [16-Bits]
 
 
 
-                             57     ;; Store Video Memory Pointer as Last
-   002C DD 75 00      [19]   58     ld    e_ptr_l(ix), l
-   002F DD 74 00      [19]   59     ld    e_ptr_h(ix), h
-                             60 
-                             61     ;; Draw Entity
-   0032 EB            [ 4]   62     ex  de, hl
-   0033 DD 7E 00      [19]   63     ld   a, e_color(ix)   
-   0036 C1            [10]   64     pop bc
-   0037 CD 00 00      [17]   65     call cpct_drawSolidBox_asm
-                             66 
-                     003B    67 _ent_counter = .+1
-   003A 3E 00         [ 7]   68     ld   a, #0
-   003C 3D            [ 4]   69     dec a
-   003D C8            [11]   70     ret z
-                             71 
-   003E 32 3B 00      [13]   72     ld  (_ent_counter), a
-   0041 01 00 00      [10]   73     ld  bc, #entity_size
-   0044 DD 09         [15]   74     add ix, bc
-   0046 18 C7         [12]   75     jr _render_loop
+   0023 11 00 C0      [10]   57     ld  de, #0xC000
+   0026 DD 4E 00      [19]   58     ld   c, e_x(ix)    ;; X
+   0029 DD 46 00      [19]   59     ld   b, e_y(ix)    ;; Y
+   002C CD 00 00      [17]   60     call cpct_getScreenPtr_asm
+                             61 
+                             62     ;; Store Video Memory Pointer as Last
+   002F DD 75 00      [19]   63     ld    e_ptr_l(ix), l
+   0032 DD 74 00      [19]   64     ld    e_ptr_h(ix), h
+                             65 
+                             66     ;; Draw Entity
+   0035 EB            [ 4]   67     ex  de, hl
+   0036 DD 7E 00      [19]   68     ld   a, e_color(ix)   
+   0039 DD 4E 00      [19]   69     ld    c, e_w(ix)
+   003C DD 46 00      [19]   70     ld    b, e_h(ix)
+   003F CD 00 00      [17]   71     call cpct_drawSolidBox_asm
+                             72 
+                     0043    73 _ent_counter = .+1
+   0042 3E 00         [ 7]   74     ld   a, #0
+   0044 3D            [ 4]   75     dec a
+   0045 C8            [11]   76     ret z
+                             77 
+   0046 32 43 00      [13]   78     ld  (_ent_counter), a
+   0049 01 00 00      [10]   79     ld  bc, #entity_size
+   004C DD 09         [15]   80     add ix, bc
+   004E 18 D0         [12]   81     jr _render_loop

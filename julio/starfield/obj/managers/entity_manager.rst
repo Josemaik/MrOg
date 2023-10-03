@@ -5091,44 +5091,44 @@ Hexadecimal [16-Bits]
                              89 ;; Input
                              90 ;;   IX: Pointer to entity
    40BF                      91 entity_man_destroy::
-                             92     ;; Reposicionar el _last_elem_ptr
-   40BF 3A 1B 40      [13]   93     ld       a, (_last_elem_ptr)
-   40C2 06 09         [ 7]   94     ld       b, #entity_size  
-   40C4 90            [ 4]   95     sub      b
-   40C5 32 1B 40      [13]   96     ld      (_last_elem_ptr), a
-                             97 
-                             98     ;; Copiar la ultima entidad 
-   00AE                      99     ld__de_ix
+                             92     ;; Borrar la entidad de pantalla
+   40BF CD 1D 41      [17]   93     call render_sys_erase_previous_instance
+                             94     
+                             95     ;; Reposicionar el _last_elem_ptr
+   40C2 3A 1B 40      [13]   96     ld       a, (_last_elem_ptr)
+   40C5 06 09         [ 7]   97     ld       b, #entity_size  
+   40C7 90            [ 4]   98     sub      b
+   40C8 32 1B 40      [13]   99     ld      (_last_elem_ptr), a
+                            100 
+                            101     ;; Copiar la ultima entidad 
+   00B1                     102     ld__de_ix
                               1    ;; LD DE, IX
                               2    ;;------------
-   00AE                       3    ld__e_ixl
-   40C8 DD 5D                 1    .dw #0x5DDD  ;; Opcode for ld e, ixl
-   00B0                       4    ld__d_ixh
-   40CA DD 54                 1    .dw #0x54DD  ;; Opcode for ld d, ixh
+   00B1                       3    ld__e_ixl
+   40CB DD 5D                 1    .dw #0x5DDD  ;; Opcode for ld e, ixl
+   00B3                       4    ld__d_ixh
+   40CD DD 54                 1    .dw #0x54DD  ;; Opcode for ld d, ixh
                               5    ;;------------
-   40CC 2A 1B 40      [16]  100     ld      hl, (_last_elem_ptr)
-   40CF 01 09 00      [10]  101     ld      bc, #entity_size
-   40D2 ED B0         [21]  102     ldir
-                            103 
-                            104     ;; Borrar la entidad de pantalla
-                            105     ;; todo
+   40CF 2A 1B 40      [16]  103     ld      hl, (_last_elem_ptr)
+   40D2 01 09 00      [10]  104     ld      bc, #entity_size
+   40D5 ED B0         [21]  105     ldir
                             106 
                             107     ;; Restar el numero de entidades actuales
-   40D4 3A 1A 40      [13]  108     ld       a, (_num_entities)
+   40D7 3A 1A 40      [13]  108     ld       a, (_num_entities)
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 97.
 Hexadecimal [16-Bits]
 
 
 
-   40D7 3D            [ 4]  109     dec      a
-   40D8 32 1A 40      [13]  110     ld       (_num_entities), a
+   40DA 3D            [ 4]  109     dec      a
+   40DB 32 1A 40      [13]  110     ld       (_num_entities), a
                             111 
-   40DB C9            [10]  112     ret
+   40DE C9            [10]  112     ret
                             113 
                             114 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                             115 ;; Getters
                             116 ;;
-   40DC                     117 entity_man_getArray::
-   40DC DD 21 1D 40   [14]  118     ld      ix, #_entity_array
-   40E0 3A 1A 40      [13]  119     ld       a, (_num_entities)
-   40E3 C9            [10]  120     ret
+   40DF                     117 entity_man_getArray::
+   40DF DD 21 1D 40   [14]  118     ld      ix, #_entity_array
+   40E3 3A 1A 40      [13]  119     ld       a, (_num_entities)
+   40E6 C9            [10]  120     ret

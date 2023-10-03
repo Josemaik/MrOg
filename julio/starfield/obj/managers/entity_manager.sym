@@ -65,15 +65,16 @@ Symbol Table
 
     e_vy    =  0003 G   |     e_w     =  0004 G   |     e_x     =  0000 G
     e_y     =  0001 G   |   0 entity_m   008A GR  |   0 entity_m   007D GR
-  0 entity_m   00A5 GR  |   0 entity_m   00C2 GR  |   0 entity_m   006F GR
+  0 entity_m   00A5 GR  |   0 entity_m   00C5 GR  |   0 entity_m   006F GR
     entity_s=  0009 G   |   0 estrella   005D R   |   0 estrella   0066 R
     firmware=  0038     |     max_enti=  000A G   |     opc_DI  =  00F3 
     opc_EI  =  00FB     |     opc_JR  =  0018     |     opc_LD_D=  0016 
+    render_s   **** GX
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   CA   flags    0
+   0 _CODE      size   CD   flags    0
 

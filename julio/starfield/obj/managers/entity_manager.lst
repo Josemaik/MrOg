@@ -5091,44 +5091,44 @@ Hexadecimal [16-Bits]
                              89 ;; Input
                              90 ;;   IX: Pointer to entity
    00A5                      91 entity_man_destroy::
-                             92     ;; Reposicionar el _last_elem_ptr
-   00A5 3A 01 00      [13]   93     ld       a, (_last_elem_ptr)
-   00A8 06 09         [ 7]   94     ld       b, #entity_size  
-   00AA 90            [ 4]   95     sub      b
-   00AB 32 01 00      [13]   96     ld      (_last_elem_ptr), a
-                             97 
-                             98     ;; Copiar la ultima entidad 
-   00AE                      99     ld__de_ix
+                             92     ;; Borrar la entidad de pantalla
+   00A5 CD 00 00      [17]   93     call render_sys_erase_previous_instance
+                             94     
+                             95     ;; Reposicionar el _last_elem_ptr
+   00A8 3A 01 00      [13]   96     ld       a, (_last_elem_ptr)
+   00AB 06 09         [ 7]   97     ld       b, #entity_size  
+   00AD 90            [ 4]   98     sub      b
+   00AE 32 01 00      [13]   99     ld      (_last_elem_ptr), a
+                            100 
+                            101     ;; Copiar la ultima entidad 
+   00B1                     102     ld__de_ix
                               1    ;; LD DE, IX
                               2    ;;------------
-   00AE                       3    ld__e_ixl
-   00AE DD 5D                 1    .dw #0x5DDD  ;; Opcode for ld e, ixl
-   00B0                       4    ld__d_ixh
-   00B0 DD 54                 1    .dw #0x54DD  ;; Opcode for ld d, ixh
+   00B1                       3    ld__e_ixl
+   00B1 DD 5D                 1    .dw #0x5DDD  ;; Opcode for ld e, ixl
+   00B3                       4    ld__d_ixh
+   00B3 DD 54                 1    .dw #0x54DD  ;; Opcode for ld d, ixh
                               5    ;;------------
-   00B2 2A 01 00      [16]  100     ld      hl, (_last_elem_ptr)
-   00B5 01 09 00      [10]  101     ld      bc, #entity_size
-   00B8 ED B0         [21]  102     ldir
-                            103 
-                            104     ;; Borrar la entidad de pantalla
-                            105     ;; todo
+   00B5 2A 01 00      [16]  103     ld      hl, (_last_elem_ptr)
+   00B8 01 09 00      [10]  104     ld      bc, #entity_size
+   00BB ED B0         [21]  105     ldir
                             106 
                             107     ;; Restar el numero de entidades actuales
-   00BA 3A 00 00      [13]  108     ld       a, (_num_entities)
+   00BD 3A 00 00      [13]  108     ld       a, (_num_entities)
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 97.
 Hexadecimal [16-Bits]
 
 
 
-   00BD 3D            [ 4]  109     dec      a
-   00BE 32 00 00      [13]  110     ld       (_num_entities), a
+   00C0 3D            [ 4]  109     dec      a
+   00C1 32 00 00      [13]  110     ld       (_num_entities), a
                             111 
-   00C1 C9            [10]  112     ret
+   00C4 C9            [10]  112     ret
                             113 
                             114 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                             115 ;; Getters
                             116 ;;
-   00C2                     117 entity_man_getArray::
-   00C2 DD 21 03 00   [14]  118     ld      ix, #_entity_array
-   00C6 3A 00 00      [13]  119     ld       a, (_num_entities)
-   00C9 C9            [10]  120     ret
+   00C5                     117 entity_man_getArray::
+   00C5 DD 21 03 00   [14]  118     ld      ix, #_entity_array
+   00C9 3A 00 00      [13]  119     ld       a, (_num_entities)
+   00CC C9            [10]  120     ret

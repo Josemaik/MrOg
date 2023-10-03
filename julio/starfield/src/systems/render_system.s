@@ -32,6 +32,17 @@ render_sys_init::
 
     ret
 
+;; Erase Previous Instance
+render_sys_erase_previous_instance::
+    ld    e, e_ptr_l(ix)
+    ld    d, e_ptr_h(ix)
+    xor   a
+    ld    c, e_w(ix)
+    ld    b, e_h(ix)
+    call  cpct_drawSolidBox_asm
+
+    ret
+
 ;; Input
 ;;   IX: Pointer to first entity to render
 ;;    A: Number of entities to render
@@ -40,13 +51,7 @@ render_sys_update::
 
 _render_loop:
     ;; Erase Previous Instance
-    ld    e, e_ptr_l(ix)
-    ld    d, e_ptr_h(ix)
-    xor   a
-    ld    c, e_w(ix)
-    ld    b, e_h(ix)
-    push bc
-    call  cpct_drawSolidBox_asm
+    call render_sys_erase_previous_instance
 
     ;; Calculate new Video Memory Pointer
     ld  de, #0xC000
@@ -61,7 +66,8 @@ _render_loop:
     ;; Draw Entity
     ex  de, hl
     ld   a, e_color(ix)   
-    pop bc
+    ld    c, e_w(ix)
+    ld    b, e_h(ix)
     call cpct_drawSolidBox_asm
 
 _ent_counter = .+1
