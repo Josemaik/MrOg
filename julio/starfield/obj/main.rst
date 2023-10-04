@@ -15,37 +15,44 @@ Hexadecimal [16-Bits]
                              10 
                              11 .globl entity_man_init
                              12 
-                             13 .globl render_sys_init
-                             14 .globl render_sys_update
-                             15 
-                             16 .globl physics_sys_init
-                             17 .globl physics_sys_update
-                             18 
-                             19 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             20 ;; MAIN 
-                             21 ;;
-   4000                      22 _main::
-                             23 
-                             24    ;; Init systems
-   4000 CD 11 41      [17]   25    call render_sys_init
-   4003 CD E7 40      [17]   26    call physics_sys_init
-   4006 CD 89 40      [17]   27    call entity_man_init
-                             28 
-   4009                      29 loop:
+                             13 .globl generate_sys_newStar
+                             14 
+                             15 .globl render_sys_init
+                             16 .globl render_sys_update
+                             17 
+                             18 .globl physics_sys_init
+                             19 .globl physics_sys_update
+                             20 
+                             21 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             22 ;; MAIN 
+                             23 ;;
+   4000                      24 _main::
+                             25 
+                             26    ;; Init systems
+   4000 CD 12 41      [17]   27    call render_sys_init
+   4003 CD E8 40      [17]   28    call physics_sys_init
+   4006 CD 89 40      [17]   29    call entity_man_init
                              30 
-                             31    ;;;;;;;;;;;;;;;;;;;
-                             32    ;; Physics
-                             33    ;;
-   4009 CD DF 40      [17]   34    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
-   400C CD E8 40      [17]   35    call physics_sys_update
-                             36 
-                             37    ;; waitNVSyncs 2
-   400F CD 8B 41      [17]   38    call cpct_waitVSYNC_asm
-                             39 
-                             40    ;;;;;;;;;;;;;;;;;;;
-                             41    ;; Render
-                             42    ;;
-   4012 CD DF 40      [17]   43    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
-   4015 CD 2E 41      [17]   44    call render_sys_update
-                             45 
-   4018 18 EF         [12]   46    jr   loop
+   4009                      31 loop:
+                             32 
+                             33    ;;;;;;;;;;;;;;;;;;;
+                             34    ;; Generate Stars 
+                             35    ;;
+                             36    ;; call generate_sys_newStar
+                             37 
+                             38    ;;;;;;;;;;;;;;;;;;;
+                             39    ;; Physics
+                             40    ;;
+   4009 CD DF 40      [17]   41    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   400C CD E9 40      [17]   42    call physics_sys_update
+                             43 
+                             44    ;; waitNVSyncs 2
+   400F CD 8C 41      [17]   45    call cpct_waitVSYNC_asm
+                             46 
+                             47    ;;;;;;;;;;;;;;;;;;;
+                             48    ;; Render
+                             49    ;;
+   4012 CD DF 40      [17]   50    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   4015 CD 2F 41      [17]   51    call render_sys_update
+                             52 
+   4018 18 EF         [12]   53    jr   loop

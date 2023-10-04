@@ -77,4 +77,5 @@ Hexadecimal [16-Bits]
 Area Table
 
    0 _CODE      size   CD   flags    0
+   1 _DATA      size    0   flags    0
 

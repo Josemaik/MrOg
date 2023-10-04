@@ -18,6 +18,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Code
 ;;
+.area _DATA
 .area _CODE
 
 render_sys_init::

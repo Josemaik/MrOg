@@ -45,6 +45,7 @@ estrella2: .db 42 , 60 , -1 , 0  , 1 , 1 , 0xF0  ,  00   , 00
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Code
 ;;
+.area _DATA
 .area _CODE
 
 entity_man_init:

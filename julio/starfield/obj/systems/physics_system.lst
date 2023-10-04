@@ -15,53 +15,54 @@ Hexadecimal [16-Bits]
                              10 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              11 ;; Code
                              12 ;;
-                             13 .area _CODE
-                             14 
-   0000                      15 physics_sys_init::
-   0000 C9            [10]   16     ret
-                             17 
-                             18 ;; Input
-                             19 ;;   IX: Pointer to first entity to render
-                             20 ;;    A: Number of entities to render
-   0001                      21 physics_sys_update::
-   0001 47            [ 4]   22     ld  b, a
-                             23 
-   0002                      24 _update_loop:
-                             25     ;; Update X
-   0002 3E 51         [ 7]   26     ld    a, #screen_width + 1
-   0004 DD 96 00      [19]   27     sub   e_w(ix)
-   0007 4F            [ 4]   28     ld    c, a
-                             29 
-   0008 DD 7E 00      [19]   30     ld    a, e_x(ix)
-   000B DD 86 00      [19]   31     add   e_vx(ix)
-   000E B9            [ 4]   32     cp    c             ;; Comprueba con la primera posicion invalida
-   000F 30 05         [12]   33     jr   nc, invalid_x
-   0011                      34 valid_x:
-   0011 DD 77 00      [19]   35     ld   e_x(ix), a
-   0014 18 0A         [12]   36     jr   endif_x
-   0016                      37 invalid_x:
-                             38     ;; IX
-   0016 C5            [11]   39     push bc
-   0017 D5            [11]   40     push de
-   0018 CD 00 00      [17]   41     call entity_man_destroy  ;; Modify HL, DE, BC
-   001B D1            [10]   42     pop de
-   001C C1            [10]   43     pop bc
-   001D 05            [ 4]   44     dec b
-   001E 18 E2         [12]   45     jr _update_loop
-   0020                      46 endif_x:
-                             47 
-                             48     ;; Update Y ;; todo
-                             49 
-   0020 05            [ 4]   50     dec  b
-   0021 C8            [11]   51     ret  z
-                             52 
-   0022 11 00 00      [10]   53     ld  de, #entity_size
-   0025 DD 19         [15]   54     add ix, de
-   0027 18 D9         [12]   55     jr _update_loop
+                             13 .area _DATA
+                             14 .area _CODE
+                             15 
+   0000                      16 physics_sys_init::
+   0000 C9            [10]   17     ret
+                             18 
+                             19 ;; Input
+                             20 ;;   IX: Pointer to first entity to render
+                             21 ;;    A: Number of entities to render
+   0001                      22 physics_sys_update::
+   0001 47            [ 4]   23     ld  b, a
+                             24 
+   0002                      25 _update_loop:
+                             26     ;; Update X
+   0002 3E 51         [ 7]   27     ld    a, #screen_width + 1
+   0004 DD 96 00      [19]   28     sub   e_w(ix)
+   0007 4F            [ 4]   29     ld    c, a
+                             30 
+   0008 DD 7E 00      [19]   31     ld    a, e_x(ix)
+   000B DD 86 00      [19]   32     add   e_vx(ix)
+   000E B9            [ 4]   33     cp    c             ;; Comprueba con la primera posicion invalida
+   000F 30 05         [12]   34     jr   nc, invalid_x
+   0011                      35 valid_x:
+   0011 DD 77 00      [19]   36     ld   e_x(ix), a
+   0014 18 0A         [12]   37     jr   endif_x
+   0016                      38 invalid_x:
+                             39     ;; IX
+   0016 C5            [11]   40     push bc
+   0017 D5            [11]   41     push de
+   0018 CD 00 00      [17]   42     call entity_man_destroy  ;; Modify HL, DE, BC
+   001B D1            [10]   43     pop de
+   001C C1            [10]   44     pop bc
+   001D 05            [ 4]   45     dec b
+   001E 18 E2         [12]   46     jr _update_loop
+   0020                      47 endif_x:
+                             48 
+                             49     ;; Update Y ;; todo
+                             50 
+   0020 05            [ 4]   51     dec  b
+   0021 C8            [11]   52     ret  z
+                             53 
+   0022 11 00 00      [10]   54     ld  de, #entity_size
+   0025 DD 19         [15]   55     add ix, de
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 
 
-                             56 
-   0029 C9            [10]   57     ret
+   0027 18 D9         [12]   56     jr _update_loop
+                             57 
+   0029 C9            [10]   58     ret

@@ -5,9 +5,9 @@ Symbol Table
 
     .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
     .__.H$L.=  0000 L   |   0 _main      0000 GR  |     cpct_wai   **** GX
-    entity_m   **** GX  |     entity_m   **** GX  |   0 loop       0009 R
-    physics_   **** GX  |     physics_   **** GX  |     render_s   **** GX
-    render_s   **** GX
+    entity_m   **** GX  |     entity_m   **** GX  |     generate   **** GX
+  0 loop       0009 R   |     physics_   **** GX  |     physics_   **** GX
+    render_s   **** GX  |     render_s   **** GX
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]

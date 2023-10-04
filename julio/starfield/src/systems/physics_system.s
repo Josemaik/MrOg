@@ -10,6 +10,7 @@ screen_height = 200
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Code
 ;;
+.area _DATA
 .area _CODE
 
 physics_sys_init::

@@ -10,6 +10,8 @@
 
 .globl entity_man_init
 
+.globl generate_sys_newStar
+
 .globl render_sys_init
 .globl render_sys_update
 
@@ -27,6 +29,11 @@ _main::
    call entity_man_init
 
 loop:
+
+   ;;;;;;;;;;;;;;;;;;;
+   ;; Generate Stars 
+   ;;
+   ;; call generate_sys_newStar
 
    ;;;;;;;;;;;;;;;;;;;
    ;; Physics

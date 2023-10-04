@@ -1,5 +1,5 @@
 XL2
-H 1 areas 8 global symbols
+H 2 areas 8 global symbols
 M Physics_System
 S .__.ABS. Def0000
 S entity_man_destroy Ref0000
@@ -10,6 +10,7 @@ S e_x Ref0000
 A _CODE size 2A flags 0 addr 0
 S physics_sys_init Def0000
 S physics_sys_update Def0001
+A _DATA size 0 flags 0 addr 0
 T 00 00
 R 00 00 00 00
 T 00 00 C9

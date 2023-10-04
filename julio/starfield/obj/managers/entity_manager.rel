@@ -1,5 +1,5 @@
 XL2
-H 1 areas 15 global symbols
+H 2 areas 15 global symbols
 M Entity_Manager
 S max_entities Def000A
 S .__.ABS. Def0000
@@ -23,6 +23,7 @@ S entity_man_create_stars Def007D
 S entity_man_destroy Def00A5
 S _num_entities Def0000
 S _entity_array Def0003
+A _DATA size 0 flags 0 addr 0
 T 00 00 00 03 00
 R 00 00 00 00 00 03 00 00
 T 03 00
