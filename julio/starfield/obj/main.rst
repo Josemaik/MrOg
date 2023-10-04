@@ -29,30 +29,30 @@ Hexadecimal [16-Bits]
    4000                      24 _main::
                              25 
                              26    ;; Init systems
-   4000 CD 12 41      [17]   27    call render_sys_init
-   4003 CD E8 40      [17]   28    call physics_sys_init
-   4006 CD 89 40      [17]   29    call entity_man_init
+   4000 CD DA 41      [17]   27    call render_sys_init
+   4003 CD B0 41      [17]   28    call physics_sys_init
+   4006 CD 18 41      [17]   29    call entity_man_init
                              30 
    4009                      31 loop:
                              32 
                              33    ;;;;;;;;;;;;;;;;;;;
-                             34    ;; Generate Stars 
+                             34    ;; Physics
                              35    ;;
-                             36    ;; call generate_sys_newStar
-                             37 
-                             38    ;;;;;;;;;;;;;;;;;;;
-                             39    ;; Physics
-                             40    ;;
-   4009 CD DF 40      [17]   41    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
-   400C CD E9 40      [17]   42    call physics_sys_update
+   4009 CD 68 41      [17]   36    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   400C CD B1 41      [17]   37    call physics_sys_update
+                             38 
+                             39    ;;;;;;;;;;;;;;;;;;;
+                             40    ;; Generate Stars 
+                             41    ;;
+   400F CD 70 41      [17]   42    call generate_sys_newStar
                              43 
-                             44    ;; waitNVSyncs 2
-   400F CD 8C 41      [17]   45    call cpct_waitVSYNC_asm
-                             46 
-                             47    ;;;;;;;;;;;;;;;;;;;
-                             48    ;; Render
-                             49    ;;
-   4012 CD DF 40      [17]   50    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
-   4015 CD 2F 41      [17]   51    call render_sys_update
+                             44    ;;;;;;;;;;;;;;;;;;;
+                             45    ;; Render
+                             46    ;;
+   4012 CD 68 41      [17]   47    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   4015 CD F7 41      [17]   48    call render_sys_update
+                             49 
+                             50    ;; waitNVSyncs 2
+   4018 CD 54 42      [17]   51    call cpct_waitVSYNC_asm
                              52 
-   4018 18 EF         [12]   53    jr   loop
+   401B 18 EC         [12]   53    jr   loop

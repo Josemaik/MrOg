@@ -5007,8 +5007,89 @@ Hexadecimal [16-Bits]
                              12 .area _DATA
                              13 .area _CODE
                              14 
-   40E7                      15 generate_sys_newStar::
+   4170                      15 generate_sys_newStar::
                              16 
                              17     ;; Comprobar si hay espacio libre (max_entities - _num_entities)
-                             18 
-   40E7 C9            [10]   19     ret
+   4170 3E 1E         [ 7]   18     ld    a, #max_entities
+   4172 21 25 40      [10]   19     ld   hl, #_num_entities
+   4175 56            [ 7]   20     ld    d, (hl)
+   4176 92            [ 4]   21     sub   d  
+                             22 
+   4177 28 27         [12]   23     jr z, fin_generate
+                             24 
+                             25     ;; Crear aleatoriamente un valor de x, vx (modificando plantilla_estrella)
+   4179 DD 21 1D 40   [14]   26     ld        ix, #plantilla_estrella
+                             27 
+                             28     ;; Posicion Y
+   417D CD FF 42      [17]   29     call cpct_getRandom_mxor_u8_asm ;; Output --> L (Random value)
+   4180 26 00         [ 7]   30     ld     h, #0
+   4182 1E C8         [ 7]   31     ld     e, #200
+   4184 CD A1 41      [17]   32     call   divide
+   4187 7D            [ 4]   33     ld     a, l
+   4188 DD 77 01      [19]   34     ld   e_y(ix), a
+                             35 
+                             36     ;; Velocidad X
+   418B CD FF 42      [17]   37     call cpct_getRandom_mxor_u8_asm ;; Output --> L (Random value)
+   418E 26 00         [ 7]   38     ld     h, #0
+   4190 1E 02         [ 7]   39     ld     e, #2
+   4192 CD A1 41      [17]   40     call   divide
+   4195 7D            [ 4]   41     ld     a, l
+   4196 C6 01         [ 7]   42     add    a, #1
+   4198 ED 44         [ 8]   43     neg    
+   419A DD 77 02      [19]   44     ld  e_vx(ix), a
+                             45 
+                             46     ;; Llamar a entity_man_create_star
+   419D CD 26 41      [17]   47     call entity_man_create_star
+                             48 
+   41A0                      49     fin_generate:
+                             50 
+   41A0 C9            [10]   51     ret
+                             52 
+                             53 ;;;;;;;;;;;;;;;;;;;
+                             54 ;; DIVIDE 8 BITS ;;
+                             55 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             56    ;; INPUTS ;;
+                             57       ;; HL
+                             58       ;; E
+                             59    ;; OUTPUTS ;;
+                             60       ;; BC -> result
+                             61       ;; HL -> rest
+                             62 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
+Hexadecimal [16-Bits]
+
+
+
+                             63    ;; NOTE ;;
+                             64       ;; Reference code: http://www.massmind.org/techref/zilog/z80/part4.htm
+                             65       ;; BC = HL / E
+                             66 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   41A1                      67 divide:
+                             68 
+                             69    ;; load E in A
+   41A1 7B            [ 4]   70       ld a, e
+                             71 
+                             72    ;; conditional if A = 0 -> finish
+   41A2 B7            [ 4]   73       or a
+   41A3 C8            [11]   74       ret z
+                             75 
+                             76    ;; load -1 in BC and prepare D to operate
+   41A4 01 FF FF      [10]   77       ld bc, #-1
+   41A7 16 00         [ 7]   78       ld d, #0
+                             79 
+                             80    ;; init for
+   41A9                      81       divide_for:
+                             82 
+                             83          ;; subtract DE from HL (uses the a register)
+   41A9 ED 52         [15]   84             sbc hl, de
+                             85 
+                             86          ;;increment BC by 1
+   41AB 03            [ 6]   87             inc bc
+                             88          
+                             89          ;; conditional to repeat for
+   41AC 30 FB         [12]   90             jr nc, divide_for
+                             91 
+                             92    ;; take the rest into hl
+   41AE 19            [11]   93             add hl, de
+                             94 
+   41AF C9            [10]   95    ret

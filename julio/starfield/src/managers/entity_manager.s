@@ -6,29 +6,6 @@
 
 .include "cpctelera.h.s"
 
-max_entities == 10
-entity_size  == 9
-
-_num_entities:: .db 0
-_last_elem_ptr:: .dw _entity_array
-_entity_array::
-    .ds max_entities*entity_size
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Struct of entity
-;;
-;; x , y , vx , vy , w , h , color , ptr_l , ptr_h
-
-e_x         == 0
-e_y         == 1
-e_vx        == 2
-e_vy        == 3
-e_w         == 4
-e_h         == 5
-e_color     == 6
-e_ptr_l     == 7
-e_ptr_h     == 8
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Global Symbols
 ;;
@@ -36,11 +13,27 @@ e_ptr_h     == 8
 .globl entity_man_create
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Estrellas
+;; Plantilla de Estrella
 ;;
-;;;;;;;;;;;;; x , y  , vx , vy , w , h , color , ptr_l , ptr_h
-estrella:  .db 30 , 20 , -1 , 0  , 1 , 1 , 0xCC  ,  00   , 00
-estrella2: .db 42 , 60 , -1 , 0  , 1 , 1 , 0xF0  ,  00   , 00
+;;;;;;;;;;;;;;;;;;;;;;;;;  x , y , vx , w , h , color , ptr_l , ptr_h
+plantilla_estrella:: .db  80 , 20 , -1 , 1 , 1 , 0xC0 ,  00   ,  00  
+    entity_size == .-plantilla_estrella
+
+    e_x         == 0
+    e_y         == 1
+    e_vx        == 2
+    e_w         == 3
+    e_h         == 4
+    e_color     == 5
+    e_ptr_l     == 6
+    e_ptr_h     == 7
+
+    max_entities == 30
+
+    _num_entities::  .db 0
+    _last_elem_ptr:: .dw _entity_array
+    _entity_array::
+        .ds max_entities*entity_size
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Code
@@ -56,15 +49,13 @@ entity_man_init:
     ld  hl, #_entity_array
     ld  (_last_elem_ptr), hl
 
-    call entity_man_create_stars
+    call entity_man_create_star
     
     ret
 
-entity_man_create_stars::
+entity_man_create_star::
 
-    ld   hl, #estrella
-    call entity_man_create
-    ld   hl, #estrella2
+    ld   hl, #plantilla_estrella
     call entity_man_create
 
     ret

@@ -5001,135 +5001,125 @@ Hexadecimal [16-Bits]
 
 
                               8 
-                     000A     9 max_entities == 10
-                     0009    10 entity_size  == 9
-                             11 
-   401A 00                   12 _num_entities:: .db 0
-   401B 1D 40                13 _last_elem_ptr:: .dw _entity_array
-   401D                      14 _entity_array::
-   401D                      15     .ds max_entities*entity_size
-                             16 
-                             17 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             18 ;; Struct of entity
-                             19 ;;
-                             20 ;; x , y , vx , vy , w , h , color , ptr_l , ptr_h
+                              9 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             10 ;; Global Symbols
+                             11 ;;
+                             12 .globl entity_man_init
+                             13 .globl entity_man_create
+                             14 
+                             15 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             16 ;; Plantilla de Estrella
+                             17 ;;
+                             18 ;;;;;;;;;;;;;;;;;;;;;;;;;  x , y , vx , w , h , color , ptr_l , ptr_h
+   401D 50 14 FF 01 01 C0    19 plantilla_estrella:: .db  80 , 20 , -1 , 1 , 1 , 0xC0 ,  00   ,  00  
+        00 00
+                     0008    20     entity_size == .-plantilla_estrella
                              21 
-                     0000    22 e_x         == 0
-                     0001    23 e_y         == 1
-                     0002    24 e_vx        == 2
-                     0003    25 e_vy        == 3
-                     0004    26 e_w         == 4
-                     0005    27 e_h         == 5
-                     0006    28 e_color     == 6
-                     0007    29 e_ptr_l     == 7
-                     0008    30 e_ptr_h     == 8
-                             31 
-                             32 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             33 ;; Global Symbols
-                             34 ;;
-                             35 .globl entity_man_init
-                             36 .globl entity_man_create
+                     0000    22     e_x         == 0
+                     0001    23     e_y         == 1
+                     0002    24     e_vx        == 2
+                     0003    25     e_w         == 3
+                     0004    26     e_h         == 4
+                     0005    27     e_color     == 5
+                     0006    28     e_ptr_l     == 6
+                     0007    29     e_ptr_h     == 7
+                             30 
+                     001E    31     max_entities == 30
+                             32 
+   4025 00                   33     _num_entities::  .db 0
+   4026 28 40                34     _last_elem_ptr:: .dw _entity_array
+   4028                      35     _entity_array::
+   4028                      36         .ds max_entities*entity_size
                              37 
                              38 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             39 ;; Estrellas
+                             39 ;; Code
                              40 ;;
-                             41 ;;;;;;;;;;;;; x , y  , vx , vy , w , h , color , ptr_l , ptr_h
-   4077 1E 14 FF 00 01 01    42 estrella:  .db 30 , 20 , -1 , 0  , 1 , 1 , 0xCC  ,  00   , 00
-        CC 00 00
-   4080 2A 3C FF 00 01 01    43 estrella2: .db 42 , 60 , -1 , 0  , 1 , 1 , 0xF0  ,  00   , 00
-        F0 00 00
-                             44 
-                             45 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             46 ;; Code
-                             47 ;;
-                             48 .area _DATA
-                             49 .area _CODE
-                             50 
-   4089                      51 entity_man_init:
-                             52     ;; Reset all component vector values
-   4089 AF            [ 4]   53     xor a
-   408A 32 1A 40      [13]   54     ld  (_num_entities), a
+                             41 .area _DATA
+                             42 .area _CODE
+                             43 
+   4118                      44 entity_man_init:
+                             45     ;; Reset all component vector values
+   4118 AF            [ 4]   46     xor a
+   4119 32 25 40      [13]   47     ld  (_num_entities), a
+                             48 
+   411C 21 28 40      [10]   49     ld  hl, #_entity_array
+   411F 22 26 40      [16]   50     ld  (_last_elem_ptr), hl
+                             51 
+   4122 CD 26 41      [17]   52     call entity_man_create_star
+                             53     
+   4125 C9            [10]   54     ret
                              55 
-   408D 21 1D 40      [10]   56     ld  hl, #_entity_array
-   4090 22 1B 40      [16]   57     ld  (_last_elem_ptr), hl
-                             58 
-   4093 CD 97 40      [17]   59     call entity_man_create_stars
-                             60     
+   4126                      56 entity_man_create_star::
+                             57 
+   4126 21 1D 40      [10]   58     ld   hl, #plantilla_estrella
+   4129 CD 2D 41      [17]   59     call entity_man_create
+                             60 
+   412C C9            [10]   61     ret
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
 Hexadecimal [16-Bits]
 
 
 
-   4096 C9            [10]   61     ret
                              62 
-   4097                      63 entity_man_create_stars::
-                             64 
-   4097 21 77 40      [10]   65     ld   hl, #estrella
-   409A CD A4 40      [17]   66     call entity_man_create
-   409D 21 80 40      [10]   67     ld   hl, #estrella2
-   40A0 CD A4 40      [17]   68     call entity_man_create
+                             63 ;; Input
+                             64 ;;   HL: pointer to entity initializer
+   412D                      65 entity_man_create:
+   412D ED 5B 26 40   [20]   66     ld      de, (_last_elem_ptr)
+   4131 01 08 00      [10]   67     ld      bc, #entity_size
+   4134 ED B0         [21]   68     ldir                        ;; Copia desde donde apunta HL en el registro DE, tantos bytes como ponga en el registro BC
                              69 
-   40A3 C9            [10]   70     ret
-                             71 
-                             72 ;; Input
-                             73 ;;   HL: pointer to entity initializer
-   40A4                      74 entity_man_create:
-   40A4 ED 5B 1B 40   [20]   75     ld      de, (_last_elem_ptr)
-   40A8 01 09 00      [10]   76     ld      bc, #entity_size
-   40AB ED B0         [21]   77     ldir                        ;; Copia desde donde apunta HL en el registro DE, tantos bytes como ponga en el registro BC
+   4136 3A 25 40      [13]   70     ld       a, (_num_entities)
+   4139 3C            [ 4]   71     inc      a
+   413A 32 25 40      [13]   72     ld       (_num_entities), a  
+                             73 
+   413D 2A 26 40      [16]   74     ld      hl, (_last_elem_ptr)
+   4140 01 08 00      [10]   75     ld      bc, #entity_size  
+   4143 09            [11]   76     add     hl, bc
+   4144 22 26 40      [16]   77     ld      (_last_elem_ptr), hl
                              78 
-   40AD 3A 1A 40      [13]   79     ld       a, (_num_entities)
-   40B0 3C            [ 4]   80     inc      a
-   40B1 32 1A 40      [13]   81     ld       (_num_entities), a  
-                             82 
-   40B4 2A 1B 40      [16]   83     ld      hl, (_last_elem_ptr)
-   40B7 01 09 00      [10]   84     ld      bc, #entity_size  
-   40BA 09            [11]   85     add     hl, bc
-   40BB 22 1B 40      [16]   86     ld      (_last_elem_ptr), hl
-                             87 
-   40BE C9            [10]   88     ret
-                             89 
-                             90 ;; Input
-                             91 ;;   IX: Pointer to entity
-   40BF                      92 entity_man_destroy::
-                             93     ;; Borrar la entidad de pantalla
-   40BF CD 1E 41      [17]   94     call render_sys_erase_previous_instance
-                             95     
-                             96     ;; Reposicionar el _last_elem_ptr
-   40C2 3A 1B 40      [13]   97     ld       a, (_last_elem_ptr)
-   40C5 06 09         [ 7]   98     ld       b, #entity_size  
-   40C7 90            [ 4]   99     sub      b
-   40C8 32 1B 40      [13]  100     ld      (_last_elem_ptr), a
-                            101 
-                            102     ;; Copiar la ultima entidad 
-   00B1                     103     ld__de_ix
+   4147 C9            [10]   79     ret
+                             80 
+                             81 ;; Input
+                             82 ;;   IX: Pointer to entity
+   4148                      83 entity_man_destroy::
+                             84     ;; Borrar la entidad de pantalla
+   4148 CD E6 41      [17]   85     call render_sys_erase_previous_instance
+                             86     
+                             87     ;; Reposicionar el _last_elem_ptr
+   414B 3A 26 40      [13]   88     ld       a, (_last_elem_ptr)
+   414E 06 08         [ 7]   89     ld       b, #entity_size  
+   4150 90            [ 4]   90     sub      b
+   4151 32 26 40      [13]   91     ld      (_last_elem_ptr), a
+                             92 
+                             93     ;; Copiar la ultima entidad 
+   0137                      94     ld__de_ix
                               1    ;; LD DE, IX
                               2    ;;------------
-   00B1                       3    ld__e_ixl
-   40CB DD 5D                 1    .dw #0x5DDD  ;; Opcode for ld e, ixl
-   00B3                       4    ld__d_ixh
-   40CD DD 54                 1    .dw #0x54DD  ;; Opcode for ld d, ixh
+   0137                       3    ld__e_ixl
+   4154 DD 5D                 1    .dw #0x5DDD  ;; Opcode for ld e, ixl
+   0139                       4    ld__d_ixh
+   4156 DD 54                 1    .dw #0x54DD  ;; Opcode for ld d, ixh
                               5    ;;------------
-   40CF 2A 1B 40      [16]  104     ld      hl, (_last_elem_ptr)
-   40D2 01 09 00      [10]  105     ld      bc, #entity_size
-   40D5 ED B0         [21]  106     ldir
-                            107 
-                            108     ;; Restar el numero de entidades actuales
+   4158 2A 26 40      [16]   95     ld      hl, (_last_elem_ptr)
+   415B 01 08 00      [10]   96     ld      bc, #entity_size
+   415E ED B0         [21]   97     ldir
+                             98 
+                             99     ;; Restar el numero de entidades actuales
+   4160 3A 25 40      [13]  100     ld       a, (_num_entities)
+   4163 3D            [ 4]  101     dec      a
+   4164 32 25 40      [13]  102     ld       (_num_entities), a
+                            103 
+   4167 C9            [10]  104     ret
+                            105 
+                            106 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            107 ;; Getters
+                            108 ;;
+   4168                     109 entity_man_getArray::
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 97.
 Hexadecimal [16-Bits]
 
 
 
-   40D7 3A 1A 40      [13]  109     ld       a, (_num_entities)
-   40DA 3D            [ 4]  110     dec      a
-   40DB 32 1A 40      [13]  111     ld       (_num_entities), a
-                            112 
-   40DE C9            [10]  113     ret
-                            114 
-                            115 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            116 ;; Getters
-                            117 ;;
-   40DF                     118 entity_man_getArray::
-   40DF DD 21 1D 40   [14]  119     ld      ix, #_entity_array
-   40E3 3A 1A 40      [13]  120     ld       a, (_num_entities)
-   40E6 C9            [10]  121     ret
+   4168 DD 21 28 40   [14]  110     ld      ix, #_entity_array
+   416C 3A 25 40      [13]  111     ld       a, (_num_entities)
+   416F C9            [10]  112     ret

@@ -31,23 +31,23 @@ _main::
 loop:
 
    ;;;;;;;;;;;;;;;;;;;
-   ;; Generate Stars 
-   ;;
-   ;; call generate_sys_newStar
-
-   ;;;;;;;;;;;;;;;;;;;
    ;; Physics
    ;;
    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
    call physics_sys_update
 
-   ;; waitNVSyncs 2
-   call cpct_waitVSYNC_asm
+   ;;;;;;;;;;;;;;;;;;;
+   ;; Generate Stars 
+   ;;
+   call generate_sys_newStar
 
    ;;;;;;;;;;;;;;;;;;;
    ;; Render
    ;;
    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
    call render_sys_update
+
+   ;; waitNVSyncs 2
+   call cpct_waitVSYNC_asm
 
    jr   loop

@@ -36,23 +36,23 @@ Hexadecimal [16-Bits]
    0009                      31 loop:
                              32 
                              33    ;;;;;;;;;;;;;;;;;;;
-                             34    ;; Generate Stars 
+                             34    ;; Physics
                              35    ;;
-                             36    ;; call generate_sys_newStar
-                             37 
-                             38    ;;;;;;;;;;;;;;;;;;;
-                             39    ;; Physics
-                             40    ;;
-   0009 CD 00 00      [17]   41    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
-   000C CD 00 00      [17]   42    call physics_sys_update
+   0009 CD 00 00      [17]   36    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   000C CD 00 00      [17]   37    call physics_sys_update
+                             38 
+                             39    ;;;;;;;;;;;;;;;;;;;
+                             40    ;; Generate Stars 
+                             41    ;;
+   000F CD 00 00      [17]   42    call generate_sys_newStar
                              43 
-                             44    ;; waitNVSyncs 2
-   000F CD 00 00      [17]   45    call cpct_waitVSYNC_asm
-                             46 
-                             47    ;;;;;;;;;;;;;;;;;;;
-                             48    ;; Render
-                             49    ;;
-   0012 CD 00 00      [17]   50    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
-   0015 CD 00 00      [17]   51    call render_sys_update
+                             44    ;;;;;;;;;;;;;;;;;;;
+                             45    ;; Render
+                             46    ;;
+   0012 CD 00 00      [17]   47    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   0015 CD 00 00      [17]   48    call render_sys_update
+                             49 
+                             50    ;; waitNVSyncs 2
+   0018 CD 00 00      [17]   51    call cpct_waitVSYNC_asm
                              52 
-   0018 18 EF         [12]   53    jr   loop
+   001B 18 EC         [12]   53    jr   loop
