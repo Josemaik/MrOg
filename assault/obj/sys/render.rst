@@ -5219,7 +5219,7 @@ Hexadecimal [16-Bits]
                             135         ;; INPUTS ;;
                             136             ;; HL -> pointer of the palette
                             137             ;; DE -> size of the palette
-   42A3 21 A4 41      [10]  138         ld       hl, #_main_palette
+   42A3 21 00 40      [10]  138         ld       hl, #_main_palette
    42A6 11 10 00      [10]  139         ld       de, #16
    42A9 CD 22 44      [17]  140         call     cpct_setPalette_asm
                             141 

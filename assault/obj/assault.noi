@@ -17,10 +17,10 @@ DEF s__GSINIT 0x4641
 DEF s__HOME 0x4641
 DEF s__INITIALIZED 0x4641
 DEF s__INITIALIZER 0x4641
-DEF _spr_playership_0 0x4000
-DEF _spr_playership_1 0x4030
-DEF _spr_mothership 0x4060
-DEF _main_palette 0x41A4
+DEF _main_palette 0x4000
+DEF _spr_mothership 0x4010
+DEF _spr_playership_0 0x4154
+DEF _spr_playership_1 0x4184
 DEF _main 0x41B4
 DEF _sys_ai_update 0x41E7
 DEF _sys_physics_update 0x4246
@@ -63,4 +63,4 @@ DEF m_reserved_entites 0x4625
 DEF mothership_template_e 0x4626
 DEF playership_template1_e 0x462F
 DEF playership_template0_e 0x4638
-LOAD obj/stars1.ihx
+LOAD obj/assault.ihx

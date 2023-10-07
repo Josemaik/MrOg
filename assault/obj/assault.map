@@ -36,10 +36,10 @@ _CODE                               00004000    000005A6 =        1446. bytes (R
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00004000  _spr_playership_0                  playership
-     00004030  _spr_playership_1                  playership
-     00004060  _spr_mothership                    mothership
-     000041A4  _main_palette                      main_palette
+     00004000  _main_palette                      main_palette
+     00004010  _spr_mothership                    mothership
+     00004154  _spr_playership_0                  playership
+     00004184  _spr_playership_1                  playership
      000041B4  _main                              Main
      000041E7  _sys_ai_update                     Manager_IA
      00004246  _sys_physics_update                Control_physics
@@ -96,9 +96,9 @@ _DATA                               000045A6    0000009B =         155. bytes (R
 
 Files Linked                              [ module(s) ]
 
-obj/sprites/playership.rel                [ playership ]
-obj/sprites/mothership.rel                [ mothership ]
 obj/sprites/main_palette.rel              [ main_palette ]
+obj/sprites/mothership.rel                [ mothership ]
+obj/sprites/playership.rel                [ playership ]
 obj/main.rel                              [ Main ]
 obj/sys/ia.h.rel                          [  ]
 obj/sys/ia.rel                            [ Manager_IA ]

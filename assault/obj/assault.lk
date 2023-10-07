@@ -1,5 +1,5 @@
 -mjwx
--i obj/stars1.ihx
+-i obj/assault.ihx
 -b _CODE = 0x4000
 -b _DATA = 0x0000
 -u
@@ -7,9 +7,9 @@
 -k /home/cpc/cpctelera/cpctelera/tools/sdcc-3.6.8-r9946/share/sdcc/lib/z80
 -l /home/cpc/cpctelera/cpctelera/cpctelera.lib
 -l z80
-obj/sprites/playership.rel
-obj/sprites/mothership.rel
 obj/sprites/main_palette.rel
+obj/sprites/mothership.rel
+obj/sprites/playership.rel
 obj/main.rel
 obj/sys/ia.h.rel
 obj/sys/ia.rel

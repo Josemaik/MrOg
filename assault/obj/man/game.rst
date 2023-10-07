@@ -5095,7 +5095,7 @@ Hexadecimal [16-Bits]
    462A 12                   25 		.db     #SPR_MOTHERSHIP_H   ;; height
    462B 01                   26 		.db     #1                 ;; vx = -1
    462C 00                   27 		.db     #0x00               ;; vy = 0
-   462D 60 40                28 		.dw     #_spr_mothership    ;; sprite (2b)
+   462D 10 40                28 		.dw     #_spr_mothership    ;; sprite (2b)
                              29 ;; PLAYERSHIP ENTITY
    462F                      30 playership_template1_e:: 
    462F 01                   31       .db     #E_TYPE_RENDER ;; entity type
@@ -5105,7 +5105,7 @@ Hexadecimal [16-Bits]
    4633 08                   35 		.db     #SPR_PLAYERSHIP_1_H   ;; height
    4634 00                   36 		.db     #0x00                 ;; vx = 0
    4635 00                   37 		.db     #0x00               ;; vy = 0
-   4636 30 40                38 		.dw     #_spr_playership_1    ;; sprite (2b)
+   4636 84 41                38 		.dw     #_spr_playership_1    ;; sprite (2b)
                              39 ;; PLAYER
    4638                      40 playership_template0_e:: 
    4638 07                   41       .db     #E_TYPE_RENDER | #E_TYPE_MOVABLE | #E_TYPE_INPUT  ;; entity type
@@ -5115,7 +5115,7 @@ Hexadecimal [16-Bits]
    463C 08                   45 		.db     #SPR_PLAYERSHIP_0_H   ;; height
    463D 00                   46 		.db     #0x00                 ;; vx = 0
    463E 00                   47 		.db     #0x00               ;; vy = 0
-   463F 00 40                48 		.dw     #_spr_playership_0    ;; sprite (2b)
+   463F 54 41                48 		.dw     #_spr_playership_0    ;; sprite (2b)
                              49 
                              50 .area _CODE
                              51 ;;;;;;;;;;;;;;;;;;;;;
