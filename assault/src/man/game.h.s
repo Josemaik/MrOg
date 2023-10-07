@@ -15,7 +15,11 @@
       .globl _sys_render_update                   
       .globl _sys_render_init
       .globl _sys_ai_update
+      .globl sys_ai_behaviour_left_right
+      .globl sys_ai_behaviour_mothership
    ;; sprites
       .globl _spr_mothership
       .globl _spr_playership_0
       .globl _spr_playership_1
+      .globl _spr_enemy1_0
+      .globl _spr_enemy1_1

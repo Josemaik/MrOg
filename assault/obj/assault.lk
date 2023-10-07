@@ -7,9 +7,10 @@
 -k /home/cpc/cpctelera/cpctelera/tools/sdcc-3.6.8-r9946/share/sdcc/lib/z80
 -l /home/cpc/cpctelera/cpctelera/cpctelera.lib
 -l z80
-obj/sprites/main_palette.rel
-obj/sprites/mothership.rel
+obj/sprites/enemy1.rel
 obj/sprites/playership.rel
+obj/sprites/mothership.rel
+obj/sprites/main_palette.rel
 obj/main.rel
 obj/sys/ia.h.rel
 obj/sys/ia.rel

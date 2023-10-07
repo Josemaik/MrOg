@@ -1,7 +1,8 @@
 XL2
-H 1 areas E global symbols
+H 1 areas 12 global symbols
 S _sys_physics_update Ref0000
 S _sys_ai_update Ref0000
+S sys_ai_behaviour_mothership Ref0000
 S _spr_mothership Ref0000
 S cpct_waitHalts_asm Ref0000
 S .__.ABS. Def0000
@@ -10,7 +11,10 @@ S _spr_playership_1 Ref0000
 S _man_entity_create Ref0000
 S _man_entity_init Ref0000
 S _sys_render_init Ref0000
+S _spr_enemy1_0 Ref0000
 S cpct_waitVSYNC_asm Ref0000
+S _spr_enemy1_1 Ref0000
+S sys_ai_behaviour_left_right Ref0000
 S cpct_memcpy_asm Ref0000
 S _man_entity_update Ref0000
 S _sys_render_update Ref0000

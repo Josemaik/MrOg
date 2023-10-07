@@ -20,7 +20,11 @@ Hexadecimal [16-Bits]
                              15       .globl _sys_render_update                   
                              16       .globl _sys_render_init
                              17       .globl _sys_ai_update
-                             18    ;; sprites
-                             19       .globl _spr_mothership
-                             20       .globl _spr_playership_0
-                             21       .globl _spr_playership_1
+                             18       .globl sys_ai_behaviour_left_right
+                             19       .globl sys_ai_behaviour_mothership
+                             20    ;; sprites
+                             21       .globl _spr_mothership
+                             22       .globl _spr_playership_0
+                             23       .globl _spr_playership_1
+                             24       .globl _spr_enemy1_0
+                             25       .globl _spr_enemy1_1

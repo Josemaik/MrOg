@@ -11,7 +11,8 @@
         HEIGHT  = 4     ;;u8           
         VX      = 5     ;;i8
         VY      = 6     ;;i8            
-        SPRITE   = 7     ;;u8                 
+        SPRITE  = 7     ;;u8(2)
+        IA_behaviour  = 9 ;; u8(2)             
                                         
     ;; Entity types                  
         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities     
@@ -23,7 +24,7 @@
         E_TYPE_DEFAULT  = 0x7F   ;; default entity       
                                         
     ;; OTHERS
-        SPACE_4_ONE_ENTITY     = 9      ;; space for one entity
+        SPACE_4_ONE_ENTITY     = 11      ;; space for one entity
         TOTAL_ENTITIES         = 12      ;; number of entities                          
         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
     ;;   SPRITE PROPERTIES
@@ -33,6 +34,10 @@
         SPR_PLAYERSHIP_0_H = 8
         SPR_PLAYERSHIP_1_W = 6
         SPR_PLAYERSHIP_1_H = 8
+        SPR_ENEMY1_0_W = 10
+        SPR_ENEMY1_0_H = 10
+        SPR_ENEMY1_1_W = 10
+        SPR_ENEMY1_1_H = 10
         
                                         
 

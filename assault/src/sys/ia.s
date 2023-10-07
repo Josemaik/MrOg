@@ -8,13 +8,35 @@
 ;;;;;;;;;;;;;;;
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; UPDATE IA FOR ONE ENTITY 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; IN =>  DE -> entity to update                                      
-;;pop de
-sys_ai_update_for_one:
-        ;; go to entity->x
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; BEHAVIOUR MOTHERSHIP
+;;
+;; IN => DE -> entity to update
+;;
+sys_ai_behaviour_mothership::
+    ld      hl, #X
+    add     hl, de
+    ld      a, (hl)
+    ld c, a
+    ld a, #20
+    cp c
+    jr z, create_enemy
+    jr goto_behaviour:
+    create_enemy:
+        call man_game_create_enemy
+    goto_behaviour:
+    call sys_ai_behaviour_left_right
+    sys_ai_behaviour_mothership_end:
+ret
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; BEHAVIOUR LEFT-RIGHT
+;;
+;; IN => DE -> entity to update
+;;
+sys_ai_behaviour_left_right::
+;; go to entity->x
         ld      hl, #X
         add     hl, de
         ld      a, (hl)
@@ -48,7 +70,43 @@ sys_ai_update_for_one:
             add     hl, de
             ld      (hl),#-1
     sys_ai_update_for_one_end:
+ret
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; UPDATE IA FOR ONE ENTITY 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; IN =>  DE -> entity to update                                      
+;;
+sys_ai_update_for_one:
+    
+    ;; guardo un checkpoint
+    ld      hl, #_return_hear_ia
+    push    hl
+
+    push de
+    ;; go to entity-> iabehaviour
+    ld      hl, #IA_behaviour
+    add     hl, de
+    ;; de<=>hl and save first byte in L
+    ld      e, l
+    ld      d, h
+    ld      a, (de) 
+    ld      l, a
+    ;; add 1 to de and save second byte in H
+    inc     de
+    ld      a, (de)
+    ld      h, a
+    ;; save in stack memory pointer to call function
+    ld      4(ix), l
+    ld      5(ix), h
+
+    pop de
+    ;; call function
+    ld c, 4(ix)
+    ld b, 5(ix)
+    push bc
     ret
+    _return_hear_ia:
+ret
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

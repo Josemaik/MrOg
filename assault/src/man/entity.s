@@ -219,7 +219,7 @@ _man_entity_for_all::
     _man_entity_for_all_matching::
 
     ;; stack opened
-        ld      ix, #-4
+        ld      ix, #-6
         add     ix, sp
         ld      sp, ix
 
@@ -279,7 +279,7 @@ _man_entity_for_all::
 
     man_end_for_match:
         ;; close stack
-            ld      ix, #4
+            ld      ix, #6
             add     ix, sp
             ld      sp, ix
     

@@ -25,37 +25,42 @@ Hexadecimal [16-Bits]
                      0004    11         HEIGHT  = 4     ;;u8           
                      0005    12         VX      = 5     ;;i8
                      0006    13         VY      = 6     ;;i8            
-                     0007    14         SPRITE   = 7     ;;u8                 
-                             15                                         
-                             16     ;; Entity types                  
-                     0000    17         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities     
-                     0001    18         E_TYPE_RENDER   = 0x01   ;; renderable entity
-                     0002    19         E_TYPE_MOVABLE  = 0x02   ;; movable entity
-                     0004    20         E_TYPE_INPUT    = 0x04   ;; Entity controlable by input
-                     0008    21         E_TYPE_IA       = 0x08   ;; Entity controlable by artificial inteligence
-                     0080    22         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
-                     007F    23         E_TYPE_DEFAULT  = 0x7F   ;; default entity       
-                             24                                         
-                             25     ;; OTHERS
-                     0009    26         SPACE_4_ONE_ENTITY     = 9      ;; space for one entity
-                     000C    27         TOTAL_ENTITIES         = 12      ;; number of entities                          
-                     006C    28         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
-                             29     ;;   SPRITE PROPERTIES
-                     0012    30         SPR_MOTHERSHIP_W = 18
-                     0012    31         SPR_MOTHERSHIP_H = 18
-                     0006    32         SPR_PLAYERSHIP_0_W = 6
-                     0008    33         SPR_PLAYERSHIP_0_H = 8
-                     0006    34         SPR_PLAYERSHIP_1_W = 6
-                     0008    35         SPR_PLAYERSHIP_1_H = 8
-                             36         
-                             37                                         
-                             38 
-                             39 
-                             40     ;;;;;;;;;;;;;;;;;;;;
-                             41     ;; GLOBAL SYMBOLS ;;
-                             42     ;;;;;;;;;;;;;;;;;;;;
-                             43     .globl cpct_memset_asm      
-                             44     .globl cpct_memcpy_asm      
+                     0007    14         SPRITE  = 7     ;;u8(2)
+                     0009    15         IA_behaviour  = 9 ;; u8(2)             
+                             16                                         
+                             17     ;; Entity types                  
+                     0000    18         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities     
+                     0001    19         E_TYPE_RENDER   = 0x01   ;; renderable entity
+                     0002    20         E_TYPE_MOVABLE  = 0x02   ;; movable entity
+                     0004    21         E_TYPE_INPUT    = 0x04   ;; Entity controlable by input
+                     0008    22         E_TYPE_IA       = 0x08   ;; Entity controlable by artificial inteligence
+                     0080    23         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
+                     007F    24         E_TYPE_DEFAULT  = 0x7F   ;; default entity       
+                             25                                         
+                             26     ;; OTHERS
+                     000B    27         SPACE_4_ONE_ENTITY     = 11      ;; space for one entity
+                     000C    28         TOTAL_ENTITIES         = 12      ;; number of entities                          
+                     0084    29         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
+                             30     ;;   SPRITE PROPERTIES
+                     0012    31         SPR_MOTHERSHIP_W = 18
+                     0012    32         SPR_MOTHERSHIP_H = 18
+                     0006    33         SPR_PLAYERSHIP_0_W = 6
+                     0008    34         SPR_PLAYERSHIP_0_H = 8
+                     0006    35         SPR_PLAYERSHIP_1_W = 6
+                     0008    36         SPR_PLAYERSHIP_1_H = 8
+                     000A    37         SPR_ENEMY1_0_W = 10
+                     000A    38         SPR_ENEMY1_0_H = 10
+                     000A    39         SPR_ENEMY1_1_W = 10
+                     000A    40         SPR_ENEMY1_1_H = 10
+                             41         
+                             42                                         
+                             43 
+                             44 
+                             45     ;;;;;;;;;;;;;;;;;;;;
+                             46     ;; GLOBAL SYMBOLS ;;
+                             47     ;;;;;;;;;;;;;;;;;;;;
+                             48     .globl cpct_memset_asm      
+                             49     .globl cpct_memcpy_asm      
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
@@ -5068,79 +5073,79 @@ Hexadecimal [16-Bits]
                               8 ;;;;;;;;;;;;;;;
                               9 ;; FUNCTIONS ;;
                              10 ;;;;;;;;;;;;;;;
-   41F1                      11 sys_physics_check_keyboard:
+   42DD                      11 sys_physics_check_keyboard:
                              12     ;; save entity
-   41F1 D5            [11]   13     push de
+   42DD D5            [11]   13     push de
                              14     ;; scan keyboard
-   41F2 CD 35 44      [17]   15     call cpct_scanKeyboard_f_asm
+   42DE CD 2D 45      [17]   15     call cpct_scanKeyboard_f_asm
                              16     ;; check letter O
-   41F5 21 04 04      [10]   17     ld      hl, #Key_O
-   41F8 CD 9F 44      [17]   18     call cpct_isKeyPressed_asm
-   41FB 20 0B         [12]   19     jr nz, sys_physics_o_is_pressed
+   42E1 21 04 04      [10]   17     ld      hl, #Key_O
+   42E4 CD 97 45      [17]   18     call cpct_isKeyPressed_asm
+   42E7 20 0B         [12]   19     jr nz, sys_physics_o_is_pressed
                              20     ;; check letter P
-   41FD 21 03 08      [10]   21     ld      hl, #Key_P
-   4200 CD 9F 44      [17]   22     call cpct_isKeyPressed_asm
-   4203 20 0C         [12]   23     jr nz, sys_physics_P_is_pressed
+   42E9 21 03 08      [10]   21     ld      hl, #Key_P
+   42EC CD 97 45      [17]   22     call cpct_isKeyPressed_asm
+   42EF 20 0C         [12]   23     jr nz, sys_physics_P_is_pressed
                              24 
-   4205 D1            [10]   25     pop de
-   4206 18 12         [12]   26     jr sys_physics_check_keyboard_end
+   42F1 D1            [10]   25     pop de
+   42F2 18 12         [12]   26     jr sys_physics_check_keyboard_end
                              27     ;; O is pressed
-   4208                      28     sys_physics_o_is_pressed:
+   42F4                      28     sys_physics_o_is_pressed:
                              29         ;; retrieve entity
-   4208 D1            [10]   30         pop de
+   42F4 D1            [10]   30         pop de
                              31         ;; vx = 1
-   4209 21 05 00      [10]   32         ld      hl, #VX
-   420C 19            [11]   33         add     hl, de
-   420D 36 FF         [10]   34         ld      (hl), #-1
+   42F5 21 05 00      [10]   32         ld      hl, #VX
+   42F8 19            [11]   33         add     hl, de
+   42F9 36 FF         [10]   34         ld      (hl), #-1
                              35 
-   420F 18 09         [12]   36         jr      sys_physics_check_keyboard_end
+   42FB 18 09         [12]   36         jr      sys_physics_check_keyboard_end
                              37 
-   4211                      38     sys_physics_P_is_pressed:
+   42FD                      38     sys_physics_P_is_pressed:
                              39         ;; retrieve entity
-   4211 D1            [10]   40         pop de
+   42FD D1            [10]   40         pop de
                              41         ;; vx = 1
-   4212 21 05 00      [10]   42         ld      hl, #VX
-   4215 19            [11]   43         add     hl, de
-   4216 36 01         [10]   44         ld      (hl), #1
+   42FE 21 05 00      [10]   42         ld      hl, #VX
+   4301 19            [11]   43         add     hl, de
+   4302 36 01         [10]   44         ld      (hl), #1
                              45 
-   4218 18 00         [12]   46         jr      sys_physics_check_keyboard_end
+   4304 18 00         [12]   46         jr      sys_physics_check_keyboard_end
                              47 
-   421A                      48         sys_physics_check_keyboard_end:
-   421A C9            [10]   49     ret
+   4306                      48         sys_physics_check_keyboard_end:
+   4306 C9            [10]   49     ret
                              50 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              51 ;; UPDATE PHYSICS FOR ONE ENTITY 
                              52 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              53 ;; IN =>  DE -> entity to update                                      
                              54 ;;pop de
-   421B                      55 sys_physics_update_for_one:
+   4307                      55 sys_physics_update_for_one:
                              56     ;; if entity have input
-   421B 21 00 00      [10]   57         ld      hl, #TYPE
-   421E 19            [11]   58         add     hl, de
-   421F 7E            [ 7]   59         ld      a, (hl)
+   4307 21 00 00      [10]   57         ld      hl, #TYPE
+   430A 19            [11]   58         add     hl, de
+   430B 7E            [ 7]   59         ld      a, (hl)
                              60 
-   4220 E6 04         [ 7]   61         and #E_TYPE_INPUT
+   430C E6 04         [ 7]   61         and #E_TYPE_INPUT
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 98.
 Hexadecimal [16-Bits]
 
 
 
-   4222 FE 04         [ 7]   62         cp  #E_TYPE_INPUT
-   4224 28 02         [12]   63         jr z, sys_physics_check_kb
-   4226 18 03         [12]   64             jr sys_physics_no_check_kb
-   4228                      65         sys_physics_check_kb:
-   4228 CD F1 41      [17]   66             call sys_physics_check_keyboard
-   422B                      67         sys_physics_no_check_kb:
+   430E FE 04         [ 7]   62         cp  #E_TYPE_INPUT
+   4310 28 02         [12]   63         jr z, sys_physics_check_kb
+   4312 18 03         [12]   64             jr sys_physics_no_check_kb
+   4314                      65         sys_physics_check_kb:
+   4314 CD DD 42      [17]   66             call sys_physics_check_keyboard
+   4317                      67         sys_physics_no_check_kb:
                              68     ;;x+vx
                              69     ;; go to entity->x and load in a
-   422B 21 01 00      [10]   70         ld      hl, #X
-   422E 19            [11]   71         add     hl, de
-   422F 7E            [ 7]   72         ld      a, (hl)    
+   4317 21 01 00      [10]   70         ld      hl, #X
+   431A 19            [11]   71         add     hl, de
+   431B 7E            [ 7]   72         ld      a, (hl)    
                              73 
                              74     ;; go to entity-vx 
-   4230 21 05 00      [10]   75         ld      hl, #VX
-   4233 19            [11]   76         add     hl, de
+   431C 21 05 00      [10]   75         ld      hl, #VX
+   431F 19            [11]   76         add     hl, de
                              77     ;; a+hl
-   4234 86            [ 7]   78         add     (hl)
+   4320 86            [ 7]   78         add     (hl)
                              79 
                              80     ;; if in the end
                              81         ; jr      c, sys_destroy_entity 
@@ -5151,30 +5156,30 @@ Hexadecimal [16-Bits]
                              86     ;     call    _man_entity_set_for_destruction
                              87     ;     jr end_physics
                              88     ; sys_save_x:    
-   4235 21 01 00      [10]   89         ld      hl, #X
-   4238 19            [11]   90         add     hl, de
-   4239 77            [ 7]   91         ld      (hl), a
+   4321 21 01 00      [10]   89         ld      hl, #X
+   4324 19            [11]   90         add     hl, de
+   4325 77            [ 7]   91         ld      (hl), a
                              92     ;; y+vy
                              93             ;; go to entity->vy
-   423A 21 06 00      [10]   94                 ld      hl, #VY
-   423D 19            [11]   95                 add     hl, de
-   423E 7E            [ 7]   96                 ld      a, (hl)
+   4326 21 06 00      [10]   94                 ld      hl, #VY
+   4329 19            [11]   95                 add     hl, de
+   432A 7E            [ 7]   96                 ld      a, (hl)
                              97             ;; go to entity->y and add it to vy
-   423F 21 02 00      [10]   98                 ld      hl, #Y
-   4242 19            [11]   99                 add     hl, de
+   432B 21 02 00      [10]   98                 ld      hl, #Y
+   432E 19            [11]   99                 add     hl, de
                             100 
-   4243 86            [ 7]  101                 add     (hl)
+   432F 86            [ 7]  101                 add     (hl)
                             102             ;; load it in entity->y
-   4244 77            [ 7]  103                 ld      (hl), a
-   4245                     104     end_physics:
-   4245 C9            [10]  105     ret
+   4330 77            [ 7]  103                 ld      (hl), a
+   4331                     104     end_physics:
+   4331 C9            [10]  105     ret
                             106 
                             107 
                             108 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                             109 ;; CAll PHYSICS FOR ALL ENTITY :;
                             110 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   4246                     111 _sys_physics_update::          
-   4246 01 1B 42      [10]  112         ld      bc, #sys_physics_update_for_one
-   4249 21 02 00      [10]  113         ld      hl, #E_TYPE_MOVABLE
-   424C CD 46 43      [17]  114         call    _man_entity_for_all_matching
-   424F C9            [10]  115 ret
+   4332                     111 _sys_physics_update::          
+   4332 01 07 43      [10]  112         ld      bc, #sys_physics_update_for_one
+   4335 21 02 00      [10]  113         ld      hl, #E_TYPE_MOVABLE
+   4338 CD 32 44      [17]  114         call    _man_entity_for_all_matching
+   433B C9            [10]  115 ret

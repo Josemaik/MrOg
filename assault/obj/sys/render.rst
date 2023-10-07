@@ -4998,8 +4998,8 @@ Hexadecimal [16-Bits]
                               3 
                               4 .area _DATA
                               5 
-   45A6                       6     _m_palette::
-   45A6                       7         .ds 16
+   469E                       6     _m_palette::
+   469E                       7         .ds 16
                               8 
                               9 .area _CODE
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
@@ -5021,37 +5021,42 @@ Hexadecimal [16-Bits]
                      0004    11         HEIGHT  = 4     ;;u8           
                      0005    12         VX      = 5     ;;i8
                      0006    13         VY      = 6     ;;i8            
-                     0007    14         SPRITE   = 7     ;;u8                 
-                             15                                         
-                             16     ;; Entity types                  
-                     0000    17         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities     
-                     0001    18         E_TYPE_RENDER   = 0x01   ;; renderable entity
-                     0002    19         E_TYPE_MOVABLE  = 0x02   ;; movable entity
-                     0004    20         E_TYPE_INPUT    = 0x04   ;; Entity controlable by input
-                     0008    21         E_TYPE_IA       = 0x08   ;; Entity controlable by artificial inteligence
-                     0080    22         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
-                     007F    23         E_TYPE_DEFAULT  = 0x7F   ;; default entity       
-                             24                                         
-                             25     ;; OTHERS
-                     0009    26         SPACE_4_ONE_ENTITY     = 9      ;; space for one entity
-                     000C    27         TOTAL_ENTITIES         = 12      ;; number of entities                          
-                     006C    28         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
-                             29     ;;   SPRITE PROPERTIES
-                     0012    30         SPR_MOTHERSHIP_W = 18
-                     0012    31         SPR_MOTHERSHIP_H = 18
-                     0006    32         SPR_PLAYERSHIP_0_W = 6
-                     0008    33         SPR_PLAYERSHIP_0_H = 8
-                     0006    34         SPR_PLAYERSHIP_1_W = 6
-                     0008    35         SPR_PLAYERSHIP_1_H = 8
-                             36         
-                             37                                         
-                             38 
-                             39 
-                             40     ;;;;;;;;;;;;;;;;;;;;
-                             41     ;; GLOBAL SYMBOLS ;;
-                             42     ;;;;;;;;;;;;;;;;;;;;
-                             43     .globl cpct_memset_asm      
-                             44     .globl cpct_memcpy_asm      
+                     0007    14         SPRITE  = 7     ;;u8(2)
+                     0009    15         IA_behaviour  = 9 ;; u8(2)             
+                             16                                         
+                             17     ;; Entity types                  
+                     0000    18         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities     
+                     0001    19         E_TYPE_RENDER   = 0x01   ;; renderable entity
+                     0002    20         E_TYPE_MOVABLE  = 0x02   ;; movable entity
+                     0004    21         E_TYPE_INPUT    = 0x04   ;; Entity controlable by input
+                     0008    22         E_TYPE_IA       = 0x08   ;; Entity controlable by artificial inteligence
+                     0080    23         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
+                     007F    24         E_TYPE_DEFAULT  = 0x7F   ;; default entity       
+                             25                                         
+                             26     ;; OTHERS
+                     000B    27         SPACE_4_ONE_ENTITY     = 11      ;; space for one entity
+                     000C    28         TOTAL_ENTITIES         = 12      ;; number of entities                          
+                     0084    29         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
+                             30     ;;   SPRITE PROPERTIES
+                     0012    31         SPR_MOTHERSHIP_W = 18
+                     0012    32         SPR_MOTHERSHIP_H = 18
+                     0006    33         SPR_PLAYERSHIP_0_W = 6
+                     0008    34         SPR_PLAYERSHIP_0_H = 8
+                     0006    35         SPR_PLAYERSHIP_1_W = 6
+                     0008    36         SPR_PLAYERSHIP_1_H = 8
+                     000A    37         SPR_ENEMY1_0_W = 10
+                     000A    38         SPR_ENEMY1_0_H = 10
+                     000A    39         SPR_ENEMY1_1_W = 10
+                     000A    40         SPR_ENEMY1_1_H = 10
+                             41         
+                             42                                         
+                             43 
+                             44 
+                             45     ;;;;;;;;;;;;;;;;;;;;
+                             46     ;; GLOBAL SYMBOLS ;;
+                             47     ;;;;;;;;;;;;;;;;;;;;
+                             48     .globl cpct_memset_asm      
+                             49     .globl cpct_memcpy_asm      
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 97.
 Hexadecimal [16-Bits]
 
@@ -5081,7 +5086,7 @@ Hexadecimal [16-Bits]
                              13 ;;;;;;;;;;;;;;;
                              14 ;; FUNCTIONS ;;
                              15 ;;;;;;;;;;;;;;;
-   4250                      16 sys_render_draw_one_entity:
+   433C                      16 sys_render_draw_one_entity:
                              17 
                              18     ;;cpct_getScreenPtr_asm
                              19     ;; IN => DE -> screen start
@@ -5090,27 +5095,27 @@ Hexadecimal [16-Bits]
                              22     ;; OUT =>  HL -> memory direction
                              23 
                              24         ;; get to entity->x and save to C
-   4250 21 01 00      [10]   25             ld      hl, #X
-   4253 19            [11]   26             add     hl, de
-   4254 4E            [ 7]   27             ld      c, (hl)
+   433C 21 01 00      [10]   25             ld      hl, #X
+   433F 19            [11]   26             add     hl, de
+   4340 4E            [ 7]   27             ld      c, (hl)
                              28 
                              29         ;; get to entity->y and save to B
-   4255 21 02 00      [10]   30             ld      hl, #Y
-   4258 19            [11]   31             add     hl, de
-   4259 46            [ 7]   32             ld      b, (hl)
+   4341 21 02 00      [10]   30             ld      hl, #Y
+   4344 19            [11]   31             add     hl, de
+   4345 46            [ 7]   32             ld      b, (hl)
                              33 
                              34         ;; save entity to update
-   425A D5            [11]   35             push    de
+   4346 D5            [11]   35             push    de
                              36 
                              37         ;; load in DE start of the memory
-   425B 11 00 C0      [10]   38             ld      de, #CPCT_VMEM_START_ASM
+   4347 11 00 C0      [10]   38             ld      de, #CPCT_VMEM_START_ASM
                              39 
-   425E CD 94 45      [17]   40             call    cpct_getScreenPtr_asm
+   434A CD 8C 46      [17]   40             call    cpct_getScreenPtr_asm
                              41 
                              42     ;; retrieve entity of the stack
-   4261 D1            [10]   43         pop     de
+   434D D1            [10]   43         pop     de
                              44     ;; save hl in stck
-   4262 E5            [11]   45         push hl
+   434E E5            [11]   45         push hl
                              46     ;;;;;;;;;;;;;;;;;;;;;;;;;;
                              47     ;; draw sprite
                              48     ;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -5122,39 +5127,39 @@ Hexadecimal [16-Bits]
                              54     ;;
                              55         ;; de => memory position of entity
                              56         ;; hl point width, add de, save in c ,hl
-   4263 21 03 00      [10]   57             ld hl,#WIDTH
-   4266 19            [11]   58             add hl,de
-   4267 4E            [ 7]   59             ld c, (hl)
+   434F 21 03 00      [10]   57             ld hl,#WIDTH
+   4352 19            [11]   58             add hl,de
+   4353 4E            [ 7]   59             ld c, (hl)
                              60         ;; hl point height, add de, save in b ,hl
-   4268 21 04 00      [10]   61             ld hl,#HEIGHT
-   426B 19            [11]   62             add hl,de
-   426C 46            [ 7]   63             ld b, (hl)
+   4354 21 04 00      [10]   61             ld hl,#HEIGHT
+   4357 19            [11]   62             add hl,de
+   4358 46            [ 7]   63             ld b, (hl)
                              64         ;;hl point sprite,add de and hl-> sprite
-   426D 21 07 00      [10]   65             ld hl, #SPRITE
-   4270 19            [11]   66             add hl,de
+   4359 21 07 00      [10]   65             ld hl, #SPRITE
+   435C 19            [11]   66             add hl,de
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
 
 
                              67         ;; save first byte in L
-   4271 5D            [ 4]   68             ld      e, l
-   4272 54            [ 4]   69             ld      d, h
-   4273 1A            [ 7]   70             ld      a, (de) 
-   4274 6F            [ 4]   71             ld      l, a
+   435D 5D            [ 4]   68             ld      e, l
+   435E 54            [ 4]   69             ld      d, h
+   435F 1A            [ 7]   70             ld      a, (de) 
+   4360 6F            [ 4]   71             ld      l, a
                              72         ;; add 1 to de and save second byte in H
-   4275 13            [ 6]   73             inc     de
-   4276 1A            [ 7]   74             ld      a, (de)
-   4277 67            [ 4]   75             ld      h, a
+   4361 13            [ 6]   73             inc     de
+   4362 1A            [ 7]   74             ld      a, (de)
+   4363 67            [ 4]   75             ld      h, a
                              76          ;; save video memory pointer in DE and in the stack
-   4278 D1            [10]   77             pop     de
-   4279 D5            [11]   78             push    de
+   4364 D1            [10]   77             pop     de
+   4365 D5            [11]   78             push    de
                              79 
-   427A CD B5 44      [17]   80         call cpct_drawSprite_asm
+   4366 CD AD 45      [17]   80         call cpct_drawSprite_asm
                              81 
                              82     ;; save the pointer to memory of video
-   427D E1            [10]   83         pop    hl
-   427E C9            [10]   84     ret
+   4369 E1            [10]   83         pop    hl
+   436A C9            [10]   84     ret
                              85 
                              86 
                              87 ;;;;;;;;;;;;;;;;;;;;;;;
@@ -5162,32 +5167,32 @@ Hexadecimal [16-Bits]
                              89 ;;;;;;;;;;;;;;;;;;;;;;;
                              90 ;; IN => DE -> entity to update
                              91 ;;
-   427F                      92 sys_render_update_for_one:
+   436B                      92 sys_render_update_for_one:
                              93         ;; go to entity->type
-   427F 21 00 00      [10]   94             ld      hl, #TYPE
-   4282 19            [11]   95             add     hl, de
+   436B 21 00 00      [10]   94             ld      hl, #TYPE
+   436E 19            [11]   95             add     hl, de
                              96 
                              97         ;; load in A entity->type and compare with #E_TYPE_DEAD
-   4283 7E            [ 7]   98             ld      a, (hl)
-   4284 E6 80         [ 7]   99             and     #E_TYPE_DEAD
-   4286 FE 80         [ 7]  100             cp      #E_TYPE_DEAD
-   4288 28 03         [12]  101             jr      z, sys_render_dont_draw 
+   436F 7E            [ 7]   98             ld      a, (hl)
+   4370 E6 80         [ 7]   99             and     #E_TYPE_DEAD
+   4372 FE 80         [ 7]  100             cp      #E_TYPE_DEAD
+   4374 28 03         [12]  101             jr      z, sys_render_dont_draw 
                             102         ;; draw entity -> _sys_render_draw_one_entity
                             103         ;; IN =>  DE -> entity to draw
                             104         ;; OUP => HL
-   428A CD 50 42      [17]  105         call    sys_render_draw_one_entity
-   428D                     106     sys_render_dont_draw:
-   428D C9            [10]  107 ret
+   4376 CD 3C 43      [17]  105         call    sys_render_draw_one_entity
+   4379                     106     sys_render_dont_draw:
+   4379 C9            [10]  107 ret
                             108 
                             109 
                             110 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                             111 ;; CAll RENDER FOR ALL ENTITY :;
                             112 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   428E                     113 _sys_render_update::
-   428E 01 7F 42      [10]  114         ld      bc, #sys_render_update_for_one
-   4291 21 01 00      [10]  115         ld      hl, #E_TYPE_RENDER
-   4294 CD 46 43      [17]  116         call    _man_entity_for_all_matching
-   4297 C9            [10]  117 ret
+   437A                     113 _sys_render_update::
+   437A 01 6B 43      [10]  114         ld      bc, #sys_render_update_for_one
+   437D 21 01 00      [10]  115         ld      hl, #E_TYPE_RENDER
+   4380 CD 32 44      [17]  116         call    _man_entity_for_all_matching
+   4383 C9            [10]  117 ret
                             118 
                             119 
                             120 
@@ -5199,28 +5204,28 @@ Hexadecimal [16-Bits]
 
                             122 ;; CAll RENDER INIT :;
                             123 ;;;;;;;;;;;;;;;;;;;;;;
-   4298                     124 _sys_render_init::
+   4384                     124 _sys_render_init::
                             125 
                             126     ;; set the video mode to 0 to draw pixels -> cpct_setVideoMode_asm
                             127         ;; INPUTS ;;
                             128             ;; C -> mode value
-   4298 0E 00         [ 7]  129         ld       c, #0
-   429A CD 6B 45      [17]  130         call     cpct_setVideoMode_asm
+   4384 0E 00         [ 7]  129         ld       c, #0
+   4386 CD 63 46      [17]  130         call     cpct_setVideoMode_asm
                             131 
                             132     ;; paint border black
    004D                     133         cpctm_setBorder_asm HW_BLACK
                               1    .radix h
    004D                       2    cpctm_setBorder_raw_asm \HW_BLACK ;; [28] Macro that does the job, but requires a number value to be passed
                               1    .globl cpct_setPALColour_asm
-   429D 21 10 14      [10]    2    ld   hl, #0x1410         ;; [3]  H=Hardware value of desired colour, L=Border INK (16)
-   42A0 CD AB 44      [17]    3    call cpct_setPALColour_asm  ;; [25] Set Palette colour of the border
+   4389 21 10 14      [10]    2    ld   hl, #0x1410         ;; [3]  H=Hardware value of desired colour, L=Border INK (16)
+   438C CD A3 45      [17]    3    call cpct_setPALColour_asm  ;; [25] Set Palette colour of the border
                               3    .radix d
                             134     ;; set the palete -> cpct_setPalette_asm
                             135         ;; INPUTS ;;
                             136             ;; HL -> pointer of the palette
                             137             ;; DE -> size of the palette
-   42A3 21 00 40      [10]  138         ld       hl, #_main_palette
-   42A6 11 10 00      [10]  139         ld       de, #16
-   42A9 CD 22 44      [17]  140         call     cpct_setPalette_asm
+   438F 21 6C 42      [10]  138         ld       hl, #_main_palette
+   4392 11 10 00      [10]  139         ld       de, #16
+   4395 CD 1A 45      [17]  140         call     cpct_setPalette_asm
                             141 
-   42AC C9            [10]  142     ret
+   4398 C9            [10]  142     ret

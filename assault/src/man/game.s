@@ -26,6 +26,19 @@ mothership_template_e::
 		.db     #1                 ;; vx = -1
 		.db     #0x00               ;; vy = 0
 		.dw     #_spr_mothership    ;; sprite (2b)
+      .dw     #sys_ai_behaviour_mothership
+;; ENEMY1 ENTITY
+enemy1_template_e:: 
+      .db     #E_TYPE_MOVABLE | #E_TYPE_RENDER | #E_TYPE_IA;; entity type
+		.db     #0x00               ;; x = 0
+		.db     #0x28               ;; y = 30
+		.db     #SPR_ENEMY1_0_W   ;; width 
+		.db     #SPR_ENEMY1_0_H   ;; height
+		.db     #0x00                 ;; vx = 0
+		.db     #0x00               ;; vy = 0
+		.dw     #_spr_enemy1_0    ;; sprite (2b)
+      .dw     #sys_ai_behaviour_left_right
+
 ;; PLAYERSHIP ENTITY
 playership_template1_e:: 
       .db     #E_TYPE_RENDER ;; entity type
@@ -36,6 +49,7 @@ playership_template1_e::
 		.db     #0x00                 ;; vx = 0
 		.db     #0x00               ;; vy = 0
 		.dw     #_spr_playership_1    ;; sprite (2b)
+      .dw     #0x0000
 ;; PLAYER
 playership_template0_e:: 
       .db     #E_TYPE_RENDER | #E_TYPE_MOVABLE | #E_TYPE_INPUT  ;; entity type
@@ -46,6 +60,7 @@ playership_template0_e::
 		.db     #0x00                 ;; vx = 0
 		.db     #0x00               ;; vy = 0
 		.dw     #_spr_playership_0    ;; sprite (2b)
+      .dw     #0x0000
 
 .area _CODE
 ;;;;;;;;;;;;;;;;;;;;;
@@ -77,7 +92,13 @@ _wait:
    ;; end for
       wait_end_for:
    ret
+;;;;;;;;;;;;;;;;;;;;;
+;; PUBLIC FUNCTION ;;
+;;;;;;;;;;;;;;;;;;;;;
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;CREATE TEMPLATE
+;;
 man_game_create_template_entity::
    push hl
    ;; create entity
@@ -90,10 +111,22 @@ man_game_create_template_entity::
         call cpct_memcpy_asm
         pop de
    ret
-;;;;;;;;;;;;;;;;;;;;;
-;; PUBLIC FUNCTION ;;
-;;;;;;;;;;;;;;;;;;;;;
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;CREATE ENEMY
+;;
+man_game_create_enemy::
+   ;; minuto 50
+   ;; abril pila, y guardar un 0
+   ;; luego recoger de pila y sumarle 1 
+   ;; is there is an enemy already on lane
+   ld      ix, #-1
+   add     ix, sp
+   ld      sp, ix
+   ;; Create new enemy
+      ;; Create enemy1
+        ld       hl, #enemy1_template_e
+        call man_game_create_template_entity
+ret
 ;;;;;;;;;;;;;;;;;;;;
 ;; INIT
 ;;
@@ -106,6 +139,13 @@ man_game_init::
     ;; Create mothership
         ld       hl, #mothership_template_e
         call man_game_create_template_entity
+        ld    hl, #X
+        add   hl, de
+        ld    (hl), #38
+        ld    hl, #VX
+        add   hl, de
+        ld    (hl), #1
+
     ;; creamos playership en x = 0
        ld       hl, #playership_template1_e
         call man_game_create_template_entity

@@ -5015,11 +5015,11 @@ Hexadecimal [16-Bits]
                              20 ;;;;;;;;;;;;;;;;;;
                              21 ;; MAIN FUNCTION;;
                              22 ;;;;;;;;;;;;;;;;;;
-   41B4                      23 _main::
+   427C                      23 _main::
                              24 
                              25    ;; disable firmware
-   41B4 CD 83 45      [17]   26       call     cpct_disableFirmware_asm
+   427C CD 7B 46      [17]   26       call     cpct_disableFirmware_asm
                              27    ;; call game init
-   41B7 CD DD 43      [17]   28       call man_game_init
+   427F CD C9 44      [17]   28       call man_game_init
                              29    ;; call game manager
-   41BA CD 0E 44      [17]   30       call man_game_play
+   4282 CD 06 45      [17]   30       call man_game_play

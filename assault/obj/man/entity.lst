@@ -5010,37 +5010,42 @@ Hexadecimal [16-Bits]
                      0004    11         HEIGHT  = 4     ;;u8           
                      0005    12         VX      = 5     ;;i8
                      0006    13         VY      = 6     ;;i8            
-                     0007    14         SPRITE   = 7     ;;u8                 
-                             15                                         
-                             16     ;; Entity types                  
-                     0000    17         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities     
-                     0001    18         E_TYPE_RENDER   = 0x01   ;; renderable entity
-                     0002    19         E_TYPE_MOVABLE  = 0x02   ;; movable entity
-                     0004    20         E_TYPE_INPUT    = 0x04   ;; Entity controlable by input
-                     0008    21         E_TYPE_IA       = 0x08   ;; Entity controlable by artificial inteligence
-                     0080    22         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
-                     007F    23         E_TYPE_DEFAULT  = 0x7F   ;; default entity       
-                             24                                         
-                             25     ;; OTHERS
-                     0009    26         SPACE_4_ONE_ENTITY     = 9      ;; space for one entity
-                     000C    27         TOTAL_ENTITIES         = 12      ;; number of entities                          
-                     006C    28         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
-                             29     ;;   SPRITE PROPERTIES
-                     0012    30         SPR_MOTHERSHIP_W = 18
-                     0012    31         SPR_MOTHERSHIP_H = 18
-                     0006    32         SPR_PLAYERSHIP_0_W = 6
-                     0008    33         SPR_PLAYERSHIP_0_H = 8
-                     0006    34         SPR_PLAYERSHIP_1_W = 6
-                     0008    35         SPR_PLAYERSHIP_1_H = 8
-                             36         
-                             37                                         
-                             38 
-                             39 
-                             40     ;;;;;;;;;;;;;;;;;;;;
-                             41     ;; GLOBAL SYMBOLS ;;
-                             42     ;;;;;;;;;;;;;;;;;;;;
-                             43     .globl cpct_memset_asm      
-                             44     .globl cpct_memcpy_asm      
+                     0007    14         SPRITE  = 7     ;;u8(2)
+                     0009    15         IA_behaviour  = 9 ;; u8(2)             
+                             16                                         
+                             17     ;; Entity types                  
+                     0000    18         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities     
+                     0001    19         E_TYPE_RENDER   = 0x01   ;; renderable entity
+                     0002    20         E_TYPE_MOVABLE  = 0x02   ;; movable entity
+                     0004    21         E_TYPE_INPUT    = 0x04   ;; Entity controlable by input
+                     0008    22         E_TYPE_IA       = 0x08   ;; Entity controlable by artificial inteligence
+                     0080    23         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
+                     007F    24         E_TYPE_DEFAULT  = 0x7F   ;; default entity       
+                             25                                         
+                             26     ;; OTHERS
+                     000B    27         SPACE_4_ONE_ENTITY     = 11      ;; space for one entity
+                     000C    28         TOTAL_ENTITIES         = 12      ;; number of entities                          
+                     0084    29         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
+                             30     ;;   SPRITE PROPERTIES
+                     0012    31         SPR_MOTHERSHIP_W = 18
+                     0012    32         SPR_MOTHERSHIP_H = 18
+                     0006    33         SPR_PLAYERSHIP_0_W = 6
+                     0008    34         SPR_PLAYERSHIP_0_H = 8
+                     0006    35         SPR_PLAYERSHIP_1_W = 6
+                     0008    36         SPR_PLAYERSHIP_1_H = 8
+                     000A    37         SPR_ENEMY1_0_W = 10
+                     000A    38         SPR_ENEMY1_0_H = 10
+                     000A    39         SPR_ENEMY1_1_W = 10
+                     000A    40         SPR_ENEMY1_1_H = 10
+                             41         
+                             42                                         
+                             43 
+                             44 
+                             45     ;;;;;;;;;;;;;;;;;;;;
+                             46     ;; GLOBAL SYMBOLS ;;
+                             47     ;;;;;;;;;;;;;;;;;;;;
+                             48     .globl cpct_memset_asm      
+                             49     .globl cpct_memcpy_asm      
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
 Hexadecimal [16-Bits]
 
@@ -5051,12 +5056,12 @@ Hexadecimal [16-Bits]
                               7 
    0000                       8     m_entities::    ;;entities
    0000                       9         .ds #TOTAL_SPACE_4_ENTITIES
-   006C                      10     m_zero_byte_end_entities:      ;;zero-byte to signal invalid entities
-   006C                      11         .ds 1
-   006D                      12     m_next_free_entity::    ;; pointer to next free entity
-   006D                      13         .ds 2
-   006F                      14     m_reserved_entites:: ;;number of reserved entities
-   006F                      15         .ds 1   ;;u8
+   0084                      10     m_zero_byte_end_entities:      ;;zero-byte to signal invalid entities
+   0084                      11         .ds 1
+   0085                      12     m_next_free_entity::    ;; pointer to next free entity
+   0085                      13         .ds 2
+   0087                      14     m_reserved_entites:: ;;number of reserved entities
+   0087                      15         .ds 1   ;;u8
                              16 
                              17 .area _CODE
                              18 ;;;;;;;;;;;;;;;;;;;;;;
@@ -5071,7 +5076,7 @@ Hexadecimal [16-Bits]
                              27     ;; save the first element of entities
                              28     ;;m_next_free_entity = m_entities;
    0000 21 00 00      [10]   29         ld      hl, #m_entities
-   0003 22 6D 00      [16]   30         ld      (m_next_free_entity),  hl
+   0003 22 85 00      [16]   30         ld      (m_next_free_entity),  hl
                              31 
                              32     ;; fill all the entitites with 0s -> cpct_memset_asm
                              33     ;; IN =>         DE  -> pointer to the array to fill
@@ -5080,16 +5085,16 @@ Hexadecimal [16-Bits]
    0006 5D            [ 4]   36         ld      e, l
    0007 54            [ 4]   37         ld      d, h
    0008 3E 00         [ 7]   38         ld      a, #0
-   000A 01 6C 00      [10]   39         ld      bc, #TOTAL_SPACE_4_ENTITIES
+   000A 01 84 00      [10]   39         ld      bc, #TOTAL_SPACE_4_ENTITIES
    000D CD 00 00      [17]   40         call    cpct_memset_asm
                              41     
                              42     ;; load a 0 in reserved_entities
    0010 3E 00         [ 7]   43         ld      a, #0
-   0012 32 6F 00      [13]   44         ld      (m_reserved_entites), a
+   0012 32 87 00      [13]   44         ld      (m_reserved_entites), a
                              45     
                              46     ;; load invalid type in _m_zero_byte_end_entities
    0015 3E 00         [ 7]   47         ld      a, #E_TYPE_INVALID
-   0017 32 6C 00      [13]   48         ld      (m_zero_byte_end_entities), a
+   0017 32 84 00      [13]   48         ld      (m_zero_byte_end_entities), a
                              49 
    001A C9            [10]   50     ret
                              51 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -5106,7 +5111,7 @@ Hexadecimal [16-Bits]
 
 
 
-   001B ED 5B 6D 00   [20]   60         ld      de, (m_next_free_entity)
+   001B ED 5B 85 00   [20]   60         ld      de, (m_next_free_entity)
                              61 
                              62     ;; set type on default
    001F 21 00 00      [10]   63         ld      hl, #TYPE
@@ -5114,14 +5119,14 @@ Hexadecimal [16-Bits]
    0023 36 7F         [10]   65         ld      (hl), #E_TYPE_DEFAULT
                              66 
                              67     ;; update the pointer to SPACE_4_ONE_ENTITY positons furthers (the next entity)
-   0025 21 09 00      [10]   68         ld      hl, #SPACE_4_ONE_ENTITY
+   0025 21 0B 00      [10]   68         ld      hl, #SPACE_4_ONE_ENTITY
    0028 19            [11]   69         add     hl, de
-   0029 22 6D 00      [16]   70         ld      (m_next_free_entity), hl
+   0029 22 85 00      [16]   70         ld      (m_next_free_entity), hl
                              71 
                              72     ;; increase reserved entities
-   002C 3A 6F 00      [13]   73         ld      a, (m_reserved_entites)
+   002C 3A 87 00      [13]   73         ld      a, (m_reserved_entites)
    002F 3C            [ 4]   74         inc     a
-   0030 32 6F 00      [13]   75         ld      (m_reserved_entites), a
+   0030 32 87 00      [13]   75         ld      (m_reserved_entites), a
                              76 
    0033 C9            [10]   77     ret
                              78 
@@ -5160,13 +5165,13 @@ Hexadecimal [16-Bits]
                             111         ;;          BC -> size of data 
                             112 
                             113         ;; go to last entity -> _m_next_free_entity - SPACE_4_ONE_ENTITY
-   003D 2A 6D 00      [16]  114         ld      hl, (m_next_free_entity)
+   003D 2A 85 00      [16]  114         ld      hl, (m_next_free_entity)
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 98.
 Hexadecimal [16-Bits]
 
 
 
-   0040 01 09 00      [10]  115         ld      bc, #SPACE_4_ONE_ENTITY
+   0040 01 0B 00      [10]  115         ld      bc, #SPACE_4_ONE_ENTITY
    0043 B7            [ 4]  116         or      a
    0044 ED 42         [15]  117         sbc     hl, bc
                             118     
@@ -5194,12 +5199,12 @@ Hexadecimal [16-Bits]
    0052 36 00         [10]  140         ld      (hl), #E_TYPE_INVALID
                             141 
                             142     ;; set _m_next_free_entity to last
-   0054 22 6D 00      [16]  143         ld      (m_next_free_entity), hl
+   0054 22 85 00      [16]  143         ld      (m_next_free_entity), hl
                             144 
                             145     ;; decrease reserved entities
-   0057 3A 6F 00      [13]  146         ld      a, (m_reserved_entites)
+   0057 3A 87 00      [13]  146         ld      a, (m_reserved_entites)
    005A 3D            [ 4]  147         dec     a
-   005B 32 6F 00      [13]  148         ld      (m_reserved_entites), a
+   005B 32 87 00      [13]  148         ld      (m_reserved_entites), a
                             149 
    005E C9            [10]  150     ret
                             151 
@@ -5252,7 +5257,7 @@ Hexadecimal [16-Bits]
                             193 
    0086                     194             _return_hear:
    0086 D1            [10]  195                     pop de
-   0087 21 09 00      [10]  196                     ld      hl, #SPACE_4_ONE_ENTITY
+   0087 21 0B 00      [10]  196                     ld      hl, #SPACE_4_ONE_ENTITY
    008A 19            [11]  197                     add     hl, de
                             198 
                             199                 ;; HL<=>DE
@@ -5278,7 +5283,7 @@ Hexadecimal [16-Bits]
    0099                     219     _man_entity_for_all_matching::
                             220 
                             221     ;; stack opened
-   0099 DD 21 FC FF   [14]  222         ld      ix, #-4
+   0099 DD 21 FA FF   [14]  222         ld      ix, #-6
    009D DD 39         [15]  223         add     ix, sp
    009F DD F9         [10]  224         ld      sp, ix
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 100.
@@ -5330,7 +5335,7 @@ Hexadecimal [16-Bits]
                             266             ;; if entity is not movable continue here
    00D3                     267             _return_hear_match:
    00D3 D1            [10]  268                     pop de
-   00D4 21 09 00      [10]  269                     ld      hl, #SPACE_4_ONE_ENTITY
+   00D4 21 0B 00      [10]  269                     ld      hl, #SPACE_4_ONE_ENTITY
    00D7 19            [11]  270                     add     hl, de
                             271 
                             272                 ;; HL<=>DE
@@ -5348,7 +5353,7 @@ Hexadecimal [16-Bits]
 
    00DD                     280     man_end_for_match:
                             281         ;; close stack
-   00DD DD 21 04 00   [14]  282             ld      ix, #4
+   00DD DD 21 06 00   [14]  282             ld      ix, #6
    00E1 DD 39         [15]  283             add     ix, sp
    00E3 DD F9         [10]  284             ld      sp, ix
                             285     
@@ -5380,7 +5385,7 @@ Hexadecimal [16-Bits]
    00F6 28 08         [12]  311                 jr      z, man_update_destroy_entity   
                             312 
                             313                 ;; add SPACE_4_ONE_ENTITY De <==> HL
-   00F8 21 09 00      [10]  314                     ld      hl, #SPACE_4_ONE_ENTITY
+   00F8 21 0B 00      [10]  314                     ld      hl, #SPACE_4_ONE_ENTITY
    00FB 19            [11]  315                     add     hl, de
                             316 
                             317                 ;;  HL<==>DE
@@ -5412,7 +5417,7 @@ Hexadecimal [16-Bits]
    0106                     338 _man_entity_free_space::
                             339     
    0106 3E 0C         [ 7]  340     ld      a, #TOTAL_ENTITIES
-   0108 ED 4B 6F 00   [20]  341     ld      bc, (m_reserved_entites)
+   0108 ED 4B 87 00   [20]  341     ld      bc, (m_reserved_entites)
    010C 91            [ 4]  342     sub     c
                             343 
    010D 6F            [ 4]  344     ld      l, a
