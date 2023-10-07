@@ -6,11 +6,14 @@ Hexadecimal [16-Bits]
                               1 ;;;;;;;;;;;;;;;;;;;;
                               2 ;; GLOBAL SYMBOLS ;;
                               3 ;;;;;;;;;;;;;;;;;;;;
-                              4     ;; cpct                             
-                              5         .globl cpct_setVideoMode_asm    
-                              6         .globl cpct_getScreenPtr_asm    
-                              7         .globl cpct_setPalette_asm
-                              8         .globl cpct_drawSprite_asm      
-                              9                                         
-                             10    ;; managers                          
-                             11         .globl _man_entity_for_all      
+                     0001     4     E_TYPE_RENDER    = 0x01
+                              5     ;; cpct                             
+                              6         .globl cpct_setVideoMode_asm    
+                              7         .globl cpct_getScreenPtr_asm    
+                              8         .globl cpct_setPalette_asm
+                              9         .globl cpct_drawSprite_asm      
+                             10                                         
+                             11    ;; managers                          
+                             12         .globl _man_entity_for_all
+                             13         .globl _man_entity_for_all_matching
+                             14         .globl _main_palette      

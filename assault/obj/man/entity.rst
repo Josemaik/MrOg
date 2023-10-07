@@ -5006,32 +5006,41 @@ Hexadecimal [16-Bits]
                      0000     7         TYPE    = 0     ;;u8            
                      0001     8         X       = 1     ;;u8            
                      0002     9         Y       = 2     ;;u8
-                     0003    10         Width   = 3     ;;u8
-                     0004    11         Height  = 4     ;;u8       
+                     0003    10         WIDTH   = 3     ;;u8
+                     0004    11         HEIGHT  = 4     ;;u8           
                      0005    12         VX      = 5     ;;i8
-                     0006    13         VY      = 6     ;;i8             
-                     0007    14         sprite  = 7     ;;*u8 (2b)      
+                     0006    13         VY      = 6     ;;i8            
+                     0007    14         SPRITE   = 7     ;;u8                 
                              15                                         
                              16     ;; Entity types                  
-                     0000    17         E_TYPE_INVALID  = 0x00          
-                     0001    18         E_TYPE_RENDER    = 0x01         
-                     0002    19         E_TYPE_MOVABLE    = 0x02 
-                     0004    20         E_TYPE_INPUT    = 0x04 
-                     0080    21         E_TYPE_DEAD     = 0x80          
-                     007F    22         E_TYPE_DEFAULT  = 0x7F          
-                             23                                         
-                             24     ;; OTHERS                              
-                     0009    25         SPACE_4_ONE_ENTITY     = 9      
-                     000C    26         TOTAL_ENTITIES         = 12
-                     006C    27         MAX_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY * TOTAL_ENTITIES;      
-                             28                                         
-                             29 
-                             30 
-                             31     ;;;;;;;;;;;;;;;;;;;;
-                             32     ;; GLOBAL SYMBOLS ;;
-                             33     ;;;;;;;;;;;;;;;;;;;;
-                             34     .globl cpct_memset_asm      
-                             35     .globl cpct_memcpy_asm      
+                     0000    17         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities     
+                     0001    18         E_TYPE_RENDER   = 0x01   ;; renderable entity
+                     0002    19         E_TYPE_MOVABLE  = 0x02   ;; movable entity
+                     0004    20         E_TYPE_INPUT    = 0x04   ;; Entity controlable by input
+                     0008    21         E_TYPE_IA       = 0x08   ;; Entity controlable by artificial inteligence
+                     0080    22         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
+                     007F    23         E_TYPE_DEFAULT  = 0x7F   ;; default entity       
+                             24                                         
+                             25     ;; OTHERS
+                     0009    26         SPACE_4_ONE_ENTITY     = 9      ;; space for one entity
+                     000C    27         TOTAL_ENTITIES         = 12      ;; number of entities                          
+                     006C    28         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
+                             29     ;;   SPRITE PROPERTIES
+                     0012    30         SPR_MOTHERSHIP_W = 18
+                     0012    31         SPR_MOTHERSHIP_H = 18
+                     0006    32         SPR_PLAYERSHIP_0_W = 6
+                     0008    33         SPR_PLAYERSHIP_0_H = 8
+                     0006    34         SPR_PLAYERSHIP_1_W = 6
+                     0008    35         SPR_PLAYERSHIP_1_H = 8
+                             36         
+                             37                                         
+                             38 
+                             39 
+                             40     ;;;;;;;;;;;;;;;;;;;;
+                             41     ;; GLOBAL SYMBOLS ;;
+                             42     ;;;;;;;;;;;;;;;;;;;;
+                             43     .globl cpct_memset_asm      
+                             44     .globl cpct_memcpy_asm      
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
 Hexadecimal [16-Bits]
 
@@ -5040,313 +5049,372 @@ Hexadecimal [16-Bits]
                               5 .area _DATA
                               6 
                               7 
-   4281                       8     m_entities::
-   4281                       9         .ds #MAX_SPACE_4_ENTITIES
-   42ED                      10     m_zero_byte_end_entities:      ;; this is for the while all entities
-   42ED                      11         .ds 1
-   42EE                      12     m_next_free_entity::
-   42EE                      13         .ds 2
-   42F0                      14     m_reserved_entites::
-   42F0                      15         .ds 1   ;;u8
+   45B6                       8     m_entities::    ;;entities
+   45B6                       9         .ds #TOTAL_SPACE_4_ENTITIES
+   4622                      10     m_zero_byte_end_entities:      ;;zero-byte to signal invalid entities
+   4622                      11         .ds 1
+   4623                      12     m_next_free_entity::    ;; pointer to next free entity
+   4623                      13         .ds 2
+   4625                      14     m_reserved_entites:: ;;number of reserved entities
+   4625                      15         .ds 1   ;;u8
                              16 
                              17 .area _CODE
-                             18 ;;;;;;;;;;;;;;;
-                             19 ;; FUNCTIONS ;;
-                             20 ;;;;;;;;;;;;;;;
+                             18 ;;;;;;;;;;;;;;;;;;;;;;
+                             19 ;; PUBLIC FUNCTIONS ;;
+                             20 ;;;;;;;;;;;;;;;;;;;;;;
                              21 
                              22 ;;;;;;;;;;;;;;;;;;
                              23 ;; GENERAL INIT ;;
-                             24 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   409A                      25 _man_entity_init::
+                             24 ;;;;;;;;;;;;;;;;;;
+   42AD                      25 _man_entity_init::
                              26 
                              27     ;; save the first element of entities
                              28     ;;m_next_free_entity = m_entities;
-   409A 21 81 42      [10]   29         ld      hl, #m_entities
-   409D 22 EE 42      [16]   30         ld      (m_next_free_entity),  hl
+   42AD 21 B6 45      [10]   29         ld      hl, #m_entities
+   42B0 22 23 46      [16]   30         ld      (m_next_free_entity),  hl
                              31 
                              32     ;; fill all the entitites with 0s -> cpct_memset_asm
-                             33         ;; INPUTS ;; 
-                             34             ;; DE  -> pointer to the array to fill
-                             35             ;; A   -> the new value
-                             36             ;; BC  -> number of bytes to be filled
-   40A0 5D            [ 4]   37         ld      e, l
-   40A1 54            [ 4]   38         ld      d, h
-   40A2 3E 00         [ 7]   39         ld      a, #0
-   40A4 01 6C 00      [10]   40         ld      bc, #MAX_SPACE_4_ENTITIES
-   40A7 CD 43 42      [17]   41         call    cpct_memset_asm
-                             42     
-                             43     ;; load a 0 in reserved_entities
-   40AA 3E 00         [ 7]   44         ld      a, #0
-   40AC 32 F0 42      [13]   45         ld      (m_reserved_entites), a
-                             46     
-                             47     ;; load invalid type in _m_zero_byte_end_entities
-   40AF 3E 00         [ 7]   48         ld      a, #E_TYPE_INVALID
-   40B1 32 ED 42      [13]   49         ld      (m_zero_byte_end_entities), a
-                             50 
-   40B4 C9            [10]   51     ret
-                             52 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             53 
-                             54 ;;;;;;;;;;;;;;;;;;;;;;;
-                             55 ;; CREATES AN ENTITY ;;
-                             56 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             57     ;; OUTPUTS ;;                                                   ;;
-                             58         ;; DE -> position in memory of the created entity           ;;
-                             59 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             33     ;; IN =>         DE  -> pointer to the array to fill
+                             34     ;;               A   -> the new value
+                             35     ;;               BC  -> number of bytes to be filled
+   42B3 5D            [ 4]   36         ld      e, l
+   42B4 54            [ 4]   37         ld      d, h
+   42B5 3E 00         [ 7]   38         ld      a, #0
+   42B7 01 6C 00      [10]   39         ld      bc, #TOTAL_SPACE_4_ENTITIES
+   42BA CD 78 45      [17]   40         call    cpct_memset_asm
+                             41     
+                             42     ;; load a 0 in reserved_entities
+   42BD 3E 00         [ 7]   43         ld      a, #0
+   42BF 32 25 46      [13]   44         ld      (m_reserved_entites), a
+                             45     
+                             46     ;; load invalid type in _m_zero_byte_end_entities
+   42C2 3E 00         [ 7]   47         ld      a, #E_TYPE_INVALID
+   42C4 32 22 46      [13]   48         ld      (m_zero_byte_end_entities), a
+                             49 
+   42C7 C9            [10]   50     ret
+                             51 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             52 
+                             53 ;;;;;;;;;;;;;;;;;;;;;;;
+                             54 ;; CREATES AN ENTITY
+                             55 ;;;;;;;;;;;;;;;;;;;;;;;
+                             56 ;; OUT =>         DE  -> position in memory of the created entity            
+   42C8                      57 _man_entity_create::  
+                             58 
+                             59     ;; save in DE the value of the pointer next entity
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 97.
 Hexadecimal [16-Bits]
 
 
 
-   40B5                      60 _man_entity_create::  
+   42C8 ED 5B 23 46   [20]   60         ld      de, (m_next_free_entity)
                              61 
-                             62     ;; save in DE the value of the pointer next entity
-   40B5 ED 5B EE 42   [20]   63         ld      de, (m_next_free_entity)
-                             64 
-                             65     ;; set type on default
-   40B9 21 00 00      [10]   66         ld      hl, #TYPE
-   40BC 19            [11]   67         add     hl, de
-   40BD 36 7F         [10]   68         ld      (hl), #E_TYPE_DEFAULT
-                             69 
-                             70     ;; update the pointer to SPACE_4_ONE_ENTITY positons furthers (the next entity)
-   40BF 21 09 00      [10]   71         ld      hl, #SPACE_4_ONE_ENTITY
-   40C2 19            [11]   72         add     hl, de
-   40C3 22 EE 42      [16]   73         ld      (m_next_free_entity), hl
-                             74 
-                             75     ;; increase reserved entities
-   40C6 3A F0 42      [13]   76         ld      a, (m_reserved_entites)
-   40C9 3C            [ 4]   77         inc     a
-   40CA 32 F0 42      [13]   78         ld      (m_reserved_entites), a
-                             79 
-   40CD C9            [10]   80     ret
-                             81 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             82 
-                             83 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             84 ;; SET AN ENTITY FOR DESTRUCTION;;
-                             85 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             86     ;; INPUTS ;;                                        ;;
-                             87         ;; DE -> the entity to destroy                  ;;
-                             88 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   40CE                      89 _man_entity_set_for_destruction::
-                             90 
-                             91     ;; go to entity -> type
-   40CE 21 00 00      [10]   92         ld      hl, #TYPE
-   40D1 19            [11]   93         add     hl, de
-                             94     
-                             95     ;; save entity->type in a
-   40D2 7E            [ 7]   96         ld      a, (hl)
-                             97     
-                             98     ;; set entity for destruction
-   40D3 F6 80         [ 7]   99         or      #E_TYPE_DEAD
-   40D5 77            [ 7]  100         ld      (hl), a
-                            101 
-   40D6 C9            [10]  102     ret
-                            103 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            104 
-                            105 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            106 ;; SET AS INVALID AN ENTITY ;;
-                            107 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            108     ;; INPUTS ;;                                        ;;
-                            109         ;; DE -> the entity to destroy                  ;;
-                            110     ;; NOTE ;;                                          ;;
-                            111         ;; next_free_entity point to end of entities    ;;
-                            112 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   40D7                     113 man_entity_destroy:
-                            114 
+                             62     ;; set type on default
+   42CC 21 00 00      [10]   63         ld      hl, #TYPE
+   42CF 19            [11]   64         add     hl, de
+   42D0 36 7F         [10]   65         ld      (hl), #E_TYPE_DEFAULT
+                             66 
+                             67     ;; update the pointer to SPACE_4_ONE_ENTITY positons furthers (the next entity)
+   42D2 21 09 00      [10]   68         ld      hl, #SPACE_4_ONE_ENTITY
+   42D5 19            [11]   69         add     hl, de
+   42D6 22 23 46      [16]   70         ld      (m_next_free_entity), hl
+                             71 
+                             72     ;; increase reserved entities
+   42D9 3A 25 46      [13]   73         ld      a, (m_reserved_entites)
+   42DC 3C            [ 4]   74         inc     a
+   42DD 32 25 46      [13]   75         ld      (m_reserved_entites), a
+                             76 
+   42E0 C9            [10]   77     ret
+                             78 
+                             79 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             80 ;; SET ENTITY FOR DESTRUCTION
+                             81 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             82 ;; IN =>   DE -> the entity to destroy               
+                             83 ;;
+   42E1                      84 _man_entity_set_for_destruction::
+                             85 
+                             86     ;; go to entity -> type
+   42E1 21 00 00      [10]   87         ld      hl, #TYPE
+   42E4 19            [11]   88         add     hl, de
+                             89     
+                             90     ;; save entity->type in a
+   42E5 7E            [ 7]   91         ld      a, (hl)
+                             92     
+                             93     ;; set entity for destruction
+   42E6 F6 80         [ 7]   94         or      #E_TYPE_DEAD
+   42E8 77            [ 7]   95         ld      (hl), a
+                             96 
+   42E9 C9            [10]   97     ret
+                             98 
+                             99 
+                            100 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            101 ;; SET AS INVALID AN ENTITY 
+                            102 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            103 ;; IN =>   DE -> the entity to destroy               
+                            104 ;;
+                            105 
+   42EA                     106 man_entity_destroy:
+                            107 
+                            108         ;; copy the last entity to the dead one
+                            109         ;; IN =>    DE -> destination byte
+                            110         ;;          HL -> source byte
+                            111         ;;          BC -> size of data 
+                            112 
+                            113         ;; go to last entity -> _m_next_free_entity - SPACE_4_ONE_ENTITY
+   42EA 2A 23 46      [16]  114         ld      hl, (m_next_free_entity)
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 98.
 Hexadecimal [16-Bits]
 
 
 
-                            115     ;; copy the last entity to the dead one -> cpct
-                            116         ;; INPUTS ;;
-                            117             ;; DE -> destination byte
-                            118             ;; HL -> source byte
-                            119             ;; BC -> size of data 
-                            120 
-                            121     ;; go to last entity -> _m_next_free_entity - SPACE_4_ONE_ENTITY
-   40D7 2A EE 42      [16]  122         ld      hl, (m_next_free_entity)
-   40DA 01 09 00      [10]  123         ld      bc, #SPACE_4_ONE_ENTITY
-   40DD B7            [ 4]  124         or      a
-   40DE ED 42         [15]  125         sbc     hl, bc
-                            126     
-                            127     ;; save the last entity
-   40E0 E5            [11]  128         push    hl
-                            129 
-                            130     ;;conditional to copy
-   40E1 B7            [ 4]  131         or      a
-   40E2 ED 52         [15]  132         sbc     hl, de
-   40E4 28 05         [12]  133         jr      z, man_if_not_copy  ;; last == de
-                            134 
-                            135     ;; retrieve and save last entity 
-   40E6 E1            [10]  136         pop     hl
-   40E7 E5            [11]  137         push    hl
+   42ED 01 09 00      [10]  115         ld      bc, #SPACE_4_ONE_ENTITY
+   42F0 B7            [ 4]  116         or      a
+   42F1 ED 42         [15]  117         sbc     hl, bc
+                            118     
+                            119     ;; save the last entity
+   42F3 E5            [11]  120         push    hl
+                            121 
+                            122     ;; last == de
+                            123     ;;conditional to copy
+   42F4 B7            [ 4]  124         or      a
+   42F5 ED 52         [15]  125         sbc     hl, de
+   42F7 28 05         [12]  126         jr      z, man_if_not_copy  
+                            127 
+                            128     ;; retrieve and save last entity 
+   42F9 E1            [10]  129         pop     hl
+   42FA E5            [11]  130         push    hl
+                            131 
+                            132     ;; call the function (last != de)
+   42FB CD 80 45      [17]  133         call    cpct_memcpy_asm
+                            134     
+   42FE                     135     man_if_not_copy:
+                            136     ;; retrieve last entity 
+   42FE E1            [10]  137         pop     hl
                             138 
-                            139     ;; call the function (last != de)
-   40E8 CD 4B 42      [17]  140         call    cpct_memcpy_asm
-                            141     
-   40EB                     142     man_if_not_copy:
-                            143     ;; retrieve last entity 
-   40EB E1            [10]  144         pop     hl
-                            145 
-                            146     ;; set last type to invalid
-   40EC 36 00         [10]  147         ld      (hl), #E_TYPE_INVALID
-                            148 
-                            149     ;; set _m_next_free_entity to last
-   40EE 22 EE 42      [16]  150         ld      (m_next_free_entity), hl
+                            139     ;; set last type to invalid
+   42FF 36 00         [10]  140         ld      (hl), #E_TYPE_INVALID
+                            141 
+                            142     ;; set _m_next_free_entity to last
+   4301 22 23 46      [16]  143         ld      (m_next_free_entity), hl
+                            144 
+                            145     ;; decrease reserved entities
+   4304 3A 25 46      [13]  146         ld      a, (m_reserved_entites)
+   4307 3D            [ 4]  147         dec     a
+   4308 32 25 46      [13]  148         ld      (m_reserved_entites), a
+                            149 
+   430B C9            [10]  150     ret
                             151 
-                            152     ;; decrease reserved entities
-   40F1 3A F0 42      [13]  153         ld      a, (m_reserved_entites)
-   40F4 3D            [ 4]  154         dec     a
-   40F5 32 F0 42      [13]  155         ld      (m_reserved_entites), a
-                            156 
-   40F8 C9            [10]  157     ret
-                            158 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            159 
-                            160 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            161 ;; WHILE FOR ALL ENTITIES ;;
-                            162 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            163     ;; INPUTS ;;                                            ;;
-                            164         ;; BC -> the function to call                       ;;
-                            165 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            166     ;; NOTE: inside function, DE can not change value       ;;
-                            167 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   40F9                     168 _man_entity_for_all::
-                            169 
+                            152 ;;;;;;;;;;;;;;;;;;;;;;
+                            153 ;; FOR ALL ENTITIES ;;
+                            154 ;;;;;;;;;;;;;;;;;;;;;;
+                            155 ;; IN =>   BC -> the function to call                       
+                            156 ;;
+   430C                     157 _man_entity_for_all::
+                            158 
+                            159     ;; stack opened
+   430C DD 21 FE FF   [14]  160         ld      ix, #-2
+   4310 DD 39         [15]  161         add     ix, sp
+   4312 DD F9         [10]  162         ld      sp, ix
+                            163 
+                            164     ;; save the function to call
+   4314 DD 71 00      [19]  165         ld      0(ix), c
+   4317 DD 70 01      [19]  166         ld      1(ix), b
+                            167 
+                            168     ;; load first position of an entity
+   431A 11 B6 45      [10]  169         ld      de, #m_entities     
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
 
 
-                            170     ;; open stack
-   40F9 DD 21 FE FF   [14]  171         ld      ix, #-2
-   40FD DD 39         [15]  172         add     ix, sp
-   40FF DD F9         [10]  173         ld      sp, ix
-                            174 
-                            175     ;; save the reference to the function to call
-   4101 DD 71 00      [19]  176         ld      0(ix), c
-   4104 DD 70 01      [19]  177         ld      1(ix), b
-                            178 
-                            179     ;; load the first position of an entity
-   4107 11 81 42      [10]  180         ld      de, #m_entities     
-                            181 
-                            182     ;; init of while
-   410A                     183     man_init_for:
-                            184         ;; conditional: 
-                            185             ;; go to type of entity (_m_entities+TYPE)
-   410A 21 00 00      [10]  186                 ld      hl, #TYPE
-   410D 19            [11]  187                 add     hl, de             
-                            188 
-                            189             ;; save in a the type and compare with #E_INVALID_TYPE
-   410E 7E            [ 7]  190                 ld      a, (hl)
-   410F FE 00         [ 7]  191                 cp      #E_TYPE_INVALID     ;; decrement invalid type, if it was invalid then the result is 0
-   4111 28 14         [12]  192                 jr      z, man_end_for      ;; if 0 -> we end for
+   431D D5            [11]  170         push de
+                            171     ;; while
+   431E                     172     man_init_for:
+                            173         ;; if
+                            174             ;; go to type of entity
+   431E 21 00 00      [10]  175                 ld      hl, #TYPE
+   4321 19            [11]  176                 add     hl, de             
+                            177 
+                            178             ;; save in a the type and compare with #E_TYPE_INVALID
+   4322 7E            [ 7]  179                 ld      a, (hl)
+   4323 FE 00         [ 7]  180                 cp      #E_TYPE_INVALID    
+   4325 28 16         [12]  181                 jr      z, man_end_for     
+                            182 
+                            183                 ; push de
+                            184             ;; save returning point
+   4327 21 33 43      [10]  185                 ld      hl, #_return_hear
+   432A E5            [11]  186                 push    hl
+                            187 
+                            188             ;; call function
+   432B DD 4E 00      [19]  189                 ld      c, 0(ix)
+   432E DD 46 01      [19]  190                 ld      b, 1(ix)
+   4331 C5            [11]  191                 push    bc                  
+   4332 C9            [10]  192                 ret                         
                             193 
-                            194         ;; for continues:
-                            195             ;; set the returning point when coming after calling the function
-   4113 21 1F 41      [10]  196                 ld      hl, #_returning_code
-   4116 E5            [11]  197                 push    hl
+   4333                     194             _return_hear:
+   4333 D1            [10]  195                     pop de
+   4334 21 09 00      [10]  196                     ld      hl, #SPACE_4_ONE_ENTITY
+   4337 19            [11]  197                     add     hl, de
                             198 
-                            199             ;; call function
-   4117 DD 4E 00      [19]  200                 ld      c, 0(ix)
-   411A DD 46 01      [19]  201                 ld      b, 1(ix)
-   411D C5            [11]  202                 push    bc                  ;; the function to go
-   411E C9            [10]  203                 ret                         ;; call the function
+                            199                 ;; HL<=>DE
+   4338 5D            [ 4]  200                     ld      e, l              
+   4339 54            [ 4]  201                     ld      d, h
+                            202 
+   433A D5            [11]  203                     push de
                             204 
-   411F                     205             _returning_code:    ;; when the functions end it has to continue here
-                            206                 ;; add SPACE_4_ONE_ENTITY to De in HL
-   411F 21 09 00      [10]  207                     ld      hl, #SPACE_4_ONE_ENTITY
-   4122 19            [11]  208                     add     hl, de
-                            209 
-                            210                 ;; copy HL to DE
-   4123 5D            [ 4]  211                     ld      e, l              
-   4124 54            [ 4]  212                     ld      d, h
-                            213 
-                            214                 ;; redo for
-   4125 18 E3         [12]  215                     jr      man_init_for       
-                            216 
-   4127                     217     man_end_for:
-                            218         ;; reduce stack
-   4127 DD 21 02 00   [14]  219             ld      ix, #2
-   412B DD 39         [15]  220             add     ix, sp
-   412D DD F9         [10]  221             ld      sp, ix
-                            222 
-   412F C9            [10]  223     ret
-                            224 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   433B 18 E1         [12]  205                     jr      man_init_for       
+                            206 
+   433D                     207     man_end_for:
+                            208         ;; close stack
+   433D DD 21 02 00   [14]  209             ld      ix, #2
+   4341 DD 39         [15]  210             add     ix, sp
+   4343 DD F9         [10]  211             ld      sp, ix
+                            212     
+   4345 C9            [10]  213     ret
+                            214 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            215 ;; FOR ALL MATCHING ENTITIES ;;
+                            216 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            217 ;; IN =>   BC -> the function to call                       
+                            218 ;;
+   4346                     219     _man_entity_for_all_matching::
+                            220 
+                            221     ;; stack opened
+   4346 DD 21 FC FF   [14]  222         ld      ix, #-4
+   434A DD 39         [15]  223         add     ix, sp
+   434C DD F9         [10]  224         ld      sp, ix
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 100.
 Hexadecimal [16-Bits]
 
 
 
                             225 
-                            226 ;;;;;;;;;;;;;;;;;;;;
-                            227 ;; MANAGER UPDATE ;;
-                            228 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   4130                     229 _man_entity_update::
-                            230     ;; load the first position of an entity
-   4130 11 81 42      [10]  231         ld      de, #m_entities     
+                            226     ;; save the function to call
+   434E DD 71 00      [19]  227         ld      0(ix), c
+   4351 DD 70 01      [19]  228         ld      1(ix), b
+                            229     ;; save the condition to call function
+   4354 DD 75 02      [19]  230         ld      2(ix), l
+   4357 DD 74 03      [19]  231         ld      3(ix), h
                             232 
-                            233     ;; init of while
-   4133                     234     man_update_init_for:
-                            235         ;; conditional: 
-                            236             ;; go to type of entity (_m_entities+TYPE)
-   4133 21 00 00      [10]  237                 ld      hl, #TYPE
-   4136 19            [11]  238                 add     hl, de             
-                            239 
-                            240             ;; save in a the type and compare with #E_INVALID_TYPE
-   4137 7E            [ 7]  241                 ld      a, (hl)
-   4138 FE 00         [ 7]  242                 cp      #E_TYPE_INVALID     ;; decrement invalid type, if it was invalid then the result is 0
-   413A 28 13         [12]  243                 jr      z, man_update_end_for      ;; if 0 -> we go to the next entity
-                            244 
-                            245         ;; for continues:
-                            246             ;; A and deadType to know if is set for destruction
-   413C E6 80         [ 7]  247                 and      #E_TYPE_DEAD
-                            248             
-                            249             ;; compare A with with deadType
-   413E FE 80         [ 7]  250                 cp      #E_TYPE_DEAD
-   4140 28 08         [12]  251                 jr      z, man_update_destroy_entity    ;; it was set for destruction (a == 0)
-                            252 
-                            253             ;; it was not set for destruction
-                            254                 ;; add SPACE_4_ONE_ENTITY to De in HL
-   4142 21 09 00      [10]  255                     ld      hl, #SPACE_4_ONE_ENTITY
-   4145 19            [11]  256                     add     hl, de
-                            257 
-                            258                 ;; copy HL to DE
-   4146 5D            [ 4]  259                     ld      e, l              
-   4147 54            [ 4]  260                     ld      d, h
-                            261 
-                            262                 ;; to no destroy     
-   4148 18 03         [12]  263                     jr      man_update_not_destroy_entity
-                            264             
-   414A                     265             man_update_destroy_entity:      ;; destroy entity
-   414A CD D7 40      [17]  266                 call    man_entity_destroy
-                            267             
-   414D                     268             man_update_not_destroy_entity:  ;; no destroy
-                            269             ;; redo for
-   414D 18 E4         [12]  270                 jr      man_update_init_for       
+                            233     ;; load first position of an entity
+   435A 11 B6 45      [10]  234         ld      de, #m_entities     
+   435D D5            [11]  235         push de
+                            236     ;; while
+   435E                     237     man_init_for_match:
+   435E D1            [10]  238     pop de
+                            239         ;; if
+                            240             ;; go to type of entity
+   435F 21 00 00      [10]  241                 ld      hl, #TYPE
+   4362 19            [11]  242                 add     hl, de             
+                            243 
+                            244             ;; save in a the type and compare with #E_TYPE_INVALID
+   4363 7E            [ 7]  245                 ld      a, (hl)
+   4364 FE 00         [ 7]  246                 cp      #E_TYPE_INVALID    
+   4366 28 22         [12]  247                 jr      z, man_end_for_match     
+                            248 
+   4368 D5            [11]  249                 push de
+   4369 7E            [ 7]  250                 ld a , (hl)
+   436A DD 6E 02      [19]  251                 ld l, 2(ix)
+   436D DD 66 03      [19]  252                 ld h, 3(ix)
+   4370 A5            [ 4]  253                 and l
+   4371 BD            [ 4]  254                 cp  l
+   4372 20 0C         [12]  255                 jr nz, _return_hear_match
+                            256 
+                            257             ;; save returning point
+   4374 21 80 43      [10]  258                 ld      hl, #_return_hear_match
+   4377 E5            [11]  259                 push    hl
+                            260 
+                            261             ;; call function
+   4378 DD 4E 00      [19]  262                 ld      c, 0(ix)
+   437B DD 46 01      [19]  263                 ld      b, 1(ix)
+   437E C5            [11]  264                 push    bc                  
+   437F C9            [10]  265                 ret                         
+                            266             ;; if entity is not movable continue here
+   4380                     267             _return_hear_match:
+   4380 D1            [10]  268                     pop de
+   4381 21 09 00      [10]  269                     ld      hl, #SPACE_4_ONE_ENTITY
+   4384 19            [11]  270                     add     hl, de
                             271 
-   414F                     272     man_update_end_for:
-                            273 
-   414F C9            [10]  274     ret
-                            275 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            276 
-                            277 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            278 ;; RETURN THE AMOUNT OF FREE ENTITIES AVAILABLE ;;
-                            279 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            272                 ;; HL<=>DE
+   4385 5D            [ 4]  273                     ld      e, l              
+   4386 54            [ 4]  274                     ld      d, h
+                            275 
+   4387 D5            [11]  276                     push de
+                            277 
+   4388 18 D4         [12]  278                     jr      man_init_for_match       
+                            279 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 101.
 Hexadecimal [16-Bits]
 
 
 
-                            280     ;; OUTPUTS ;;                               ;;
-                            281         ;; L -> the number of free entities     ;;
-                            282 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   4150                     283 _man_entity_free_space::
-                            284     
-   4150 3E 0C         [ 7]  285     ld      a, #TOTAL_ENTITIES
-   4152 ED 4B F0 42   [20]  286     ld      bc, (m_reserved_entites)
-   4156 91            [ 4]  287     sub     c
+   438A                     280     man_end_for_match:
+                            281         ;; close stack
+   438A DD 21 04 00   [14]  282             ld      ix, #4
+   438E DD 39         [15]  283             add     ix, sp
+   4390 DD F9         [10]  284             ld      sp, ix
+                            285     
+   4392 C9            [10]  286     ret
+                            287 
                             288 
-   4157 6F            [ 4]  289     ld      l, a
-                            290 
-   4158 C9            [10]  291     ret
-                            292 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            289 ;;;;;;;;;;;;;;;;;;;;
+                            290 ;; MANAGER UPDATE ;;
+                            291 ;;;;;;;;;;;;;;;;;;;;
+   4393                     292 _man_entity_update::
+                            293     ;; load first position
+   4393 11 B6 45      [10]  294         ld      de, #m_entities     
+                            295 
+                            296     ;; while
+   4396                     297     man_update_init_for:
+                            298             ;; go to type of entity
+   4396 21 00 00      [10]  299                 ld      hl, #TYPE
+   4399 19            [11]  300                 add     hl, de             
+                            301 
+                            302             ;; save in a the type and compare with #E_TYPE_INVALID
+   439A 7E            [ 7]  303                 ld      a, (hl)
+   439B FE 00         [ 7]  304                 cp      #E_TYPE_INVALID     
+   439D 28 13         [12]  305                 jr      z, man_update_end_for      
+                            306             ;;if is set for destruction
+   439F E6 80         [ 7]  307                 and      #E_TYPE_DEAD
+                            308             
+                            309             ;; compare A with E_TYPE_DEAD
+   43A1 FE 80         [ 7]  310                 cp      #E_TYPE_DEAD
+   43A3 28 08         [12]  311                 jr      z, man_update_destroy_entity   
+                            312 
+                            313                 ;; add SPACE_4_ONE_ENTITY De <==> HL
+   43A5 21 09 00      [10]  314                     ld      hl, #SPACE_4_ONE_ENTITY
+   43A8 19            [11]  315                     add     hl, de
+                            316 
+                            317                 ;;  HL<==>DE
+   43A9 5D            [ 4]  318                     ld      e, l              
+   43AA 54            [ 4]  319                     ld      d, h
+                            320 
+                            321                 ;; no destroy  
+   43AB 18 03         [12]  322                     jr      man_update_not_destroy_entity
+                            323             
+   43AD                     324             man_update_destroy_entity:      
+   43AD CD EA 42      [17]  325                 call    man_entity_destroy        
+   43B0                     326             man_update_not_destroy_entity:  
+   43B0 18 E4         [12]  327                 jr      man_update_init_for       
+                            328 
+   43B2                     329     man_update_end_for:
+                            330 
+   43B2 C9            [10]  331     ret
+                            332 
+                            333 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            334 ;; RETURN THE AMOUNT OF FREE ENTITIES AVAILABLE 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 102.
+Hexadecimal [16-Bits]
+
+
+
+                            335 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            336 ;; OUT => L -> the number of free entities     
+                            337 ;;
+   43B3                     338 _man_entity_free_space::
+                            339     
+   43B3 3E 0C         [ 7]  340     ld      a, #TOTAL_ENTITIES
+   43B5 ED 4B 25 46   [20]  341     ld      bc, (m_reserved_entites)
+   43B9 91            [ 4]  342     sub     c
+                            343 
+   43BA 6F            [ 4]  344     ld      l, a
+                            345 
+   43BB C9            [10]  346     ret

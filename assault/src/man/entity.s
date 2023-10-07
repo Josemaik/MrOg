@@ -5,23 +5,23 @@
 .area _DATA
 
 
-    m_entities::
-        .ds #MAX_SPACE_4_ENTITIES
-    m_zero_byte_end_entities:      ;; this is for the while all entities
+    m_entities::    ;;entities
+        .ds #TOTAL_SPACE_4_ENTITIES
+    m_zero_byte_end_entities:      ;;zero-byte to signal invalid entities
         .ds 1
-    m_next_free_entity::
+    m_next_free_entity::    ;; pointer to next free entity
         .ds 2
-    m_reserved_entites::
+    m_reserved_entites:: ;;number of reserved entities
         .ds 1   ;;u8
 
 .area _CODE
-;;;;;;;;;;;;;;;
-;; FUNCTIONS ;;
-;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;
+;; PUBLIC FUNCTIONS ;;
+;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;
 ;; GENERAL INIT ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
 _man_entity_init::
 
     ;; save the first element of entities
@@ -30,14 +30,13 @@ _man_entity_init::
         ld      (m_next_free_entity),  hl
 
     ;; fill all the entitites with 0s -> cpct_memset_asm
-        ;; INPUTS ;; 
-            ;; DE  -> pointer to the array to fill
-            ;; A   -> the new value
-            ;; BC  -> number of bytes to be filled
+    ;; IN =>         DE  -> pointer to the array to fill
+    ;;               A   -> the new value
+    ;;               BC  -> number of bytes to be filled
         ld      e, l
         ld      d, h
         ld      a, #0
-        ld      bc, #MAX_SPACE_4_ENTITIES
+        ld      bc, #TOTAL_SPACE_4_ENTITIES
         call    cpct_memset_asm
     
     ;; load a 0 in reserved_entities
@@ -52,11 +51,9 @@ _man_entity_init::
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;
-;; CREATES AN ENTITY ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; OUTPUTS ;;                                                   ;;
-        ;; DE -> position in memory of the created entity           ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; CREATES AN ENTITY
+;;;;;;;;;;;;;;;;;;;;;;;
+;; OUT =>         DE  -> position in memory of the created entity            
 _man_entity_create::  
 
     ;; save in DE the value of the pointer next entity
@@ -78,14 +75,12 @@ _man_entity_create::
         ld      (m_reserved_entites), a
 
     ret
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; SET AN ENTITY FOR DESTRUCTION;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; INPUTS ;;                                        ;;
-        ;; DE -> the entity to destroy                  ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; SET ENTITY FOR DESTRUCTION
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; IN =>   DE -> the entity to destroy               
+;;
 _man_entity_set_for_destruction::
 
     ;; go to entity -> type
@@ -100,25 +95,22 @@ _man_entity_set_for_destruction::
         ld      (hl), a
 
     ret
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; SET AS INVALID AN ENTITY ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; INPUTS ;;                                        ;;
-        ;; DE -> the entity to destroy                  ;;
-    ;; NOTE ;;                                          ;;
-        ;; next_free_entity point to end of entities    ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; SET AS INVALID AN ENTITY 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; IN =>   DE -> the entity to destroy               
+;;
+
 man_entity_destroy:
 
-    ;; copy the last entity to the dead one -> cpct
-        ;; INPUTS ;;
-            ;; DE -> destination byte
-            ;; HL -> source byte
-            ;; BC -> size of data 
+        ;; copy the last entity to the dead one
+        ;; IN =>    DE -> destination byte
+        ;;          HL -> source byte
+        ;;          BC -> size of data 
 
-    ;; go to last entity -> _m_next_free_entity - SPACE_4_ONE_ENTITY
+        ;; go to last entity -> _m_next_free_entity - SPACE_4_ONE_ENTITY
         ld      hl, (m_next_free_entity)
         ld      bc, #SPACE_4_ONE_ENTITY
         or      a
@@ -127,10 +119,11 @@ man_entity_destroy:
     ;; save the last entity
         push    hl
 
+    ;; last == de
     ;;conditional to copy
         or      a
         sbc     hl, de
-        jr      z, man_if_not_copy  ;; last == de
+        jr      z, man_if_not_copy  
 
     ;; retrieve and save last entity 
         pop     hl
@@ -155,131 +148,193 @@ man_entity_destroy:
         ld      (m_reserved_entites), a
 
     ret
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; WHILE FOR ALL ENTITIES ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; INPUTS ;;                                            ;;
-        ;; BC -> the function to call                       ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; NOTE: inside function, DE can not change value       ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;
+;; FOR ALL ENTITIES ;;
+;;;;;;;;;;;;;;;;;;;;;;
+;; IN =>   BC -> the function to call                       
+;;
 _man_entity_for_all::
 
-    ;; open stack
+    ;; stack opened
         ld      ix, #-2
         add     ix, sp
         ld      sp, ix
 
-    ;; save the reference to the function to call
+    ;; save the function to call
         ld      0(ix), c
         ld      1(ix), b
 
-    ;; load the first position of an entity
+    ;; load first position of an entity
         ld      de, #m_entities     
-
-    ;; init of while
+        push de
+    ;; while
     man_init_for:
-        ;; conditional: 
-            ;; go to type of entity (_m_entities+TYPE)
+        ;; if
+            ;; go to type of entity
                 ld      hl, #TYPE
                 add     hl, de             
 
-            ;; save in a the type and compare with #E_INVALID_TYPE
+            ;; save in a the type and compare with #E_TYPE_INVALID
                 ld      a, (hl)
-                cp      #E_TYPE_INVALID     ;; decrement invalid type, if it was invalid then the result is 0
-                jr      z, man_end_for      ;; if 0 -> we end for
+                cp      #E_TYPE_INVALID    
+                jr      z, man_end_for     
 
-        ;; for continues:
-            ;; set the returning point when coming after calling the function
-                ld      hl, #_returning_code
+                ; push de
+            ;; save returning point
+                ld      hl, #_return_hear
                 push    hl
 
             ;; call function
                 ld      c, 0(ix)
                 ld      b, 1(ix)
-                push    bc                  ;; the function to go
-                ret                         ;; call the function
+                push    bc                  
+                ret                         
 
-            _returning_code:    ;; when the functions end it has to continue here
-                ;; add SPACE_4_ONE_ENTITY to De in HL
+            _return_hear:
+                    pop de
                     ld      hl, #SPACE_4_ONE_ENTITY
                     add     hl, de
 
-                ;; copy HL to DE
+                ;; HL<=>DE
                     ld      e, l              
                     ld      d, h
 
-                ;; redo for
+                    push de
+
                     jr      man_init_for       
 
     man_end_for:
-        ;; reduce stack
+        ;; close stack
             ld      ix, #2
             add     ix, sp
             ld      sp, ix
-
+    
     ret
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FOR ALL MATCHING ENTITIES ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; IN =>   BC -> the function to call                       
+;;
+    _man_entity_for_all_matching::
 
-;;;;;;;;;;;;;;;;;;;;
-;; MANAGER UPDATE ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-_man_entity_update::
-    ;; load the first position of an entity
+    ;; stack opened
+        ld      ix, #-4
+        add     ix, sp
+        ld      sp, ix
+
+    ;; save the function to call
+        ld      0(ix), c
+        ld      1(ix), b
+    ;; save the condition to call function
+        ld      2(ix), l
+        ld      3(ix), h
+
+    ;; load first position of an entity
         ld      de, #m_entities     
-
-    ;; init of while
-    man_update_init_for:
-        ;; conditional: 
-            ;; go to type of entity (_m_entities+TYPE)
+        push de
+    ;; while
+    man_init_for_match:
+    pop de
+        ;; if
+            ;; go to type of entity
                 ld      hl, #TYPE
                 add     hl, de             
 
-            ;; save in a the type and compare with #E_INVALID_TYPE
+            ;; save in a the type and compare with #E_TYPE_INVALID
                 ld      a, (hl)
-                cp      #E_TYPE_INVALID     ;; decrement invalid type, if it was invalid then the result is 0
-                jr      z, man_update_end_for      ;; if 0 -> we go to the next entity
+                cp      #E_TYPE_INVALID    
+                jr      z, man_end_for_match     
 
-        ;; for continues:
-            ;; A and deadType to know if is set for destruction
-                and      #E_TYPE_DEAD
-            
-            ;; compare A with with deadType
-                cp      #E_TYPE_DEAD
-                jr      z, man_update_destroy_entity    ;; it was set for destruction (a == 0)
+                push de
+                ld a , (hl)
+                ld l, 2(ix)
+                ld h, 3(ix)
+                and l
+                cp  l
+                jr nz, _return_hear_match
 
-            ;; it was not set for destruction
-                ;; add SPACE_4_ONE_ENTITY to De in HL
+            ;; save returning point
+                ld      hl, #_return_hear_match
+                push    hl
+
+            ;; call function
+                ld      c, 0(ix)
+                ld      b, 1(ix)
+                push    bc                  
+                ret                         
+            ;; if entity is not movable continue here
+            _return_hear_match:
+                    pop de
                     ld      hl, #SPACE_4_ONE_ENTITY
                     add     hl, de
 
-                ;; copy HL to DE
+                ;; HL<=>DE
                     ld      e, l              
                     ld      d, h
 
-                ;; to no destroy     
+                    push de
+
+                    jr      man_init_for_match       
+
+    man_end_for_match:
+        ;; close stack
+            ld      ix, #4
+            add     ix, sp
+            ld      sp, ix
+    
+    ret
+
+
+;;;;;;;;;;;;;;;;;;;;
+;; MANAGER UPDATE ;;
+;;;;;;;;;;;;;;;;;;;;
+_man_entity_update::
+    ;; load first position
+        ld      de, #m_entities     
+
+    ;; while
+    man_update_init_for:
+            ;; go to type of entity
+                ld      hl, #TYPE
+                add     hl, de             
+
+            ;; save in a the type and compare with #E_TYPE_INVALID
+                ld      a, (hl)
+                cp      #E_TYPE_INVALID     
+                jr      z, man_update_end_for      
+            ;;if is set for destruction
+                and      #E_TYPE_DEAD
+            
+            ;; compare A with E_TYPE_DEAD
+                cp      #E_TYPE_DEAD
+                jr      z, man_update_destroy_entity   
+
+                ;; add SPACE_4_ONE_ENTITY De <==> HL
+                    ld      hl, #SPACE_4_ONE_ENTITY
+                    add     hl, de
+
+                ;;  HL<==>DE
+                    ld      e, l              
+                    ld      d, h
+
+                ;; no destroy  
                     jr      man_update_not_destroy_entity
             
-            man_update_destroy_entity:      ;; destroy entity
-                call    man_entity_destroy
-            
-            man_update_not_destroy_entity:  ;; no destroy
-            ;; redo for
+            man_update_destroy_entity:      
+                call    man_entity_destroy        
+            man_update_not_destroy_entity:  
                 jr      man_update_init_for       
 
     man_update_end_for:
 
     ret
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; RETURN THE AMOUNT OF FREE ENTITIES AVAILABLE ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; OUTPUTS ;;                               ;;
-        ;; L -> the number of free entities     ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; RETURN THE AMOUNT OF FREE ENTITIES AVAILABLE 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; OUT => L -> the number of free entities     
+;;
 _man_entity_free_space::
     
     ld      a, #TOTAL_ENTITIES
@@ -289,4 +344,3 @@ _man_entity_free_space::
     ld      l, a
 
     ret
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

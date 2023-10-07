@@ -5,12 +5,14 @@ Symbol Table
 
     .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
     .__.H$L.=  0000 L   |     E_TYPE_D=  0080     |     E_TYPE_D=  007F 
-    E_TYPE_I=  0004     |     E_TYPE_I=  0000     |     E_TYPE_M=  0002 
-    E_TYPE_R=  0001     |     Height  =  0004     |     MAX_SPAC=  006C 
-    SPACE_4_=  0009     |     TOTAL_EN=  000C     |     TYPE    =  0000 
-    VX      =  0005     |     VY      =  0006     |     Width   =  0003 
-    X       =  0001     |     Y       =  0002     |     cpct_mem   **** GX
-    cpct_mem   **** GX  |     sprite  =  0007 
+    E_TYPE_I=  0008     |     E_TYPE_I=  0004     |     E_TYPE_I=  0000 
+    E_TYPE_M=  0002     |     E_TYPE_R=  0001     |     HEIGHT  =  0004 
+    SPACE_4_=  0009     |     SPRITE  =  0007     |     SPR_MOTH=  0012 
+    SPR_MOTH=  0012     |     SPR_PLAY=  0008     |     SPR_PLAY=  0006 
+    SPR_PLAY=  0008     |     SPR_PLAY=  0006     |     TOTAL_EN=  000C 
+    TOTAL_SP=  006C     |     TYPE    =  0000     |     VX      =  0005 
+    VY      =  0006     |     WIDTH   =  0003     |     X       =  0001 
+    Y       =  0002     |     cpct_mem   **** GX  |     cpct_mem   **** GX
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]

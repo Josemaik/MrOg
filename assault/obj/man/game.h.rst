@@ -3,24 +3,24 @@ Hexadecimal [16-Bits]
 
 
 
-                              1 
-                              2         ;;;;;;;;;;;;;;;;;;;;
-                              3         ;; DEFINED VALUES ;;
-                              4         ;;;;;;;;;;;;;;;;;;;;    
-                              5                                         
-                              6     ;;;;;;;;;;;;;;;;;;;;
-                              7     ;; GLOBAL SYMBOLS ;;
-                              8     ;;;;;;;;;;;;;;;;;;;;
-                              9     .globl cpct_memset_asm      
-                             10     .globl cpct_memcpy_asm              
-                             11     .globl cpct_waitVSYNC_asm           
-                             12     .globl cpct_waitHalts_asm           
-                             13                                           
-                             14    ;; managers                            
-                             15       .globl _man_entity_init             
-                             16       .globl _man_entity_update           
-                             17                                           
-                             18    ;; systems                             
-                             19       .globl _sys_physics_update          
-                             20       .globl _sys_render_update                  
-                             21       .globl _sys_render_init 
+                              1 ;;;;;;;;;;;;;;;;;;;;  
+                              2 ;; GLOBAL SYMBOLS ;;
+                              3 ;;;;;;;;;;;;;;;;;;;;
+                              4     ;; cpctelera
+                              5       .globl cpct_waitVSYNC_asm           
+                              6       .globl cpct_waitHalts_asm
+                              7       .globl cpct_memcpy_asm           
+                              8                                           
+                              9    ;; managers                            
+                             10       .globl _man_entity_init             
+                             11       .globl _man_entity_update           
+                             12       .globl _man_entity_create                           
+                             13    ;; systems                             
+                             14       .globl _sys_physics_update          
+                             15       .globl _sys_render_update                   
+                             16       .globl _sys_render_init
+                             17       .globl _sys_ai_update
+                             18    ;; sprites
+                             19       .globl _spr_mothership
+                             20       .globl _spr_playership_0
+                             21       .globl _spr_playership_1
