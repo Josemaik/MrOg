@@ -4,14 +4,7 @@
 .include "game.h.s"
 .include "entity.h.s"
 .area _DATA
-;; creamos un sprite
-; _sprite:
-;     .db 0x00, 0xFF, 0xFF, 0x00
-;     .db 0x00, 0xFF, 0xFF, 0x00
-;     .db 0x00, 0xFF, 0xFF, 0x00
-;     .db 0x00, 0xFF, 0xFF, 0x00
-;     .db 0x00, 0xFF, 0xFF, 0x00
-;     .db 0x00, 0xFF, 0xFF, 0x00
+
 ;; 1 = 000000001
 ;; 2 = 000000010
 ;; OR= 000000011
@@ -61,6 +54,8 @@ playership_template0_e::
 		.db     #0x00               ;; vy = 0
 		.dw     #_spr_playership_0    ;; sprite (2b)
       .dw     #0x0000
+m_enemy_on_lane::
+        .ds 1
 
 .area _CODE
 ;;;;;;;;;;;;;;;;;;;;;
@@ -115,17 +110,46 @@ man_game_create_template_entity::
 ;;;CREATE ENEMY
 ;;
 man_game_create_enemy::
-   ;; minuto 50
-   ;; abril pila, y guardar un 0
-   ;; luego recoger de pila y sumarle 1 
-   ;; is there is an enemy already on lane
-   ld      ix, #-1
-   add     ix, sp
-   ld      sp, ix
-   ;; Create new enemy
-      ;; Create enemy1
+   ;; save in c -> x of mothership
+   ld hl, #X
+   add hl, de
+   ld c, (hl)
+   ;; save in b -> vx of mothership
+   ld hl, #VX
+   add hl, de
+   ld b, (hl)
+   ;; save bc
+   push bc
+   ;; save in a varibale que indica si hay o no enemigo en linea
+   ld a, (m_enemy_on_lane)
+   cp #0
+   ;; compruebo los enemigos que hay en línea (if menemyonlane == 0) creoenemy;
+   jr z, create_enemy
+   jr man_game_create_enemy_end
+   ;; Create new enemy and set x and vx
+   create_enemy:
+         ;; create enemy
         ld       hl, #enemy1_template_e
         call man_game_create_template_entity
+        ;; retrieve bc
+        pop bc
+        ;; load in a, x of mothership , plus 4 and load in enemy->x
+        ld a, c
+        add #4
+        ld hl, #X
+        add hl, de
+        ld (hl), a
+        ;; load in a, vx of mothership and load in enemy->x
+        ld a, b
+        ld hl, #VX
+        add hl, de
+        ld (hl), a
+        ;; put variable menemyonlane as 1
+        ld a, #0x01
+        ld (m_enemy_on_lane), a
+
+   man_game_create_enemy_end:
+   pop bc
 ret
 ;;;;;;;;;;;;;;;;;;;;
 ;; INIT
@@ -136,6 +160,10 @@ man_game_init::
 
     ;; inicialize manager entity
         call     _man_entity_init
+
+   ;; no enemies on lane on start
+       ld a, #0
+       ld (m_enemy_on_lane), a
     ;; Create mothership
         ld       hl, #mothership_template_e
         call man_game_create_template_entity

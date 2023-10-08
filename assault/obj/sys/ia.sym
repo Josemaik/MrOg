@@ -69,19 +69,21 @@ Symbol Table
     TOTAL_EN=  000C     |     TOTAL_SP=  0084     |     TYPE    =  0000 
     VX      =  0005     |     VY      =  0006     |     WIDTH   =  0003 
     X       =  0001     |     Y       =  0002     |     _man_ent   **** GX
-    _man_ent   **** GX  |     _man_ent   **** GX  |   0 _return_   004D R
-  0 _sys_ai_   004E GR  |     cpct_mem   **** GX  |     cpct_mem   **** GX
+    _man_ent   **** GX  |     _man_ent   **** GX  |   0 _return_   005F R
+  0 _sys_ai_   0060 GR  |     cpct_mem   **** GX  |     cpct_mem   **** GX
     cpct_pag=  0000     |     cpct_pag=  0010     |     cpct_pag=  0020 
-    cpct_pag=  0030     |     firmware=  0038     |   0 move_lef   0027 R
-  0 move_rig   001F R   |     opc_DI  =  00F3     |     opc_EI  =  00FB 
-    opc_JR  =  0018     |     opc_LD_D=  0016     |   0 sys_ai_b   0004 GR
-  0 sys_ai_b   0000 GR  |   0 sys_ai_u   002E R   |   0 sys_ai_u   002D R
+    cpct_pag=  0030     |   0 create_e   000D R   |     firmware=  0038 
+  0 goto_beh   0012 R   |     man_game   **** GX  |   0 move_lef   0039 R
+  0 move_rig   0031 R   |     opc_DI  =  00F3     |     opc_EI  =  00FB 
+    opc_JR  =  0018     |     opc_LD_D=  0016     |   0 sys_ai_b   0016 GR
+  0 sys_ai_b   0000 GR  |   0 sys_ai_b   0015 R   |   0 sys_ai_u   0040 R
+  0 sys_ai_u   003F R
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   58   flags    0
+   0 _CODE      size   6A   flags    0
    1 _DATA      size    0   flags    0
 

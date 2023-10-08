@@ -22,9 +22,10 @@ sys_ai_behaviour_mothership::
     ld a, #20
     cp c
     jr z, create_enemy
-    jr goto_behaviour:
+    jr goto_behaviour
     create_enemy:
         call man_game_create_enemy
+        jr sys_ai_behaviour_mothership_end
     goto_behaviour:
     call sys_ai_behaviour_left_right
     sys_ai_behaviour_mothership_end:

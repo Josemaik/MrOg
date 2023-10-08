@@ -1,5 +1,6 @@
 XL2
-H 1 areas 4 global symbols
+H 1 areas 5 global symbols
+S man_game_create_enemy Ref0000
 S _man_entity_for_all Ref0000
 S .__.ABS. Def0000
 S _man_entity_set_for_destruction Ref0000

@@ -75,19 +75,20 @@ Symbol Table
     _sys_ren   **** GX  |     _sys_ren   **** GX  |   0 _wait      0000 R
     cpct_mem   **** GX  |     cpct_mem   **** GX  |     cpct_pag=  0000 
     cpct_pag=  0010     |     cpct_pag=  0020     |     cpct_pag=  0030 
-    cpct_wai   **** GX  |     cpct_wai   **** GX  |   1 enemy1_t   000B GR
-    firmware=  0038     |   0 loop       005E R   |   0 man_game   0013 GR
-  0 man_game   0021 GR  |   0 man_game   005E GR  |   1 mothersh   0000 GR
-    opc_DI  =  00F3     |     opc_EI  =  00FB     |     opc_JR  =  0018 
-    opc_LD_D=  0016     |   1 playersh   0021 GR  |   1 playersh   0016 GR
-    sys_ai_b   **** GX  |     sys_ai_b   **** GX  |   0 wait_end   0012 R
-  0 wait_ini   0000 R
+    cpct_wai   **** GX  |     cpct_wai   **** GX  |   0 create_e   0035 R
+  1 enemy1_t   000B GR  |     firmware=  0038     |   0 loop       0093 R
+  1 m_enemy_   002C GR  |   0 man_game   0021 GR  |   0 man_game   004F R
+  0 man_game   0013 GR  |   0 man_game   0051 GR  |   0 man_game   0093 GR
+  1 mothersh   0000 GR  |     opc_DI  =  00F3     |     opc_EI  =  00FB 
+    opc_JR  =  0018     |     opc_LD_D=  0016     |   1 playersh   0021 GR
+  1 playersh   0016 GR  |     sys_ai_b   **** GX  |     sys_ai_b   **** GX
+  0 wait_end   0012 R   |   0 wait_ini   0000 R
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   72   flags    0
-   1 _DATA      size   2C   flags    0
+   0 _CODE      size   A7   flags    0
+   1 _DATA      size   2D   flags    0
 

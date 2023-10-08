@@ -5018,8 +5018,8 @@ Hexadecimal [16-Bits]
    427C                      23 _main::
                              24 
                              25    ;; disable firmware
-   427C CD 7B 46      [17]   26       call     cpct_disableFirmware_asm
+   427C CD C2 46      [17]   26       call     cpct_disableFirmware_asm
                              27    ;; call game init
-   427F CD C9 44      [17]   28       call man_game_init
+   427F CD 0B 45      [17]   28       call man_game_init
                              29    ;; call game manager
-   4282 CD 06 45      [17]   30       call man_game_play
+   4282 CD 4D 45      [17]   30       call man_game_play

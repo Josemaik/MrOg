@@ -5073,79 +5073,79 @@ Hexadecimal [16-Bits]
                               8 ;;;;;;;;;;;;;;;
                               9 ;; FUNCTIONS ;;
                              10 ;;;;;;;;;;;;;;;
-   42DD                      11 sys_physics_check_keyboard:
+   42EF                      11 sys_physics_check_keyboard:
                              12     ;; save entity
-   42DD D5            [11]   13     push de
+   42EF D5            [11]   13     push de
                              14     ;; scan keyboard
-   42DE CD 2D 45      [17]   15     call cpct_scanKeyboard_f_asm
+   42F0 CD 74 45      [17]   15     call cpct_scanKeyboard_f_asm
                              16     ;; check letter O
-   42E1 21 04 04      [10]   17     ld      hl, #Key_O
-   42E4 CD 97 45      [17]   18     call cpct_isKeyPressed_asm
-   42E7 20 0B         [12]   19     jr nz, sys_physics_o_is_pressed
+   42F3 21 04 04      [10]   17     ld      hl, #Key_O
+   42F6 CD DE 45      [17]   18     call cpct_isKeyPressed_asm
+   42F9 20 0B         [12]   19     jr nz, sys_physics_o_is_pressed
                              20     ;; check letter P
-   42E9 21 03 08      [10]   21     ld      hl, #Key_P
-   42EC CD 97 45      [17]   22     call cpct_isKeyPressed_asm
-   42EF 20 0C         [12]   23     jr nz, sys_physics_P_is_pressed
+   42FB 21 03 08      [10]   21     ld      hl, #Key_P
+   42FE CD DE 45      [17]   22     call cpct_isKeyPressed_asm
+   4301 20 0C         [12]   23     jr nz, sys_physics_P_is_pressed
                              24 
-   42F1 D1            [10]   25     pop de
-   42F2 18 12         [12]   26     jr sys_physics_check_keyboard_end
+   4303 D1            [10]   25     pop de
+   4304 18 12         [12]   26     jr sys_physics_check_keyboard_end
                              27     ;; O is pressed
-   42F4                      28     sys_physics_o_is_pressed:
+   4306                      28     sys_physics_o_is_pressed:
                              29         ;; retrieve entity
-   42F4 D1            [10]   30         pop de
+   4306 D1            [10]   30         pop de
                              31         ;; vx = 1
-   42F5 21 05 00      [10]   32         ld      hl, #VX
-   42F8 19            [11]   33         add     hl, de
-   42F9 36 FF         [10]   34         ld      (hl), #-1
+   4307 21 05 00      [10]   32         ld      hl, #VX
+   430A 19            [11]   33         add     hl, de
+   430B 36 FF         [10]   34         ld      (hl), #-1
                              35 
-   42FB 18 09         [12]   36         jr      sys_physics_check_keyboard_end
+   430D 18 09         [12]   36         jr      sys_physics_check_keyboard_end
                              37 
-   42FD                      38     sys_physics_P_is_pressed:
+   430F                      38     sys_physics_P_is_pressed:
                              39         ;; retrieve entity
-   42FD D1            [10]   40         pop de
+   430F D1            [10]   40         pop de
                              41         ;; vx = 1
-   42FE 21 05 00      [10]   42         ld      hl, #VX
-   4301 19            [11]   43         add     hl, de
-   4302 36 01         [10]   44         ld      (hl), #1
+   4310 21 05 00      [10]   42         ld      hl, #VX
+   4313 19            [11]   43         add     hl, de
+   4314 36 01         [10]   44         ld      (hl), #1
                              45 
-   4304 18 00         [12]   46         jr      sys_physics_check_keyboard_end
+   4316 18 00         [12]   46         jr      sys_physics_check_keyboard_end
                              47 
-   4306                      48         sys_physics_check_keyboard_end:
-   4306 C9            [10]   49     ret
+   4318                      48         sys_physics_check_keyboard_end:
+   4318 C9            [10]   49     ret
                              50 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              51 ;; UPDATE PHYSICS FOR ONE ENTITY 
                              52 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              53 ;; IN =>  DE -> entity to update                                      
                              54 ;;pop de
-   4307                      55 sys_physics_update_for_one:
+   4319                      55 sys_physics_update_for_one:
                              56     ;; if entity have input
-   4307 21 00 00      [10]   57         ld      hl, #TYPE
-   430A 19            [11]   58         add     hl, de
-   430B 7E            [ 7]   59         ld      a, (hl)
+   4319 21 00 00      [10]   57         ld      hl, #TYPE
+   431C 19            [11]   58         add     hl, de
+   431D 7E            [ 7]   59         ld      a, (hl)
                              60 
-   430C E6 04         [ 7]   61         and #E_TYPE_INPUT
+   431E E6 04         [ 7]   61         and #E_TYPE_INPUT
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 98.
 Hexadecimal [16-Bits]
 
 
 
-   430E FE 04         [ 7]   62         cp  #E_TYPE_INPUT
-   4310 28 02         [12]   63         jr z, sys_physics_check_kb
-   4312 18 03         [12]   64             jr sys_physics_no_check_kb
-   4314                      65         sys_physics_check_kb:
-   4314 CD DD 42      [17]   66             call sys_physics_check_keyboard
-   4317                      67         sys_physics_no_check_kb:
+   4320 FE 04         [ 7]   62         cp  #E_TYPE_INPUT
+   4322 28 02         [12]   63         jr z, sys_physics_check_kb
+   4324 18 03         [12]   64             jr sys_physics_no_check_kb
+   4326                      65         sys_physics_check_kb:
+   4326 CD EF 42      [17]   66             call sys_physics_check_keyboard
+   4329                      67         sys_physics_no_check_kb:
                              68     ;;x+vx
                              69     ;; go to entity->x and load in a
-   4317 21 01 00      [10]   70         ld      hl, #X
-   431A 19            [11]   71         add     hl, de
-   431B 7E            [ 7]   72         ld      a, (hl)    
+   4329 21 01 00      [10]   70         ld      hl, #X
+   432C 19            [11]   71         add     hl, de
+   432D 7E            [ 7]   72         ld      a, (hl)    
                              73 
                              74     ;; go to entity-vx 
-   431C 21 05 00      [10]   75         ld      hl, #VX
-   431F 19            [11]   76         add     hl, de
+   432E 21 05 00      [10]   75         ld      hl, #VX
+   4331 19            [11]   76         add     hl, de
                              77     ;; a+hl
-   4320 86            [ 7]   78         add     (hl)
+   4332 86            [ 7]   78         add     (hl)
                              79 
                              80     ;; if in the end
                              81         ; jr      c, sys_destroy_entity 
@@ -5156,30 +5156,30 @@ Hexadecimal [16-Bits]
                              86     ;     call    _man_entity_set_for_destruction
                              87     ;     jr end_physics
                              88     ; sys_save_x:    
-   4321 21 01 00      [10]   89         ld      hl, #X
-   4324 19            [11]   90         add     hl, de
-   4325 77            [ 7]   91         ld      (hl), a
+   4333 21 01 00      [10]   89         ld      hl, #X
+   4336 19            [11]   90         add     hl, de
+   4337 77            [ 7]   91         ld      (hl), a
                              92     ;; y+vy
                              93             ;; go to entity->vy
-   4326 21 06 00      [10]   94                 ld      hl, #VY
-   4329 19            [11]   95                 add     hl, de
-   432A 7E            [ 7]   96                 ld      a, (hl)
+   4338 21 06 00      [10]   94                 ld      hl, #VY
+   433B 19            [11]   95                 add     hl, de
+   433C 7E            [ 7]   96                 ld      a, (hl)
                              97             ;; go to entity->y and add it to vy
-   432B 21 02 00      [10]   98                 ld      hl, #Y
-   432E 19            [11]   99                 add     hl, de
+   433D 21 02 00      [10]   98                 ld      hl, #Y
+   4340 19            [11]   99                 add     hl, de
                             100 
-   432F 86            [ 7]  101                 add     (hl)
+   4341 86            [ 7]  101                 add     (hl)
                             102             ;; load it in entity->y
-   4330 77            [ 7]  103                 ld      (hl), a
-   4331                     104     end_physics:
-   4331 C9            [10]  105     ret
+   4342 77            [ 7]  103                 ld      (hl), a
+   4343                     104     end_physics:
+   4343 C9            [10]  105     ret
                             106 
                             107 
                             108 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                             109 ;; CAll PHYSICS FOR ALL ENTITY :;
                             110 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   4332                     111 _sys_physics_update::          
-   4332 01 07 43      [10]  112         ld      bc, #sys_physics_update_for_one
-   4335 21 02 00      [10]  113         ld      hl, #E_TYPE_MOVABLE
-   4338 CD 32 44      [17]  114         call    _man_entity_for_all_matching
-   433B C9            [10]  115 ret
+   4344                     111 _sys_physics_update::          
+   4344 01 19 43      [10]  112         ld      bc, #sys_physics_update_for_one
+   4347 21 02 00      [10]  113         ld      hl, #E_TYPE_MOVABLE
+   434A CD 44 44      [17]  114         call    _man_entity_for_all_matching
+   434D C9            [10]  115 ret
