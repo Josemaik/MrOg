@@ -63,34 +63,27 @@ Hexadecimal [16-Bits]
 
 Symbol Table
 
-    SPACE_4_=  000E     |     SPRITE  =  0007     |     SPR_ENEM=  000A 
+    SPACE_4_=  000E     |     SPACE_OF=  0003     |     SPRITE  =  0007 
     SPR_ENEM=  000A     |     SPR_ENEM=  000A     |     SPR_ENEM=  000A 
-    SPR_MOTH=  0012     |     SPR_MOTH=  0012     |     SPR_PLAY=  0008 
-    SPR_PLAY=  0006     |     SPR_PLAY=  0008     |     SPR_PLAY=  0006 
-    TOTAL_EN=  000C     |     TOTAL_SP=  00A8     |     TYPE    =  0000 
+    SPR_ENEM=  000A     |     SPR_MOTH=  0012     |     SPR_MOTH=  0012 
+    SPR_PLAY=  0008     |     SPR_PLAY=  0006     |     SPR_PLAY=  0008 
+    SPR_PLAY=  0006     |     TIME    =  0000     |     TOTAL_EN=  000C 
+    TOTAL_SP=  00A8     |     TYPE    =  0000     |     VAL_NEXT=  0001 
     VX      =  0005     |     VY      =  0006     |     WIDTH   =  0003 
     X       =  0001     |     Y       =  0002     |     _man_ent   **** GX
-    _man_ent   **** GX  |     _man_ent   **** GX  |     _spr_ene   **** GX
-    _spr_ene   **** GX  |     _spr_mot   **** GX  |     _spr_pla   **** GX
-    _spr_pla   **** GX  |     _sys_ai_   **** GX  |     _sys_ani   **** GX
-    _sys_phy   **** GX  |     _sys_ren   **** GX  |     _sys_ren   **** GX
-  0 _wait      0000 R   |     cpct_mem   **** GX  |     cpct_mem   **** GX
-    cpct_pag=  0000     |     cpct_pag=  0010     |     cpct_pag=  0020 
-    cpct_pag=  0030     |     cpct_wai   **** GX  |     cpct_wai   **** GX
-  0 create_e   0035 R   |   1 enemy1_t   000E GR  |     firmware=  0038 
-  0 loop       0093 R   |   1 m_enemy_   0038 GR  |     man_anim   **** GX
-  0 man_game   0021 GR  |   0 man_game   004F R   |   0 man_game   0013 GR
-  0 man_game   0051 GR  |   0 man_game   0093 GR  |   1 mothersh   0000 GR
+    _spr_ene   **** GX  |     _spr_ene   **** GX  |     _spr_mot   **** GX
+  0 _sys_ani   005B GR  |   0 change_s   000C R   |     cpct_mem   **** GX
+    cpct_mem   **** GX  |     cpct_pag=  0000     |     cpct_pag=  0010 
+    cpct_pag=  0020     |     cpct_pag=  0030     |     firmware=  0038 
+  0 goto_nex   0039 R   |   0 goto_sta   002B R   |     man_anim   **** GX
     opc_DI  =  00F3     |     opc_EI  =  00FB     |     opc_JR  =  0018 
-    opc_LD_D=  0016     |   1 playersh   002A GR  |   1 playersh   001C GR
-    sys_ai_b   **** GX  |     sys_ai_b   **** GX  |   0 wait_end   0012 R
-  0 wait_ini   0000 R
+    opc_LD_D=  0016     |   0 sys_anim   0000 R   |   0 sys_anim   005A R
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   A8   flags    0
-   1 _DATA      size   39   flags    0
+   0 _CODE      size   65   flags    0
+   1 _DATA      size    0   flags    0
 

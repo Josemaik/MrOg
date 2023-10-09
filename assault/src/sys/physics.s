@@ -1,4 +1,4 @@
-.module Control_physics
+.module System_physics
 .area _DATA
 .area _CODE
 .include "man/entity.h.s"

@@ -19,10 +19,12 @@ mothership_template_e::
 		.db     #1                 ;; vx = -1
 		.db     #0x00               ;; vy = 0
 		.dw     #_spr_mothership    ;; sprite (2b)
-      .dw     #sys_ai_behaviour_mothership
+      .dw     #sys_ai_behaviour_mothership ;; behaviour
+      .dw     #0x0000               ;;anim
+      .db     #0x00              ;;animcounter c = 0
 ;; ENEMY1 ENTITY
 enemy1_template_e:: 
-      .db     #E_TYPE_MOVABLE | #E_TYPE_RENDER | #E_TYPE_IA;; entity type
+      .db     #E_TYPE_MOVABLE | #E_TYPE_ANIMATED | #E_TYPE_RENDER | #E_TYPE_IA;; entity type
 		.db     #0x00               ;; x = 0
 		.db     #0x28               ;; y = 30
 		.db     #SPR_ENEMY1_0_W   ;; width 
@@ -30,7 +32,9 @@ enemy1_template_e::
 		.db     #0x00                 ;; vx = 0
 		.db     #0x00               ;; vy = 0
 		.dw     #_spr_enemy1_0    ;; sprite (2b)
-      .dw     #sys_ai_behaviour_left_right
+      .dw     #sys_ai_behaviour_left_right ;; behaviour
+      .dw     #man_anim_enemy1               ;;anim
+      .db     #0x0c              ;;animcounter c = 12
 
 ;; PLAYERSHIP ENTITY
 playership_template1_e:: 
@@ -42,7 +46,9 @@ playership_template1_e::
 		.db     #0x00                 ;; vx = 0
 		.db     #0x00               ;; vy = 0
 		.dw     #_spr_playership_1    ;; sprite (2b)
-      .dw     #0x0000
+      .dw     #0x0000 ;; behaviour
+      .dw     #0x0000 ;; anim
+      .db     #0x00              ;;animcounter c = 0
 ;; PLAYER
 playership_template0_e:: 
       .db     #E_TYPE_RENDER | #E_TYPE_MOVABLE | #E_TYPE_INPUT  ;; entity type
@@ -53,7 +59,9 @@ playership_template0_e::
 		.db     #0x00                 ;; vx = 0
 		.db     #0x00               ;; vy = 0
 		.dw     #_spr_playership_0    ;; sprite (2b)
-      .dw     #0x0000
+      .dw     #0x0000 ;; behaviour
+      .dw     #0x0000 ;; anim
+      .db     #0x00              ;;animcounter c = 0
 m_enemy_on_lane::
         .ds 1
 
@@ -206,14 +214,16 @@ man_game_play::
          call      _sys_ai_update
       ;; update positions
          call     _sys_physics_update
-      
+      ;; call animations system
+         call     _sys_animations_update
       ;; render
          call     _sys_render_update
       ;; update manager
          call     _man_entity_update
       ;; wait ( se mueve cada cinco fotogramas)
-         ld       a, #5
-		 call     _wait
+      ;    ld       a, #5
+		;  call     _wait
+         call cpct_waitVSYNC_asm
       ;; jump to loop
          jr       loop
 ret

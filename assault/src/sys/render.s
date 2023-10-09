@@ -1,4 +1,4 @@
-.module Render_Stars
+.module System_Render
 .include "cpctelera.h.s"
 
 .area _DATA

@@ -5008,20 +5008,22 @@ Hexadecimal [16-Bits]
                               9    ;; managers                            
                              10       .globl _man_entity_init             
                              11       .globl _man_entity_update           
-                             12       .globl _man_entity_create                           
-                             13    ;; systems                             
-                             14       .globl _sys_physics_update          
-                             15       .globl _sys_render_update                   
-                             16       .globl _sys_render_init
-                             17       .globl _sys_ai_update
-                             18       .globl sys_ai_behaviour_left_right
-                             19       .globl sys_ai_behaviour_mothership
-                             20    ;; sprites
-                             21       .globl _spr_mothership
-                             22       .globl _spr_playership_0
-                             23       .globl _spr_playership_1
-                             24       .globl _spr_enemy1_0
-                             25       .globl _spr_enemy1_1
+                             12       .globl _man_entity_create
+                             13       .globl  man_anim_enemy1                           
+                             14    ;; systems                             
+                             15       .globl _sys_physics_update          
+                             16       .globl _sys_render_update                   
+                             17       .globl _sys_render_init
+                             18       .globl _sys_ai_update
+                             19       .globl sys_ai_behaviour_left_right
+                             20       .globl sys_ai_behaviour_mothership
+                             21       .globl _sys_animations_update
+                             22    ;; sprites
+                             23       .globl _spr_mothership
+                             24       .globl _spr_playership_0
+                             25       .globl _spr_playership_1
+                             26       .globl _spr_enemy1_0
+                             27       .globl _spr_enemy1_1
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
 Hexadecimal [16-Bits]
 
@@ -5042,42 +5044,53 @@ Hexadecimal [16-Bits]
                      0005    12         VX      = 5     ;;i8
                      0006    13         VY      = 6     ;;i8            
                      0007    14         SPRITE  = 7     ;;u8(2)
-                     0009    15         IA_behaviour  = 9 ;; u8(2)             
-                             16                                         
-                             17     ;; Entity types                  
-                     0000    18         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities     
-                     0001    19         E_TYPE_RENDER   = 0x01   ;; renderable entity
-                     0002    20         E_TYPE_MOVABLE  = 0x02   ;; movable entity
-                     0004    21         E_TYPE_INPUT    = 0x04   ;; Entity controlable by input
-                     0008    22         E_TYPE_IA       = 0x08   ;; Entity controlable by artificial inteligence
-                     0080    23         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
-                     007F    24         E_TYPE_DEFAULT  = 0x7F   ;; default entity       
-                             25                                         
-                             26     ;; OTHERS
-                     000B    27         SPACE_4_ONE_ENTITY     = 11      ;; space for one entity
-                     000C    28         TOTAL_ENTITIES         = 12      ;; number of entities                          
-                     0084    29         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
-                             30     ;;   SPRITE PROPERTIES
-                     0012    31         SPR_MOTHERSHIP_W = 18
-                     0012    32         SPR_MOTHERSHIP_H = 18
-                     0006    33         SPR_PLAYERSHIP_0_W = 6
-                     0008    34         SPR_PLAYERSHIP_0_H = 8
-                     0006    35         SPR_PLAYERSHIP_1_W = 6
-                     0008    36         SPR_PLAYERSHIP_1_H = 8
-                     000A    37         SPR_ENEMY1_0_W = 10
-                     000A    38         SPR_ENEMY1_0_H = 10
-                     000A    39         SPR_ENEMY1_1_W = 10
-                     000A    40         SPR_ENEMY1_1_H = 10
-                             41         
-                             42                                         
-                             43 
-                             44 
-                             45     ;;;;;;;;;;;;;;;;;;;;
-                             46     ;; GLOBAL SYMBOLS ;;
-                             47     ;;;;;;;;;;;;;;;;;;;;
-                             48     .globl cpct_memset_asm      
-                             49     .globl cpct_memcpy_asm      
+                     0009    15         IA_behaviour  = 9 ;; u8(2)
+                     000B    16         AnimFrame = 11     ;;u8(2)
+                     000D    17         AnimCounter = 13    ;;u8    
+                             18                                         
+                             19     ;; Entity types                  
+                     0000    20         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities     
+                     0001    21         E_TYPE_RENDER   = 0x01   ;; renderable entity
+                     0002    22         E_TYPE_MOVABLE  = 0x02   ;; movable entity
+                     0004    23         E_TYPE_INPUT    = 0x04   ;; Entity controlable by input
+                     0008    24         E_TYPE_IA       = 0x08   ;; Entity controlable by artificial inteligence
+                     0010    25         E_TYPE_ANIMATED = 0x10   ;; Animated Entity
+                     0080    26         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
+                     007F    27         E_TYPE_DEFAULT  = 0x7F   ;; default entity       
+                             28                                         
+                             29     ;; OTHERS
+                     000E    30         SPACE_4_ONE_ENTITY     = 14      ;; space for one entity
+                     000C    31         TOTAL_ENTITIES         = 12      ;; number of entities                          
+                     00A8    32         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
+                             33     ;;   SPRITE PROPERTIES
+                     0012    34         SPR_MOTHERSHIP_W = 18
+                     0012    35         SPR_MOTHERSHIP_H = 18
+                     0006    36         SPR_PLAYERSHIP_0_W = 6
+                     0008    37         SPR_PLAYERSHIP_0_H = 8
+                     0006    38         SPR_PLAYERSHIP_1_W = 6
+                     0008    39         SPR_PLAYERSHIP_1_H = 8
+                     000A    40         SPR_ENEMY1_0_W = 10
+                     000A    41         SPR_ENEMY1_0_H = 10
+                     000A    42         SPR_ENEMY1_1_W = 10
+                     000A    43         SPR_ENEMY1_1_H = 10
+                             44         
+                             45                                         
+                             46 
+                             47 
+                             48     ;;;;;;;;;;;;;;;;;;;;
+                             49     ;; GLOBAL SYMBOLS ;;
+                             50     ;;;;;;;;;;;;;;;;;;;;
+                             51     ;;cpctelera
+                             52     .globl cpct_memset_asm      
+                             53     .globl cpct_memcpy_asm
+                             54     ;;animations      
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 97.
+Hexadecimal [16-Bits]
+
+
+
+                             55     .globl man_anim_enemy1
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 98.
 Hexadecimal [16-Bits]
 
 
@@ -5098,216 +5111,231 @@ Hexadecimal [16-Bits]
    0005 01                   19 		.db     #1                 ;; vx = -1
    0006 00                   20 		.db     #0x00               ;; vy = 0
    0007 00 00                21 		.dw     #_spr_mothership    ;; sprite (2b)
-   0009 00 00                22       .dw     #sys_ai_behaviour_mothership
-                             23 ;; ENEMY1 ENTITY
-   000B                      24 enemy1_template_e:: 
-   000B 0B                   25       .db     #E_TYPE_MOVABLE | #E_TYPE_RENDER | #E_TYPE_IA;; entity type
-   000C 00                   26 		.db     #0x00               ;; x = 0
-   000D 28                   27 		.db     #0x28               ;; y = 30
-   000E 0A                   28 		.db     #SPR_ENEMY1_0_W   ;; width 
-   000F 0A                   29 		.db     #SPR_ENEMY1_0_H   ;; height
-   0010 00                   30 		.db     #0x00                 ;; vx = 0
-   0011 00                   31 		.db     #0x00               ;; vy = 0
-   0012 00 00                32 		.dw     #_spr_enemy1_0    ;; sprite (2b)
-   0014 00 00                33       .dw     #sys_ai_behaviour_left_right
-                             34 
-                             35 ;; PLAYERSHIP ENTITY
-   0016                      36 playership_template1_e:: 
-   0016 01                   37       .db     #E_TYPE_RENDER ;; entity type
-   0017 00                   38 		.db     #0x00               ;; x = 0
-   0018 C0                   39 		.db     #0xC0               ;; y = 192
-   0019 06                   40 		.db     #SPR_PLAYERSHIP_1_W   ;; width 
-   001A 08                   41 		.db     #SPR_PLAYERSHIP_1_H   ;; height
-   001B 00                   42 		.db     #0x00                 ;; vx = 0
-   001C 00                   43 		.db     #0x00               ;; vy = 0
-   001D 00 00                44 		.dw     #_spr_playership_1    ;; sprite (2b)
-   001F 00 00                45       .dw     #0x0000
-                             46 ;; PLAYER
-   0021                      47 playership_template0_e:: 
-   0021 07                   48       .db     #E_TYPE_RENDER | #E_TYPE_MOVABLE | #E_TYPE_INPUT  ;; entity type
-   0022 26                   49 		.db     #0x26               ;; x = 38
-   0023 B4                   50 		.db     #0xB4               ;; y = 180
-   0024 06                   51 		.db     #SPR_PLAYERSHIP_0_W   ;; width 
-   0025 08                   52 		.db     #SPR_PLAYERSHIP_0_H   ;; height
-   0026 00                   53 		.db     #0x00                 ;; vx = 0
-   0027 00                   54 		.db     #0x00               ;; vy = 0
-   0028 00 00                55 		.dw     #_spr_playership_0    ;; sprite (2b)
-   002A 00 00                56       .dw     #0x0000
-   002C                      57 m_enemy_on_lane::
-   002C                      58         .ds 1
-                             59 
-                             60 .area _CODE
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 98.
-Hexadecimal [16-Bits]
-
-
-
-                             61 ;;;;;;;;;;;;;;;;;;;;;
-                             62 ;; PRIVATE FUNCTION;;
-                             63 ;;;;;;;;;;;;;;;;;;;;;
-                             64 
-                             65 ;;;;;;;;;;;;;;;;;;;;
-                             66 ;; WAIT
-                             67 ;;
-   0000                      68 _wait:
-                             69     ;; loop
-   0000                      70       wait_init_for:
-                             71          ;; compare A with 0 and two halts
-   0000 FE 00         [ 7]   72             cp       #0                   
-   0002 28 0E         [12]   73             jr       z, wait_end_for      
-   0004 06 02         [ 7]   74             ld       b, #2
-   0006 CD 00 00      [17]   75             call     cpct_waitHalts_asm
-                             76 
-                             77          ;; save a
-   0009 F5            [11]   78             push     af
-                             79          ;; wait sync
-   000A CD 00 00      [17]   80             call     cpct_waitVSYNC_asm
-                             81          
-                             82          ;; a-1
-   000D F1            [10]   83             pop      af
-   000E D6 01         [ 7]   84             sub      #1
-                             85          ;; go loop
-   0010 18 EE         [12]   86             jr       wait_init_for
-                             87    ;; end for
-   0012                      88       wait_end_for:
-   0012 C9            [10]   89    ret
-                             90 ;;;;;;;;;;;;;;;;;;;;;
-                             91 ;; PUBLIC FUNCTION ;;
-                             92 ;;;;;;;;;;;;;;;;;;;;;
-                             93 
-                             94 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             95 ;;;CREATE TEMPLATE
-                             96 ;;
-   0013                      97 man_game_create_template_entity::
-   0013 E5            [11]   98    push hl
-                             99    ;; create entity
-   0014 CD 00 00      [17]  100         call _man_entity_create
-                            101     
-                            102         ;; load entity from stack
-   0017 E1            [10]  103         pop hl
-   0018 D5            [11]  104         push de
-   0019 01 0B 00      [10]  105         ld bc,#SPACE_4_ONE_ENTITY
-   001C CD 00 00      [17]  106         call cpct_memcpy_asm
-   001F D1            [10]  107         pop de
-   0020 C9            [10]  108    ret
-                            109 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            110 ;;;CREATE ENEMY
-                            111 ;;
-   0021                     112 man_game_create_enemy::
-                            113    ;; save in c -> x of mothership
-   0021 21 01 00      [10]  114    ld hl, #X
-   0024 19            [11]  115    add hl, de
+   0009 00 00                22       .dw     #sys_ai_behaviour_mothership ;; behaviour
+   000B 00 00                23       .dw     #0x0000               ;;anim
+   000D 00                   24       .db     #0x00              ;;animcounter c = 0
+                             25 ;; ENEMY1 ENTITY
+   000E                      26 enemy1_template_e:: 
+   000E 1B                   27       .db     #E_TYPE_MOVABLE | #E_TYPE_ANIMATED | #E_TYPE_RENDER | #E_TYPE_IA;; entity type
+   000F 00                   28 		.db     #0x00               ;; x = 0
+   0010 28                   29 		.db     #0x28               ;; y = 30
+   0011 0A                   30 		.db     #SPR_ENEMY1_0_W   ;; width 
+   0012 0A                   31 		.db     #SPR_ENEMY1_0_H   ;; height
+   0013 00                   32 		.db     #0x00                 ;; vx = 0
+   0014 00                   33 		.db     #0x00               ;; vy = 0
+   0015 00 00                34 		.dw     #_spr_enemy1_0    ;; sprite (2b)
+   0017 00 00                35       .dw     #sys_ai_behaviour_left_right ;; behaviour
+   0019 00 00                36       .dw     #man_anim_enemy1               ;;anim
+   001B 0C                   37       .db     #0x0c              ;;animcounter c = 12
+                             38 
+                             39 ;; PLAYERSHIP ENTITY
+   001C                      40 playership_template1_e:: 
+   001C 01                   41       .db     #E_TYPE_RENDER ;; entity type
+   001D 00                   42 		.db     #0x00               ;; x = 0
+   001E C0                   43 		.db     #0xC0               ;; y = 192
+   001F 06                   44 		.db     #SPR_PLAYERSHIP_1_W   ;; width 
+   0020 08                   45 		.db     #SPR_PLAYERSHIP_1_H   ;; height
+   0021 00                   46 		.db     #0x00                 ;; vx = 0
+   0022 00                   47 		.db     #0x00               ;; vy = 0
+   0023 00 00                48 		.dw     #_spr_playership_1    ;; sprite (2b)
+   0025 00 00                49       .dw     #0x0000 ;; behaviour
+   0027 00 00                50       .dw     #0x0000 ;; anim
+   0029 00                   51       .db     #0x00              ;;animcounter c = 0
+                             52 ;; PLAYER
+   002A                      53 playership_template0_e:: 
+   002A 07                   54       .db     #E_TYPE_RENDER | #E_TYPE_MOVABLE | #E_TYPE_INPUT  ;; entity type
+   002B 26                   55 		.db     #0x26               ;; x = 38
+   002C B4                   56 		.db     #0xB4               ;; y = 180
+   002D 06                   57 		.db     #SPR_PLAYERSHIP_0_W   ;; width 
+   002E 08                   58 		.db     #SPR_PLAYERSHIP_0_H   ;; height
+   002F 00                   59 		.db     #0x00                 ;; vx = 0
+   0030 00                   60 		.db     #0x00               ;; vy = 0
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
 
 
-   0025 4E            [ 7]  116    ld c, (hl)
-                            117    ;; save in b -> vx of mothership
-   0026 21 05 00      [10]  118    ld hl, #VX
-   0029 19            [11]  119    add hl, de
-   002A 46            [ 7]  120    ld b, (hl)
-                            121    ;; save bc
-   002B C5            [11]  122    push bc
-                            123    ;; save in a varibale que indica si hay o no enemigo en linea
-   002C 3A 2C 00      [13]  124    ld a, (m_enemy_on_lane)
-   002F FE 00         [ 7]  125    cp #0
-                            126    ;; compruebo los enemigos que hay en línea (if menemyonlane == 0) creoenemy;
-   0031 28 02         [12]  127    jr z, create_enemy
-   0033 18 1A         [12]  128    jr man_game_create_enemy_end
-                            129    ;; Create new enemy and set x and vx
-   0035                     130    create_enemy:
-                            131          ;; create enemy
-   0035 21 0B 00      [10]  132         ld       hl, #enemy1_template_e
-   0038 CD 13 00      [17]  133         call man_game_create_template_entity
-                            134         ;; retrieve bc
-   003B C1            [10]  135         pop bc
-                            136         ;; load in a, x of mothership , plus 4 and load in enemy->x
-   003C 79            [ 4]  137         ld a, c
-   003D C6 04         [ 7]  138         add #4
-   003F 21 01 00      [10]  139         ld hl, #X
-   0042 19            [11]  140         add hl, de
-   0043 77            [ 7]  141         ld (hl), a
-                            142         ;; load in a, vx of mothership and load in enemy->x
-   0044 78            [ 4]  143         ld a, b
-   0045 21 05 00      [10]  144         ld hl, #VX
-   0048 19            [11]  145         add hl, de
-   0049 77            [ 7]  146         ld (hl), a
-                            147         ;; put variable menemyonlane as 1
-   004A 3E 01         [ 7]  148         ld a, #0x01
-   004C 32 2C 00      [13]  149         ld (m_enemy_on_lane), a
-                            150 
-   004F                     151    man_game_create_enemy_end:
-   004F C1            [10]  152    pop bc
-   0050 C9            [10]  153 ret
-                            154 ;;;;;;;;;;;;;;;;;;;;
-                            155 ;; INIT
-                            156 ;;
-   0051                     157 man_game_init::
-                            158     ;; configure videomode, palet y border
-   0051 CD 00 00      [17]  159         call     _sys_render_init
-                            160 
-                            161     ;; inicialize manager entity
-   0054 CD 00 00      [17]  162         call     _man_entity_init
-                            163 
-                            164    ;; no enemies on lane on start
-   0057 3E 00         [ 7]  165        ld a, #0
-   0059 32 2C 00      [13]  166        ld (m_enemy_on_lane), a
-                            167     ;; Create mothership
-   005C 21 00 00      [10]  168         ld       hl, #mothership_template_e
-   005F CD 13 00      [17]  169         call man_game_create_template_entity
-   0062 21 01 00      [10]  170         ld    hl, #X
+   0031 00 00                61 		.dw     #_spr_playership_0    ;; sprite (2b)
+   0033 00 00                62       .dw     #0x0000 ;; behaviour
+   0035 00 00                63       .dw     #0x0000 ;; anim
+   0037 00                   64       .db     #0x00              ;;animcounter c = 0
+   0038                      65 m_enemy_on_lane::
+   0038                      66         .ds 1
+                             67 
+                             68 .area _CODE
+                             69 ;;;;;;;;;;;;;;;;;;;;;
+                             70 ;; PRIVATE FUNCTION;;
+                             71 ;;;;;;;;;;;;;;;;;;;;;
+                             72 
+                             73 ;;;;;;;;;;;;;;;;;;;;
+                             74 ;; WAIT
+                             75 ;;
+   0000                      76 _wait:
+                             77     ;; loop
+   0000                      78       wait_init_for:
+                             79          ;; compare A with 0 and two halts
+   0000 FE 00         [ 7]   80             cp       #0                   
+   0002 28 0E         [12]   81             jr       z, wait_end_for      
+   0004 06 02         [ 7]   82             ld       b, #2
+   0006 CD 00 00      [17]   83             call     cpct_waitHalts_asm
+                             84 
+                             85          ;; save a
+   0009 F5            [11]   86             push     af
+                             87          ;; wait sync
+   000A CD 00 00      [17]   88             call     cpct_waitVSYNC_asm
+                             89          
+                             90          ;; a-1
+   000D F1            [10]   91             pop      af
+   000E D6 01         [ 7]   92             sub      #1
+                             93          ;; go loop
+   0010 18 EE         [12]   94             jr       wait_init_for
+                             95    ;; end for
+   0012                      96       wait_end_for:
+   0012 C9            [10]   97    ret
+                             98 ;;;;;;;;;;;;;;;;;;;;;
+                             99 ;; PUBLIC FUNCTION ;;
+                            100 ;;;;;;;;;;;;;;;;;;;;;
+                            101 
+                            102 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            103 ;;;CREATE TEMPLATE
+                            104 ;;
+   0013                     105 man_game_create_template_entity::
+   0013 E5            [11]  106    push hl
+                            107    ;; create entity
+   0014 CD 00 00      [17]  108         call _man_entity_create
+                            109     
+                            110         ;; load entity from stack
+   0017 E1            [10]  111         pop hl
+   0018 D5            [11]  112         push de
+   0019 01 0E 00      [10]  113         ld bc,#SPACE_4_ONE_ENTITY
+   001C CD 00 00      [17]  114         call cpct_memcpy_asm
+   001F D1            [10]  115         pop de
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 100.
 Hexadecimal [16-Bits]
 
 
 
-   0065 19            [11]  171         add   hl, de
-   0066 36 26         [10]  172         ld    (hl), #38
-   0068 21 05 00      [10]  173         ld    hl, #VX
-   006B 19            [11]  174         add   hl, de
-   006C 36 01         [10]  175         ld    (hl), #1
-                            176 
-                            177     ;; creamos playership en x = 0
-   006E 21 16 00      [10]  178        ld       hl, #playership_template1_e
-   0071 CD 13 00      [17]  179         call man_game_create_template_entity
-                            180    ;; cambiamos a la posición x = 10
-   0074 21 01 00      [10]  181          ld    hl, #X
-   0077 19            [11]  182          add   hl, de
-   0078 36 0A         [10]  183          ld    (hl), #10
-                            184    ;; creamos playership1
-   007A 21 16 00      [10]  185        ld       hl, #playership_template1_e
-   007D CD 13 00      [17]  186         call man_game_create_template_entity
-                            187    ;; cambiamos a la posición x = 20
-   0080 21 01 00      [10]  188          ld    hl, #X
-   0083 19            [11]  189          add   hl, de
-   0084 36 14         [10]  190          ld    (hl), #20
-                            191    ;; Create playership 1
-   0086 21 16 00      [10]  192        ld       hl, #playership_template1_e
-   0089 CD 13 00      [17]  193       call man_game_create_template_entity
-                            194    ;; Creamos player
-   008C 21 21 00      [10]  195    ld       hl, #playership_template0_e
-   008F CD 13 00      [17]  196    call man_game_create_template_entity
-   0092 C9            [10]  197 ret
-                            198 ;;;;;;;;;;;;;;;;;;;;;;
-                            199 ;; PLAY
-                            200 ;;
-                            201 
-   0093                     202 man_game_play::
-                            203    ;; infinite loop
-   0093                     204    loop:
-                            205       ;; call ai manager
-   0093 CD 00 00      [17]  206          call      _sys_ai_update
-                            207       ;; update positions
-   0096 CD 00 00      [17]  208          call     _sys_physics_update
-                            209       
-                            210       ;; render
-   0099 CD 00 00      [17]  211          call     _sys_render_update
-                            212       ;; update manager
-   009C CD 00 00      [17]  213          call     _man_entity_update
-                            214       ;; wait ( se mueve cada cinco fotogramas)
-   009F 3E 05         [ 7]  215          ld       a, #5
-   00A1 CD 00 00      [17]  216 		 call     _wait
-                            217       ;; jump to loop
-   00A4 18 ED         [12]  218          jr       loop
-   00A6 C9            [10]  219 ret
+   0020 C9            [10]  116    ret
+                            117 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            118 ;;;CREATE ENEMY
+                            119 ;;
+   0021                     120 man_game_create_enemy::
+                            121    ;; save in c -> x of mothership
+   0021 21 01 00      [10]  122    ld hl, #X
+   0024 19            [11]  123    add hl, de
+   0025 4E            [ 7]  124    ld c, (hl)
+                            125    ;; save in b -> vx of mothership
+   0026 21 05 00      [10]  126    ld hl, #VX
+   0029 19            [11]  127    add hl, de
+   002A 46            [ 7]  128    ld b, (hl)
+                            129    ;; save bc
+   002B C5            [11]  130    push bc
+                            131    ;; save in a varibale que indica si hay o no enemigo en linea
+   002C 3A 38 00      [13]  132    ld a, (m_enemy_on_lane)
+   002F FE 00         [ 7]  133    cp #0
+                            134    ;; compruebo los enemigos que hay en línea (if menemyonlane == 0) creoenemy;
+   0031 28 02         [12]  135    jr z, create_enemy
+   0033 18 1A         [12]  136    jr man_game_create_enemy_end
+                            137    ;; Create new enemy and set x and vx
+   0035                     138    create_enemy:
+                            139          ;; create enemy
+   0035 21 0E 00      [10]  140         ld       hl, #enemy1_template_e
+   0038 CD 13 00      [17]  141         call man_game_create_template_entity
+                            142         ;; retrieve bc
+   003B C1            [10]  143         pop bc
+                            144         ;; load in a, x of mothership , plus 4 and load in enemy->x
+   003C 79            [ 4]  145         ld a, c
+   003D C6 04         [ 7]  146         add #4
+   003F 21 01 00      [10]  147         ld hl, #X
+   0042 19            [11]  148         add hl, de
+   0043 77            [ 7]  149         ld (hl), a
+                            150         ;; load in a, vx of mothership and load in enemy->x
+   0044 78            [ 4]  151         ld a, b
+   0045 21 05 00      [10]  152         ld hl, #VX
+   0048 19            [11]  153         add hl, de
+   0049 77            [ 7]  154         ld (hl), a
+                            155         ;; put variable menemyonlane as 1
+   004A 3E 01         [ 7]  156         ld a, #0x01
+   004C 32 38 00      [13]  157         ld (m_enemy_on_lane), a
+                            158 
+   004F                     159    man_game_create_enemy_end:
+   004F C1            [10]  160    pop bc
+   0050 C9            [10]  161 ret
+                            162 ;;;;;;;;;;;;;;;;;;;;
+                            163 ;; INIT
+                            164 ;;
+   0051                     165 man_game_init::
+                            166     ;; configure videomode, palet y border
+   0051 CD 00 00      [17]  167         call     _sys_render_init
+                            168 
+                            169     ;; inicialize manager entity
+   0054 CD 00 00      [17]  170         call     _man_entity_init
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 101.
+Hexadecimal [16-Bits]
+
+
+
+                            171 
+                            172    ;; no enemies on lane on start
+   0057 3E 00         [ 7]  173        ld a, #0
+   0059 32 38 00      [13]  174        ld (m_enemy_on_lane), a
+                            175     ;; Create mothership
+   005C 21 00 00      [10]  176         ld       hl, #mothership_template_e
+   005F CD 13 00      [17]  177         call man_game_create_template_entity
+   0062 21 01 00      [10]  178         ld    hl, #X
+   0065 19            [11]  179         add   hl, de
+   0066 36 26         [10]  180         ld    (hl), #38
+   0068 21 05 00      [10]  181         ld    hl, #VX
+   006B 19            [11]  182         add   hl, de
+   006C 36 01         [10]  183         ld    (hl), #1
+                            184 
+                            185     ;; creamos playership en x = 0
+   006E 21 1C 00      [10]  186        ld       hl, #playership_template1_e
+   0071 CD 13 00      [17]  187         call man_game_create_template_entity
+                            188    ;; cambiamos a la posición x = 10
+   0074 21 01 00      [10]  189          ld    hl, #X
+   0077 19            [11]  190          add   hl, de
+   0078 36 0A         [10]  191          ld    (hl), #10
+                            192    ;; creamos playership1
+   007A 21 1C 00      [10]  193        ld       hl, #playership_template1_e
+   007D CD 13 00      [17]  194         call man_game_create_template_entity
+                            195    ;; cambiamos a la posición x = 20
+   0080 21 01 00      [10]  196          ld    hl, #X
+   0083 19            [11]  197          add   hl, de
+   0084 36 14         [10]  198          ld    (hl), #20
+                            199    ;; Create playership 1
+   0086 21 1C 00      [10]  200        ld       hl, #playership_template1_e
+   0089 CD 13 00      [17]  201       call man_game_create_template_entity
+                            202    ;; Creamos player
+   008C 21 2A 00      [10]  203    ld       hl, #playership_template0_e
+   008F CD 13 00      [17]  204    call man_game_create_template_entity
+   0092 C9            [10]  205 ret
+                            206 ;;;;;;;;;;;;;;;;;;;;;;
+                            207 ;; PLAY
+                            208 ;;
+                            209 
+   0093                     210 man_game_play::
+                            211    ;; infinite loop
+   0093                     212    loop:
+                            213       ;; call ai manager
+   0093 CD 00 00      [17]  214          call      _sys_ai_update
+                            215       ;; update positions
+   0096 CD 00 00      [17]  216          call     _sys_physics_update
+                            217       ;; call animations system
+   0099 CD 00 00      [17]  218          call     _sys_animations_update
+                            219       ;; render
+   009C CD 00 00      [17]  220          call     _sys_render_update
+                            221       ;; update manager
+   009F CD 00 00      [17]  222          call     _man_entity_update
+                            223       ;; wait ( se mueve cada cinco fotogramas)
+                            224       ;    ld       a, #5
+                            225 		;  call     _wait
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 102.
+Hexadecimal [16-Bits]
+
+
+
+   00A2 CD 00 00      [17]  226          call cpct_waitVSYNC_asm
+                            227       ;; jump to loop
+   00A5 18 EC         [12]  228          jr       loop
+   00A7 C9            [10]  229 ret

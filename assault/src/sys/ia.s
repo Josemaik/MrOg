@@ -1,4 +1,4 @@
-.module Manager_IA
+.module System_IA
 .area _DATA
 .area _CODE
 .include "man/entity.h.s"

@@ -4,8 +4,9 @@ Hexadecimal [16-Bits]
 Symbol Table
 
     .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
-    .__.H$L.=  0000 L   |     CPCT_VME=  C000     |     CRTC_SEL=  00BC 
-    CRTC_SET=  00BD     |     E_TYPE_D=  0080     |     E_TYPE_D=  007F 
+    .__.H$L.=  0000 L   |     AnimCoun=  000D     |     AnimFram=  000B 
+    CPCT_VME=  C000     |     CRTC_SEL=  00BC     |     CRTC_SET=  00BD 
+    E_TYPE_A=  0010     |     E_TYPE_D=  0080     |     E_TYPE_D=  007F 
     E_TYPE_I=  0008     |     E_TYPE_I=  0004     |     E_TYPE_I=  0000 
     E_TYPE_M=  0002     |     E_TYPE_R=  0001     |     FW_BLACK=  0000 
     FW_BLUE =  0001     |     FW_BRIGH=  0002     |     FW_BRIGH=  0014 
@@ -57,16 +58,16 @@ Symbol Table
     Key_U   =  0405     |     Key_V   =  8006     |     Key_W   =  0807 
     Key_X   =  8007     |     Key_Y   =  0805     |     Key_Z   =  8008 
     PAL_INKR=  0040     |     PAL_PENR=  0000     |     PPI_PORT=  00F5 
-    SPACE_4_=  000B     |     SPRITE  =  0007     |     SPR_ENEM=  000A 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
+    SPACE_4_=  000E     |     SPRITE  =  0007     |     SPR_ENEM=  000A 
     SPR_ENEM=  000A     |     SPR_ENEM=  000A     |     SPR_ENEM=  000A 
     SPR_MOTH=  0012     |     SPR_MOTH=  0012     |     SPR_PLAY=  0008 
     SPR_PLAY=  0006     |     SPR_PLAY=  0008     |     SPR_PLAY=  0006 
-    TOTAL_EN=  000C     |     TOTAL_SP=  0084     |     TYPE    =  0000 
+    TOTAL_EN=  000C     |     TOTAL_SP=  00A8     |     TYPE    =  0000 
     VX      =  0005     |     VY      =  0006     |     WIDTH   =  0003 
     X       =  0001     |     Y       =  0002     |   1 _m_palet   0000 GR
     _main_pa   **** GX  |     _man_ent   **** GX  |     _man_ent   **** GX
@@ -74,9 +75,10 @@ Symbol Table
     cpct_get   **** GX  |     cpct_mem   **** GX  |     cpct_mem   **** GX
     cpct_pag=  0000     |     cpct_pag=  0010     |     cpct_pag=  0020 
     cpct_pag=  0030     |     cpct_set   **** GX  |     cpct_set   **** GX
-    cpct_set   **** GX  |     firmware=  0038     |     opc_DI  =  00F3 
-    opc_EI  =  00FB     |     opc_JR  =  0018     |     opc_LD_D=  0016 
-  0 sys_rend   003D R   |   0 sys_rend   0000 R   |   0 sys_rend   002F R
+    cpct_set   **** GX  |     firmware=  0038     |     man_anim   **** GX
+    opc_DI  =  00F3     |     opc_EI  =  00FB     |     opc_JR  =  0018 
+    opc_LD_D=  0016     |   0 sys_rend   003D R   |   0 sys_rend   0000 R
+  0 sys_rend   002F R
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]

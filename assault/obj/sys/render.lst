@@ -3,7 +3,7 @@ Hexadecimal [16-Bits]
 
 
 
-                              1 .module Render_Stars
+                              1 .module System_Render
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
@@ -5022,42 +5022,53 @@ Hexadecimal [16-Bits]
                      0005    12         VX      = 5     ;;i8
                      0006    13         VY      = 6     ;;i8            
                      0007    14         SPRITE  = 7     ;;u8(2)
-                     0009    15         IA_behaviour  = 9 ;; u8(2)             
-                             16                                         
-                             17     ;; Entity types                  
-                     0000    18         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities     
-                     0001    19         E_TYPE_RENDER   = 0x01   ;; renderable entity
-                     0002    20         E_TYPE_MOVABLE  = 0x02   ;; movable entity
-                     0004    21         E_TYPE_INPUT    = 0x04   ;; Entity controlable by input
-                     0008    22         E_TYPE_IA       = 0x08   ;; Entity controlable by artificial inteligence
-                     0080    23         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
-                     007F    24         E_TYPE_DEFAULT  = 0x7F   ;; default entity       
-                             25                                         
-                             26     ;; OTHERS
-                     000B    27         SPACE_4_ONE_ENTITY     = 11      ;; space for one entity
-                     000C    28         TOTAL_ENTITIES         = 12      ;; number of entities                          
-                     0084    29         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
-                             30     ;;   SPRITE PROPERTIES
-                     0012    31         SPR_MOTHERSHIP_W = 18
-                     0012    32         SPR_MOTHERSHIP_H = 18
-                     0006    33         SPR_PLAYERSHIP_0_W = 6
-                     0008    34         SPR_PLAYERSHIP_0_H = 8
-                     0006    35         SPR_PLAYERSHIP_1_W = 6
-                     0008    36         SPR_PLAYERSHIP_1_H = 8
-                     000A    37         SPR_ENEMY1_0_W = 10
-                     000A    38         SPR_ENEMY1_0_H = 10
-                     000A    39         SPR_ENEMY1_1_W = 10
-                     000A    40         SPR_ENEMY1_1_H = 10
-                             41         
-                             42                                         
-                             43 
-                             44 
-                             45     ;;;;;;;;;;;;;;;;;;;;
-                             46     ;; GLOBAL SYMBOLS ;;
-                             47     ;;;;;;;;;;;;;;;;;;;;
-                             48     .globl cpct_memset_asm      
-                             49     .globl cpct_memcpy_asm      
+                     0009    15         IA_behaviour  = 9 ;; u8(2)
+                     000B    16         AnimFrame = 11     ;;u8(2)
+                     000D    17         AnimCounter = 13    ;;u8    
+                             18                                         
+                             19     ;; Entity types                  
+                     0000    20         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities     
+                     0001    21         E_TYPE_RENDER   = 0x01   ;; renderable entity
+                     0002    22         E_TYPE_MOVABLE  = 0x02   ;; movable entity
+                     0004    23         E_TYPE_INPUT    = 0x04   ;; Entity controlable by input
+                     0008    24         E_TYPE_IA       = 0x08   ;; Entity controlable by artificial inteligence
+                     0010    25         E_TYPE_ANIMATED = 0x10   ;; Animated Entity
+                     0080    26         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
+                     007F    27         E_TYPE_DEFAULT  = 0x7F   ;; default entity       
+                             28                                         
+                             29     ;; OTHERS
+                     000E    30         SPACE_4_ONE_ENTITY     = 14      ;; space for one entity
+                     000C    31         TOTAL_ENTITIES         = 12      ;; number of entities                          
+                     00A8    32         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
+                             33     ;;   SPRITE PROPERTIES
+                     0012    34         SPR_MOTHERSHIP_W = 18
+                     0012    35         SPR_MOTHERSHIP_H = 18
+                     0006    36         SPR_PLAYERSHIP_0_W = 6
+                     0008    37         SPR_PLAYERSHIP_0_H = 8
+                     0006    38         SPR_PLAYERSHIP_1_W = 6
+                     0008    39         SPR_PLAYERSHIP_1_H = 8
+                     000A    40         SPR_ENEMY1_0_W = 10
+                     000A    41         SPR_ENEMY1_0_H = 10
+                     000A    42         SPR_ENEMY1_1_W = 10
+                     000A    43         SPR_ENEMY1_1_H = 10
+                             44         
+                             45                                         
+                             46 
+                             47 
+                             48     ;;;;;;;;;;;;;;;;;;;;
+                             49     ;; GLOBAL SYMBOLS ;;
+                             50     ;;;;;;;;;;;;;;;;;;;;
+                             51     ;;cpctelera
+                             52     .globl cpct_memset_asm      
+                             53     .globl cpct_memcpy_asm
+                             54     ;;animations      
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 97.
+Hexadecimal [16-Bits]
+
+
+
+                             55     .globl man_anim_enemy1
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 98.
 Hexadecimal [16-Bits]
 
 
@@ -5077,7 +5088,7 @@ Hexadecimal [16-Bits]
                              12         .globl _man_entity_for_all
                              13         .globl _man_entity_for_all_matching
                              14         .globl _main_palette      
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 98.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
 
@@ -5137,7 +5148,7 @@ Hexadecimal [16-Bits]
                              64         ;;hl point sprite,add de and hl-> sprite
    001D 21 07 00      [10]   65             ld hl, #SPRITE
    0020 19            [11]   66             add hl,de
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 100.
 Hexadecimal [16-Bits]
 
 
@@ -5197,7 +5208,7 @@ Hexadecimal [16-Bits]
                             119 
                             120 
                             121 ;;;;;;;;;;;;;;;;;;;;;;
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 100.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 101.
 Hexadecimal [16-Bits]
 
 
