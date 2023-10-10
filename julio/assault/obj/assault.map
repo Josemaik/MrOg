@@ -1,0 +1,107 @@
+ASxxxx Linker V03.00 + NoICE + sdld,  page 1.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00000000  .__.ABS.                           cpct_video
+     00000000  e_x                                Entity_Manager
+     00000000  l__DATA                         
+     00000001  e_y                                Entity_Manager
+     00000002  e_vx                               Entity_Manager
+     00000003  e_vy                               Entity_Manager
+     00000004  e_w                                Entity_Manager
+     00000005  e_h                                Entity_Manager
+     00000006  e_color                            Entity_Manager
+     00000007  e_ptr_l                            Entity_Manager
+     00000008  e_ptr_h                            Entity_Manager
+     00000009  entity_size                        Entity_Manager
+     0000001E  max_entities                       Entity_Manager
+     0000039C  l__CODE                         
+     00004000  s__CODE                         
+     0000439C  s__DATA                         
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00004000    0000039C =         924. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00004000  _main                              Main
+     00004023  plantilla_estrella                 Entity_Manager
+     0000402C  _num_entities                      Entity_Manager
+     0000402D  _last_elem_ptr                     Entity_Manager
+     0000402F  _entity_array                      Entity_Manager
+     0000413D  entity_man_init                    Entity_Manager
+     0000414B  entity_man_create_star             Entity_Manager
+     00004152  entity_man_create                  Entity_Manager
+     0000416D  entity_man_destroy                 Entity_Manager
+     0000418D  entity_man_getArray                Entity_Manager
+     00004195  input_sys_init                     Input_System
+     00004196  input_sys_update                   Input_System
+     000041BA  physics_sys_init                   Physics_System
+     000041BB  physics_sys_update                 Physics_System
+     000041E4  render_sys_init                    Render_System
+     000041F0  render_sys_erase_previous_instan   Render_System
+     00004201  render_sys_update                  Render_System
+     00004234  cpct_setPalette_asm                cpct_video
+     00004247  _cpct_scanKeyboard_f               cpct_keyboard
+     00004247  cpct_scanKeyboard_f_asm            cpct_keyboard
+     000042B1  _cpct_isKeyPressed                 cpct_keyboard
+     000042B1  cpct_isKeyPressed_asm              cpct_keyboard
+     000042BD  cpct_setPALColour_asm              cpct_video
+     000042C7  _cpct_keyboardStatusBuffer         cpct_keyboard
+     000042D1  cpct_setVideoMode_asm              cpct_video
+     000042DE  _cpct_waitVSYNC                    cpct_video
+     000042DE  cpct_waitVSYNC_asm                 cpct_video
+     000042E6  cpct_drawSolidBox_asm              cpct_sprites
+     00004389  _cpct_mode_rom_status              cpct_firmware
+     0000438A  cpct_getScreenPtr_asm              cpct_video
+ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
+
+Files Linked                              [ module(s) ]
+
+obj/main.rel                              [ Main ]
+obj/managers/entity_manager.rel           [ Entity_Manager ]
+obj/systems/input_system.rel              [ Input_System ]
+obj/systems/physics_system.rel            [ Physics_System ]
+obj/systems/render_system.rel             [ Render_System ]
+
+
+Libraries Linked                          [ object file ]
+
+/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setPalette_asmbindings.rel ]
+/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_scanKeyboard_f.rel ]
+/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_isKeyPressed.rel ]
+/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setPALColour_asmbindings.re ]
+/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+                                          [ keyboard.rel ]
+/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setVideoMode_asmbindings.re ]
+/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_waitVSYNC.rel ]
+/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawSolidBox_asmbindings.re ]
+/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpc_mode_rom_status.rel ]
+/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_getScreenPtr_asmbindings.re ]
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
+
+User Base Address Definitions
+
+_CODE = 0x4000
+_DATA = 0x0000
+
+
