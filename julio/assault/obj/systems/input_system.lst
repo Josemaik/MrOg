@@ -5035,5 +5035,18 @@ Hexadecimal [16-Bits]
    0020 DD 36 00 01   [19]   40     ld    e_vx(ix), #1
    0024                      41 P_NotPressed:
                              42 
-                             43 
-   0024 C9            [10]   44     ret
+   0024 21 08 08      [10]   43     ld    hl, #Key_Q
+   0027 CD 00 00      [17]   44     call  cpct_isKeyPressed_asm
+   002A 28 04         [12]   45     jr    z, Q_NotPressed
+   002C                      46 Q_Pressed:
+   002C DD 36 00 FF   [19]   47     ld    e_vy(ix), #-1
+   0030                      48 Q_NotPressed:
+                             49 
+   0030 21 08 20      [10]   50     ld    hl, #Key_A
+   0033 CD 00 00      [17]   51     call  cpct_isKeyPressed_asm
+   0036 28 04         [12]   52     jr    z, A_NotPressed
+   0038                      53 A_Pressed:
+   0038 DD 36 00 01   [19]   54     ld    e_vy(ix), #1
+   003C                      55 A_NotPressed:
+                             56 
+   003C C9            [10]   57     ret

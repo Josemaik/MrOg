@@ -5011,7 +5011,7 @@ Hexadecimal [16-Bits]
                              16 ;; Plantilla de Estrella
                              17 ;;
                              18 ;;;;;;;;;;;;;;;;;;;;;;;;;  x , y , vx , vy , w , h , color , ptr_l , ptr_h
-   4023 00 14 01 00 01 01    19 plantilla_estrella:: .db   0 , 20 , 1 , 0  , 1 , 1 , 0xC0 ,  00   ,  00  
+   4023 28 BE 01 00 01 01    19 plantilla_estrella:: .db   40 , 190 , 1 , 0  , 1 , 1 , 0xC0 ,  00   ,  00  
         C0 00 00
                      0009    20     entity_size == .-plantilla_estrella
                              21 
@@ -5084,7 +5084,7 @@ Hexadecimal [16-Bits]
                              83 ;;   IX: Pointer to entity
    416D                      84 entity_man_destroy::
                              85     ;; Borrar la entidad de pantalla
-   416D CD F0 41      [17]   86     call render_sys_erase_previous_instance
+   416D CD 12 42      [17]   86     call render_sys_erase_previous_instance
                              87     
                              88     ;; Reposicionar el _last_elem_ptr
    4170 3A 2D 40      [13]   89     ld       a, (_last_elem_ptr)

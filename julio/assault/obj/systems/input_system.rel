@@ -6,7 +6,7 @@ S cpct_scanKeyboard_f_asm Ref0000
 S .__.ABS. Def0000
 S e_vx Ref0000
 S e_vy Ref0000
-A _CODE size 25 flags 0 addr 0
+A _CODE size 3D flags 0 addr 0
 S input_sys_init Def0000
 S input_sys_update Def0001
 A _DATA size 0 flags 0 addr 0
@@ -34,5 +34,21 @@ T 20 00 DD 36 00 00 01
 R 00 00 00 00 0B 04 03 00
 T 24 00
 R 00 00 00 00
-T 24 00 C9
+T 24 00 21 08 08 CD 00 00 28 04
+R 00 00 00 00 02 06 00 00
+T 2C 00
+R 00 00 00 00
+T 2C 00 DD 36 00 00 FF
+R 00 00 00 00 0B 04 04 00
+T 30 00
+R 00 00 00 00
+T 30 00 21 08 20 CD 00 00 28 04
+R 00 00 00 00 02 06 00 00
+T 38 00
+R 00 00 00 00
+T 38 00 DD 36 00 00 01
+R 00 00 00 00 0B 04 04 00
+T 3C 00
+R 00 00 00 00
+T 3C 00 C9
 R 00 00 00 00

@@ -16,7 +16,7 @@
 ;; Plantilla de Estrella
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;  x , y , vx , vy , w , h , color , ptr_l , ptr_h
-plantilla_estrella:: .db   0 , 20 , 1 , 0  , 1 , 1 , 0xC0 ,  00   ,  00  
+plantilla_estrella:: .db   40 , 190 , 1 , 0  , 1 , 1 , 0xC0 ,  00   ,  00  
     entity_size == .-plantilla_estrella
 
     e_x         == 0

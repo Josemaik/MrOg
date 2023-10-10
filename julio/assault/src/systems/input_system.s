@@ -40,5 +40,4 @@ P_Pressed:
     ld    e_vx(ix), #1
 P_NotPressed:
 
-
     ret

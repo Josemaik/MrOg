@@ -20,16 +20,16 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000008  e_ptr_h                            Entity_Manager
      00000009  entity_size                        Entity_Manager
      0000001E  max_entities                       Entity_Manager
-     0000039C  l__CODE                         
+     000003BE  l__CODE                         
      00004000  s__CODE                         
-     0000439C  s__DATA                         
+     000043BE  s__DATA                         
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    0000039C =         924. bytes (REL,CON)
+_CODE                               00004000    000003BE =         958. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -45,24 +45,24 @@ _CODE                               00004000    0000039C =         924. bytes (R
      0000418D  entity_man_getArray                Entity_Manager
      00004195  input_sys_init                     Input_System
      00004196  input_sys_update                   Input_System
-     000041BA  physics_sys_init                   Physics_System
-     000041BB  physics_sys_update                 Physics_System
-     000041E4  render_sys_init                    Render_System
-     000041F0  render_sys_erase_previous_instan   Render_System
-     00004201  render_sys_update                  Render_System
-     00004234  cpct_setPalette_asm                cpct_video
-     00004247  _cpct_scanKeyboard_f               cpct_keyboard
-     00004247  cpct_scanKeyboard_f_asm            cpct_keyboard
-     000042B1  _cpct_isKeyPressed                 cpct_keyboard
-     000042B1  cpct_isKeyPressed_asm              cpct_keyboard
-     000042BD  cpct_setPALColour_asm              cpct_video
-     000042C7  _cpct_keyboardStatusBuffer         cpct_keyboard
-     000042D1  cpct_setVideoMode_asm              cpct_video
-     000042DE  _cpct_waitVSYNC                    cpct_video
-     000042DE  cpct_waitVSYNC_asm                 cpct_video
-     000042E6  cpct_drawSolidBox_asm              cpct_sprites
-     00004389  _cpct_mode_rom_status              cpct_firmware
-     0000438A  cpct_getScreenPtr_asm              cpct_video
+     000041D2  physics_sys_init                   Physics_System
+     000041D3  physics_sys_update                 Physics_System
+     00004206  render_sys_init                    Render_System
+     00004212  render_sys_erase_previous_instan   Render_System
+     00004223  render_sys_update                  Render_System
+     00004256  cpct_setPalette_asm                cpct_video
+     00004269  _cpct_scanKeyboard_f               cpct_keyboard
+     00004269  cpct_scanKeyboard_f_asm            cpct_keyboard
+     000042D3  _cpct_isKeyPressed                 cpct_keyboard
+     000042D3  cpct_isKeyPressed_asm              cpct_keyboard
+     000042DF  cpct_setPALColour_asm              cpct_video
+     000042E9  _cpct_keyboardStatusBuffer         cpct_keyboard
+     000042F3  cpct_setVideoMode_asm              cpct_video
+     00004300  _cpct_waitVSYNC                    cpct_video
+     00004300  cpct_waitVSYNC_asm                 cpct_video
+     00004308  cpct_drawSolidBox_asm              cpct_sprites
+     000043AB  _cpct_mode_rom_status              cpct_firmware
+     000043AC  cpct_getScreenPtr_asm              cpct_video
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 
 Files Linked                              [ module(s) ]

@@ -39,30 +39,37 @@ Hexadecimal [16-Bits]
    000F 30 05         [12]   34     jr   nc, invalid_x
    0011                      35 valid_x:
    0011 DD 77 00      [19]   36     ld   e_x(ix), a
-   0014 18 0A         [12]   37     jr   endif_x
+   0014 18 00         [12]   37     jr   endif_x
    0016                      38 invalid_x:
-                             39     ;; IX
-   0016 C5            [11]   40     push bc
-   0017 D5            [11]   41     push de
-   0018 CD 00 00      [17]   42     call entity_man_destroy  ;; Modify HL, DE, BC
-   001B D1            [10]   43     pop de
-   001C C1            [10]   44     pop bc
-   001D 05            [ 4]   45     dec b
-   001E 18 E2         [12]   46     jr _update_loop
-   0020                      47 endif_x:
-                             48 
-                             49     ;; Update Y ;; todo
-                             50 
-   0020 05            [ 4]   51     dec  b
-   0021 C8            [11]   52     ret  z
-                             53 
-   0022 11 00 00      [10]   54     ld  de, #entity_size
-   0025 DD 19         [15]   55     add ix, de
+                             39     
+   0016                      40 endif_x:
+                             41 
+                             42     ;; Update Y
+   0016 3E C9         [ 7]   43     ld    a, #screen_height + 1
+   0018 DD 96 00      [19]   44     sub   e_h(ix)
+   001B 4F            [ 4]   45     ld    c, a
+                             46 
+   001C DD 7E 00      [19]   47     ld    a, e_y(ix)
+   001F DD 86 00      [19]   48     add   e_vy(ix)
+   0022 B9            [ 4]   49     cp    c             ;; Comprueba con la primera posicion invalida
+   0023 30 05         [12]   50     jr   nc, invalid_y
+   0025                      51 valid_y:
+   0025 DD 77 00      [19]   52     ld   e_y(ix), a
+   0028 18 00         [12]   53     jr   endif_y
+   002A                      54 invalid_y:
+                             55 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 
 
-   0027 18 D9         [12]   56     jr _update_loop
+   002A                      56 endif_y:
                              57 
-   0029 C9            [10]   58     ret
+   002A 05            [ 4]   58     dec  b
+   002B C8            [11]   59     ret  z
+                             60 
+   002C 11 00 00      [10]   61     ld  de, #entity_size
+   002F DD 19         [15]   62     add ix, de
+   0031 18 CF         [12]   63     jr _update_loop
+                             64 
+   0033 C9            [10]   65     ret

@@ -30,8 +30,8 @@ Hexadecimal [16-Bits]
    4000                      25 _main::
                              26 
                              27    ;; Init systems
-   4000 CD E4 41      [17]   28    call render_sys_init
-   4003 CD BA 41      [17]   29    call physics_sys_init
+   4000 CD 06 42      [17]   28    call render_sys_init
+   4003 CD D2 41      [17]   29    call physics_sys_init
    4006 CD 3D 41      [17]   30    call entity_man_init
    4009 CD 95 41      [17]   31    call input_sys_init
                              32 
@@ -47,16 +47,16 @@ Hexadecimal [16-Bits]
                              42    ;; Physics
                              43    ;;
    4012 CD 8D 41      [17]   44    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
-   4015 CD BB 41      [17]   45    call physics_sys_update
+   4015 CD D3 41      [17]   45    call physics_sys_update
                              46 
                              47    ;;;;;;;;;;;;;;;;;;;
                              48    ;; Render
                              49    ;;
    4018 CD 8D 41      [17]   50    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
-   401B CD 01 42      [17]   51    call render_sys_update
+   401B CD 23 42      [17]   51    call render_sys_update
                              52 
                              53    ;; waitNVSyncs 2
-   401E CD DE 42      [17]   54    call cpct_waitVSYNC_asm
+   401E CD 00 43      [17]   54    call cpct_waitVSYNC_asm
                              55 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]

@@ -36,17 +36,24 @@ valid_x:
     ld   e_x(ix), a
     jr   endif_x
 invalid_x:
-    ;; IX
-    push bc
-    push de
-    call entity_man_destroy  ;; Modify HL, DE, BC
-    pop de
-    pop bc
-    dec b
-    jr _update_loop
+    
 endif_x:
 
-    ;; Update Y ;; todo
+    ;; Update Y
+    ld    a, #screen_height + 1
+    sub   e_h(ix)
+    ld    c, a
+
+    ld    a, e_y(ix)
+    add   e_vy(ix)
+    cp    c             ;; Comprueba con la primera posicion invalida
+    jr   nc, invalid_y
+valid_y:
+    ld   e_y(ix), a
+    jr   endif_y
+invalid_y:
+
+endif_y:
 
     dec  b
     ret  z

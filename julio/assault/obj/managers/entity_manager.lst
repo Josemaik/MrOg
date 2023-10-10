@@ -5011,7 +5011,7 @@ Hexadecimal [16-Bits]
                              16 ;; Plantilla de Estrella
                              17 ;;
                              18 ;;;;;;;;;;;;;;;;;;;;;;;;;  x , y , vx , vy , w , h , color , ptr_l , ptr_h
-   0000 00 14 01 00 01 01    19 plantilla_estrella:: .db   0 , 20 , 1 , 0  , 1 , 1 , 0xC0 ,  00   ,  00  
+   0000 28 BE 01 00 01 01    19 plantilla_estrella:: .db   40 , 190 , 1 , 0  , 1 , 1 , 0xC0 ,  00   ,  00  
         C0 00 00
                      0009    20     entity_size == .-plantilla_estrella
                              21 
