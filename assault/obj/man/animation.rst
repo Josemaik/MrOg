@@ -3,13 +3,14 @@ Hexadecimal [16-Bits]
 
 
 
-                              1 .module Stars_Generator
+                              1 .module Animation_Manager
+                              2 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 
 
-                              2 .include "cpctelera.h.s"
+                              3 .include "cpctelera.h.s"
                               1 ;;-----------------------------LICENSE NOTICE------------------------------------
                               2 ;;  This file is part of CPCtelera: An Amstrad CPC Game Engine
                               3 ;;  Copyright (C) 2017 ronaldo / Fremos / Cheesetea / ByteRealms (@FranGallegoBR)
@@ -4995,29 +4996,27 @@ Hexadecimal [16-Bits]
 
 
 
-                              3 
-                              4 .area _DATA
-                              5 
-                              6 ;;;;;;;;;;;;;;;;;;;;
-                              7 ;; DEFINED VALUES ;;
-                              8 ;;;;;;;;;;;;;;;;;;;;
-                              9    ;; Entity reference                    
-   0000                      10       _init_entity::                      
-   0000 01                   11          .db #E_TYPE_RENDER                
-   0001 4F                   12          .db #0x4f   ;79                  
-   0002 01                   13          .db #0x01   ;1                   
-   0003 01                   14          .db #0x01   ;1                   
-   0004 80                   15          .db #0x80   ;10                  
-   0005 00                   16          .db #0x00   ;00                  
-   0006 00                   17          .db #0x00   ;00                  
-                             18 
-                             19 .area _CODE
+                              4 .include "animation.h.s"
+                              1         ;;;;;;;;;;;;;;;;;;;;
+                              2         ;; DEFINED VALUES ;;
+                              3         ;;;;;;;;;;;;;;;;;;;;
+                              4           ;; cpctelera
+                              5          
+                              6                                           
+                              7    ;; managers                            
+                              8                        
+                              9    ;; systems                             
+                             10 
+                             11    ;; sprites
+                             12  .globl _spr_mothership
+                             13       .globl _spr_enemy1_0
+                             14       .globl _spr_enemy1_1
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
 Hexadecimal [16-Bits]
 
 
 
-                             20 .include "man/entity.h.s"
+                              5 .include "entity.h.s"
                               1 
                               2         ;;;;;;;;;;;;;;;;;;;;
                               3         ;; DEFINED VALUES ;;
@@ -5027,258 +5026,71 @@ Hexadecimal [16-Bits]
                      0000     7         TYPE    = 0     ;;u8            
                      0001     8         X       = 1     ;;u8            
                      0002     9         Y       = 2     ;;u8
-                     0003    10         width   = 3     ;;u8
-                     0004    11         height  = 4     ;;u8       
+                     0003    10         WIDTH   = 3     ;;u8
+                     0004    11         HEIGHT  = 4     ;;u8           
                      0005    12         VX      = 5     ;;i8
-                     0006    13         vy      = 6     ;;i8   
-                     0007    14         COLOR   = 7     ;;u8            
-                     0008    15         PREVPTR = 8     ;;*u8 (2b)      
-                             16                                         
-                             17     ;; Entity types                  
-                     0000    18         E_TYPE_INVALID  = 0x00          
-                     0001    19         E_TYPE_RENDER    = 0x01         
-                     0002    20         E_TYPE_MOVABLE    = 0x02 
-                     0004    21         E_TYPE_INPUT    = 0x04 
-                     0080    22         E_TYPE_DEAD     = 0x80          
-                     007F    23         E_TYPE_DEFAULT  = 0x7F          
-                             24                                         
-                             25     ;; OTHERS                              
-                     0007    26         SPACE_4_ONE_ENTITY     = 7      
-                     000C    27         TOTAL_ENTITIES         = 12
-                     0054    28         MAX_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY * TOTAL_ENTITIES;      
-                             29                                         
-                             30 
-                             31 
-                             32     ;;;;;;;;;;;;;;;;;;;;
-                             33     ;; GLOBAL SYMBOLS ;;
-                             34     ;;;;;;;;;;;;;;;;;;;;
-                             35     .globl cpct_memset_asm      
-                             36     .globl cpct_memcpy_asm      
+                     0006    13         VY      = 6     ;;i8            
+                     0007    14         SPRITE  = 7     ;;u8(2)
+                     0009    15         IA_behaviour  = 9 ;; u8(2)
+                     000B    16         AnimFrame = 11     ;;u8(2)
+                     000D    17         AnimCounter = 13    ;;u8    
+                             18                                         
+                             19     ;; Entity types                  
+                     0000    20         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities     
+                     0001    21         E_TYPE_RENDER   = 0x01   ;; renderable entity
+                     0002    22         E_TYPE_MOVABLE  = 0x02   ;; movable entity
+                     0004    23         E_TYPE_INPUT    = 0x04   ;; Entity controlable by input
+                     0008    24         E_TYPE_IA       = 0x08   ;; Entity controlable by artificial inteligence
+                     0010    25         E_TYPE_ANIMATED = 0x10   ;; Animated Entity
+                     0080    26         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
+                     007F    27         E_TYPE_DEFAULT  = 0x7F   ;; default entity       
+                             28                                         
+                             29     ;; OTHERS
+                     000E    30         SPACE_4_ONE_ENTITY     = 14      ;; space for one entity
+                     000C    31         TOTAL_ENTITIES         = 12      ;; number of entities                          
+                     00A8    32         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
+                             33     ;;   SPRITE PROPERTIES
+                     0012    34         SPR_MOTHERSHIP_W = 18
+                     0012    35         SPR_MOTHERSHIP_H = 18
+                     0006    36         SPR_PLAYERSHIP_0_W = 6
+                     0008    37         SPR_PLAYERSHIP_0_H = 8
+                     0006    38         SPR_PLAYERSHIP_1_W = 6
+                     0008    39         SPR_PLAYERSHIP_1_H = 8
+                     000A    40         SPR_ENEMY1_0_W = 10
+                     000A    41         SPR_ENEMY1_0_H = 10
+                     000A    42         SPR_ENEMY1_1_W = 10
+                     000A    43         SPR_ENEMY1_1_H = 10
+                             44         
+                             45                                         
+                             46 
+                             47 
+                             48     ;;;;;;;;;;;;;;;;;;;;
+                             49     ;; GLOBAL SYMBOLS ;;
+                             50     ;;;;;;;;;;;;;;;;;;;;
+                             51     ;;cpctelera
+                             52     .globl cpct_memset_asm      
+                             53     .globl cpct_memcpy_asm
+                             54     ;;animations      
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 97.
 Hexadecimal [16-Bits]
 
 
 
-                             21 .include "generator.h.s"
-                              1 ;;;;;;;;;;;;;;;;;;;;
-                              2 ;; GLOBAL SYMBOLS ;;
-                              3 ;;;;;;;;;;;;;;;;;;;;
-                              4    ;; cpct                                  
-                              5         .globl cpct_memcpy_asm              
-                              6         .globl cpct_getRandom_mxor_u8_asm   
-                              7                                             
-                              8    ;; managers                              
-                              9         .globl _man_entity_create           
-                             10         .globl _man_entity_free_space       
-                             11         .globl _man_entity_free_space       
-                             12                                             
+                             55     .globl man_anim_enemy1
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 98.
 Hexadecimal [16-Bits]
 
 
 
-                             22 
-                             23 
-                             24 ;;;;;;;;;;;;;;;
-                             25 ;; FUNCTIONS ;;
-                             26 ;;;;;;;;;;;;;;;
-                             27 
-                             28 ;;;;;;;;;;;;;;;;;;;
-                             29 ;; DIVIDE 8 BITS ;;
-                             30 ;;;;;;;;;;;;;;;;;;;
-                             31    ;; INPUTS ;;
-                             32       ;; HL
-                             33       ;; E
-                             34    ;; OUTPUTS ;;
-                             35       ;; BC -> result
-                             36       ;; HL -> rest
-                             37    ;; NOTE ;;
-                             38       ;; Reference code: http://www.massmind.org/techref/zilog/z80/part4.htm
-                             39       ;; BC = HL / E
-   0000                      40 divide:
-                             41 
-                             42    ;; load E in A
-   0000 7B            [ 4]   43       ld a, e
-                             44 
-                             45    ;; conditional if A = 0 -> finish
-   0001 B7            [ 4]   46       or a
-   0002 C8            [11]   47       ret z
-                             48 
-                             49    ;; load -1 in BC and prepare D to operate
-   0003 01 FF FF      [10]   50       ld bc, #-1
-   0006 16 00         [ 7]   51       ld d, #0
-                             52 
-                             53    ;; init for
-   0008                      54       divide_for:
-                             55 
-                             56          ;; subtract DE from HL (uses the a register)
-   0008 ED 52         [15]   57             sbc hl, de
-                             58 
-                             59          ;;increment BC by 1
-   000A 03            [ 6]   60             inc bc
-                             61          
-                             62          ;; conditional to repeat for
-   000B 30 FB         [12]   63             jr nc, divide_for
-                             64 
-                             65    ;; take the rest into hl
-   000D 19            [11]   66             add hl, de
-                             67 
-   000E C9            [10]   68    ret
-                             69 
-                             70 
-                             71 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             72 ;; CREATE AN STAR ENTITY AND INICIALICE IT ;;
-                             73 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   000F                      74 generate_new_start:
-                             75    
-                             76    ;; take the direcction of the new entity
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
-Hexadecimal [16-Bits]
-
-
-
-   000F CD 00 00      [17]   77       call     _man_entity_create    ;; returns in DE the direcction of entity
-                             78 
-                             79    ;; save the pointer to the entity
-   0012 D5            [11]   80       push     de   
-                             81 
-                             82     
-                             83    ;; copy const values into new entity -> cpct_memcpy_asm
-                             84       ;; INPUTS ;;
-                             85          ;; DE -> destination byte
-                             86          ;; HL -> source byte
-                             87          ;; BC -> size of data
-                             88 
-   0013 21 00 00      [10]   89       ld       hl, #_init_entity
-   0016 01 07 00      [10]   90       ld       bc, #SPACE_4_ONE_ENTITY
-   0019 CD 00 00      [17]   91       call     cpct_memcpy_asm
-                             92 
-                             93    ;; take a random value to put in Y -> cpct_getRandom_mxor_u8_asm
-                             94       ;; OUPUT
-                             95          ;; L -> random value
-   001C CD 00 00      [17]   96       call     cpct_getRandom_mxor_u8_asm
-                             97 
-                             98    ;; take the mod of the random value -> divide (segun el profesor se puede hacer con un and)
-                             99       ;; INPUTS ;;
-                            100          ;; HL -> the number to divide
-                            101          ;; E -> the divisor
-                            102       ;; OUTPUTS ;;
-                            103          ;; HL -> the rest
-                            104          ;; BC -> the result 
-   001F 26 00         [ 7]  105       ld       h, #0
-   0021 1E C8         [ 7]  106       ld       e, #200
-   0023 CD 00 00      [17]  107       call     divide
-                            108 
-                            109    ;; save the rest in A
-   0026 7D            [ 4]  110       ld       a, l
-                            111 
-                            112    ;; retrieve the pointer to the entity into DE
-   0027 D1            [10]  113       pop      de
-                            114 
-                            115    ;; we add Y to DE (de+y)
-   0028 21 02 00      [10]  116       ld       hl, #Y
-   002B 19            [11]  117       add      hl, de
-                            118 
-                            119    ;; put final value in entity->y
-   002C 77            [ 7]  120       ld       (hl), a
-                            121 
-                            122    
-                            123    ;; save the pointer to the entity
-   002D D5            [11]  124       push     de
-                            125    
-                            126    ;; take a random value to put in VX -> cpct_getRandom_mxor_u8_asm
-                            127       ;; OUPUT
-                            128          ;; L -> random value
-   002E CD 00 00      [17]  129       call     cpct_getRandom_mxor_u8_asm
-                            130 
-                            131    ;; take the mod of the random value -> when is mod 4 we can do a logical AND with 3 but is not a matematical mod
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 100.
-Hexadecimal [16-Bits]
-
-
-
-   0031 7D            [ 4]  132       ld       a, l
-   0032 E6 03         [ 7]  133       and      #3
-                            134    
-                            135    ;; make it between 1 and 4
-   0034 C6 01         [ 7]  136       add      a, #1
-                            137    
-                            138    ;; retrieve the pointer to the entity into DE
-   0036 D1            [10]  139       pop      de
-                            140 
-                            141    ;; we add Y to DE (de+y)
-   0037 21 05 00      [10]  142       ld       hl, #VX
-   003A 19            [11]  143       add      hl, de
-                            144 
-                            145    ;; put final value in entity->vx
-   003B 77            [ 7]  146       ld       (hl), a
-                            147 
-                            148    ;; load a color depending on vx
-                            149       ;; go to entity->color
-                            150       ;    ld    hl, #COLOR
-                            151       ;    add   hl, de
-                            152 
-                            153       ; ;; check vx == 1 -> white
-                            154       ;    sub      #1
-                            155       ;    jr       z, gen_load_white_0  ;; vx = 1
-                            156 
-                            157       ; ;; check vx == 2 -> white
-                            158       ;    sub      #1
-                            159       ;    jr       z, gen_load_white_0  ;; vx = 2
-                            160 
-                            161       ; ;; vx == 3 or 4 -> brght white (it is done by default)
-                            162       ;    jr       gen_load_finish
-                            163 
-                            164       ; gen_load_white_0:
-                            165       ;    ld       (hl), #08  
-                            166 
-                            167       ; gen_load_finish:
-   003C C9            [10]  168    ret
-                            169 
-                            170 
-                            171 
-   003D                     172 _sys_generator_update::
-                            173 
-                            174     ;; know if free space -> _man_entity_free_space
-                            175         ;; OUTPUTS;;
-                            176    ;          ;; L -> num of free entities
-   003D CD 00 00      [17]  177       call    _man_entity_free_space
-                            178 
-                            179       ; ld a , l
-                            180       ; jr c, asignar_free
-                            181 
-                            182       ; jr bucle_while
-                            183 
-                            184       ; asignar_free:
-                            185       ;    ld a, #2
-                            186       ;    ld l, a
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 101.
-Hexadecimal [16-Bits]
-
-
-
-                            187       ; bucle_while:
-                            188       ;    ld a, l
-                            189       ;    cp #0
-                            190       ;    jr nz, while_end
-                            191 
-                            192       ;    call    generate_new_start
-                            193       ;    dec a
-                            194       ;    ld l, a
-                            195       ;    jr bucle_while
-                            196       ; while_end:
-                            197    ;  ;; check if L is 0
-   0040 7D            [ 4]  198         ld      a, l
-   0041 FE 00         [ 7]  199         cp      #0
-   0043 28 05         [12]  200         jr      z, sys_no_generate_star   ;; it was 0
-                            201 
-   0045 18 00         [12]  202         jr      sys_generate_star
-                            203 
-                            204     
-   0047                     205     sys_generate_star:
-                            206    ;  ;; genrate new star -> generate_new_start
-   0047 CD 0F 00      [17]  207         call    generate_new_start
-                            208 
-   004A                     209     sys_no_generate_star:
-                            210        
-   004A C9            [10]  211     ret
+                              6 .area _DATA
+                              7 ;;Array de sprites
+   475B                       8 man_anim_enemy1::
+   475B 0C                    9     .db #0x0c
+   475C 00 40                10     .dw _spr_enemy1_0
+   475E 0C                   11     .db #0x0c
+   475F 64 40                12     .dw _spr_enemy1_1
+   4761 00                   13     .db #0x00
+   4762 5B 47                14     .dw #man_anim_enemy1
+                             15 
+                             16 .area _CODE
+                             17 

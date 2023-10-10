@@ -1,0 +1,66 @@
+XL2
+H 2 areas B global symbols
+M System_IA
+S man_game_create_enemy Ref0000
+S _man_entity_for_all Ref0000
+S .__.ABS. Def0000
+S man_anim_enemy1 Ref0000
+S cpct_memcpy_asm Ref0000
+S cpct_memset_asm Ref0000
+S _man_entity_set_for_destruction Ref0000
+S _man_entity_for_all_matching Ref0000
+A _CODE size 6A flags 0 addr 0
+S _sys_ai_update Def0060
+S sys_ai_behaviour_mothership Def0000
+S sys_ai_behaviour_left_right Def0016
+A _DATA size 0 flags 0 addr 0
+T 00 00
+R 00 00 00 00
+T 00 00 21 01 00 19 7E 4F 3E 14 B9 28 02 18 05
+R 00 00 00 00
+T 0D 00
+R 00 00 00 00
+T 0D 00 CD 00 00 18 03
+R 00 00 00 00 02 03 00 00
+T 12 00
+R 00 00 00 00
+T 12 00 CD 16 00
+R 00 00 00 00 00 03 00 00
+T 15 00
+R 00 00 00 00
+T 15 00 C9
+R 00 00 00 00
+T 16 00
+R 00 00 00 00
+T 16 00 21 01 00 19 7E FE 00 28 12 21 03 00 19 3E
+R 00 00 00 00
+T 24 00 50 96 4F 21 01 00 19 7E B9 28 0A 18 0E
+R 00 00 00 00
+T 31 00
+R 00 00 00 00
+T 31 00 21 05 00 19 36 01 18 06
+R 00 00 00 00
+T 39 00
+R 00 00 00 00
+T 39 00 21 05 00 19 36 FF
+R 00 00 00 00
+T 3F 00
+R 00 00 00 00
+T 3F 00 C9
+R 00 00 00 00
+T 40 00
+R 00 00 00 00
+T 40 00 21 5F 00 E5 D5 21 09 00 19 5D 54 1A 6F 13
+R 00 00 00 00 00 03 00 00
+T 4E 00 1A 67 DD 75 04 DD 74 05 D1 DD 4E 04 DD 46
+R 00 00 00 00
+T 5C 00 05 C5 C9
+R 00 00 00 00
+T 5F 00
+R 00 00 00 00
+T 5F 00 C9
+R 00 00 00 00
+T 60 00
+R 00 00 00 00
+T 60 00 01 40 00 21 0A 00 CD 00 00 C9
+R 00 00 00 00 00 03 00 00 02 09 07 00

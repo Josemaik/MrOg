@@ -5005,20 +5005,21 @@ Hexadecimal [16-Bits]
                              10 ;; GLOBAL SYMBOLS ;;
                              11 ;;;;;;;;;;;;;;;;;;;;
                              12    ;; cpct                                
-                             13       .globl cpct_disableFirmware_asm    
-                             14       .globl man_game_init
-                             15       .globl man_game_play       
-                             16 
+                             13       .globl cpct_disableFirmware_asm
+                             14    ;;manager
+                             15       .globl man_game_init    
+                             16       .globl man_game_play 
                              17 
                              18 
-                             19 ;;;;;;;;;;;;;;;;;;
-                             20 ;; MAIN FUNCTION;;
-                             21 ;;;;;;;;;;;;;;;;;;
-   4000                      22 _main::
-                             23    ;; deshabilitamos el firmware
-   4000 CD 4E 42      [17]   24       call     cpct_disableFirmware_asm
-                             25    ;; llamamos al game init
-   4003 CD 59 41      [17]   26       call man_game_init
-                             27    ;; llamamos al bucle del juego
-   4006 CD 5F 41      [17]   28       call man_game_play
-                             29    
+                             19 
+                             20 ;;;;;;;;;;;;;;;;;;
+                             21 ;; MAIN FUNCTION;;
+                             22 ;;;;;;;;;;;;;;;;;;
+   427C                      23 _main::
+                             24 
+                             25    ;; disable firmware
+   427C CD 28 47      [17]   26       call     cpct_disableFirmware_asm
+                             27    ;; call game init
+   427F CD 70 45      [17]   28       call man_game_init
+                             29    ;; call game manager
+   4282 CD B2 45      [17]   30       call man_game_play

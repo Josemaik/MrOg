@@ -1,4 +1,4 @@
-.module Render_Stars
+.module System_Render
 .include "cpctelera.h.s"
 
 .area _DATA
@@ -13,35 +13,13 @@
 ;;;;;;;;;;;;;;;
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
-
-;;;;;;;;;;;;;;;;;;
-;; ERASE ENTITY ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; INPUTS ;;                                    ;;
-        ;; DE -> entity to erase                    ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; NOTES                                        ;;
-        ;; to erase an entity we draw a 0 in x+vx   ;;    
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;
-;; DRAW ENTITY ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; INPUTS ;;                            ;;
-        ;; DE -> entity to draw             ;;
-    ;; OUPUTS ;;                            ;;
-        ;; HL -> prevptr            ;;      ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 sys_render_draw_one_entity:
 
-    ;; get the memory that makes reference to an x,y position -> cpct_getScreenPtr_asm        
-        ;; INPUTS
-            ;; DE -> screen start
-            ;; C  -> x
-            ;; B  -> y
-        ;; OUTPUTS
-            ;; HL -> memory direction    
+    ;;cpct_getScreenPtr_asm
+    ;; IN => DE -> screen start
+    ;;       C  -> x
+    ;;       B  -> y
+    ;; OUT =>  HL -> memory direction
 
         ;; get to entity->x and save to C
             ld      hl, #X
@@ -56,95 +34,87 @@ sys_render_draw_one_entity:
         ;; save entity to update
             push    de
 
-        ;; load in DE the start of the memory
+        ;; load in DE start of the memory
             ld      de, #CPCT_VMEM_START_ASM
 
-        ;;call function
             call    cpct_getScreenPtr_asm
 
-    ;; retrieve the saved entity
-        pop     de      
+    ;; retrieve entity of the stack
+        pop     de
+    ;; save hl in stck
+        push hl
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; draw sprite
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;;(2B HL) sprite	Source Sprite Pointer (array with pixel data)
+    ;;(2B DE) memory	Destination video memory pointer
+    ;;(1B C ) width	Sprite Width in bytes [1-63] (Beware, not in pixels!)
+    ;;(1B B ) height	Sprite Height in bytes (>0)
+    ;;
+    ;;
+        ;; de => memory position of entity
+        ;; hl point width, add de, save in c ,hl
+            ld hl,#WIDTH
+            add hl,de
+            ld c, (hl)
+        ;; hl point height, add de, save in b ,hl
+            ld hl,#HEIGHT
+            add hl,de
+            ld b, (hl)
+        ;;hl point sprite,add de and hl-> sprite
+            ld hl, #SPRITE
+            add hl,de
+        ;; save first byte in L
+            ld      e, l
+            ld      d, h
+            ld      a, (de) 
+            ld      l, a
+        ;; add 1 to de and save second byte in H
+            inc     de
+            ld      a, (de)
+            ld      h, a
+         ;; save video memory pointer in DE and in the stack
+            pop     de
+            push    de
+
+        call cpct_drawSprite_asm
 
     ;; save the pointer to memory of video
-        push    hl     
-
-    ;; get to entity->width and save in c
-        ld      hl, #Width
-        add     hl, de
-        ld      c, (hl)
-    ;; get to entity->height and save in b
-        ld      hl, #Height
-        add     hl, de
-        ld      b, (hl)
-    ;; ;; get to entity->sprite and save in de ;; de == pvmem
-        ld      hl, #sprite
-        add     hl, de
-        ex de, hl
-    ;;  load in hl source sprite pointer
-        ld hl, #sprite
-    ;; draw sprite
-        call cpct_drawSprite_asm
-    ;; retrieve the pointer to video memory and set it to the color of entity
-        ; pop     hl     
-        ; ld      (hl), a
+        pop    hl
     ret
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; RENDER ONE ENTITY ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; INPUTS ;;                            ;;
-        ;; DE -> entity to update           ;;    
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;
+;; IN => DE -> entity to update
+;;
 sys_render_update_for_one:
-
-    ;; save the pointer
-        push    de
-
-    ;;erase entity -> _sys_render_erase_one_entity
-        ;; INPUTS ;;
-            ;; DE -> entity to erase
-    
-
-    ;; retrieve the pointer
-        pop     de
-
-    ;; if entity set for destruction dont draw
         ;; go to entity->type
             ld      hl, #TYPE
             add     hl, de
 
-        ;; load in A entity->type and compare with #deadtype
+        ;; load in A entity->type and compare with #E_TYPE_DEAD
             ld      a, (hl)
             and     #E_TYPE_DEAD
             cp      #E_TYPE_DEAD
-            jr      z, sys_render_dont_draw    ;; entity was set 4 destrcution
-
+            jr      z, sys_render_dont_draw 
         ;; draw entity -> _sys_render_draw_one_entity
-            ;; INPUTS ;;
-                ;; DE -> entity to draw
-            ;; OUPUTS ;;
-                ;; HL -> prevptr
+        ;; IN =>  DE -> entity to draw
+        ;; OUP => HL
         call    sys_render_draw_one_entity
-
     sys_render_dont_draw:
-
-    ret
+ret
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; CAll RENDER FOR ALL ENTITY :;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 _sys_render_update::
-
-    ;; for all entities -> sys_physics_update_for_one
-        ;; INPUTS ;;
-            ;; BC -> memory position of the function
-
         ld      bc, #sys_render_update_for_one
-        call    _man_entity_for_all
-
-    ret
+        ld      hl, #E_TYPE_RENDER
+        call    _man_entity_for_all_matching
+ret
 
 
 
@@ -159,43 +129,13 @@ _sys_render_init::
         ld       c, #0
         call     cpct_setVideoMode_asm
 
-    ;; paint border black 
+    ;; paint border black
         cpctm_setBorder_asm HW_BLACK
-
-    ;; load values into plalette
-        ld      hl, #HW_BLACK        
-        ld      (_m_palette), hl
-
-        ;; for to load 15 white colors
-            ld      a, #15
-            ld      hl, #_m_palette
-
-            render_init_for:
-
-                ;; add 1 to last mem and save white                    
-                    inc     hl
-                    ld      (hl), #HW_BRIGHT_WHITE
-
-                ;; decrement a and compare with 0
-                    sub     #1
-                    jr      z, render_end_for
-
-                ;; redo for
-                    jr      render_init_for
-
-            render_end_for:
-
-        ;; palette [2] = normal white
-            ld      hl, #_m_palette
-            ld      de, #2
-            add     hl, de
-            ld      (hl), #HW_WHITE
-
     ;; set the palete -> cpct_setPalette_asm
         ;; INPUTS ;;
             ;; HL -> pointer of the palette
             ;; DE -> size of the palette
-        ld       hl, #_m_palette
+        ld       hl, #_main_palette
         ld       de, #16
         call     cpct_setPalette_asm
 
