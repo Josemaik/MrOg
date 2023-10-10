@@ -5035,4 +5035,11 @@ Hexadecimal [16-Bits]
    0020 DD 36 00 01   [19]   40     ld    e_vx(ix), #1
    0024                      41 P_NotPressed:
                              42 
-   0024 C9            [10]   43     ret
+   0024 21 05 80      [10]   43     ld    hl, #Key_Space
+   0027 CD 00 00      [17]   44     call  cpct_isKeyPressed_asm
+   002A 28 03         [12]   45     jr    z, Space_NotPressed
+   002C                      46 Space_Pressed:
+   002C CD 00 00      [17]   47     call entity_man_create_ammo
+   002F                      48 Space_NotPressed:
+                             49 
+   002F C9            [10]   50     ret

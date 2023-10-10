@@ -30,66 +30,70 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000009  e_ptr_h                            Entity_Manager
      0000000A  entity_size                        Entity_Manager
      0000001E  max_entities                       Entity_Manager
-     00000554  l__CODE                         
+     0000058F  l__CODE                         
      00004000  s__CODE                         
-     00004554  s__DATA                         
-     00004554  s__GSFINAL                      
-     00004554  s__GSINIT                       
-     00004554  s__HOME                         
-     00004554  s__INITIALIZED                  
-     00004554  s__INITIALIZER                  
+     0000458F  s__DATA                         
+     0000458F  s__GSFINAL                      
+     0000458F  s__GSINIT                       
+     0000458F  s__HOME                         
+     0000458F  s__INITIALIZED                  
+     0000458F  s__INITIALIZER                  
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    00000554 =        1364. bytes (REL,CON)
+_CODE                               00004000    0000058F =        1423. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00004000  _sp_player_ship                    player_ship
-     000040C0  _g_palette                         g_palette
-     000040D0  _main                              Main
-     000040F3  plantilla_entidad                  Entity_Manager
-     000040FD  _num_entities                      Entity_Manager
-     000040FE  _last_elem_ptr                     Entity_Manager
-     00004100  _entity_array                      Entity_Manager
-     0000422C  entity_man_init                    Entity_Manager
-     0000423A  entity_man_create_star             Entity_Manager
-     00004241  entity_man_create                  Entity_Manager
-     0000425C  entity_man_destroy                 Entity_Manager
-     0000427C  entity_man_getArray                Entity_Manager
-     00004284  input_sys_init                     Input_System
-     00004285  input_sys_update                   Input_System
-     000042A9  physics_sys_init                   Physics_System
-     000042AA  physics_sys_update                 Physics_System
-     000042DD  render_sys_init                    Render_System
-     000042F5  render_sys_erase_previous_instan   Render_System
-     00004306  render_sys_update                  Render_System
-     0000433C  cpct_setPalette_asm                cpct_video
-     0000434F  _cpct_scanKeyboard_f               cpct_keyboard
-     0000434F  cpct_scanKeyboard_f_asm            cpct_keyboard
-     000043B9  _cpct_isKeyPressed                 cpct_keyboard
-     000043B9  cpct_isKeyPressed_asm              cpct_keyboard
-     000043C5  cpct_setPALColour_asm              cpct_video
-     000043CF  cpct_drawSprite_asm                cpct_sprites
-     0000446F  _cpct_keyboardStatusBuffer         cpct_keyboard
-     00004479  cpct_setVideoMode_asm              cpct_video
-     00004486  _cpct_waitVSYNC                    cpct_video
-     00004486  cpct_waitVSYNC_asm                 cpct_video
-     0000448E  _cpct_disableFirmware              cpct_firmware
-     0000448E  _cpct_removeInterruptHandler       cpct_firmware
-     0000448E  cpct_disableFirmware_asm           cpct_firmware
-     0000448E  cpct_removeInterruptHandler_asm    cpct_firmware
-     0000449E  cpct_drawSolidBox_asm              cpct_sprites
-     00004541  _cpct_mode_rom_status              cpct_firmware
-     00004542  cpct_getScreenPtr_asm              cpct_video
+     00004000  _sp_ammo                           ammo
+     00004008  _sp_player_ship                    player_ship
+     000040C8  _g_palette                         g_palette
+     000040D8  _main                              Main
+     000040FB  plantilla_bala                     Entity_Manager
+     00004105  plantilla_entidad                  Entity_Manager
+     0000410F  _num_entities                      Entity_Manager
+     00004110  _last_elem_ptr                     Entity_Manager
+     00004112  _entity_array                      Entity_Manager
+     0000423E  entity_man_init                    Entity_Manager
+     0000424C  entity_man_create_player           Entity_Manager
+     00004253  entity_man_create_ammo             Entity_Manager
+     0000426A  entity_man_create                  Entity_Manager
+     00004285  entity_man_destroy                 Entity_Manager
+     000042A5  entity_man_getArray                Entity_Manager
+     000042AD  input_sys_init                     Input_System
+     000042AE  input_sys_update                   Input_System
+     000042DD  physics_sys_init                   Physics_System
+     000042DE  physics_sys_update                 Physics_System
+     00004318  render_sys_init                    Render_System
+     00004330  render_sys_erase_previous_instan   Render_System
+     00004341  render_sys_update                  Render_System
+     00004377  cpct_setPalette_asm                cpct_video
+     0000438A  _cpct_scanKeyboard_f               cpct_keyboard
+     0000438A  cpct_scanKeyboard_f_asm            cpct_keyboard
+     000043F4  _cpct_isKeyPressed                 cpct_keyboard
+     000043F4  cpct_isKeyPressed_asm              cpct_keyboard
+     00004400  cpct_setPALColour_asm              cpct_video
+     0000440A  cpct_drawSprite_asm                cpct_sprites
+     000044AA  _cpct_keyboardStatusBuffer         cpct_keyboard
+     000044B4  cpct_setVideoMode_asm              cpct_video
+     000044C1  _cpct_waitVSYNC                    cpct_video
+     000044C1  cpct_waitVSYNC_asm                 cpct_video
+     000044C9  _cpct_disableFirmware              cpct_firmware
+     000044C9  _cpct_removeInterruptHandler       cpct_firmware
+     000044C9  cpct_disableFirmware_asm           cpct_firmware
+     000044C9  cpct_removeInterruptHandler_asm    cpct_firmware
+     000044D9  cpct_drawSolidBox_asm              cpct_sprites
+     0000457C  _cpct_mode_rom_status              cpct_firmware
+     0000457D  cpct_getScreenPtr_asm              cpct_video
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 
 Files Linked                              [ module(s) ]
 
+obj/sprites/ammo.rel                      [ ammo ]
 obj/sprites/player_ship.rel               [ player_ship ]
 obj/sprites/g_palette.rel                 [ g_palette ]
 obj/main.rel                              [ Main ]

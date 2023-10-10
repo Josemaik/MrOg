@@ -55,14 +55,15 @@ Symbol Table
     Key_X   =  8007     |     Key_Y   =  0805     |     Key_Z   =  8008 
   0 O_NotPre   0018 R   |   0 O_Presse   0014 R   |     PAL_INKR=  0040 
     PAL_PENR=  0000     |     PPI_PORT=  00F5     |   0 P_NotPre   0024 R
-  0 P_Presse   0020 R   |     cpct_isK   **** GX  |     cpct_pag=  0000 
-    cpct_pag=  0010     |     cpct_pag=  0020     |     cpct_pag=  0030 
-    cpct_sca   **** GX  |     e_vx       **** GX  |     e_vy       **** GX
+  0 P_Presse   0020 R   |   0 Space_No   002F R   |   0 Space_Pr   002C R
+    cpct_isK   **** GX  |     cpct_pag=  0000     |     cpct_pag=  0010 
+    cpct_pag=  0020     |     cpct_pag=  0030     |     cpct_sca   **** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
+    e_vx       **** GX  |     e_vy       **** GX  |     entity_m   **** GX
     firmware=  0038     |   0 input_sy   0000 GR  |   0 input_sy   0001 GR
     opc_DI  =  00F3     |     opc_EI  =  00FB     |     opc_JR  =  0018 
     opc_LD_D=  0016 
@@ -72,6 +73,6 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   25   flags    0
+   0 _CODE      size   30   flags    0
    1 _DATA      size    0   flags    0
 

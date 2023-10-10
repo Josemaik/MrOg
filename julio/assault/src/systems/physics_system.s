@@ -52,7 +52,12 @@ valid_y:
     ld   e_y(ix), a
     jr   endif_y
 invalid_y:
-
+    ;; IX
+    push bc
+    push de
+    call entity_man_destroy  ;; Modify HL, DE, BC
+    pop de
+    pop bc
 endif_y:
 
     dec  b

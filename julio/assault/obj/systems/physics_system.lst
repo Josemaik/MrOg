@@ -55,21 +55,26 @@ Hexadecimal [16-Bits]
    0023 30 05         [12]   50     jr   nc, invalid_y
    0025                      51 valid_y:
    0025 DD 77 00      [19]   52     ld   e_y(ix), a
-   0028 18 00         [12]   53     jr   endif_y
+   0028 18 07         [12]   53     jr   endif_y
    002A                      54 invalid_y:
-                             55 
+                             55     ;; IX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 
 
-   002A                      56 endif_y:
-                             57 
-   002A 05            [ 4]   58     dec  b
-   002B C8            [11]   59     ret  z
-                             60 
-   002C 11 00 00      [10]   61     ld  de, #entity_size
-   002F DD 19         [15]   62     add ix, de
-   0031 18 CF         [12]   63     jr _update_loop
-                             64 
-   0033 C9            [10]   65     ret
+   002A C5            [11]   56     push bc
+   002B D5            [11]   57     push de
+   002C CD 00 00      [17]   58     call entity_man_destroy  ;; Modify HL, DE, BC
+   002F D1            [10]   59     pop de
+   0030 C1            [10]   60     pop bc
+   0031                      61 endif_y:
+                             62 
+   0031 05            [ 4]   63     dec  b
+   0032 C8            [11]   64     ret  z
+                             65 
+   0033 11 00 00      [10]   66     ld  de, #entity_size
+   0036 DD 19         [15]   67     add ix, de
+   0038 18 C8         [12]   68     jr _update_loop
+                             69 
+   003A C9            [10]   70     ret

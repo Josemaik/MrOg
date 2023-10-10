@@ -40,4 +40,11 @@ P_Pressed:
     ld    e_vx(ix), #1
 P_NotPressed:
 
+    ld    hl, #Key_Space
+    call  cpct_isKeyPressed_asm
+    jr    z, Space_NotPressed
+Space_Pressed:
+    call entity_man_create_ammo
+Space_NotPressed:
+
     ret

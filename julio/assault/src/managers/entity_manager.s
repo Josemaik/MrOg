@@ -15,9 +15,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Plantilla de Player
 ;;
+plantilla_bala::
+;;;;;;;;  x  ,  y  , vx , vy , w , h
+    .db   40 , 176 ,  0 , -2 , 1 , 8  
+;;;;;;;;  sprite
+    .dw   _sp_ammo
+;;;;;;;;  ptr_l , ptr_h
+    .db    00   ,  00
 plantilla_entidad:: 
 ;;;;;;;;  x  ,  y  , vx , vy , w , h
-    .db   40 , 184 ,  1 , 0  , 12 , 16  
+    .db   40 , 184 ,  0 , 0  , 12 , 16  
 ;;;;;;;;  sprite
     .dw   _sp_player_ship
 ;;;;;;;;  ptr_l , ptr_h
@@ -57,13 +64,28 @@ entity_man_init:
     ld  hl, #_entity_array
     ld  (_last_elem_ptr), hl
 
-    call entity_man_create_star
+    call entity_man_create_player
     
     ret
 
-entity_man_create_star::
+entity_man_create_player::
 
     ld   hl, #plantilla_entidad
+    call entity_man_create
+
+    ret
+
+entity_man_create_ammo::
+
+    ld   ix, #_entity_array
+    ld    a, e_x(ix)
+
+    add a, #5
+
+    ld   ix, #plantilla_bala
+    ld   e_x(ix), a
+
+    ld   hl, #plantilla_bala
     call entity_man_create
 
     ret
