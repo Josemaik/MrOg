@@ -5004,85 +5004,95 @@ Hexadecimal [16-Bits]
                               9 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              10 ;; Global Symbols
                              11 ;;
-                             12 .globl cpct_setVideoMode_asm
-                             13 .globl cpct_setPalette_asm
-                             14 
-                             15 .globl cpct_getScreenPtr_asm
-                             16 .globl cpct_drawSolidBox_asm
+                             12 .globl cpct_disableFirmware_asm
+                             13 
+                             14 .globl cpct_setVideoMode_asm
+                             15 .globl cpct_setPalette_asm
+                             16 .globl _g_palette
                              17 
-                             18 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             19 ;; Code
-                             20 ;;
-                             21 .area _DATA
-                             22 .area _CODE
+                             18 .globl cpct_getScreenPtr_asm
+                             19 .globl cpct_drawSolidBox_asm
+                             20 .globl cpct_drawSprite_asm
+                             21 
+                             22 .globl _sp_player_ship
                              23 
-   4206                      24 render_sys_init::
-   4206 0E 00         [ 7]   25     ld   c, #0
-   4208 CD F3 42      [17]   26     call cpct_setVideoMode_asm
-                             27 
-                             28     ;; ld  hl, #_pal_main
-                             29     ;; ld  de, #16
-                             30     ;; call cpct_setPalette_asm
+                             24 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             25 ;; Code
+                             26 ;;
+                             27 .area _DATA
+                             28 .area _CODE
+                             29 
+   42DD                      30 render_sys_init::
                              31 
-   0005                      32     cpctm_setBorder_asm HW_WHITE
-                              1    .radix h
-   0005                       2    cpctm_setBorder_raw_asm \HW_WHITE ;; [28] Macro that does the job, but requires a number value to be passed
-                              1    .globl cpct_setPALColour_asm
-   420B 21 10 00      [10]    2    ld   hl, #0x010         ;; [3]  H=Hardware value of desired colour, L=Border INK (16)
-   420E CD DF 42      [17]    3    call cpct_setPALColour_asm  ;; [25] Set Palette colour of the border
-                              3    .radix d
+   42DD CD 8E 44      [17]   32     call cpct_disableFirmware_asm
                              33 
-   4211 C9            [10]   34     ret
-                             35 
-                             36 ;; Erase Previous Instance
-   4212                      37 render_sys_erase_previous_instance::
-   4212 DD 5E 07      [19]   38     ld    e, e_ptr_l(ix)
-   4215 DD 56 08      [19]   39     ld    d, e_ptr_h(ix)
-   4218 AF            [ 4]   40     xor   a
-   4219 DD 4E 04      [19]   41     ld    c, e_w(ix)
-   421C DD 46 05      [19]   42     ld    b, e_h(ix)
-   421F CD 08 43      [17]   43     call  cpct_drawSolidBox_asm
+   42E0 0E 00         [ 7]   34     ld   c, #0
+   42E2 CD 79 44      [17]   35     call cpct_setVideoMode_asm
+                             36 
+   42E5 21 C0 40      [10]   37     ld  hl, #_g_palette
+   42E8 11 10 00      [10]   38     ld  de, #16
+   42EB CD 3C 43      [17]   39     call cpct_setPalette_asm
+                             40 
+   0011                      41     cpctm_setBorder_asm HW_BLACK
+                              1    .radix h
+   0011                       2    cpctm_setBorder_raw_asm \HW_BLACK ;; [28] Macro that does the job, but requires a number value to be passed
+                              1    .globl cpct_setPALColour_asm
+   42EE 21 10 14      [10]    2    ld   hl, #0x1410         ;; [3]  H=Hardware value of desired colour, L=Border INK (16)
+   42F1 CD C5 43      [17]    3    call cpct_setPALColour_asm  ;; [25] Set Palette colour of the border
+                              3    .radix d
+                             42 
+   42F4 C9            [10]   43     ret
                              44 
-   4222 C9            [10]   45     ret
-                             46 
-                             47 ;; Input
-                             48 ;;   IX: Pointer to first entity to render
-                             49 ;;    A: Number of entities to render
-   4223                      50 render_sys_update::
-   4223 32 49 42      [13]   51     ld  (_ent_counter), a
-                             52 
-   4226                      53 _render_loop:
-                             54     ;; Erase Previous Instance
-   4226 CD 12 42      [17]   55     call render_sys_erase_previous_instance
-                             56 
+                             45 ;; Erase Previous Instance
+   42F5                      46 render_sys_erase_previous_instance::
+   42F5 DD 5E 08      [19]   47     ld    e, e_ptr_l(ix)
+   42F8 DD 56 09      [19]   48     ld    d, e_ptr_h(ix)
+   42FB AF            [ 4]   49     xor   a
+   42FC DD 4E 04      [19]   50     ld    c, e_w(ix)
+   42FF DD 46 05      [19]   51     ld    b, e_h(ix)
+   4302 CD 9E 44      [17]   52     call  cpct_drawSolidBox_asm
+                             53 
+   4305 C9            [10]   54     ret
+                             55 
+                             56 ;; Input
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
 Hexadecimal [16-Bits]
 
 
 
-                             57     ;; Calculate new Video Memory Pointer
-   4229 11 00 C0      [10]   58     ld  de, #0xC000
-   422C DD 4E 00      [19]   59     ld   c, e_x(ix)    ;; X
-   422F DD 46 01      [19]   60     ld   b, e_y(ix)    ;; Y
-   4232 CD AC 43      [17]   61     call cpct_getScreenPtr_asm
-                             62 
-                             63     ;; Store Video Memory Pointer as Last
-   4235 DD 75 07      [19]   64     ld    e_ptr_l(ix), l
-   4238 DD 74 08      [19]   65     ld    e_ptr_h(ix), h
-                             66 
-                             67     ;; Draw Entity
-   423B EB            [ 4]   68     ex  de, hl
-   423C DD 7E 06      [19]   69     ld   a, e_color(ix)   
-   423F DD 4E 04      [19]   70     ld    c, e_w(ix)
-   4242 DD 46 05      [19]   71     ld    b, e_h(ix)
-   4245 CD 08 43      [17]   72     call cpct_drawSolidBox_asm
-                             73 
-                     0043    74 _ent_counter = .+1
-   4248 3E 00         [ 7]   75     ld   a, #0
-   424A 3D            [ 4]   76     dec a
-   424B C8            [11]   77     ret z
-                             78 
-   424C 32 49 42      [13]   79     ld  (_ent_counter), a
-   424F 01 09 00      [10]   80     ld  bc, #entity_size
-   4252 DD 09         [15]   81     add ix, bc
-   4254 18 D0         [12]   82     jr _render_loop
+                             57 ;;   IX: Pointer to first entity to render
+                             58 ;;    A: Number of entities to render
+   4306                      59 render_sys_update::
+   4306 32 2F 43      [13]   60     ld  (_ent_counter), a
+                             61 
+   4309                      62 _render_loop:
+                             63     ;; Erase Previous Instance
+   4309 CD F5 42      [17]   64     call render_sys_erase_previous_instance
+                             65 
+                             66     ;; Calculate new Video Memory Pointer
+   430C 11 00 C0      [10]   67     ld  de, #0xC000
+   430F DD 4E 00      [19]   68     ld   c, e_x(ix)    ;; X
+   4312 DD 46 01      [19]   69     ld   b, e_y(ix)    ;; Y
+   4315 CD 42 45      [17]   70     call cpct_getScreenPtr_asm
+                             71 
+                             72     ;; Store Video Memory Pointer as Last
+   4318 DD 75 08      [19]   73     ld    e_ptr_l(ix), l
+   431B DD 74 09      [19]   74     ld    e_ptr_h(ix), h
+                             75 
+                             76     ;; Draw Entity
+   431E EB            [ 4]   77     ex  de, hl
+   431F DD 6E 06      [19]   78     ld   l, e_pspr_l(ix)
+   4322 DD 66 07      [19]   79     ld   h, e_pspr_h(ix)
+   4325 DD 4E 04      [19]   80     ld    c, e_w(ix)
+   4328 DD 46 05      [19]   81     ld    b, e_h(ix)
+   432B CD CF 43      [17]   82     call cpct_drawSprite_asm
+                             83 
+                     0052    84 _ent_counter = .+1
+   432E 3E 00         [ 7]   85     ld   a, #0
+   4330 3D            [ 4]   86     dec a
+   4331 C8            [11]   87     ret z
+                             88 
+   4332 32 2F 43      [13]   89     ld  (_ent_counter), a
+   4335 01 0A 00      [10]   90     ld  bc, #entity_size
+   4338 DD 09         [15]   91     add ix, bc
+   433A 18 CD         [12]   92     jr _render_loop

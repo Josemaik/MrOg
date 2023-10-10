@@ -1,61 +1,65 @@
 XL2
-H 2 areas 16 global symbols
+H 2 areas 18 global symbols
 M Entity_Manager
+S _sp_player_ship Ref0000
 S max_entities Def001E
+S e_pspr_h Def0007
+S e_pspr_l Def0006
 S .__.ABS. Def0000
-S e_ptr_h Def0008
-S e_color Def0006
-S e_ptr_l Def0007
+S e_ptr_h Def0009
+S e_ptr_l Def0008
 S e_h Def0005
 S e_vx Def0002
 S e_vy Def0003
-S entity_size Def0009
+S entity_size Def000A
 S e_w Def0004
 S e_x Def0000
 S render_sys_erase_previous_instance Ref0000
 S e_y Def0001
-A _CODE size 172 flags 0 addr 0
-S _last_elem_ptr Def000A
-S entity_man_create Def012F
-S entity_man_init Def011A
-S entity_man_getArray Def016A
-S entity_man_destroy Def014A
-S entity_man_create_star Def0128
-S _num_entities Def0009
-S _entity_array Def000C
-S plantilla_estrella Def0000
+A _CODE size 191 flags 0 addr 0
+S _last_elem_ptr Def000B
+S entity_man_create Def014E
+S entity_man_init Def0139
+S entity_man_getArray Def0189
+S entity_man_destroy Def0169
+S entity_man_create_star Def0147
+S _num_entities Def000A
+S plantilla_entidad Def0000
+S _entity_array Def000D
 A _DATA size 0 flags 0 addr 0
-T 00 00 28 BE 01 00 01 01 C0 00 00 00 0C 00
-R 00 00 00 00 00 0C 00 00
-T 0C 00
+T 00 00
 R 00 00 00 00
-T 0C 00
+T 00 00 28 B8 01 00 0C 10 00 00 00 00 00 0D 00
+R 00 00 00 00 02 08 00 00 00 0D 00 00
+T 0D 00
 R 00 00 00 00
-T 1A 01
+T 0D 00
 R 00 00 00 00
-T 1A 01 AF 32 09 00 21 0C 00 22 0A 00 CD
+T 39 01
+R 00 00 00 00
+T 39 01 AF 32 0A 00 21 0D 00 22 0B 00 CD
 R 00 00 00 00 00 04 00 00 00 07 00 00 00 0A 00 00
-T 25 01 28 01 C9
+T 44 01 47 01 C9
 R 00 00 00 00 00 02 00 00
-T 28 01
+T 47 01
 R 00 00 00 00
-T 28 01 21 00 00 CD 2F 01 C9
+T 47 01 21 00 00 CD 4E 01 C9
 R 00 00 00 00 00 03 00 00 00 06 00 00
-T 2F 01
+T 4E 01
 R 00 00 00 00
-T 2F 01 ED 5B 0A 00 01 09 00 ED B0 3A 09 00 3C 32
+T 4E 01 ED 5B 0B 00 01 0A 00 ED B0 3A 0A 00 3C 32
 R 00 00 00 00 00 04 00 00 00 0C 00 00
-T 3D 01 09 00 2A 0A 00 01 09 00 09 22 0A 00 C9
+T 5C 01 0A 00 2A 0B 00 01 0A 00 09 22 0B 00 C9
 R 00 00 00 00 00 02 00 00 00 05 00 00 00 0C 00 00
-T 4A 01
+T 69 01
 R 00 00 00 00
-T 4A 01 CD 00 00 3A 0A 00 06 09 90 32 0A 00 DD 5D
-R 00 00 00 00 02 03 0B 00 00 06 00 00 00 0C 00 00
-T 58 01 DD 54 2A 0A 00 01 09 00 ED B0 3A 09 00 3D
+T 69 01 CD 00 00 3A 0B 00 06 0A 90 32 0B 00 DD 5D
+R 00 00 00 00 02 03 0D 00 00 06 00 00 00 0C 00 00
+T 77 01 DD 54 2A 0B 00 01 0A 00 ED B0 3A 0A 00 3D
 R 00 00 00 00 00 05 00 00 00 0D 00 00
-T 66 01 32 09 00 C9
+T 85 01 32 0A 00 C9
 R 00 00 00 00 00 03 00 00
-T 6A 01
+T 89 01
 R 00 00 00 00
-T 6A 01 DD 21 0C 00 3A 09 00 C9
+T 89 01 DD 21 0D 00 3A 0A 00 C9
 R 00 00 00 00 00 04 00 00 00 07 00 00

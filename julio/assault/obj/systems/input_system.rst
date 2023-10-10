@@ -5007,46 +5007,32 @@ Hexadecimal [16-Bits]
                              12 .area _DATA
                              13 .area _CODE
                              14 
-   4195                      15 input_sys_init::
-   4195 C9            [10]   16     ret
+   4284                      15 input_sys_init::
+   4284 C9            [10]   16     ret
                              17 
                              18 ;; Input
                              19 ;;   IX: Pointer to entity[0] - player
-   4196                      20 input_sys_update::
+   4285                      20 input_sys_update::
                              21     ;; Reset velocities
-   4196 DD 36 02 00   [19]   22     ld    e_vx(ix), #0
-   419A DD 36 03 00   [19]   23     ld    e_vy(ix), #0
+   4285 DD 36 02 00   [19]   22     ld    e_vx(ix), #0
+   4289 DD 36 03 00   [19]   23     ld    e_vy(ix), #0
                              24 
                              25     ;; Scan the keyboard
-   419E CD 69 42      [17]   26     call cpct_scanKeyboard_f_asm
+   428D CD 4F 43      [17]   26     call cpct_scanKeyboard_f_asm
                              27 
                              28     ;; Check for movement keys
-   41A1 21 04 04      [10]   29     ld    hl, #Key_O
-   41A4 CD D3 42      [17]   30     call  cpct_isKeyPressed_asm
-   41A7 28 04         [12]   31     jr    z, O_NotPressed
-   41A9                      32 O_Pressed:
-   41A9 DD 36 02 FF   [19]   33     ld    e_vx(ix), #-1
-   41AD                      34 O_NotPressed:
+   4290 21 04 04      [10]   29     ld    hl, #Key_O
+   4293 CD B9 43      [17]   30     call  cpct_isKeyPressed_asm
+   4296 28 04         [12]   31     jr    z, O_NotPressed
+   4298                      32 O_Pressed:
+   4298 DD 36 02 FF   [19]   33     ld    e_vx(ix), #-1
+   429C                      34 O_NotPressed:
                              35 
-   41AD 21 03 08      [10]   36     ld    hl, #Key_P
-   41B0 CD D3 42      [17]   37     call  cpct_isKeyPressed_asm
-   41B3 28 04         [12]   38     jr    z, P_NotPressed
-   41B5                      39 P_Pressed:
-   41B5 DD 36 02 01   [19]   40     ld    e_vx(ix), #1
-   41B9                      41 P_NotPressed:
+   429C 21 03 08      [10]   36     ld    hl, #Key_P
+   429F CD B9 43      [17]   37     call  cpct_isKeyPressed_asm
+   42A2 28 04         [12]   38     jr    z, P_NotPressed
+   42A4                      39 P_Pressed:
+   42A4 DD 36 02 01   [19]   40     ld    e_vx(ix), #1
+   42A8                      41 P_NotPressed:
                              42 
-   41B9 21 08 08      [10]   43     ld    hl, #Key_Q
-   41BC CD D3 42      [17]   44     call  cpct_isKeyPressed_asm
-   41BF 28 04         [12]   45     jr    z, Q_NotPressed
-   41C1                      46 Q_Pressed:
-   41C1 DD 36 03 FF   [19]   47     ld    e_vy(ix), #-1
-   41C5                      48 Q_NotPressed:
-                             49 
-   41C5 21 08 20      [10]   50     ld    hl, #Key_A
-   41C8 CD D3 42      [17]   51     call  cpct_isKeyPressed_asm
-   41CB 28 04         [12]   52     jr    z, A_NotPressed
-   41CD                      53 A_Pressed:
-   41CD DD 36 03 01   [19]   54     ld    e_vy(ix), #1
-   41D1                      55 A_NotPressed:
-                             56 
-   41D1 C9            [10]   57     ret
+   42A8 C9            [10]   43     ret

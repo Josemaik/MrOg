@@ -9,11 +9,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Global Symbols
 ;;
+.globl cpct_disableFirmware_asm
+
 .globl cpct_setVideoMode_asm
 .globl cpct_setPalette_asm
+.globl _g_palette
 
 .globl cpct_getScreenPtr_asm
 .globl cpct_drawSolidBox_asm
+.globl cpct_drawSprite_asm
+
+.globl _sp_player_ship
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Code
@@ -22,14 +28,17 @@
 .area _CODE
 
 render_sys_init::
+
+    call cpct_disableFirmware_asm
+
     ld   c, #0
     call cpct_setVideoMode_asm
 
-    ;; ld  hl, #_pal_main
-    ;; ld  de, #16
-    ;; call cpct_setPalette_asm
+    ld  hl, #_g_palette
+    ld  de, #16
+    call cpct_setPalette_asm
 
-    cpctm_setBorder_asm HW_WHITE
+    cpctm_setBorder_asm HW_BLACK
 
     ret
 
@@ -66,10 +75,11 @@ _render_loop:
 
     ;; Draw Entity
     ex  de, hl
-    ld   a, e_color(ix)   
+    ld   l, e_pspr_l(ix)
+    ld   h, e_pspr_h(ix)
     ld    c, e_w(ix)
     ld    b, e_h(ix)
-    call cpct_drawSolidBox_asm
+    call cpct_drawSprite_asm
 
 _ent_counter = .+1
     ld   a, #0

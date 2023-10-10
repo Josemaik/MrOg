@@ -13,11 +13,17 @@
 .globl entity_man_create
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Plantilla de Estrella
+;; Plantilla de Player
 ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;  x , y , vx , vy , w , h , color , ptr_l , ptr_h
-plantilla_estrella:: .db   40 , 190 , 1 , 0  , 1 , 1 , 0xC0 ,  00   ,  00  
-    entity_size == .-plantilla_estrella
+plantilla_entidad:: 
+;;;;;;;;  x  ,  y  , vx , vy , w , h
+    .db   40 , 184 ,  1 , 0  , 12 , 16  
+;;;;;;;;  sprite
+    .dw   _sp_player_ship
+;;;;;;;;  ptr_l , ptr_h
+    .db    00   ,  00
+      
+    entity_size == .-plantilla_entidad
 
     e_x         == 0
     e_y         == 1
@@ -25,9 +31,10 @@ plantilla_estrella:: .db   40 , 190 , 1 , 0  , 1 , 1 , 0xC0 ,  00   ,  00
     e_vy        == 3
     e_w         == 4
     e_h         == 5
-    e_color     == 6
-    e_ptr_l     == 7
-    e_ptr_h     == 8
+    e_pspr_l    == 6
+    e_pspr_h    == 7
+    e_ptr_l     == 8
+    e_ptr_h     == 9
 
     max_entities == 30
 
@@ -56,7 +63,7 @@ entity_man_init:
 
 entity_man_create_star::
 
-    ld   hl, #plantilla_estrella
+    ld   hl, #plantilla_entidad
     call entity_man_create
 
     ret
