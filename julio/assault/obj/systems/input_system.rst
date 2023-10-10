@@ -5001,45 +5001,55 @@ Hexadecimal [16-Bits]
 
 
                               8 
-                              9 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             10 ;; Code
-                             11 ;;
-                             12 .area _DATA
-                             13 .area _CODE
-                             14 
-   42AD                      15 input_sys_init::
-   42AD C9            [10]   16     ret
+   42AD                       9 delay:
+   42AD 0A                   10     .db 10
+                             11 
+                             12 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             13 ;; Code
+                             14 ;;
+                             15 .area _DATA
+                             16 .area _CODE
                              17 
-                             18 ;; Input
-                             19 ;;   IX: Pointer to entity[0] - player
-   42AE                      20 input_sys_update::
-                             21     ;; Reset velocities
-   42AE DD 36 02 00   [19]   22     ld    e_vx(ix), #0
-   42B2 DD 36 03 00   [19]   23     ld    e_vy(ix), #0
-                             24 
-                             25     ;; Scan the keyboard
-   42B6 CD 8A 43      [17]   26     call cpct_scanKeyboard_f_asm
+   42AE                      18 input_sys_init::
+   42AE C9            [10]   19     ret
+                             20 
+                             21 ;; Input
+                             22 ;;   IX: Pointer to entity[0] - player
+   42AF                      23 input_sys_update::
+                             24     ;; Reset velocities
+   42AF DD 36 02 00   [19]   25     ld    e_vx(ix), #0
+   42B3 DD 36 03 00   [19]   26     ld    e_vy(ix), #0
                              27 
-                             28     ;; Check for movement keys
-   42B9 21 04 04      [10]   29     ld    hl, #Key_O
-   42BC CD F4 43      [17]   30     call  cpct_isKeyPressed_asm
-   42BF 28 04         [12]   31     jr    z, O_NotPressed
-   42C1                      32 O_Pressed:
-   42C1 DD 36 02 FF   [19]   33     ld    e_vx(ix), #-1
-   42C5                      34 O_NotPressed:
-                             35 
-   42C5 21 03 08      [10]   36     ld    hl, #Key_P
-   42C8 CD F4 43      [17]   37     call  cpct_isKeyPressed_asm
-   42CB 28 04         [12]   38     jr    z, P_NotPressed
-   42CD                      39 P_Pressed:
-   42CD DD 36 02 01   [19]   40     ld    e_vx(ix), #1
-   42D1                      41 P_NotPressed:
-                             42 
-   42D1 21 05 80      [10]   43     ld    hl, #Key_Space
-   42D4 CD F4 43      [17]   44     call  cpct_isKeyPressed_asm
-   42D7 28 03         [12]   45     jr    z, Space_NotPressed
-   42D9                      46 Space_Pressed:
-   42D9 CD 53 42      [17]   47     call entity_man_create_ammo
-   42DC                      48 Space_NotPressed:
-                             49 
-   42DC C9            [10]   50     ret
+                             28     ;; Scan the keyboard
+   42B7 CD 94 43      [17]   29     call cpct_scanKeyboard_f_asm
+                             30 
+                             31     ;; Check for movement keys
+   42BA 21 04 04      [10]   32     ld    hl, #Key_O
+   42BD CD FE 43      [17]   33     call  cpct_isKeyPressed_asm
+   42C0 28 04         [12]   34     jr    z, O_NotPressed
+   42C2                      35 O_Pressed:
+   42C2 DD 36 02 FF   [19]   36     ld    e_vx(ix), #-1
+   42C6                      37 O_NotPressed:
+                             38 
+   42C6 21 03 08      [10]   39     ld    hl, #Key_P
+   42C9 CD FE 43      [17]   40     call  cpct_isKeyPressed_asm
+   42CC 28 04         [12]   41     jr    z, P_NotPressed
+   42CE                      42 P_Pressed:
+   42CE DD 36 02 01   [19]   43     ld    e_vx(ix), #1
+   42D2                      44 P_NotPressed:
+                             45 
+                             46 ;; Delay para que no se puedan disparar balas seguidas
+   42D2 3A AD 42      [13]   47     ld     a, (delay)
+   42D5 3D            [ 4]   48     dec    a
+   42D6 20 0B         [12]   49     jr     nz, Delay
+                             50 
+   42D8 21 05 80      [10]   51     ld    hl, #Key_Space
+   42DB CD FE 43      [17]   52     call  cpct_isKeyPressed_asm
+   42DE 28 06         [12]   53     jr    z, Space_NotPressed
+   42E0                      54 Space_Pressed:
+   42E0 CD 53 42      [17]   55     call entity_man_create_ammo
+   42E3                      56 Delay:
+   42E3 32 AD 42      [13]   57     ld     (delay), a
+   42E6                      58 Space_NotPressed:
+                             59 
+   42E6 C9            [10]   60     ret

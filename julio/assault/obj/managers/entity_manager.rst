@@ -5112,7 +5112,7 @@ Hexadecimal [16-Bits]
                             112 ;;   IX: Pointer to entity
    4285                     113 entity_man_destroy::
                             114     ;; Borrar la entidad de pantalla
-   4285 CD 30 43      [17]  115     call render_sys_erase_previous_instance
+   4285 CD 3A 43      [17]  115     call render_sys_erase_previous_instance
                             116     
                             117     ;; Reposicionar el _last_elem_ptr
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 97.

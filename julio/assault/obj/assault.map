@@ -30,21 +30,21 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000009  e_ptr_h                            Entity_Manager
      0000000A  entity_size                        Entity_Manager
      0000001E  max_entities                       Entity_Manager
-     0000058F  l__CODE                         
+     00000599  l__CODE                         
      00004000  s__CODE                         
-     0000458F  s__DATA                         
-     0000458F  s__GSFINAL                      
-     0000458F  s__GSINIT                       
-     0000458F  s__HOME                         
-     0000458F  s__INITIALIZED                  
-     0000458F  s__INITIALIZER                  
+     00004599  s__DATA                         
+     00004599  s__GSFINAL                      
+     00004599  s__GSINIT                       
+     00004599  s__HOME                         
+     00004599  s__INITIALIZED                  
+     00004599  s__INITIALIZER                  
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    0000058F =        1423. bytes (REL,CON)
+_CODE                               00004000    00000599 =        1433. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -63,31 +63,31 @@ _CODE                               00004000    0000058F =        1423. bytes (R
      0000426A  entity_man_create                  Entity_Manager
      00004285  entity_man_destroy                 Entity_Manager
      000042A5  entity_man_getArray                Entity_Manager
-     000042AD  input_sys_init                     Input_System
-     000042AE  input_sys_update                   Input_System
-     000042DD  physics_sys_init                   Physics_System
-     000042DE  physics_sys_update                 Physics_System
-     00004318  render_sys_init                    Render_System
-     00004330  render_sys_erase_previous_instan   Render_System
-     00004341  render_sys_update                  Render_System
-     00004377  cpct_setPalette_asm                cpct_video
-     0000438A  _cpct_scanKeyboard_f               cpct_keyboard
-     0000438A  cpct_scanKeyboard_f_asm            cpct_keyboard
-     000043F4  _cpct_isKeyPressed                 cpct_keyboard
-     000043F4  cpct_isKeyPressed_asm              cpct_keyboard
-     00004400  cpct_setPALColour_asm              cpct_video
-     0000440A  cpct_drawSprite_asm                cpct_sprites
-     000044AA  _cpct_keyboardStatusBuffer         cpct_keyboard
-     000044B4  cpct_setVideoMode_asm              cpct_video
-     000044C1  _cpct_waitVSYNC                    cpct_video
-     000044C1  cpct_waitVSYNC_asm                 cpct_video
-     000044C9  _cpct_disableFirmware              cpct_firmware
-     000044C9  _cpct_removeInterruptHandler       cpct_firmware
-     000044C9  cpct_disableFirmware_asm           cpct_firmware
-     000044C9  cpct_removeInterruptHandler_asm    cpct_firmware
-     000044D9  cpct_drawSolidBox_asm              cpct_sprites
-     0000457C  _cpct_mode_rom_status              cpct_firmware
-     0000457D  cpct_getScreenPtr_asm              cpct_video
+     000042AE  input_sys_init                     Input_System
+     000042AF  input_sys_update                   Input_System
+     000042E7  physics_sys_init                   Physics_System
+     000042E8  physics_sys_update                 Physics_System
+     00004322  render_sys_init                    Render_System
+     0000433A  render_sys_erase_previous_instan   Render_System
+     0000434B  render_sys_update                  Render_System
+     00004381  cpct_setPalette_asm                cpct_video
+     00004394  _cpct_scanKeyboard_f               cpct_keyboard
+     00004394  cpct_scanKeyboard_f_asm            cpct_keyboard
+     000043FE  _cpct_isKeyPressed                 cpct_keyboard
+     000043FE  cpct_isKeyPressed_asm              cpct_keyboard
+     0000440A  cpct_setPALColour_asm              cpct_video
+     00004414  cpct_drawSprite_asm                cpct_sprites
+     000044B4  _cpct_keyboardStatusBuffer         cpct_keyboard
+     000044BE  cpct_setVideoMode_asm              cpct_video
+     000044CB  _cpct_waitVSYNC                    cpct_video
+     000044CB  cpct_waitVSYNC_asm                 cpct_video
+     000044D3  _cpct_disableFirmware              cpct_firmware
+     000044D3  _cpct_removeInterruptHandler       cpct_firmware
+     000044D3  cpct_disableFirmware_asm           cpct_firmware
+     000044D3  cpct_removeInterruptHandler_asm    cpct_firmware
+     000044E3  cpct_drawSolidBox_asm              cpct_sprites
+     00004586  _cpct_mode_rom_status              cpct_firmware
+     00004587  cpct_getScreenPtr_asm              cpct_video
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 

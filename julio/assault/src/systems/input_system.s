@@ -6,6 +6,9 @@
 
 .include "cpctelera.h.s"
 
+delay:
+    .db 10
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Code
 ;;
@@ -40,11 +43,18 @@ P_Pressed:
     ld    e_vx(ix), #1
 P_NotPressed:
 
+;; Delay para que no se puedan disparar balas seguidas
+    ld     a, (delay)
+    dec    a
+    jr     nz, Delay
+
     ld    hl, #Key_Space
     call  cpct_isKeyPressed_asm
     jr    z, Space_NotPressed
 Space_Pressed:
     call entity_man_create_ammo
+Delay:
+    ld     (delay), a
 Space_NotPressed:
 
     ret

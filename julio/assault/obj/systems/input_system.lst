@@ -5001,45 +5001,55 @@ Hexadecimal [16-Bits]
 
 
                               8 
-                              9 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             10 ;; Code
-                             11 ;;
-                             12 .area _DATA
-                             13 .area _CODE
-                             14 
-   0000                      15 input_sys_init::
-   0000 C9            [10]   16     ret
+   0000                       9 delay:
+   0000 0A                   10     .db 10
+                             11 
+                             12 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             13 ;; Code
+                             14 ;;
+                             15 .area _DATA
+                             16 .area _CODE
                              17 
-                             18 ;; Input
-                             19 ;;   IX: Pointer to entity[0] - player
-   0001                      20 input_sys_update::
-                             21     ;; Reset velocities
-   0001 DD 36 00 00   [19]   22     ld    e_vx(ix), #0
-   0005 DD 36 00 00   [19]   23     ld    e_vy(ix), #0
-                             24 
-                             25     ;; Scan the keyboard
-   0009 CD 00 00      [17]   26     call cpct_scanKeyboard_f_asm
+   0001                      18 input_sys_init::
+   0001 C9            [10]   19     ret
+                             20 
+                             21 ;; Input
+                             22 ;;   IX: Pointer to entity[0] - player
+   0002                      23 input_sys_update::
+                             24     ;; Reset velocities
+   0002 DD 36 00 00   [19]   25     ld    e_vx(ix), #0
+   0006 DD 36 00 00   [19]   26     ld    e_vy(ix), #0
                              27 
-                             28     ;; Check for movement keys
-   000C 21 04 04      [10]   29     ld    hl, #Key_O
-   000F CD 00 00      [17]   30     call  cpct_isKeyPressed_asm
-   0012 28 04         [12]   31     jr    z, O_NotPressed
-   0014                      32 O_Pressed:
-   0014 DD 36 00 FF   [19]   33     ld    e_vx(ix), #-1
-   0018                      34 O_NotPressed:
-                             35 
-   0018 21 03 08      [10]   36     ld    hl, #Key_P
-   001B CD 00 00      [17]   37     call  cpct_isKeyPressed_asm
-   001E 28 04         [12]   38     jr    z, P_NotPressed
-   0020                      39 P_Pressed:
-   0020 DD 36 00 01   [19]   40     ld    e_vx(ix), #1
-   0024                      41 P_NotPressed:
-                             42 
-   0024 21 05 80      [10]   43     ld    hl, #Key_Space
-   0027 CD 00 00      [17]   44     call  cpct_isKeyPressed_asm
-   002A 28 03         [12]   45     jr    z, Space_NotPressed
-   002C                      46 Space_Pressed:
-   002C CD 00 00      [17]   47     call entity_man_create_ammo
-   002F                      48 Space_NotPressed:
-                             49 
-   002F C9            [10]   50     ret
+                             28     ;; Scan the keyboard
+   000A CD 00 00      [17]   29     call cpct_scanKeyboard_f_asm
+                             30 
+                             31     ;; Check for movement keys
+   000D 21 04 04      [10]   32     ld    hl, #Key_O
+   0010 CD 00 00      [17]   33     call  cpct_isKeyPressed_asm
+   0013 28 04         [12]   34     jr    z, O_NotPressed
+   0015                      35 O_Pressed:
+   0015 DD 36 00 FF   [19]   36     ld    e_vx(ix), #-1
+   0019                      37 O_NotPressed:
+                             38 
+   0019 21 03 08      [10]   39     ld    hl, #Key_P
+   001C CD 00 00      [17]   40     call  cpct_isKeyPressed_asm
+   001F 28 04         [12]   41     jr    z, P_NotPressed
+   0021                      42 P_Pressed:
+   0021 DD 36 00 01   [19]   43     ld    e_vx(ix), #1
+   0025                      44 P_NotPressed:
+                             45 
+                             46 ;; Delay para que no se puedan disparar balas seguidas
+   0025 3A 00 00      [13]   47     ld     a, (delay)
+   0028 3D            [ 4]   48     dec    a
+   0029 20 0B         [12]   49     jr     nz, Delay
+                             50 
+   002B 21 05 80      [10]   51     ld    hl, #Key_Space
+   002E CD 00 00      [17]   52     call  cpct_isKeyPressed_asm
+   0031 28 06         [12]   53     jr    z, Space_NotPressed
+   0033                      54 Space_Pressed:
+   0033 CD 00 00      [17]   55     call entity_man_create_ammo
+   0036                      56 Delay:
+   0036 32 00 00      [13]   57     ld     (delay), a
+   0039                      58 Space_NotPressed:
+                             59 
+   0039 C9            [10]   60     ret
