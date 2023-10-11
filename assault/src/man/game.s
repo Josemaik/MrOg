@@ -5,65 +5,12 @@
 .include "entity.h.s"
 .area _DATA
 
-;; 1 = 000000001
-;; 2 = 000000010
-;; OR= 000000011
-;; creamos una entidad de inicialización
-;; MOTHERSHIP ENTITY
-mothership_template_e:: 
-      .db     #E_TYPE_MOVABLE | #E_TYPE_RENDER | #E_TYPE_IA;; entity type
-		.db     #0x26               ;; x = 38
-		.db     #0x0A               ;; y = 10
-		.db     #SPR_MOTHERSHIP_W   ;; width 
-		.db     #SPR_MOTHERSHIP_H   ;; height
-		.db     #1                 ;; vx = -1
-		.db     #0x00               ;; vy = 0
-		.dw     #_spr_mothership    ;; sprite (2b)
-      .dw     #sys_ai_behaviour_mothership ;; behaviour
-      .dw     #0x0000               ;;anim
-      .db     #0x00              ;;animcounter c = 0
-;; ENEMY1 ENTITY
-enemy1_template_e:: 
-      .db     #E_TYPE_MOVABLE | #E_TYPE_ANIMATED | #E_TYPE_RENDER | #E_TYPE_IA;; entity type
-		.db     #0x00               ;; x = 0
-		.db     #0x28               ;; y = 30
-		.db     #SPR_ENEMY1_0_W   ;; width 
-		.db     #SPR_ENEMY1_0_H   ;; height
-		.db     #0x00                 ;; vx = 0
-		.db     #0x00               ;; vy = 0
-		.dw     #_spr_enemy1_0    ;; sprite (2b)
-      .dw     #sys_ai_behaviour_left_right ;; behaviour
-      .dw     #man_anim_enemy1               ;;anim
-      .db     #0x0c              ;;animcounter c = 12
-
-;; PLAYERSHIP ENTITY
-playership_template1_e:: 
-      .db     #E_TYPE_RENDER ;; entity type
-		.db     #0x00               ;; x = 0
-		.db     #0xC0               ;; y = 192
-		.db     #SPR_PLAYERSHIP_1_W   ;; width 
-		.db     #SPR_PLAYERSHIP_1_H   ;; height
-		.db     #0x00                 ;; vx = 0
-		.db     #0x00               ;; vy = 0
-		.dw     #_spr_playership_1    ;; sprite (2b)
-      .dw     #0x0000 ;; behaviour
-      .dw     #0x0000 ;; anim
-      .db     #0x00              ;;animcounter c = 0
-;; PLAYER
-playership_template0_e:: 
-      .db     #E_TYPE_RENDER | #E_TYPE_MOVABLE | #E_TYPE_INPUT  ;; entity type
-		.db     #0x26               ;; x = 38
-		.db     #0xB4               ;; y = 180
-		.db     #SPR_PLAYERSHIP_0_W   ;; width 
-		.db     #SPR_PLAYERSHIP_0_H   ;; height
-		.db     #0x00                 ;; vx = 0
-		.db     #0x00               ;; vy = 0
-		.dw     #_spr_playership_0    ;; sprite (2b)
-      .dw     #0x0000 ;; behaviour
-      .dw     #0x0000 ;; anim
-      .db     #0x00              ;;animcounter c = 0
-m_enemy_on_lane::
-        .ds 1
+m_lane_status::
+        .db 0x00
+        .db 0x00
+        .db 0x00
+m_player_shot::
+        .db 0x00
 
 .area _CODE
 ;;;;;;;;;;;;;;;;;;;;;
@@ -129,7 +76,10 @@ man_game_create_enemy::
    ;; save bc
    push bc
    ;; save in a varibale que indica si hay o no enemigo en linea
-   ld a, (m_enemy_on_lane)
+   ld hl, #m_lane_status
+   ld bc, #LANE_0
+   add hl, bc
+   ld a, (hl)
    cp #0
    ;; compruebo los enemigos que hay en línea (if menemyonlane == 0) creoenemy;
    jr z, create_enemy
@@ -143,7 +93,7 @@ man_game_create_enemy::
         pop bc
         ;; load in a, x of mothership , plus 4 and load in enemy->x
         ld a, c
-        add #4
+        add a, #4
         ld hl, #X
         add hl, de
         ld (hl), a
@@ -152,12 +102,125 @@ man_game_create_enemy::
         ld hl, #VX
         add hl, de
         ld (hl), a
-        ;; put variable menemyonlane as 1
+        ;; put lane 0 as ocuped
         ld a, #0x01
-        ld (m_enemy_on_lane), a
+        ld		hl, #m_lane_status
+		  ld		bc, #LANE_0
+		  add		hl, bc
+		  ld		(hl), a
 
    man_game_create_enemy_end:
    pop bc
+ret
+man_game_enemy_lane_down::
+   ;; only can go down if lane is 1 or 2
+   ld hl, #Y
+   add hl, de
+   ld a, #LANE1_Y
+   cp (hl) ;; e->y - LANE1Y
+   jr c, man_game_enemy_lane_down_end ;; lane = 0
+      ;;lane = 1
+      ;; save in c that we are in lane 1
+      ; ld c, #1 ;; enemy is on lane 1
+      ; ld b, #0
+      ld a, #LANE0_Y
+      or a ;; clear carry flag
+      ld c,#1
+      cp (hl) ;; e->y - LANE2_Y
+      jr c, man_game_go_down ;; lane = 1
+      ld c,#0
+      man_game_go_down:
+         ;; save in stack lane = 1
+         ld b,#0
+         inc c ;; (1+1 = 2)
+         push bc ;; 0002
+         ;;m_lane_status[lane+1] = m_lane_status[2]
+         ld h, #0
+         ld l, c ;; 1
+         ld bc, #m_lane_status
+         add hl, bc ;; 1 + bc (lane 1)
+
+         ld a, (hl) 
+         pop bc
+         cp #0 
+         jr nz, man_game_enemy_lane_down_end ;; if!=0 (ocuped) -> end
+         ;; if == 0 (is free) add distance
+
+         push de
+         push bc
+         ;; create a phantom clone entity to erase trail
+         call _man_entity_clone
+         ld hl, #CMPs
+         add hl, de
+         ld (hl), #E_CMP_RENDER
+         call _man_entity_set_for_destruction
+         pop bc
+         pop de
+         ;; add de distance to entity->y
+         ld hl, #Y
+         add hl, de
+         ld a, (hl)
+         add #LANE_DY
+         ld (hl), a
+         ;; put lane 1 as ocuped
+         ld hl, #m_lane_status
+         add hl, bc
+         ld (hl),#1 ;;put ocuped
+         dec c ;; lane prev as free
+         ld hl, #m_lane_status
+         add hl, bc
+         ld (hl),#0 ;; put free
+
+man_game_enemy_lane_down_end:
+ret
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; GAME ENTITY DESTROY
+;; 
+;;IN -> e_mother: Pointer to
+man_game_entity_destroy::
+   ;;if(disparo) mplayershot = 0
+   ld hl,#TYPE
+   add hl, de
+   ld a, (hl)
+   cp #E_TYPE_SHOT
+   jr z, m_playershot_to0
+      jr destroy_entity
+   m_playershot_to0:
+      ld a, #0
+      ld (m_player_shot), a
+   destroy_entity:
+      call man_entity_destroy
+ret
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; GAME PLAYER SHOT
+;; 
+;;IN -> e_mother: Pointer to
+man_game_player_shot::
+   ;;check if there is a shot already
+   ld a,  (m_player_shot)
+   cp #0
+   jr z, create_shot
+      jr man_game_player_shot_end
+   create_shot:
+   ;; save player pointer
+   push de
+   ld hl, #playershot_template_e
+   call man_game_create_template_entity
+   pop bc
+   ;; e->player-> x + 2
+   ld hl, #X
+   add hl, bc
+   ld a, (hl)
+   add #2
+   ld hl, #X
+   add hl, de
+   ld (hl), a
+
+   ld a, #1
+   ld (m_player_shot), a
+man_game_player_shot_end:
 ret
 ;;;;;;;;;;;;;;;;;;;;
 ;; INIT
@@ -169,9 +232,6 @@ man_game_init::
     ;; inicialize manager entity
         call     _man_entity_init
 
-   ;; no enemies on lane on start
-       ld a, #0
-       ld (m_enemy_on_lane), a
     ;; Create mothership
         ld       hl, #mothership_template_e
         call man_game_create_template_entity
@@ -221,9 +281,9 @@ man_game_play::
       ;; update manager
          call     _man_entity_update
       ;; wait ( se mueve cada cinco fotogramas)
-      ;    ld       a, #5
-		;  call     _wait
-         call cpct_waitVSYNC_asm
+         ld       a, #5
+		 call     _wait
+         ; call cpct_waitVSYNC_asm
       ;; jump to loop
          jr       loop
 ret

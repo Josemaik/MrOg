@@ -102,6 +102,6 @@ sys_animations_update_one_entity:
 ret
 _sys_animations_update::
         ld      bc, #sys_animations_update_one_entity
-        ld      hl, #E_TYPE_ANIMATED
+        ld      hl, #E_CMP_ANIMATED
         call    _man_entity_for_all_matching
 ret

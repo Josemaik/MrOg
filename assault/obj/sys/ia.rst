@@ -18,60 +18,85 @@ Hexadecimal [16-Bits]
                               4         ;;;;;;;;;;;;;;;;;;;;
                               5 
                               6     ;; Entity struct                 
-                     0000     7         TYPE    = 0     ;;u8            
-                     0001     8         X       = 1     ;;u8            
-                     0002     9         Y       = 2     ;;u8
-                     0003    10         WIDTH   = 3     ;;u8
-                     0004    11         HEIGHT  = 4     ;;u8           
-                     0005    12         VX      = 5     ;;i8
-                     0006    13         VY      = 6     ;;i8            
-                     0007    14         SPRITE  = 7     ;;u8(2)
-                     0009    15         IA_behaviour  = 9 ;; u8(2)
-                     000B    16         AnimFrame = 11     ;;u8(2)
-                     000D    17         AnimCounter = 13    ;;u8    
-                             18                                         
-                             19     ;; Entity types                  
-                     0000    20         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities     
-                     0001    21         E_TYPE_RENDER   = 0x01   ;; renderable entity
-                     0002    22         E_TYPE_MOVABLE  = 0x02   ;; movable entity
-                     0004    23         E_TYPE_INPUT    = 0x04   ;; Entity controlable by input
-                     0008    24         E_TYPE_IA       = 0x08   ;; Entity controlable by artificial inteligence
-                     0010    25         E_TYPE_ANIMATED = 0x10   ;; Animated Entity
-                     0080    26         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
-                     007F    27         E_TYPE_DEFAULT  = 0x7F   ;; default entity       
-                             28                                         
-                             29     ;; OTHERS
-                     000E    30         SPACE_4_ONE_ENTITY     = 14      ;; space for one entity
-                     000C    31         TOTAL_ENTITIES         = 12      ;; number of entities                          
-                     00A8    32         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
-                             33     ;;   SPRITE PROPERTIES
-                     0012    34         SPR_MOTHERSHIP_W = 18
-                     0012    35         SPR_MOTHERSHIP_H = 18
-                     0006    36         SPR_PLAYERSHIP_0_W = 6
-                     0008    37         SPR_PLAYERSHIP_0_H = 8
-                     0006    38         SPR_PLAYERSHIP_1_W = 6
-                     0008    39         SPR_PLAYERSHIP_1_H = 8
-                     000A    40         SPR_ENEMY1_0_W = 10
-                     000A    41         SPR_ENEMY1_0_H = 10
-                     000A    42         SPR_ENEMY1_1_W = 10
-                     000A    43         SPR_ENEMY1_1_H = 10
-                             44         
-                             45                                         
-                             46 
-                             47 
-                             48     ;;;;;;;;;;;;;;;;;;;;
-                             49     ;; GLOBAL SYMBOLS ;;
-                             50     ;;;;;;;;;;;;;;;;;;;;
-                             51     ;;cpctelera
-                             52     .globl cpct_memset_asm      
-                             53     .globl cpct_memcpy_asm
-                             54     ;;animations      
+                     0000     7         TYPE    = 0     ;;u8
+                     0001     8         CMPs    = 1     ;;u8      
+                     0002     9         X       = 2     ;;u8            
+                     0003    10         Y       = 3     ;;u8
+                     0004    11         WIDTH   = 4     ;;u8
+                     0005    12         HEIGHT  = 5     ;;u8           
+                     0006    13         VX      = 6     ;;i8
+                     0007    14         VY      = 7     ;;i8            
+                     0008    15         SPRITE  = 8     ;;u8(2)
+                     000A    16         IA_behaviour  = 10 ;; u8(2)
+                     000C    17         IA_COUNTER = 12
+                     000D    18         AnimFrame = 13     ;;u8(2)
+                     000F    19         AnimCounter = 15    ;;u8
+                     0010    20         COLLIDES_AGAINST = 16    
+                             21                                         
+                             22     ;; Entity types                  
+                     0000    23         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
+                     0001    24         E_TYPE_PLAYER   = 0x01 
+                     0002    25         E_TYPE_ENEMY   = 0x02 
+                     0004    26         E_TYPE_MOTHERSHIP   = 0x04 
+                     0008    27         E_TYPE_SHOT   = 0x08 
+                     0080    28         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
+                     0002    29         E_TYPE_DEFAULT  = E_TYPE_ENEMY
+                             30     ;; Components    
+                     0001    31         E_CMP_RENDER   = 0x01   ;; renderable entity
+                     0002    32         E_CMP_MOVABLE  = 0x02   ;; movable entity
+                     0004    33         E_CMP_INPUT    = 0x04   ;; Entity controlable by input
+                     0008    34         E_CMP_IA       = 0x08   ;; Entity controlable by artificial inteligence
+                     0010    35         E_CMP_ANIMATED = 0x10   ;; Animated Entity
+                     0020    36         E_CMP_COLLIDER = 0x20   ;; Entity that can collide
+                     007F    37         E_CMP_DEFAULT  = 0x7F   ;; default entity  
+                             38             
+                             39                                         
+                             40     ;; OTHERS
+                     0011    41         SPACE_4_ONE_ENTITY     = 17      ;; space for one entity
+                     000C    42         TOTAL_ENTITIES         = 12      ;; number of entities                          
+                     00CC    43         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
+                     000C    44         MAN_ANIM_ENEMY1_TIME   = 12
+                             45     ;; LANES
+                     0000    46         LANE_0		= 0											;;
+                     0001    47 		LANE_1		= 1											;;
+                     0002    48 		LANE_2		= 2	
+                     001E    49         LANE_DY = 30
+                     0028    50         LANE0_Y = 40
+                     0046    51         LANE1_Y = LANE0_Y + LANE_DY
+                     006E    52         LANE2_Y = 2*LANE0_Y + LANE_DY
+                             53     ;; PLAYER
+                     00B4    54         PLAYER_Y = 180
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 
 
-                             55     .globl man_anim_enemy1
+                     00AC    55         PLAYERSHOT_Y = PLAYER_Y - 8
+                             56     ;;   SPRITE PROPERTIES
+                     0012    57         SPR_MOTHERSHIP_W = 18
+                     0012    58         SPR_MOTHERSHIP_H = 18
+                     0006    59         SPR_PLAYERSHIP_0_W = 6
+                     0008    60         SPR_PLAYERSHIP_0_H = 8
+                     0006    61         SPR_PLAYERSHIP_1_W = 6
+                     0008    62         SPR_PLAYERSHIP_1_H = 8
+                     000A    63         SPR_ENEMY1_0_W = 10
+                     000A    64         SPR_ENEMY1_0_H = 10
+                     000A    65         SPR_ENEMY1_1_W = 10
+                     000A    66         SPR_ENEMY1_1_H = 10
+                     0001    67         SPR_VSHOT_W = 1
+                     0008    68         SPR_VSHOT_H = 8
+                             69         
+                             70                                         
+                             71 
+                             72 
+                             73     ;;;;;;;;;;;;;;;;;;;;
+                             74     ;; GLOBAL SYMBOLS ;;
+                             75     ;;;;;;;;;;;;;;;;;;;;
+                             76     ;;cpctelera
+                             77     .globl cpct_memset_asm      
+                             78     .globl cpct_memcpy_asm
+                             79     ;;animations      
+                             80     .globl man_anim_enemy1
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
 Hexadecimal [16-Bits]
 
@@ -82,7 +107,9 @@ Hexadecimal [16-Bits]
                               2       .globl _man_entity_for_all
                               3       .globl _man_entity_for_all_matching                 
                               4       .globl _man_entity_set_for_destruction 
-                              5       .globl man_game_create_enemy    
+                              5       .globl man_game_create_enemy
+                              6       .globl man_game_enemy_lane_down
+                              7       .globl man_game_entity_destroy    
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
 Hexadecimal [16-Bits]
 
@@ -5079,123 +5106,157 @@ Hexadecimal [16-Bits]
                               9 ;; FUNCTIONS ;;
                              10 ;;;;;;;;;;;;;;;
                              11 
-                             12 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             13 ;; BEHAVIOUR MOTHERSHIP
-                             14 ;;
-                             15 ;; IN => DE -> entity to update
-                             16 ;;
-   42EA                      17 sys_ai_behaviour_mothership::
-   42EA 21 01 00      [10]   18     ld      hl, #X
-   42ED 19            [11]   19     add     hl, de
-   42EE 7E            [ 7]   20     ld      a, (hl)
-   42EF 4F            [ 4]   21     ld c, a
-   42F0 3E 14         [ 7]   22     ld a, #20
-   42F2 B9            [ 4]   23     cp c
-   42F3 28 02         [12]   24     jr z, create_enemy
-   42F5 18 05         [12]   25     jr goto_behaviour
-   42F7                      26     create_enemy:
-   42F7 CD 40 45      [17]   27         call man_game_create_enemy
-   42FA 18 03         [12]   28         jr sys_ai_behaviour_mothership_end
-   42FC                      29     goto_behaviour:
-   42FC CD 00 43      [17]   30     call sys_ai_behaviour_left_right
-   42FF                      31     sys_ai_behaviour_mothership_end:
-   42FF C9            [10]   32 ret
-                             33 
-                             34 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             35 ;; BEHAVIOUR LEFT-RIGHT
-                             36 ;;
-                             37 ;; IN => DE -> entity to update
-                             38 ;;
-   4300                      39 sys_ai_behaviour_left_right::
-                             40 ;; go to entity->x
-   4300 21 01 00      [10]   41         ld      hl, #X
-   4303 19            [11]   42         add     hl, de
-   4304 7E            [ 7]   43         ld      a, (hl)
-                             44         ;; if (x == 0) go right
-   4305 FE 00         [ 7]   45         cp #0
-   4307 28 12         [12]   46         jr z, move_right
-                             47         ;; go to entity->width
-   4309 21 03 00      [10]   48         ld      hl, #WIDTH
-   430C 19            [11]   49         add     hl, de
-                             50         ;; save in a width of screen and sub to entity->width
-   430D 3E 50         [ 7]   51         ld a, #80
-   430F 96            [ 7]   52         sub (hl)
-                             53         ;; save in c the result of operation
-   4310 4F            [ 4]   54         ld c,a
-                             55         ;; go to entity->x
-   4311 21 01 00      [10]   56         ld      hl, #X
-   4314 19            [11]   57         add     hl, de
-   4315 7E            [ 7]   58         ld      a, (hl)
-                             59         ;; if (x == 80-width) go left
-   4316 B9            [ 4]   60         cp c
-   4317 28 0A         [12]   61         jr z, move_left
+                             12 
+                             13 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             14 ;; BEHAVIOUR ENEMY
+                             15 ;;
+                             16 ;; IN => DE -> entity to update
+                             17 ;;
+   4319                      18 sys_ai_behaviour_enemy::
+   4319 CD 4D 43      [17]   19     call sys_ai_behaviour_left_right
+   431C 21 02 00      [10]   20     ld      hl, #X
+   431F 19            [11]   21     add     hl, de
+   4320 7E            [ 7]   22     ld      a, (hl)
+   4321 E6 07         [ 7]   23     and #7
+   4323 28 02         [12]   24     jr z, go_down
+   4325 18 03         [12]   25     jr sys_ai_behaviour_enemy_end
+   4327                      26     go_down:
+   4327 CD 82 46      [17]   27         call man_game_enemy_lane_down
+   432A                      28     sys_ai_behaviour_enemy_end:
+   432A C9            [10]   29 ret
+                             30 
+                             31 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             32 ;; AUTODESTROY
+                             33 ;;
+                             34 ;; IN => DE -> entity to autodestroy
+                             35 ;;
+   432B                      36 sys_ai_behaviour_autodestroy::
+                             37     ;; if (--(counter)==0)
+   432B 21 0C 00      [10]   38     ld hl, #IA_COUNTER
+   432E 19            [11]   39     add hl, de
+   432F 7E            [ 7]   40     ld a, (hl)
+   4330 D6 01         [ 7]   41     sub #1
+   4332 77            [ 7]   42     ld (hl), a
+                             43 
+   4333 28 02         [12]   44     jr z, autodestroy_entity
+   4335 18 03         [12]   45         jr sys_ai_behaviour_autodestroy_end
+   4337                      46     autodestroy_entity:
+   4337 CD CC 46      [17]   47         call man_game_entity_destroy
+   433A                      48     sys_ai_behaviour_autodestroy_end:
+   433A C9            [10]   49 ret
+                             50 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             51 ;; BEHAVIOUR MOTHERSHIP
+                             52 ;;
+                             53 ;; IN => DE -> entity to update
+                             54 ;;
+   433B                      55 sys_ai_behaviour_mothership::
+   433B CD 4D 43      [17]   56     call sys_ai_behaviour_left_right
+   433E 21 02 00      [10]   57     ld      hl, #X
+   4341 19            [11]   58     add     hl, de
+   4342 7E            [ 7]   59     ld      a, (hl)
+   4343 FE 16         [ 7]   60     cp #22
+   4345 28 02         [12]   61     jr z, create_enemy
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
 
 
-   4319 18 0E         [12]   62         jr sys_ai_update_for_one_end
-                             63 
-   431B                      64         move_right:
-   431B 21 05 00      [10]   65             ld      hl, #VX
-   431E 19            [11]   66             add     hl, de
-   431F 36 01         [10]   67             ld      (hl),#1
-   4321 18 06         [12]   68             jr sys_ai_update_for_one_end
-   4323                      69         move_left:
-   4323 21 05 00      [10]   70             ld      hl, #VX
-   4326 19            [11]   71             add     hl, de
-   4327 36 FF         [10]   72             ld      (hl),#-1
-   4329                      73     sys_ai_update_for_one_end:
-   4329 C9            [10]   74 ret
-                             75 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             76 ;; UPDATE IA FOR ONE ENTITY 
-                             77 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             78 ;; IN =>  DE -> entity to update                                      
-                             79 ;;
-   432A                      80 sys_ai_update_for_one:
-                             81     
-                             82     ;; guardo un checkpoint
-   432A 21 49 43      [10]   83     ld      hl, #_return_hear_ia
-   432D E5            [11]   84     push    hl
-                             85 
-   432E D5            [11]   86     push de
-                             87     ;; go to entity-> iabehaviour
-   432F 21 09 00      [10]   88     ld      hl, #IA_behaviour
-   4332 19            [11]   89     add     hl, de
-                             90     ;; de<=>hl and save first byte in L
-   4333 5D            [ 4]   91     ld      e, l
-   4334 54            [ 4]   92     ld      d, h
-   4335 1A            [ 7]   93     ld      a, (de) 
-   4336 6F            [ 4]   94     ld      l, a
-                             95     ;; add 1 to de and save second byte in H
-   4337 13            [ 6]   96     inc     de
-   4338 1A            [ 7]   97     ld      a, (de)
-   4339 67            [ 4]   98     ld      h, a
-                             99     ;; save in stack memory pointer to call function
-   433A DD 75 04      [19]  100     ld      4(ix), l
-   433D DD 74 05      [19]  101     ld      5(ix), h
-                            102 
-   4340 D1            [10]  103     pop de
-                            104     ;; call function
-   4341 DD 4E 04      [19]  105     ld c, 4(ix)
-   4344 DD 46 05      [19]  106     ld b, 5(ix)
-   4347 C5            [11]  107     push bc
-   4348 C9            [10]  108     ret
-   4349                     109     _return_hear_ia:
-   4349 C9            [10]  110 ret
-                            111 
-                            112 
-                            113 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            114 ;; CAll PHYSICS FOR ALL ENTITY :;
-                            115 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   434A                     116 _sys_ai_update::          
+   4347 18 03         [12]   62     jr sys_ai_behaviour_mothership_end
+   4349                      63     create_enemy:
+   4349 CD 48 46      [17]   64         call man_game_create_enemy
+   434C                      65     sys_ai_behaviour_mothership_end:
+   434C C9            [10]   66 ret
+                             67 
+                             68 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             69 ;; BEHAVIOUR LEFT-RIGHT
+                             70 ;;
+                             71 ;; IN => DE -> entity to update
+                             72 ;;
+   434D                      73 sys_ai_behaviour_left_right::
+                             74 ;; go to entity->x
+   434D 21 02 00      [10]   75         ld      hl, #X
+   4350 19            [11]   76         add     hl, de
+   4351 7E            [ 7]   77         ld      a, (hl)
+                             78         ;; if (x == 0) go right
+   4352 FE 00         [ 7]   79         cp #0
+   4354 28 12         [12]   80         jr z, move_right
+                             81         ;; go to entity->width
+   4356 21 04 00      [10]   82         ld      hl, #WIDTH
+   4359 19            [11]   83         add     hl, de
+                             84         ;; save in a width of screen and sub to entity->width
+   435A 3E 50         [ 7]   85         ld a, #80
+   435C 96            [ 7]   86         sub (hl)
+                             87         ;; save in c the result of operation
+   435D 4F            [ 4]   88         ld c,a
+                             89         ;; go to entity->x
+   435E 21 02 00      [10]   90         ld      hl, #X
+   4361 19            [11]   91         add     hl, de
+   4362 7E            [ 7]   92         ld      a, (hl)
+                             93         ;; if (x == 80-width) go left
+   4363 B9            [ 4]   94         cp c
+   4364 28 0A         [12]   95         jr z, move_left
+   4366 18 0E         [12]   96         jr sys_ai_update_for_one_end
+                             97 
+   4368                      98         move_right:
+   4368 21 06 00      [10]   99             ld      hl, #VX
+   436B 19            [11]  100             add     hl, de
+   436C 36 01         [10]  101             ld      (hl),#1
+   436E 18 06         [12]  102             jr sys_ai_update_for_one_end
+   4370                     103         move_left:
+   4370 21 06 00      [10]  104             ld      hl, #VX
+   4373 19            [11]  105             add     hl, de
+   4374 36 FF         [10]  106             ld      (hl),#-1
+   4376                     107     sys_ai_update_for_one_end:
+   4376 C9            [10]  108 ret
+                            109 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            110 ;; UPDATE IA FOR ONE ENTITY 
+                            111 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            112 ;; IN =>  DE -> entity to update                                      
+                            113 ;;
+   4377                     114 sys_ai_update_for_one:
+                            115     
+                            116     ;; guardo un checkpoint
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 100.
 Hexadecimal [16-Bits]
 
 
 
-   434A 01 2A 43      [10]  117         ld      bc, #sys_ai_update_for_one
-   434D 21 0A 00      [10]  118         ld      hl, #E_TYPE_IA | #E_TYPE_MOVABLE
-   4350 CD A9 44      [17]  119         call    _man_entity_for_all_matching
-   4353 C9            [10]  120 ret
-                            121 
+   4377 21 96 43      [10]  117     ld      hl, #_return_hear_ia
+   437A E5            [11]  118     push    hl
+                            119 
+   437B D5            [11]  120     push de
+                            121     ;; go to entity-> iabehaviour
+   437C 21 0A 00      [10]  122     ld      hl, #IA_behaviour
+   437F 19            [11]  123     add     hl, de
+                            124     ;; de<=>hl and save first byte in L
+   4380 5D            [ 4]  125     ld      e, l
+   4381 54            [ 4]  126     ld      d, h
+   4382 1A            [ 7]  127     ld      a, (de) 
+   4383 6F            [ 4]  128     ld      l, a
+                            129     ;; add 1 to de and save second byte in H
+   4384 13            [ 6]  130     inc     de
+   4385 1A            [ 7]  131     ld      a, (de)
+   4386 67            [ 4]  132     ld      h, a
+                            133     ;; save in stack memory pointer to call function
+   4387 DD 75 04      [19]  134     ld      4(ix), l
+   438A DD 74 05      [19]  135     ld      5(ix), h
+                            136 
+   438D D1            [10]  137     pop de
+                            138     ;; call function
+   438E DD 4E 04      [19]  139     ld c, 4(ix)
+   4391 DD 46 05      [19]  140     ld b, 5(ix)
+   4394 C5            [11]  141     push bc
+   4395 C9            [10]  142     ret
+   4396                     143     _return_hear_ia:
+   4396 C9            [10]  144 ret
+                            145 
+                            146 
+                            147 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            148 ;; CAll PHYSICS FOR ALL ENTITY :;
+                            149 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   4397                     150 _sys_ai_update::          
+   4397 01 77 43      [10]  151         ld      bc, #sys_ai_update_for_one
+   439A 21 0A 00      [10]  152         ld      hl, #E_CMP_IA | #E_CMP_MOVABLE
+   439D CD 31 45      [17]  153         call    _man_entity_for_all_matching
+   43A0 C9            [10]  154 ret
+                            155 

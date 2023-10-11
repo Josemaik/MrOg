@@ -11,7 +11,7 @@ Hexadecimal [16-Bits]
                               6 
                               7     ;; Animation struct                              		
                      0000     8         TIME            = 0  ;; u8            
-                     0001     9         VAL_NEXT_FRAME      = 1  ;; u8 (2b)  
+                     0001     9         VAL_NEXT_FRAME  = 1  ;; u8 (2b)  
                              10                                           
                              11    ;; managers                            
                              12       .globl _man_entity_for_all_matching                  

@@ -7,4 +7,6 @@ Hexadecimal [16-Bits]
                               2       .globl _man_entity_for_all
                               3       .globl _man_entity_for_all_matching                 
                               4       .globl _man_entity_set_for_destruction 
-                              5       .globl man_game_create_enemy    
+                              5       .globl man_game_create_enemy
+                              6       .globl man_game_enemy_lane_down
+                              7       .globl man_game_entity_destroy    

@@ -1,0 +1,30 @@
+XL2
+H 2 areas 9 global symbols
+M System_Animation
+S _spr_mothership Ref0000
+S .__.ABS. Def0000
+S man_anim_enemy1 Ref0000
+S _spr_enemy1_0 Ref0000
+S _spr_enemy1_1 Ref0000
+S cpct_memcpy_asm Ref0000
+S cpct_memset_asm Ref0000
+S _man_entity_for_all_pairs_matching Ref0000
+A _CODE size 27 flags 0 addr 0
+S sys_collision_update Def001D
+A _DATA size 0 flags 0 addr 0
+T 00 00
+R 00 00 00 00
+T 00 00 21 10 00 09 7E 21 00 00 19 A6 BE 28 0F 21
+R 00 00 00 00
+T 0E 00 10 00 19 7E 21 00 00 09 A6 BE 28 02 18 00
+R 00 00 00 00
+T 1C 00
+R 00 00 00 00
+T 1C 00
+R 00 00 00 00
+T 1C 00 C9
+R 00 00 00 00
+T 1D 00
+R 00 00 00 00
+T 1D 00 01 00 00 21 20 00 CD 00 00 C9
+R 00 00 00 00 00 03 00 00 02 09 07 00
