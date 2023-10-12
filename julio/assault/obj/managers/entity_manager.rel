@@ -1,10 +1,11 @@
 XL2
-H 2 areas 1B global symbols
+H 2 areas 1E global symbols
 M Entity_Manager
 S _sp_player_ship Ref0000
 S max_entities Def001E
 S _sp_ammo Ref0000
 S e_pspr_h Def0007
+S _sp_enemy_ship Ref0000
 S e_pspr_l Def0006
 S .__.ABS. Def0000
 S e_ptr_h Def0009
@@ -17,62 +18,72 @@ S e_w Def0004
 S e_x Def0000
 S render_sys_erase_previous_instance Ref0000
 S e_y Def0001
-A _CODE size 1B2 flags 0 addr 0
-S _last_elem_ptr Def0015
-S entity_man_create Def016F
-S entity_man_init Def0143
-S entity_man_create_ammo Def0158
-S entity_man_getArray Def01AA
-S entity_man_destroy Def018A
-S plantilla_bala Def0000
-S _num_entities Def0014
-S entity_man_create_player Def0151
-S plantilla_entidad Def000A
-S _entity_array Def0017
+A _CODE size 1C6 flags 0 addr 0
+S plantilla_enemigo Def0000
+S entity_man_create_enemy Def0165
+S _last_elem_ptr Def001F
+S entity_man_create Def0183
+S entity_man_init Def014D
+S entity_man_create_ammo Def016C
+S entity_man_getArray Def01BE
+S entity_man_destroy Def019E
+S plantilla_bala Def000A
+S _num_entities Def001E
+S entity_man_create_player Def015E
+S plantilla_entidad Def0014
+S _entity_array Def0021
 A _DATA size 0 flags 0 addr 0
 T 00 00
 R 00 00 00 00
-T 00 00 28 B0 00 FE 01 08 00 00 00 00
-R 00 00 00 00 02 08 02 00
+T 00 00 28 14 FF 00 0E 14 00 00 00 00
+R 00 00 00 00 02 08 04 00
 T 0A 00
 R 00 00 00 00
-T 0A 00 28 B8 00 00 0C 10 00 00 00 00 00 17 00
+T 0A 00 28 B0 00 FE 01 08 00 00 00 00
+R 00 00 00 00 02 08 02 00
+T 14 00
+R 00 00 00 00
+T 14 00 28 B8 00 00 0C 10 00 00 00 00 00 21 00
 R 00 00 00 00 02 08 00 00 00 0D 00 00
-T 17 00
+T 21 00
 R 00 00 00 00
-T 17 00
+T 21 00
 R 00 00 00 00
-T 43 01
+T 4D 01
 R 00 00 00 00
-T 43 01 AF 32 14 00 21 17 00 22 15 00 CD
+T 4D 01 AF 32 1E 00 21 21 00 22 1F 00 CD
 R 00 00 00 00 00 04 00 00 00 07 00 00 00 0A 00 00
-T 4E 01 51 01 C9
-R 00 00 00 00 00 02 00 00
-T 51 01
+T 58 01 5E 01 CD 65 01 C9
+R 00 00 00 00 00 02 00 00 00 05 00 00
+T 5E 01
 R 00 00 00 00
-T 51 01 21 0A 00 CD 6F 01 C9
+T 5E 01 21 14 00 CD 83 01 C9
 R 00 00 00 00 00 03 00 00 00 06 00 00
-T 58 01
+T 65 01
 R 00 00 00 00
-T 58 01 DD 21 17 00 DD 7E 00 C6 05 DD 21 00 00 DD
+T 65 01 21 00 00 CD 83 01 C9
+R 00 00 00 00 00 03 00 00 00 06 00 00
+T 6C 01
+R 00 00 00 00
+T 6C 01 DD 21 21 00 DD 7E 00 C6 05 DD 21 0A 00 DD
 R 00 00 00 00 00 04 00 00 00 0D 00 00
-T 66 01 77 00 21 00 00 CD 6F 01 C9
+T 7A 01 77 00 21 0A 00 CD 83 01 C9
 R 00 00 00 00 00 05 00 00 00 08 00 00
-T 6F 01
+T 83 01
 R 00 00 00 00
-T 6F 01 ED 5B 15 00 01 0A 00 ED B0 3A 14 00 3C 32
+T 83 01 ED 5B 1F 00 01 0A 00 ED B0 3A 1E 00 3C 32
 R 00 00 00 00 00 04 00 00 00 0C 00 00
-T 7D 01 14 00 2A 15 00 01 0A 00 09 22 15 00 C9
+T 91 01 1E 00 2A 1F 00 01 0A 00 09 22 1F 00 C9
 R 00 00 00 00 00 02 00 00 00 05 00 00 00 0C 00 00
-T 8A 01
+T 9E 01
 R 00 00 00 00
-T 8A 01 CD 00 00 3A 15 00 06 0A 90 32 15 00 DD 5D
-R 00 00 00 00 02 03 0E 00 00 06 00 00 00 0C 00 00
-T 98 01 DD 54 2A 15 00 01 0A 00 ED B0 3A 14 00 3D
+T 9E 01 CD 00 00 3A 1F 00 06 0A 90 32 1F 00 DD 5D
+R 00 00 00 00 02 03 0F 00 00 06 00 00 00 0C 00 00
+T AC 01 DD 54 2A 1F 00 01 0A 00 ED B0 3A 1E 00 3D
 R 00 00 00 00 00 05 00 00 00 0D 00 00
-T A6 01 32 14 00 C9
+T BA 01 32 1E 00 C9
 R 00 00 00 00 00 03 00 00
-T AA 01
+T BE 01
 R 00 00 00 00
-T AA 01 DD 21 17 00 3A 14 00 C9
+T BE 01 DD 21 21 00 3A 1E 00 C9
 R 00 00 00 00 00 04 00 00 00 07 00 00

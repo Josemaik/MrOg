@@ -15,5 +15,7 @@ PALETTE=2 0 3 5 6 9 11 12 13 15 18 20 21 22 24 26
 $(eval $(call IMG2SP, SET_FOLDER      , src/sprites))
 $(eval $(call IMG2SP, SET_PALETTE_FW  , $(PALETTE)))
 $(eval $(call IMG2SP, CONVERT_PALETTE , $(PALETTE), g_palette ))
+
 $(eval $(call IMG2SP, CONVERT         , img/player_ship.png , 0, 0, sp_player_ship))
+$(eval $(call IMG2SP, CONVERT         , img/enemy_ship.png , 0, 0, sp_enemy_ship))
 $(eval $(call IMG2SP, CONVERT         , img/ammo.png , 0, 0, sp_ammo))

@@ -13,7 +13,18 @@
 .globl entity_man_create
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Plantilla de Player
+;; Plantilla de Bala
+;;
+plantilla_enemigo::
+;;;;;;;;  x  ,  y  , vx , vy , w  , h
+    .db   40 ,  20 , -1 ,  0 , 14 , 20  
+;;;;;;;;  sprite
+    .dw   _sp_enemy_ship
+;;;;;;;;  ptr_l , ptr_h
+    .db    00   ,  00
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Plantilla de Bala
 ;;
 plantilla_bala::
 ;;;;;;;;  x  ,  y  , vx , vy , w , h
@@ -22,6 +33,9 @@ plantilla_bala::
     .dw   _sp_ammo
 ;;;;;;;;  ptr_l , ptr_h
     .db    00   ,  00
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Plantilla de Player
+;;
 plantilla_entidad:: 
 ;;;;;;;;  x  ,  y  , vx , vy , w , h
     .db   40 , 184 ,  0 , 0  , 12 , 16  
@@ -65,12 +79,21 @@ entity_man_init:
     ld  (_last_elem_ptr), hl
 
     call entity_man_create_player
+
+    call entity_man_create_enemy
     
     ret
 
 entity_man_create_player::
 
     ld   hl, #plantilla_entidad
+    call entity_man_create
+
+    ret
+
+entity_man_create_enemy::
+
+    ld   hl, #plantilla_enemigo
     call entity_man_create
 
     ret

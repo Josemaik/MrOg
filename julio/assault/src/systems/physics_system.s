@@ -36,6 +36,9 @@ valid_x:
     ld   e_x(ix), a
     jr   endif_x
 invalid_x:
+    ld   a, e_vx(ix)
+    neg
+    ld   e_vx(ix), a
     
 endif_x:
 

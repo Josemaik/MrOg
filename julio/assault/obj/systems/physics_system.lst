@@ -39,42 +39,45 @@ Hexadecimal [16-Bits]
    000F 30 05         [12]   34     jr   nc, invalid_x
    0011                      35 valid_x:
    0011 DD 77 00      [19]   36     ld   e_x(ix), a
-   0014 18 00         [12]   37     jr   endif_x
+   0014 18 08         [12]   37     jr   endif_x
    0016                      38 invalid_x:
-                             39     
-   0016                      40 endif_x:
-                             41 
-                             42     ;; Update Y
-   0016 3E C9         [ 7]   43     ld    a, #screen_height + 1
-   0018 DD 96 00      [19]   44     sub   e_h(ix)
-   001B 4F            [ 4]   45     ld    c, a
-                             46 
-   001C DD 7E 00      [19]   47     ld    a, e_y(ix)
-   001F DD 86 00      [19]   48     add   e_vy(ix)
-   0022 B9            [ 4]   49     cp    c             ;; Comprueba con la primera posicion invalida
-   0023 30 05         [12]   50     jr   nc, invalid_y
-   0025                      51 valid_y:
-   0025 DD 77 00      [19]   52     ld   e_y(ix), a
-   0028 18 07         [12]   53     jr   endif_y
-   002A                      54 invalid_y:
-                             55     ;; IX
+   0016 DD 7E 00      [19]   39     ld   a, e_vx(ix)
+   0019 ED 44         [ 8]   40     neg
+   001B DD 77 00      [19]   41     ld   e_vx(ix), a
+                             42     
+   001E                      43 endif_x:
+                             44 
+                             45     ;; Update Y
+   001E 3E C9         [ 7]   46     ld    a, #screen_height + 1
+   0020 DD 96 00      [19]   47     sub   e_h(ix)
+   0023 4F            [ 4]   48     ld    c, a
+                             49 
+   0024 DD 7E 00      [19]   50     ld    a, e_y(ix)
+   0027 DD 86 00      [19]   51     add   e_vy(ix)
+   002A B9            [ 4]   52     cp    c             ;; Comprueba con la primera posicion invalida
+   002B 30 05         [12]   53     jr   nc, invalid_y
+   002D                      54 valid_y:
+   002D DD 77 00      [19]   55     ld   e_y(ix), a
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 
 
-   002A C5            [11]   56     push bc
-   002B D5            [11]   57     push de
-   002C CD 00 00      [17]   58     call entity_man_destroy  ;; Modify HL, DE, BC
-   002F D1            [10]   59     pop de
-   0030 C1            [10]   60     pop bc
-   0031                      61 endif_y:
-                             62 
-   0031 05            [ 4]   63     dec  b
-   0032 C8            [11]   64     ret  z
+   0030 18 07         [12]   56     jr   endif_y
+   0032                      57 invalid_y:
+                             58     ;; IX
+   0032 C5            [11]   59     push bc
+   0033 D5            [11]   60     push de
+   0034 CD 00 00      [17]   61     call entity_man_destroy  ;; Modify HL, DE, BC
+   0037 D1            [10]   62     pop de
+   0038 C1            [10]   63     pop bc
+   0039                      64 endif_y:
                              65 
-   0033 11 00 00      [10]   66     ld  de, #entity_size
-   0036 DD 19         [15]   67     add ix, de
-   0038 18 C8         [12]   68     jr _update_loop
-                             69 
-   003A C9            [10]   70     ret
+   0039 05            [ 4]   66     dec  b
+   003A C8            [11]   67     ret  z
+                             68 
+   003B 11 00 00      [10]   69     ld  de, #entity_size
+   003E DD 19         [15]   70     add ix, de
+   0040 18 C0         [12]   71     jr _update_loop
+                             72 
+   0042 C9            [10]   73     ret

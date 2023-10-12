@@ -8,6 +8,7 @@
 -l /home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
 -l z80
 obj/sprites/ammo.rel
+obj/sprites/enemy_ship.rel
 obj/sprites/player_ship.rel
 obj/sprites/g_palette.rel
 obj/main.rel
