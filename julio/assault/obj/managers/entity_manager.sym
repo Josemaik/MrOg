@@ -65,19 +65,20 @@ Symbol Table
 
     e_pspr_l=  0006 G   |     e_ptr_h =  0009 G   |     e_ptr_l =  0008 G
     e_vx    =  0002 G   |     e_vy    =  0003 G   |     e_w     =  0004 G
-    e_x     =  0000 G   |     e_y     =  0001 G   |   0 entity_m   0183 GR
-  0 entity_m   016C GR  |   0 entity_m   0165 GR  |   0 entity_m   015E GR
-  0 entity_m   019E GR  |   0 entity_m   01BE GR  |   0 entity_m   014D GR
-    entity_s=  000A G   |     firmware=  0038     |     max_enti=  001E G
-    opc_DI  =  00F3     |     opc_EI  =  00FB     |     opc_JR  =  0018 
-    opc_LD_D=  0016     |   0 plantill   000A GR  |   0 plantill   0000 GR
-  0 plantill   0014 GR  |     render_s   **** GX
+    e_x     =  0000 G   |     e_y     =  0001 G   |   0 end_crea   00B0 R
+  0 entity_m   0089 GR  |   0 entity_m   0072 GR  |   0 entity_m   006B GR
+  0 entity_m   0064 GR  |   0 entity_m   00B2 GR  |   0 entity_m   00D2 GR
+  0 entity_m   0053 GR  |     entity_s=  000A G   |   0 fin        00B1 R
+    firmware=  0038     |     max_enti=  0005 G   |     opc_DI  =  00F3 
+    opc_EI  =  00FB     |     opc_JR  =  0018     |     opc_LD_D=  0016 
+  0 plantill   000A GR  |   0 plantill   0000 GR  |   0 plantill   0014 GR
+    render_s   **** GX
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size  1C6   flags    0
+   0 _CODE      size   DA   flags    0
    1 _DATA      size    0   flags    0
 

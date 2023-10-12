@@ -13,7 +13,7 @@
 .globl entity_man_create
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Plantilla de Bala
+;; Plantilla de Enemigo
 ;;
 plantilla_enemigo::
 ;;;;;;;;  x  ,  y  , vx , vy , w  , h
@@ -22,7 +22,6 @@ plantilla_enemigo::
     .dw   _sp_enemy_ship
 ;;;;;;;;  ptr_l , ptr_h
     .db    00   ,  00
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Plantilla de Bala
 ;;
@@ -116,9 +115,20 @@ entity_man_create_ammo::
 ;; Input
 ;;   HL: pointer to entity initializer
 entity_man_create:
+
+    push hl
+
+    ;; Comprobar que hay espacio disponible
+    ld       a, #max_entities
+    ld      hl, (_num_entities)
+    sub      l
+    jp       z, end_create
+
+    pop hl
+
     ld      de, (_last_elem_ptr)
     ld      bc, #entity_size
-    ldir                        ;; Copia desde donde apunta HL en el registro DE, tantos bytes como ponga en el registro BC
+    ldir    ;; Copia desde donde apunta HL en el registro DE, tantos bytes como ponga en el registro BC
 
     ld       a, (_num_entities)
     inc      a
@@ -128,6 +138,13 @@ entity_man_create:
     ld      bc, #entity_size  
     add     hl, bc
     ld      (_last_elem_ptr), hl
+
+    jr fin
+
+    end_create:
+    pop hl
+
+    fin:
 
     ret
 
