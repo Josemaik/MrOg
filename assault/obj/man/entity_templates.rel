@@ -1,0 +1,67 @@
+XL2
+H 2 areas 20 global symbols
+M Templates_Manager
+S _sys_physics_update Ref0000
+S _spr_vshot Ref0000
+S _man_entity_clone Ref0000
+S _sys_ai_update Ref0000
+S sys_ai_behaviour_autodestroy Ref0000
+S sys_ai_behaviour_mothership Ref0000
+S _spr_mothership Ref0000
+S cpct_waitHalts_asm Ref0000
+S .__.ABS. Def0000
+S man_entity_destroy Ref0000
+S _spr_playership_0 Ref0000
+S _spr_playership_1 Ref0000
+S sys_ai_behaviour_enemy Ref0000
+S _man_entity_create Ref0000
+S _man_entity_init Ref0000
+S man_anim_enemy1 Ref0000
+S _sys_render_init Ref0000
+S _spr_enemy1_0 Ref0000
+S cpct_waitVSYNC_asm Ref0000
+S _spr_enemy1_1 Ref0000
+S _sys_animations_update Ref0000
+S sys_ai_behaviour_left_right Ref0000
+S cpct_memset_asm Ref0000
+S cpct_memcpy_asm Ref0000
+S _man_entity_update Ref0000
+S _man_entity_set_for_destruction Ref0000
+S _sys_render_update Ref0000
+A _CODE size 0 flags 0 addr 0
+A _DATA size 55 flags 0 addr 0
+S mothership_template_e Def0000
+S playershot_template_e Def0044
+S enemy1_template_e Def0011
+S playership_template0_e Def0033
+S playership_template1_e Def0022
+T 00 00
+R 00 00 01 00
+T 00 00 04 0B 26 0A 12 12 01 00 00 00 00 00 00
+R 00 00 01 00 02 0A 06 00 02 0C 05 00
+T 0D 00 00 00 00 00
+R 00 00 01 00
+T 11 00
+R 00 00 01 00
+T 11 00 02 3B 00 28 0A 0A 00 00 00 00 00 00 00
+R 00 00 01 00 02 0A 11 00 02 0C 0C 00
+T 1E 00 00 00 0C 00
+R 00 00 01 00 02 02 0F 00
+T 22 00
+R 00 00 01 00
+T 22 00 02 01 00 C0 06 08 00 00 00 00 00 00 00
+R 00 00 01 00 02 0A 0B 00
+T 2F 00 00 00 00 00
+R 00 00 01 00
+T 33 00
+R 00 00 01 00
+T 33 00 01 27 26 B4 06 08 00 00 00 00 00 00 00
+R 00 00 01 00 02 0A 0A 00
+T 40 00 00 00 00 00
+R 00 00 01 00
+T 44 00
+R 00 00 01 00
+T 44 00 08 2B 00 AC 01 08 00 F8 00 00 00 00 0E
+R 00 00 01 00 02 0A 01 00 02 0C 04 00
+T 51 00 00 00 00 02
+R 00 00 01 00

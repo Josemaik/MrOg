@@ -9,25 +9,59 @@
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; BEHAVIOUR ENEMY
+;;
+;; IN => DE -> entity to update
+;;
+sys_ai_behaviour_enemy::
+    call sys_ai_behaviour_left_right
+    ld      hl, #X
+    add     hl, de
+    ld      a, (hl)
+    and #7
+    jr z, go_down
+    jr sys_ai_behaviour_enemy_end
+    go_down:
+        call man_game_enemy_lane_down
+    sys_ai_behaviour_enemy_end:
+ret
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; AUTODESTROY
+;;
+;; IN => DE -> entity to autodestroy
+;;
+sys_ai_behaviour_autodestroy::
+    ;; if (--(counter)==0)
+    ld hl, #IA_COUNTER
+    add hl, de
+    ld a, (hl)
+    sub #1
+    ld (hl), a
+
+    jr z, autodestroy_entity
+        jr sys_ai_behaviour_autodestroy_end
+    autodestroy_entity:
+        call man_game_entity_destroy
+    sys_ai_behaviour_autodestroy_end:
+ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; BEHAVIOUR MOTHERSHIP
 ;;
 ;; IN => DE -> entity to update
 ;;
 sys_ai_behaviour_mothership::
+    call sys_ai_behaviour_left_right
     ld      hl, #X
     add     hl, de
     ld      a, (hl)
-    ld c, a
-    ld a, #20
-    cp c
+    cp #22
     jr z, create_enemy
-    jr goto_behaviour
+    jr sys_ai_behaviour_mothership_end
     create_enemy:
         call man_game_create_enemy
-        jr sys_ai_behaviour_mothership_end
-    goto_behaviour:
-    call sys_ai_behaviour_left_right
     sys_ai_behaviour_mothership_end:
 ret
 
@@ -115,7 +149,7 @@ ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 _sys_ai_update::          
         ld      bc, #sys_ai_update_for_one
-        ld      hl, #E_TYPE_IA | #E_TYPE_MOVABLE
+        ld      hl, #E_CMP_IA | #E_CMP_MOVABLE
         call    _man_entity_for_all_matching
 ret
 

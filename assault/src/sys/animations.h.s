@@ -6,7 +6,7 @@
 
     ;; Animation struct                              		
         TIME            = 0  ;; u8            
-        VAL_NEXT_FRAME      = 1  ;; u8 (2b)  
+        VAL_NEXT_FRAME  = 1  ;; u8 (2b)  
                                           
    ;; managers                            
       .globl _man_entity_for_all_matching                  

@@ -9,6 +9,9 @@
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
 sys_physics_check_keyboard:
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; LEFT-RIGHT MOVEMEMENT     ;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; save entity
     push de
     ;; scan keyboard
@@ -21,6 +24,10 @@ sys_physics_check_keyboard:
     ld      hl, #Key_P
     call cpct_isKeyPressed_asm
     jr nz, sys_physics_P_is_pressed
+    ;; check Space
+    ld      hl, #Key_Space
+    call cpct_isKeyPressed_asm
+    jr nz, sys_physics_space_is_pressed
 
     pop de
     jr sys_physics_check_keyboard_end
@@ -44,8 +51,12 @@ sys_physics_check_keyboard:
         ld      (hl), #1
 
         jr      sys_physics_check_keyboard_end
+    sys_physics_space_is_pressed:
+        pop de
+        call man_game_player_shot
+    jr sys_physics_check_keyboard_end
 
-        sys_physics_check_keyboard_end:
+    sys_physics_check_keyboard_end:
     ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UPDATE PHYSICS FOR ONE ENTITY 
@@ -54,12 +65,12 @@ sys_physics_check_keyboard:
 ;;pop de
 sys_physics_update_for_one:
     ;; if entity have input
-        ld      hl, #TYPE
+        ld      hl, #CMPs
         add     hl, de
         ld      a, (hl)
 
-        and #E_TYPE_INPUT
-        cp  #E_TYPE_INPUT
+        and #E_CMP_INPUT
+        cp  #E_CMP_INPUT
         jr z, sys_physics_check_kb
             jr sys_physics_no_check_kb
         sys_physics_check_kb:
@@ -110,6 +121,6 @@ sys_physics_update_for_one:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 _sys_physics_update::          
         ld      bc, #sys_physics_update_for_one
-        ld      hl, #E_TYPE_MOVABLE
+        ld      hl, #E_CMP_MOVABLE
         call    _man_entity_for_all_matching
 ret

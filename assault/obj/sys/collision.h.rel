@@ -1,0 +1,8 @@
+XL2
+H 1 areas 5 global symbols
+S _spr_mothership Ref0000
+S .__.ABS. Def0000
+S _spr_enemy1_0 Ref0000
+S _spr_enemy1_1 Ref0000
+S _man_entity_for_all_pairs_matching Ref0000
+A _CODE size 0 flags 0 addr 0

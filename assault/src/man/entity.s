@@ -63,6 +63,10 @@ _man_entity_create::
         ld      hl, #TYPE
         add     hl, de
         ld      (hl), #E_TYPE_DEFAULT
+    ;; Set cmp to default
+        ld hl, #CMPs
+        add hl,de
+        ld (hl), #E_CMP_DEFAULT
 
     ;; update the pointer to SPACE_4_ONE_ENTITY positons furthers (the next entity)
         ld      hl, #SPACE_4_ONE_ENTITY
@@ -75,6 +79,33 @@ _man_entity_create::
         ld      (m_reserved_entites), a
 
     ret
+
+;;;;;;;;;;;;;;;;;;;;;;;
+;; CLONE AN ENTITY
+;;;;;;;;;;;;;;;;;;;;;;;
+;; IN =>         DE  -> position in memory of the entity to clone
+;; OUT => DE -> position in memory of the cloned entity
+;; Preconditions -> there must be free space for at least one more entity            
+_man_entity_clone:: 
+    ;; create entity
+    ;; (2B DE) to	Pointer to the destination (first byte where bytes will be written)
+    ;; (2B HL) from	Pointer to the source (first byte from which bytes will be read)
+    ;;(2B BC) size	Number of bytes to be set (>= 1)
+    ;; save entity to clone
+    push de
+    ;; create entity
+    call _man_entity_create
+    ;; retrieve de entity to clone in hl
+    pop hl
+    ;; size in bc
+    ld      bc, #SPACE_4_ONE_ENTITY
+    ;; save pinter to new entity
+    push de
+    ;; copy entity to clone in new entity
+    call cpct_memcpy_asm
+    ;; retrieve pointer to new entity
+    pop de
+ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; SET ENTITY FOR DESTRUCTION
@@ -103,7 +134,7 @@ _man_entity_set_for_destruction::
 ;; IN =>   DE -> the entity to destroy               
 ;;
 
-man_entity_destroy:
+man_entity_destroy::
 
         ;; copy the last entity to the dead one
         ;; IN =>    DE -> destination byte
@@ -247,7 +278,9 @@ _man_entity_for_all::
                 jr      z, man_end_for_match     
 
                 push de
-                ld a , (hl)
+                ld hl, #CMPs
+                add hl,de
+                ld a, (hl)
                 ld l, 2(ix)
                 ld h, 3(ix)
                 and l
@@ -285,6 +318,122 @@ _man_entity_for_all::
     
     ret
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FOR ALL MATCHING ENTITIES IN PAIRS ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; IN =>   BC -> the function to call                       
+;;
+    _man_entity_for_all_pairs_matching::
+
+    ;; stack opened
+        ld      ix, #-6
+        add     ix, sp
+        ld      sp, ix
+
+    ;; save the function to call
+        ld      0(ix), c
+        ld      1(ix), b
+    ;; save the condition to call function
+        ld      2(ix), l
+        ld      3(ix), h
+
+    ;; load first position of an entity
+        ld      de, #m_entities     
+        push de
+    ;; while
+    man_init_for_match_pairs_l:
+            pop de
+            ;; if
+            ;; go to type of entity
+                    ld      hl, #TYPE
+                    add     hl, de             
+
+            ;; save in a the type and compare with #E_TYPE_INVALID
+                    ld      a, (hl)
+                    cp      #E_TYPE_INVALID    
+                    jr      z, man_end_for_match_pairs_l     
+
+                    push de
+                    ld hl, #CMPs
+                    add hl,de
+                    ld a, (hl)
+                    ld l, 2(ix)
+                    ld h, 3(ix)
+                    and l
+                    cp  l
+                    jr nz, _return_hear_match_pairs
+
+                    ld hl, #SPACE_4_ONE_ENTITY
+                    add hl, de
+                    push hl
+
+              man_init_for_match_pairs_r:    
+                                pop de
+                                ;; go to type of entity
+                                ld      hl, #TYPE
+                                add     hl, de             
+
+                            ;; save in a the type and compare with #E_TYPE_INVALID
+                                ld      a, (hl)
+                                cp      #E_TYPE_INVALID    
+                                jr      z, man_end_for_match_pairs_r
+                                
+                                push de
+
+                                ld hl, #CMPs
+                                add hl,de
+                                ld a, (hl)
+                                ld l, 2(ix)
+                                ld h, 3(ix)
+                                and l
+                                cp  l
+                                jr nz, _return_hear_match_pairs
+
+
+                                pop bc
+                                push bc
+                                ;; save returning point
+                                ld      hl, #_return_hear_match_pairs
+                                push    hl
+
+                            ;; call function
+                                ld      l, 0(ix)
+                                ld      h, 1(ix)
+                                push    hl                  
+                                ret                         
+                ;; if entity is not movable continue here
+                    _return_hear_match_pairs:
+                            pop de
+                            ld      hl, #SPACE_4_ONE_ENTITY
+                            add     hl, de
+
+                        ;; HL<=>DE
+                            ld      e, l              
+                            ld      d, h
+
+                            push de
+
+                            jr      man_init_for_match_pairs_r
+                               
+            man_end_for_match_pairs_r:
+                                pop de
+                                ld      hl, #SPACE_4_ONE_ENTITY
+                                add     hl, de
+
+                            ;; HL<=>DE
+                                ld      e, l              
+                                ld      d, h
+
+                                push de
+
+                                jr      man_init_for_match_pairs_l
+    man_end_for_match_pairs_l:
+        ;; close stack
+            ld      ix, #6
+            add     ix, sp
+            ld      sp, ix
+    
+    ret
 
 ;;;;;;;;;;;;;;;;;;;;
 ;; MANAGER UPDATE ;;

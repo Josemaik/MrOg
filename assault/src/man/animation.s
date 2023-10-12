@@ -6,9 +6,9 @@
 .area _DATA
 ;;Array de sprites
 man_anim_enemy1::
-    .db #0x0c
+    .db #MAN_ANIM_ENEMY1_TIME
     .dw _spr_enemy1_0
-    .db #0x0c
+    .db #MAN_ANIM_ENEMY1_TIME
     .dw _spr_enemy1_1
     .db #0x00
     .dw #man_anim_enemy1

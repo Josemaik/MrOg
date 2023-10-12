@@ -13,34 +13,36 @@
 ;;;;;;;;;;;;;;;
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
+
+sys_render_draw_solid_box:
+    ;; save hl in stck
+        push hl
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; draw solid box
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;;(2B DE) memory	Video memory pointer to the upper left box corner byte
+    ;;(1B A ) colour_pattern	1-byte colour pattern (in screen pixel format) to fill the box with
+    ;;(1B C ) width	Box width in bytes [1-64] (Beware!  not in pixels!)
+    ;;(1B B ) height	Box height in bytes (>0)
+    ;;
+    ;;
+        ;; de => memory position of entity
+        ;;a->colour pattern
+            ld a, #0
+        ;; hl point width, add de, save in c ,hl
+            ld hl,#WIDTH
+            add hl,de
+            ld c, (hl)
+        ;; hl point height, add de, save in b ,hl
+            ld hl,#HEIGHT
+            add hl,de
+            ld b, (hl)
+         ;; save video memory pointer in DE and in the stack
+            pop     de
+
+        call cpct_drawSolidBox_asm
+ret
 sys_render_draw_one_entity:
-
-    ;;cpct_getScreenPtr_asm
-    ;; IN => DE -> screen start
-    ;;       C  -> x
-    ;;       B  -> y
-    ;; OUT =>  HL -> memory direction
-
-        ;; get to entity->x and save to C
-            ld      hl, #X
-            add     hl, de
-            ld      c, (hl)
-
-        ;; get to entity->y and save to B
-            ld      hl, #Y
-            add     hl, de
-            ld      b, (hl)
-
-        ;; save entity to update
-            push    de
-
-        ;; load in DE start of the memory
-            ld      de, #CPCT_VMEM_START_ASM
-
-            call    cpct_getScreenPtr_asm
-
-    ;; retrieve entity of the stack
-        pop     de
     ;; save hl in stck
         push hl
     ;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -90,12 +92,40 @@ sys_render_draw_one_entity:
 ;; IN => DE -> entity to update
 ;;
 sys_render_update_for_one:
+;;cpct_getScreenPtr_asm
+    ;; IN => DE -> screen start
+    ;;       C  -> x
+    ;;       B  -> y
+    ;; OUT =>  HL -> memory direction
+
+        ;; get to entity->x and save to C
+            ld      hl, #X
+            add     hl, de
+            ld      c, (hl)
+
+        ;; get to entity->y and save to B
+            ld      hl, #Y
+            add     hl, de
+            ld      b, (hl)
+
+        ;; save entity to update
+            push    de
+
+        ;; load in DE start of the memory
+            ld      de, #CPCT_VMEM_START_ASM
+
+            call    cpct_getScreenPtr_asm
+
+    ;; retrieve entity of the stack
+        pop     de
+        push hl
         ;; go to entity->type
             ld      hl, #TYPE
             add     hl, de
 
         ;; load in A entity->type and compare with #E_TYPE_DEAD
             ld      a, (hl)
+            pop hl
             and     #E_TYPE_DEAD
             cp      #E_TYPE_DEAD
             jr      z, sys_render_dont_draw 
@@ -103,7 +133,10 @@ sys_render_update_for_one:
         ;; IN =>  DE -> entity to draw
         ;; OUP => HL
         call    sys_render_draw_one_entity
+        jr sys_render_update_for_one_end
     sys_render_dont_draw:
+        call    sys_render_draw_solid_box
+    sys_render_update_for_one_end:
 ret
 
 
@@ -112,7 +145,7 @@ ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 _sys_render_update::
         ld      bc, #sys_render_update_for_one
-        ld      hl, #E_TYPE_RENDER
+        ld      hl, #E_CMP_RENDER
         call    _man_entity_for_all_matching
 ret
 
