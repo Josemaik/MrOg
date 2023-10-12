@@ -42,21 +42,21 @@
 	.area _CODE
 	.area _CODE
 _g_palette:
-	.db #0x44	; 68	'D'
-	.db #0x54	; 84	'T'
 	.db #0x55	; 85	'U'
+	.db #0x54	; 84	'T'
 	.db #0x5c	; 92
+	.db #0x5d	; 93
 	.db #0x4c	; 76	'L'
 	.db #0x56	; 86	'V'
 	.db #0x57	; 87	'W'
 	.db #0x5e	; 94
 	.db #0x40	; 64
 	.db #0x4e	; 78	'N'
-	.db #0x47	; 71	'G'
 	.db #0x52	; 82	'R'
 	.db #0x53	; 83	'S'
+	.db #0x5a	; 90	'Z'
+	.db #0x59	; 89	'Y'
 	.db #0x4a	; 74	'J'
-	.db #0x43	; 67	'C'
 	.db #0x4b	; 75	'K'
 	.area _INITIALIZER
 	.area _CABS (ABS)

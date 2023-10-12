@@ -42,21 +42,21 @@
                              42 	.area _CODE
                              43 	.area _CODE
    40C8                      44 _g_palette:
-   40C8 44                   45 	.db #0x44	; 68	'D'
+   40C8 55                   45 	.db #0x55	; 85	'U'
    40C9 54                   46 	.db #0x54	; 84	'T'
-   40CA 55                   47 	.db #0x55	; 85	'U'
-   40CB 5C                   48 	.db #0x5c	; 92
+   40CA 5C                   47 	.db #0x5c	; 92
+   40CB 5D                   48 	.db #0x5d	; 93
    40CC 4C                   49 	.db #0x4c	; 76	'L'
    40CD 56                   50 	.db #0x56	; 86	'V'
    40CE 57                   51 	.db #0x57	; 87	'W'
    40CF 5E                   52 	.db #0x5e	; 94
    40D0 40                   53 	.db #0x40	; 64
    40D1 4E                   54 	.db #0x4e	; 78	'N'
-   40D2 47                   55 	.db #0x47	; 71	'G'
-   40D3 52                   56 	.db #0x52	; 82	'R'
-   40D4 53                   57 	.db #0x53	; 83	'S'
-   40D5 4A                   58 	.db #0x4a	; 74	'J'
-   40D6 43                   59 	.db #0x43	; 67	'C'
+   40D2 52                   55 	.db #0x52	; 82	'R'
+   40D3 53                   56 	.db #0x53	; 83	'S'
+   40D4 5A                   57 	.db #0x5a	; 90	'Z'
+   40D5 59                   58 	.db #0x59	; 89	'Y'
+   40D6 4A                   59 	.db #0x4a	; 74	'J'
    40D7 4B                   60 	.db #0x4b	; 75	'K'
                              61 	.area _INITIALIZER
                              62 	.area _CABS (ABS)
