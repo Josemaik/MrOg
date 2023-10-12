@@ -40,19 +40,19 @@ Hexadecimal [16-Bits]
                              35    ;;;;;;;;;;;;;;;;;;;
                              36    ;; Input
                              37    ;;
-   000C CD 00 00      [17]   38    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   000C CD 00 00      [17]   38    call entity_man_getArray
    000F CD 00 00      [17]   39    call input_sys_update
                              40 
                              41    ;;;;;;;;;;;;;;;;;;;
                              42    ;; Physics
                              43    ;;
-   0012 CD 00 00      [17]   44    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   0012 CD 00 00      [17]   44    call entity_man_getArray
    0015 CD 00 00      [17]   45    call physics_sys_update
                              46 
                              47    ;;;;;;;;;;;;;;;;;;;
                              48    ;; Render
                              49    ;;
-   0018 CD 00 00      [17]   50    call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   0018 CD 00 00      [17]   50    call entity_man_getArray
    001B CD 00 00      [17]   51    call render_sys_update
                              52 
                              53    ;; waitNVSyncs 2

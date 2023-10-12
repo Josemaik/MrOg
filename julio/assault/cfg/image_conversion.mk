@@ -18,4 +18,6 @@ $(eval $(call IMG2SP, CONVERT_PALETTE , $(PALETTE), g_palette ))
 
 $(eval $(call IMG2SP, CONVERT         , img/player_ship.png , 0, 0, sp_player_ship))
 $(eval $(call IMG2SP, CONVERT         , img/enemy_ship.png , 0, 0, sp_enemy_ship))
+$(eval $(call IMG2SP, CONVERT         , img/minion_ship.png , 0, 0, sp_minion_ship))
+
 $(eval $(call IMG2SP, CONVERT         , img/ammo.png , 0, 0, sp_ammo))

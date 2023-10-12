@@ -54,24 +54,25 @@ Symbol Table
     Key_U   =  0405     |     Key_V   =  8006     |     Key_W   =  0807 
     Key_X   =  8007     |     Key_Y   =  0805     |     Key_Z   =  8008 
     PAL_INKR=  0040     |     PAL_PENR=  0000     |     PPI_PORT=  00F5 
-  0 _entity_   0021 GR  |   0 _last_el   001F GR  |   0 _num_ent   001E GR
-    _sp_ammo   **** GX  |     _sp_enem   **** GX  |     _sp_play   **** GX
-    cpct_pag=  0000     |     cpct_pag=  0010     |     cpct_pag=  0020 
-    cpct_pag=  0030     |     e_h     =  0005 G   |     e_pspr_h=  0007 G
+  0 _entity_   002B GR  |   0 _last_el   0029 GR  |   0 _num_ent   0028 GR
+    _sp_ammo   **** GX  |     _sp_enem   **** GX  |     _sp_mini   **** GX
+    _sp_play   **** GX  |     cpct_pag=  0000     |     cpct_pag=  0010 
+    cpct_pag=  0020     |     cpct_pag=  0030     |     e_h     =  0005 G
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
-    e_pspr_l=  0006 G   |     e_ptr_h =  0009 G   |     e_ptr_l =  0008 G
-    e_vx    =  0002 G   |     e_vy    =  0003 G   |     e_w     =  0004 G
-    e_x     =  0000 G   |     e_y     =  0001 G   |   0 end_crea   00B0 R
-  0 entity_m   0089 GR  |   0 entity_m   0072 GR  |   0 entity_m   006B GR
-  0 entity_m   0064 GR  |   0 entity_m   00B2 GR  |   0 entity_m   00D2 GR
-  0 entity_m   0053 GR  |     entity_s=  000A G   |   0 fin        00B1 R
-    firmware=  0038     |     max_enti=  0005 G   |     opc_DI  =  00F3 
-    opc_EI  =  00FB     |     opc_JR  =  0018     |     opc_LD_D=  0016 
-  0 plantill   000A GR  |   0 plantill   0000 GR  |   0 plantill   0014 GR
+    e_pspr_h=  0007 G   |     e_pspr_l=  0006 G   |     e_ptr_h =  0009 G
+    e_ptr_l =  0008 G   |     e_vx    =  0002 G   |     e_vy    =  0003 G
+    e_w     =  0004 G   |     e_x     =  0000 G   |     e_y     =  0001 G
+  0 end_crea   01BE R   |   0 entity_m   0197 GR  |   0 entity_m   0180 GR
+  0 entity_m   0172 GR  |   0 entity_m   0179 GR  |   0 entity_m   016B GR
+  0 entity_m   01C0 GR  |   0 entity_m   01E0 GR  |   0 entity_m   0157 GR
+    entity_s=  000A G   |   0 fin        01BF R   |     firmware=  0038 
+    max_enti=  001E G   |     opc_DI  =  00F3     |     opc_EI  =  00FB 
+    opc_JR  =  0018     |     opc_LD_D=  0016     |   0 plantill   0014 GR
+  0 plantill   000A GR  |   0 plantill   001E GR  |   0 plantill   0000 GR
     render_s   **** GX
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
@@ -79,6 +80,6 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   DA   flags    0
+   0 _CODE      size  1E8   flags    0
    1 _DATA      size    0   flags    0
 

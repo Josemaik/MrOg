@@ -12,25 +12,21 @@
 .globl entity_man_init
 .globl entity_man_create
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Plantilla de Enemigo
-;;
-plantilla_enemigo::
-;;;;;;;;  x  ,  y  , vx , vy , w  , h
-    .db   40 ,  20 , -1 ,  0 , 14 , 20  
-;;;;;;;;  sprite
-    .dw   _sp_enemy_ship
-;;;;;;;;  ptr_l , ptr_h
+;; Minion
+plantilla_minion::
+    .db   40 ,  50 ,  1 ,  0 ,  7 , 13  
+    .dw   _sp_minion_ship
     .db    00   ,  00
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Plantilla de Bala
-;;
+;; Enemigo
+plantilla_enemigo::
+    .db   40 ,  20 , -1 ,  0 , 14 , 20  
+    .dw   _sp_enemy_ship
+    .db    00   ,  00
+
+;; Bala
 plantilla_bala::
-;;;;;;;;  x  ,  y  , vx , vy , w , h
     .db   40 , 176 ,  0 , -2 , 1 , 8  
-;;;;;;;;  sprite
     .dw   _sp_ammo
-;;;;;;;;  ptr_l , ptr_h
     .db    00   ,  00
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Plantilla de Player
@@ -80,6 +76,8 @@ entity_man_init:
     call entity_man_create_player
 
     call entity_man_create_enemy
+
+    call entity_man_create_minion
     
     ret
 
@@ -93,6 +91,13 @@ entity_man_create_player::
 entity_man_create_enemy::
 
     ld   hl, #plantilla_enemigo
+    call entity_man_create
+
+    ret
+
+entity_man_create_minion::
+
+    ld   hl, #plantilla_minion
     call entity_man_create
 
     ret

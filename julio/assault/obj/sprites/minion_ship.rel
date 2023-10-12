@@ -1,0 +1,31 @@
+XL2
+H 9 areas 2 global symbols
+M minion_ship
+O -mz80
+S .__.ABS. Def0000
+A _CODE size 5B flags 0 addr 0
+S _sp_minion_ship Def0000
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00
+R 00 00 00 00
+T 00 00 00 C0 00 00 00 C0 00 40 E8 00 00 00 D4 80
+R 00 00 00 00
+T 0E 00 40 6A C0 C0 C0 95 80 D4 95 D4 FC E8 6A E8
+R 00 00 00 00
+T 1C 00 40 E8 CA C0 C5 D4 80 40 E8 EF CF DF D4 80
+R 00 00 00 00
+T 2A 00 40 3F D5 FF EA 3F 80 40 BD 6A C0 95 7E 80
+R 00 00 00 00
+T 38 00 D4 D4 E8 C0 D4 E8 E8 D4 95 D4 30 E8 6A E8
+R 00 00 00 00
+T 46 00 40 6A 40 C0 80 95 80 40 E8 00 00 00 D4 80
+R 00 00 00 00
+T 54 00 00 C0 00 00 00 C0 00
+R 00 00 00 00

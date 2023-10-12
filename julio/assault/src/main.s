@@ -35,19 +35,19 @@ loop:
    ;;;;;;;;;;;;;;;;;;;
    ;; Input
    ;;
-   call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   call entity_man_getArray
    call input_sys_update
 
    ;;;;;;;;;;;;;;;;;;;
    ;; Physics
    ;;
-   call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   call entity_man_getArray
    call physics_sys_update
 
    ;;;;;;;;;;;;;;;;;;;
    ;; Render
    ;;
-   call entity_man_getArray   ;; guarda en IX el _entity_array y en A el _num_entities
+   call entity_man_getArray
    call render_sys_update
 
    ;; waitNVSyncs 2
