@@ -5069,7 +5069,7 @@ Hexadecimal [16-Bits]
                      000A    65         SPR_ENEMY1_1_W = 10
                      000A    66         SPR_ENEMY1_1_H = 10
                      0001    67         SPR_VSHOT_W = 1
-                     0008    68         SPR_VSHOT_H = 8
+                     0018    68         SPR_VSHOT_H = 24
                              69         
                              70                                         
                              71 
@@ -5433,10 +5433,10 @@ Hexadecimal [16-Bits]
                             323 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                             324 ;; IN =>   BC -> the function to call                       
                             325 ;;
-   00FE                     326     _man_entity_for_all_pairs_matching::
+   00FE                     326     _man_entity_for_all_pairs_matching_while1::
                             327 
                             328     ;; stack opened
-   00FE DD 21 FA FF   [14]  329         ld      ix, #-6
+   00FE DD 21 FC FF   [14]  329         ld      ix, #-4
    0102 DD 39         [15]  330         add     ix, sp
    0104 DD F9         [10]  331         ld      sp, ix
                             332 
@@ -5456,7 +5456,7 @@ Hexadecimal [16-Bits]
    0112 11 00 00      [10]  341         ld      de, #m_entities     
    0115 D5            [11]  342         push de
                             343     ;; while
-   0116                     344     man_init_for_match_pairs_l:
+   0116                     344     man_init_while_l:
    0116 D1            [10]  345             pop de
                             346             ;; if
                             347             ;; go to type of entity
@@ -5466,7 +5466,7 @@ Hexadecimal [16-Bits]
                             351             ;; save in a the type and compare with #E_TYPE_INVALID
    011B 7E            [ 7]  352                     ld      a, (hl)
    011C FE 00         [ 7]  353                     cp      #E_TYPE_INVALID    
-   011E 28 51         [12]  354                     jr      z, man_end_for_match_pairs_l     
+   011E 28 23         [12]  354                     jr      z, man_end_while_l     
                             355 
    0120 D5            [11]  356                     push de
    0121 21 01 00      [10]  357                     ld hl, #CMPs
@@ -5476,145 +5476,163 @@ Hexadecimal [16-Bits]
    0129 DD 66 03      [19]  361                     ld h, 3(ix)
    012C A5            [ 4]  362                     and l
    012D BD            [ 4]  363                     cp  l
-   012E 20 2D         [12]  364                     jr nz, _return_hear_match_pairs
-                            365 
-   0130 21 11 00      [10]  366                     ld hl, #SPACE_4_ONE_ENTITY
-   0133 19            [11]  367                     add hl, de
-   0134 E5            [11]  368                     push hl
-                            369 
-   0135                     370               man_init_for_match_pairs_r:    
-   0135 D1            [10]  371                                 pop de
-                            372                                 ;; go to type of entity
-   0136 21 00 00      [10]  373                                 ld      hl, #TYPE
-   0139 19            [11]  374                                 add     hl, de             
-                            375 
-                            376                             ;; save in a the type and compare with #E_TYPE_INVALID
-   013A 7E            [ 7]  377                                 ld      a, (hl)
-   013B FE 00         [ 7]  378                                 cp      #E_TYPE_INVALID    
-   013D 28 28         [12]  379                                 jr      z, man_end_for_match_pairs_r
-                            380                                 
-   013F D5            [11]  381                                 push de
-                            382 
-   0140 21 01 00      [10]  383                                 ld hl, #CMPs
-   0143 19            [11]  384                                 add hl,de
-   0144 7E            [ 7]  385                                 ld a, (hl)
-   0145 DD 6E 02      [19]  386                                 ld l, 2(ix)
-   0148 DD 66 03      [19]  387                                 ld h, 3(ix)
-   014B A5            [ 4]  388                                 and l
-   014C BD            [ 4]  389                                 cp  l
+   012E 28 02         [12]  364                     jr z, man_goto_while_r
+   0130 18 07         [12]  365                         jr man_continues_while_l
+                            366               
+                            367                 ;; if entity is not movable continue here
+   0132                     368                     man_goto_while_r:
+   0132 21 11 00      [10]  369                             ld      hl, #SPACE_4_ONE_ENTITY
+   0135 19            [11]  370                             add     hl, de
+                            371                             
+   0136 CD 4C 01      [17]  372                             call _man_entity_for_all_pairs_matching_while2
+                            373                                
+   0139                     374             man_continues_while_l:
+   0139 D1            [10]  375                                 pop de
+                            376 
+   013A 21 11 00      [10]  377                                 ld      hl, #SPACE_4_ONE_ENTITY
+   013D 19            [11]  378                                 add     hl, de
+   013E E5            [11]  379                                 push hl
+                            380                             ;; HL<=>DE
+   013F 5D            [ 4]  381                                 ld      e, l              
+   0140 54            [ 4]  382                                 ld      d, h
+                            383 
+   0141 18 D3         [12]  384                                 jr      man_init_while_l
+   0143                     385     man_end_while_l:
+                            386         ;; close stack
+   0143 DD 21 04 00   [14]  387             ld      ix, #4
+   0147 DD 39         [15]  388             add     ix, sp
+   0149 DD F9         [10]  389             ld      sp, ix
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 104.
 Hexadecimal [16-Bits]
 
 
 
-   014D 20 0E         [12]  390                                 jr nz, _return_hear_match_pairs
-                            391 
-                            392 
-   014F C1            [10]  393                                 pop bc
-   0150 C5            [11]  394                                 push bc
-                            395                                 ;; save returning point
-   0151 21 5D 01      [10]  396                                 ld      hl, #_return_hear_match_pairs
-   0154 E5            [11]  397                                 push    hl
-                            398 
-                            399                             ;; call function
-   0155 DD 6E 00      [19]  400                                 ld      l, 0(ix)
-   0158 DD 66 01      [19]  401                                 ld      h, 1(ix)
-   015B E5            [11]  402                                 push    hl                  
-   015C C9            [10]  403                                 ret                         
-                            404                 ;; if entity is not movable continue here
-   015D                     405                     _return_hear_match_pairs:
-   015D D1            [10]  406                             pop de
-   015E 21 11 00      [10]  407                             ld      hl, #SPACE_4_ONE_ENTITY
-   0161 19            [11]  408                             add     hl, de
+                            390     
+   014B C9            [10]  391     ret
+   014C                     392 _man_entity_for_all_pairs_matching_while2:
+                            393     ;; save left entity in bc
+   014C 4B            [ 4]  394     ld c, e
+   014D 42            [ 4]  395     ld b, d
+                            396     ;; save right entity in de
+   014E 5D            [ 4]  397     ld e, l
+   014F 54            [ 4]  398     ld d, h
+                            399 
+   0150 C5            [11]  400     push bc
+   0151 D5            [11]  401     push de
+                            402 
+   0152                     403     man_init_while_r:
+   0152 D1            [10]  404             pop de
+   0153 C1            [10]  405             pop bc
+                            406 
+   0154 21 00 00      [10]  407             ld hl, #TYPE
+   0157 19            [11]  408             add hl, de
                             409 
-                            410                         ;; HL<=>DE
-   0162 5D            [ 4]  411                             ld      e, l              
-   0163 54            [ 4]  412                             ld      d, h
+   0158 7E            [ 7]  410             ld a, (hl)
+   0159 FE 00         [ 7]  411             cp #E_TYPE_INVALID
+   015B 28 28         [12]  412             jr z, man_end_while_r
                             413 
-   0164 D5            [11]  414                             push de
-                            415 
-   0165 18 CE         [12]  416                             jr      man_init_for_match_pairs_r
-                            417                                
-   0167                     418             man_end_for_match_pairs_r:
-   0167 D1            [10]  419                                 pop de
-   0168 21 11 00      [10]  420                                 ld      hl, #SPACE_4_ONE_ENTITY
-   016B 19            [11]  421                                 add     hl, de
-                            422 
-                            423                             ;; HL<=>DE
-   016C 5D            [ 4]  424                                 ld      e, l              
-   016D 54            [ 4]  425                                 ld      d, h
-                            426 
-   016E D5            [11]  427                                 push de
-                            428 
-   016F 18 A5         [12]  429                                 jr      man_init_for_match_pairs_l
-   0171                     430     man_end_for_match_pairs_l:
-                            431         ;; close stack
-   0171 DD 21 06 00   [14]  432             ld      ix, #6
-   0175 DD 39         [15]  433             add     ix, sp
-   0177 DD F9         [10]  434             ld      sp, ix
-                            435     
-   0179 C9            [10]  436     ret
-                            437 
-                            438 ;;;;;;;;;;;;;;;;;;;;
-                            439 ;; MANAGER UPDATE ;;
-                            440 ;;;;;;;;;;;;;;;;;;;;
-   017A                     441 _man_entity_update::
-                            442     ;; load first position
-   017A 11 00 00      [10]  443         ld      de, #m_entities     
-                            444 
+   015D 21 01 00      [10]  414                 ld hl, #CMPs
+   0160 19            [11]  415                 add hl, de
+   0161 7E            [ 7]  416                 ld a, (hl)
+                            417 
+   0162 DD 6E 02      [19]  418                 ld l, 2(ix)
+   0165 DD 66 03      [19]  419                 ld h, 3(ix)
+                            420 
+   0168 C5            [11]  421                 push bc
+   0169 D5            [11]  422                 push de
+                            423 
+   016A A5            [ 4]  424                 and l
+   016B BD            [ 4]  425                 cp l
+   016C 20 0C         [12]  426                 jr nz, return_code_while_r
+   016E 21 7A 01      [10]  427                     ld hl, #return_code_while_r
+   0171 E5            [11]  428                     push hl
+                            429 
+   0172 DD 6E 00      [19]  430                     ld l, 0(ix)
+   0175 DD 66 01      [19]  431                     ld h, 1(ix)
+   0178 E5            [11]  432                     push hl
+   0179 C9            [10]  433                     ret
+                            434 
+   017A                     435                 return_code_while_r:
+   017A D1            [10]  436                     pop de
+   017B C1            [10]  437                     pop bc
+                            438 
+   017C 21 11 00      [10]  439                     ld hl, #SPACE_4_ONE_ENTITY
+   017F 19            [11]  440                     add hl, de
+                            441 
+   0180 EB            [ 4]  442                     ex de, hl
+                            443 
+   0181 C5            [11]  444                     push bc
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 105.
 Hexadecimal [16-Bits]
 
 
 
-                            445     ;; while
-   017D                     446     man_update_init_for:
-                            447             ;; go to type of entity
-   017D 21 00 00      [10]  448                 ld      hl, #TYPE
-   0180 19            [11]  449                 add     hl, de             
+   0182 D5            [11]  445                     push de
+                            446 
+   0183 18 CD         [12]  447                     jr man_init_while_r
+   0185                     448 man_end_while_r:
+   0185 C9            [10]  449 ret
                             450 
-                            451             ;; save in a the type and compare with #E_TYPE_INVALID
-   0181 7E            [ 7]  452                 ld      a, (hl)
-   0182 FE 00         [ 7]  453                 cp      #E_TYPE_INVALID     
-   0184 28 13         [12]  454                 jr      z, man_update_end_for      
-                            455             ;;if is set for destruction
-   0186 E6 80         [ 7]  456                 and      #E_TYPE_DEAD
-                            457             
-                            458             ;; compare A with E_TYPE_DEAD
-   0188 FE 80         [ 7]  459                 cp      #E_TYPE_DEAD
-   018A 28 08         [12]  460                 jr      z, man_update_destroy_entity   
-                            461 
-                            462                 ;; add SPACE_4_ONE_ENTITY De <==> HL
-   018C 21 11 00      [10]  463                     ld      hl, #SPACE_4_ONE_ENTITY
-   018F 19            [11]  464                     add     hl, de
-                            465 
-                            466                 ;;  HL<==>DE
-   0190 5D            [ 4]  467                     ld      e, l              
-   0191 54            [ 4]  468                     ld      d, h
-                            469 
-                            470                 ;; no destroy  
-   0192 18 03         [12]  471                     jr      man_update_not_destroy_entity
-                            472             
-   0194                     473             man_update_destroy_entity:      
-   0194 CD 51 00      [17]  474                 call    man_entity_destroy        
-   0197                     475             man_update_not_destroy_entity:  
-   0197 18 E4         [12]  476                 jr      man_update_init_for       
-                            477 
-   0199                     478     man_update_end_for:
-                            479 
-   0199 C9            [10]  480     ret
-                            481 
-                            482 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            483 ;; RETURN THE AMOUNT OF FREE ENTITIES AVAILABLE 
-                            484 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            485 ;; OUT => L -> the number of free entities     
-                            486 ;;
-   019A                     487 _man_entity_free_space::
-                            488     
-   019A 3E 0C         [ 7]  489     ld      a, #TOTAL_ENTITIES
-   019C ED 4B CF 00   [20]  490     ld      bc, (m_reserved_entites)
-   01A0 91            [ 4]  491     sub     c
+                            451 ;;;;;;;;;;;;;;;;;;;;
+                            452 ;; MANAGER UPDATE ;;
+                            453 ;;;;;;;;;;;;;;;;;;;;
+   0186                     454 _man_entity_update::
+                            455     ;; load first position
+   0186 11 00 00      [10]  456         ld      de, #m_entities     
+                            457 
+                            458     ;; while
+   0189                     459     man_update_init_for:
+                            460             ;; go to type of entity
+   0189 21 00 00      [10]  461                 ld      hl, #TYPE
+   018C 19            [11]  462                 add     hl, de             
+                            463 
+                            464             ;; save in a the type and compare with #E_TYPE_INVALID
+   018D 7E            [ 7]  465                 ld      a, (hl)
+   018E FE 00         [ 7]  466                 cp      #E_TYPE_INVALID     
+   0190 28 13         [12]  467                 jr      z, man_update_end_for      
+                            468             ;;if is set for destruction
+   0192 E6 80         [ 7]  469                 and      #E_TYPE_DEAD
+                            470             
+                            471             ;; compare A with E_TYPE_DEAD
+   0194 FE 80         [ 7]  472                 cp      #E_TYPE_DEAD
+   0196 28 08         [12]  473                 jr      z, man_update_destroy_entity   
+                            474 
+                            475                 ;; add SPACE_4_ONE_ENTITY De <==> HL
+   0198 21 11 00      [10]  476                     ld      hl, #SPACE_4_ONE_ENTITY
+   019B 19            [11]  477                     add     hl, de
+                            478 
+                            479                 ;;  HL<==>DE
+   019C 5D            [ 4]  480                     ld      e, l              
+   019D 54            [ 4]  481                     ld      d, h
+                            482 
+                            483                 ;; no destroy  
+   019E 18 03         [12]  484                     jr      man_update_not_destroy_entity
+                            485             
+   01A0                     486             man_update_destroy_entity:      
+   01A0 CD 51 00      [17]  487                 call    man_entity_destroy        
+   01A3                     488             man_update_not_destroy_entity:  
+   01A3 18 E4         [12]  489                 jr      man_update_init_for       
+                            490 
+   01A5                     491     man_update_end_for:
                             492 
-   01A1 6F            [ 4]  493     ld      l, a
+   01A5 C9            [10]  493     ret
                             494 
-   01A2 C9            [10]  495     ret
+                            495 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            496 ;; RETURN THE AMOUNT OF FREE ENTITIES AVAILABLE 
+                            497 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            498 ;; OUT => L -> the number of free entities     
+                            499 ;;
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 106.
+Hexadecimal [16-Bits]
+
+
+
+   01A6                     500 _man_entity_free_space::
+                            501     
+   01A6 3E 0C         [ 7]  502     ld      a, #TOTAL_ENTITIES
+   01A8 ED 4B CF 00   [20]  503     ld      bc, (m_reserved_entites)
+   01AC 91            [ 4]  504     sub     c
+                            505 
+   01AD 6F            [ 4]  506     ld      l, a
+                            507 
+   01AE C9            [10]  508     ret

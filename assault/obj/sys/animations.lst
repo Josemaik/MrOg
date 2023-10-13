@@ -5093,7 +5093,7 @@ Hexadecimal [16-Bits]
                      000A    65         SPR_ENEMY1_1_W = 10
                      000A    66         SPR_ENEMY1_1_H = 10
                      0001    67         SPR_VSHOT_W = 1
-                     0008    68         SPR_VSHOT_H = 8
+                     0018    68         SPR_VSHOT_H = 24
                              69         
                              70                                         
                              71 

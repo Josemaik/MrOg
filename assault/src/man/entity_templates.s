@@ -57,7 +57,7 @@ playership_template1_e::
 ;; PLAYER
 playership_template0_e:: 
 		.db 	#E_TYPE_PLAYER				;; entity type
-      .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_INPUT | #E_CMP_COLLIDER ;; cmps
+      .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_INPUT ;;| #E_CMP_COLLIDER ;; cmps
 		.db     #0x26               ;; x = 38
 		.db     #PLAYER_Y               ;; y = 180
 		.db     #SPR_PLAYERSHIP_0_W   ;; width 

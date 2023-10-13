@@ -5023,19 +5023,20 @@ Hexadecimal [16-Bits]
                              24       .globl sys_ai_behaviour_enemy
                              25       .globl _sys_animations_update
                              26       .globl sys_ai_behaviour_autodestroy
-                             27    ;; sprites
-                             28       .globl _spr_mothership
-                             29       .globl _spr_playership_0
-                             30       .globl _spr_playership_1
-                             31       .globl _spr_enemy1_0
-                             32       .globl _spr_enemy1_1
-                             33       .globl _spr_vshot
-                             34    ;; templates
-                             35    .globl mothership_template_e
-                             36    .globl enemy1_template_e
-                             37    .globl playership_template1_e
-                             38    .globl playership_template0_e
-                             39    .globl playershot_template_e
+                             27       .globl _sys_collision_update
+                             28    ;; sprites
+                             29       .globl _spr_mothership
+                             30       .globl _spr_playership_0
+                             31       .globl _spr_playership_1
+                             32       .globl _spr_enemy1_0
+                             33       .globl _spr_enemy1_1
+                             34       .globl _spr_vshot
+                             35    ;; templates
+                             36    .globl mothership_template_e
+                             37    .globl enemy1_template_e
+                             38    .globl playership_template1_e
+                             39    .globl playership_template0_e
+                             40    .globl playershot_template_e
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
 Hexadecimal [16-Bits]
 
@@ -5114,7 +5115,7 @@ Hexadecimal [16-Bits]
                      000A    65         SPR_ENEMY1_1_W = 10
                      000A    66         SPR_ENEMY1_1_H = 10
                      0001    67         SPR_VSHOT_W = 1
-                     0008    68         SPR_VSHOT_H = 8
+                     0018    68         SPR_VSHOT_H = 24
                              69         
                              70                                         
                              71 
@@ -5134,12 +5135,12 @@ Hexadecimal [16-Bits]
 
                               6 .area _DATA
                               7 
-   4ABC                       8 m_lane_status::
-   4ABC 00                    9         .db 0x00
-   4ABD 00                   10         .db 0x00
-   4ABE 00                   11         .db 0x00
-   4ABF                      12 m_player_shot::
-   4ABF 00                   13         .db 0x00
+   4B0F                       8 m_lane_status::
+   4B0F 00                    9         .db 0x00
+   4B10 00                   10         .db 0x00
+   4B11 00                   11         .db 0x00
+   4B12                      12 m_player_shot::
+   4B12 00                   13         .db 0x00
                              14 
                              15 .area _CODE
                              16 ;;;;;;;;;;;;;;;;;;;;;
@@ -5149,28 +5150,28 @@ Hexadecimal [16-Bits]
                              20 ;;;;;;;;;;;;;;;;;;;;
                              21 ;; WAIT
                              22 ;;
-   4627                      23 _wait:
+   4675                      23 _wait:
                              24     ;; loop
-   4627                      25       wait_init_for:
+   4675                      25       wait_init_for:
                              26          ;; compare A with 0 and two halts
-   4627 FE 00         [ 7]   27             cp       #0                   
-   4629 28 0E         [12]   28             jr       z, wait_end_for      
-   462B 06 02         [ 7]   29             ld       b, #2
-   462D CD 94 48      [17]   30             call     cpct_waitHalts_asm
+   4675 FE 00         [ 7]   27             cp       #0                   
+   4677 28 0E         [12]   28             jr       z, wait_end_for      
+   4679 06 02         [ 7]   29             ld       b, #2
+   467B CD E7 48      [17]   30             call     cpct_waitHalts_asm
                              31 
                              32          ;; save a
-   4630 F5            [11]   33             push     af
+   467E F5            [11]   33             push     af
                              34          ;; wait sync
-   4631 CD 98 48      [17]   35             call     cpct_waitVSYNC_asm
+   467F CD EB 48      [17]   35             call     cpct_waitVSYNC_asm
                              36          
                              37          ;; a-1
-   4634 F1            [10]   38             pop      af
-   4635 D6 01         [ 7]   39             sub      #1
+   4682 F1            [10]   38             pop      af
+   4683 D6 01         [ 7]   39             sub      #1
                              40          ;; go loop
-   4637 18 EE         [12]   41             jr       wait_init_for
+   4685 18 EE         [12]   41             jr       wait_init_for
                              42    ;; end for
-   4639                      43       wait_end_for:
-   4639 C9            [10]   44    ret
+   4687                      43       wait_end_for:
+   4687 C9            [10]   44    ret
                              45 ;;;;;;;;;;;;;;;;;;;;;
                              46 ;; PUBLIC FUNCTION ;;
                              47 ;;;;;;;;;;;;;;;;;;;;;
@@ -5178,266 +5179,270 @@ Hexadecimal [16-Bits]
                              49 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              50 ;;;CREATE TEMPLATE
                              51 ;;
-   463A                      52 man_game_create_template_entity::
-   463A E5            [11]   53    push hl
+   4688                      52 man_game_create_template_entity::
+   4688 E5            [11]   53    push hl
                              54    ;; create entity
-   463B CD 9F 44      [17]   55         call _man_entity_create
+   4689 CD E1 44      [17]   55         call _man_entity_create
                              56     
                              57         ;; load entity from stack
-   463E E1            [10]   58         pop hl
-   463F D5            [11]   59         push de
-   4640 01 11 00      [10]   60         ld bc,#SPACE_4_ONE_ENTITY
+   468C E1            [10]   58         pop hl
+   468D D5            [11]   59         push de
+   468E 01 11 00      [10]   60         ld bc,#SPACE_4_ONE_ENTITY
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
 
 
-   4643 CD B5 48      [17]   61         call cpct_memcpy_asm
-   4646 D1            [10]   62         pop de
-   4647 C9            [10]   63    ret
+   4691 CD 08 49      [17]   61         call cpct_memcpy_asm
+   4694 D1            [10]   62         pop de
+   4695 C9            [10]   63    ret
                              64 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              65 ;;;CREATE ENEMY
                              66 ;;
-   4648                      67 man_game_create_enemy::
+   4696                      67 man_game_create_enemy::
                              68    ;; save in c -> x of mothership
-   4648 21 02 00      [10]   69    ld hl, #X
-   464B 19            [11]   70    add hl, de
-   464C 4E            [ 7]   71    ld c, (hl)
+   4696 21 02 00      [10]   69    ld hl, #X
+   4699 19            [11]   70    add hl, de
+   469A 4E            [ 7]   71    ld c, (hl)
                              72    ;; save in b -> vx of mothership
-   464D 21 06 00      [10]   73    ld hl, #VX
-   4650 19            [11]   74    add hl, de
-   4651 46            [ 7]   75    ld b, (hl)
+   469B 21 06 00      [10]   73    ld hl, #VX
+   469E 19            [11]   74    add hl, de
+   469F 46            [ 7]   75    ld b, (hl)
                              76    ;; save bc
-   4652 C5            [11]   77    push bc
+   46A0 C5            [11]   77    push bc
                              78    ;; save in a varibale que indica si hay o no enemigo en linea
-   4653 21 BC 4A      [10]   79    ld hl, #m_lane_status
-   4656 01 00 00      [10]   80    ld bc, #LANE_0
-   4659 09            [11]   81    add hl, bc
-   465A 7E            [ 7]   82    ld a, (hl)
-   465B FE 00         [ 7]   83    cp #0
+   46A1 21 0F 4B      [10]   79    ld hl, #m_lane_status
+   46A4 01 00 00      [10]   80    ld bc, #LANE_0
+   46A7 09            [11]   81    add hl, bc
+   46A8 7E            [ 7]   82    ld a, (hl)
+   46A9 FE 00         [ 7]   83    cp #0
                              84    ;; compruebo los enemigos que hay en línea (if menemyonlane == 0) creoenemy;
-   465D 28 02         [12]   85    jr z, create_enemy
-   465F 18 1F         [12]   86    jr man_game_create_enemy_end
+   46AB 28 02         [12]   85    jr z, create_enemy
+   46AD 18 21         [12]   86    jr man_retrieve_bc
                              87    ;; Create new enemy and set x and vx
-   4661                      88    create_enemy:
+   46AF                      88    create_enemy:
                              89          ;; create enemy
-   4661 21 78 4A      [10]   90         ld       hl, #enemy1_template_e
-   4664 CD 3A 46      [17]   91         call man_game_create_template_entity
+   46AF 21 CB 4A      [10]   90         ld       hl, #enemy1_template_e
+   46B2 CD 88 46      [17]   91         call man_game_create_template_entity
                              92         ;; retrieve bc
-   4667 C1            [10]   93         pop bc
+   46B5 C1            [10]   93         pop bc
                              94         ;; load in a, x of mothership , plus 4 and load in enemy->x
-   4668 79            [ 4]   95         ld a, c
-   4669 C6 04         [ 7]   96         add a, #4
-   466B 21 02 00      [10]   97         ld hl, #X
-   466E 19            [11]   98         add hl, de
-   466F 77            [ 7]   99         ld (hl), a
+   46B6 79            [ 4]   95         ld a, c
+   46B7 C6 04         [ 7]   96         add a, #4
+   46B9 21 02 00      [10]   97         ld hl, #X
+   46BC 19            [11]   98         add hl, de
+   46BD 77            [ 7]   99         ld (hl), a
                             100         ;; load in a, vx of mothership and load in enemy->x
-   4670 78            [ 4]  101         ld a, b
-   4671 21 06 00      [10]  102         ld hl, #VX
-   4674 19            [11]  103         add hl, de
-   4675 77            [ 7]  104         ld (hl), a
+   46BE 78            [ 4]  101         ld a, b
+   46BF 21 06 00      [10]  102         ld hl, #VX
+   46C2 19            [11]  103         add hl, de
+   46C3 77            [ 7]  104         ld (hl), a
                             105         ;; put lane 0 as ocuped
-   4676 3E 01         [ 7]  106         ld a, #0x01
-   4678 21 BC 4A      [10]  107         ld		hl, #m_lane_status
-   467B 01 00 00      [10]  108 		  ld		bc, #LANE_0
-   467E 09            [11]  109 		  add		hl, bc
-   467F 77            [ 7]  110 		  ld		(hl), a
+   46C4 3E 01         [ 7]  106         ld a, #0x01
+   46C6 21 0F 4B      [10]  107         ld		hl, #m_lane_status
+   46C9 01 00 00      [10]  108 		  ld		bc, #LANE_0
+   46CC 09            [11]  109 		  add		hl, bc
+   46CD 77            [ 7]  110 		  ld		(hl), a
                             111 
-   4680                     112    man_game_create_enemy_end:
-   4680 C1            [10]  113    pop bc
-   4681 C9            [10]  114 ret
-   4682                     115 man_game_enemy_lane_down::
+   46CE 18 01         [12]  112         jr man_game_create_enemy_end
+   46D0                     113    man_retrieve_bc:
+   46D0 C1            [10]  114         pop bc
+   46D1                     115    man_game_create_enemy_end:
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 100.
 Hexadecimal [16-Bits]
 
 
 
-                            116    ;; only can go down if lane is 1 or 2
-   4682 21 03 00      [10]  117    ld hl, #Y
-   4685 19            [11]  118    add hl, de
-   4686 3E 46         [ 7]  119    ld a, #LANE1_Y
-   4688 BE            [ 7]  120    cp (hl) ;; e->y - LANE1Y
-   4689 38 40         [12]  121    jr c, man_game_enemy_lane_down_end ;; lane = 0
-                            122       ;;lane = 1
-                            123       ;; save in c that we are in lane 1
-                            124       ; ld c, #1 ;; enemy is on lane 1
-                            125       ; ld b, #0
-   468B 3E 28         [ 7]  126       ld a, #LANE0_Y
-   468D B7            [ 4]  127       or a ;; clear carry flag
-   468E 0E 01         [ 7]  128       ld c,#1
-   4690 BE            [ 7]  129       cp (hl) ;; e->y - LANE2_Y
-   4691 38 02         [12]  130       jr c, man_game_go_down ;; lane = 1
-   4693 0E 00         [ 7]  131       ld c,#0
-   4695                     132       man_game_go_down:
-                            133          ;; save in stack lane = 1
-   4695 06 00         [ 7]  134          ld b,#0
-   4697 0C            [ 4]  135          inc c ;; (1+1 = 2)
-   4698 C5            [11]  136          push bc ;; 0002
-                            137          ;;m_lane_status[lane+1] = m_lane_status[2]
-   4699 26 00         [ 7]  138          ld h, #0
-   469B 69            [ 4]  139          ld l, c ;; 1
-   469C 01 BC 4A      [10]  140          ld bc, #m_lane_status
-   469F 09            [11]  141          add hl, bc ;; 1 + bc (lane 1)
-                            142 
-   46A0 7E            [ 7]  143          ld a, (hl) 
-   46A1 C1            [10]  144          pop bc
-   46A2 FE 00         [ 7]  145          cp #0 
-   46A4 20 25         [12]  146          jr nz, man_game_enemy_lane_down_end ;; if!=0 (ocuped) -> end
-                            147          ;; if == 0 (is free) add distance
-                            148 
-   46A6 D5            [11]  149          push de
-   46A7 C5            [11]  150          push bc
-                            151          ;; create a phantom clone entity to erase trail
-   46A8 CD BE 44      [17]  152          call _man_entity_clone
-   46AB 21 01 00      [10]  153          ld hl, #CMPs
-   46AE 19            [11]  154          add hl, de
-   46AF 36 01         [10]  155          ld (hl), #E_CMP_RENDER
-   46B1 CD CC 44      [17]  156          call _man_entity_set_for_destruction
-   46B4 C1            [10]  157          pop bc
-   46B5 D1            [10]  158          pop de
-                            159          ;; add de distance to entity->y
-   46B6 21 03 00      [10]  160          ld hl, #Y
-   46B9 19            [11]  161          add hl, de
-   46BA 7E            [ 7]  162          ld a, (hl)
-   46BB C6 1E         [ 7]  163          add #LANE_DY
-   46BD 77            [ 7]  164          ld (hl), a
-                            165          ;; put lane 1 as ocuped
-   46BE 21 BC 4A      [10]  166          ld hl, #m_lane_status
-   46C1 09            [11]  167          add hl, bc
-   46C2 36 01         [10]  168          ld (hl),#1 ;;put ocuped
-   46C4 0D            [ 4]  169          dec c ;; lane prev as free
-   46C5 21 BC 4A      [10]  170          ld hl, #m_lane_status
+   46D1 C9            [10]  116 ret
+   46D2                     117 man_game_enemy_lane_down::
+                            118    ;; only can go down if lane is 1 or 2
+   46D2 21 03 00      [10]  119    ld hl, #Y
+   46D5 19            [11]  120    add hl, de
+   46D6 3E 46         [ 7]  121    ld a, #LANE1_Y
+   46D8 BE            [ 7]  122    cp (hl) ;; e->y - LANE1Y
+   46D9 38 40         [12]  123    jr c, man_game_enemy_lane_down_end ;; lane = 0
+                            124       ;;lane = 1
+                            125       ;; save in c that we are in lane 1
+                            126       ; ld c, #1 ;; enemy is on lane 1
+                            127       ; ld b, #0
+   46DB 3E 28         [ 7]  128       ld a, #LANE0_Y
+   46DD B7            [ 4]  129       or a ;; clear carry flag
+   46DE 0E 01         [ 7]  130       ld c,#1
+   46E0 BE            [ 7]  131       cp (hl) ;; e->y - LANE2_Y
+   46E1 38 02         [12]  132       jr c, man_game_go_down ;; lane = 1
+   46E3 0E 00         [ 7]  133       ld c,#0
+   46E5                     134       man_game_go_down:
+                            135          ;; save in stack lane = 1
+   46E5 06 00         [ 7]  136          ld b,#0
+   46E7 0C            [ 4]  137          inc c ;; (1+1 = 2)
+   46E8 C5            [11]  138          push bc ;; 0002
+                            139          ;;m_lane_status[lane+1] = m_lane_status[2]
+   46E9 26 00         [ 7]  140          ld h, #0
+   46EB 69            [ 4]  141          ld l, c ;; 1
+   46EC 01 0F 4B      [10]  142          ld bc, #m_lane_status
+   46EF 09            [11]  143          add hl, bc ;; 1 + bc (lane 1)
+                            144 
+   46F0 7E            [ 7]  145          ld a, (hl) 
+   46F1 C1            [10]  146          pop bc
+   46F2 FE 00         [ 7]  147          cp #0 
+   46F4 20 25         [12]  148          jr nz, man_game_enemy_lane_down_end ;; if!=0 (ocuped) -> end
+                            149          ;; if == 0 (is free) add distance
+                            150 
+   46F6 D5            [11]  151          push de
+   46F7 C5            [11]  152          push bc
+                            153          ;; create a phantom clone entity to erase trail
+   46F8 CD 00 45      [17]  154          call _man_entity_clone
+   46FB 21 01 00      [10]  155          ld hl, #CMPs
+   46FE 19            [11]  156          add hl, de
+   46FF 36 01         [10]  157          ld (hl), #E_CMP_RENDER
+   4701 CD 0E 45      [17]  158          call _man_entity_set_for_destruction
+   4704 C1            [10]  159          pop bc
+   4705 D1            [10]  160          pop de
+                            161          ;; add de distance to entity->y
+   4706 21 03 00      [10]  162          ld hl, #Y
+   4709 19            [11]  163          add hl, de
+   470A 7E            [ 7]  164          ld a, (hl)
+   470B C6 1E         [ 7]  165          add #LANE_DY
+   470D 77            [ 7]  166          ld (hl), a
+                            167          ;; put lane 1 as ocuped
+   470E 21 0F 4B      [10]  168          ld hl, #m_lane_status
+   4711 09            [11]  169          add hl, bc
+   4712 36 01         [10]  170          ld (hl),#1 ;;put ocuped
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 101.
 Hexadecimal [16-Bits]
 
 
 
-   46C8 09            [11]  171          add hl, bc
-   46C9 36 00         [10]  172          ld (hl),#0 ;; put free
-                            173 
-   46CB                     174 man_game_enemy_lane_down_end:
-   46CB C9            [10]  175 ret
-                            176 
-                            177 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            178 ;; GAME ENTITY DESTROY
-                            179 ;; 
-                            180 ;;IN -> e_mother: Pointer to
-   46CC                     181 man_game_entity_destroy::
-                            182    ;;if(disparo) mplayershot = 0
-   46CC 21 00 00      [10]  183    ld hl,#TYPE
-   46CF 19            [11]  184    add hl, de
-   46D0 7E            [ 7]  185    ld a, (hl)
-   46D1 FE 08         [ 7]  186    cp #E_TYPE_SHOT
-   46D3 28 02         [12]  187    jr z, m_playershot_to0
-   46D5 18 05         [12]  188       jr destroy_entity
-   46D7                     189    m_playershot_to0:
-   46D7 3E 00         [ 7]  190       ld a, #0
-   46D9 32 BF 4A      [13]  191       ld (m_player_shot), a
-   46DC                     192    destroy_entity:
-   46DC CD D5 44      [17]  193       call man_entity_destroy
-   46DF C9            [10]  194 ret
-                            195 
-                            196 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            197 ;; GAME PLAYER SHOT
-                            198 ;; 
-                            199 ;;IN -> e_mother: Pointer to
-   46E0                     200 man_game_player_shot::
-                            201    ;;check if there is a shot already
-   46E0 3A BF 4A      [13]  202    ld a,  (m_player_shot)
-   46E3 FE 00         [ 7]  203    cp #0
-   46E5 28 02         [12]  204    jr z, create_shot
-   46E7 18 19         [12]  205       jr man_game_player_shot_end
-   46E9                     206    create_shot:
-                            207    ;; save player pointer
-   46E9 D5            [11]  208    push de
-   46EA 21 AB 4A      [10]  209    ld hl, #playershot_template_e
-   46ED CD 3A 46      [17]  210    call man_game_create_template_entity
-   46F0 C1            [10]  211    pop bc
-                            212    ;; e->player-> x + 2
-   46F1 21 02 00      [10]  213    ld hl, #X
-   46F4 09            [11]  214    add hl, bc
-   46F5 7E            [ 7]  215    ld a, (hl)
-   46F6 C6 02         [ 7]  216    add #2
-   46F8 21 02 00      [10]  217    ld hl, #X
-   46FB 19            [11]  218    add hl, de
-   46FC 77            [ 7]  219    ld (hl), a
-                            220 
-   46FD 3E 01         [ 7]  221    ld a, #1
-   46FF 32 BF 4A      [13]  222    ld (m_player_shot), a
-   4702                     223 man_game_player_shot_end:
-   4702 C9            [10]  224 ret
-                            225 ;;;;;;;;;;;;;;;;;;;;
+   4714 0D            [ 4]  171          dec c ;; lane prev as free
+   4715 21 0F 4B      [10]  172          ld hl, #m_lane_status
+   4718 09            [11]  173          add hl, bc
+   4719 36 00         [10]  174          ld (hl),#0 ;; put free
+                            175 
+   471B                     176 man_game_enemy_lane_down_end:
+   471B C9            [10]  177 ret
+                            178 
+                            179 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            180 ;; GAME ENTITY DESTROY
+                            181 ;; 
+                            182 ;;IN -> e_mother: Pointer to
+   471C                     183 man_game_entity_destroy::
+                            184    ;;if(disparo) mplayershot = 0
+   471C 21 00 00      [10]  185    ld hl,#TYPE
+   471F 19            [11]  186    add hl, de
+   4720 7E            [ 7]  187    ld a, (hl)
+   4721 FE 08         [ 7]  188    cp #E_TYPE_SHOT
+   4723 28 02         [12]  189    jr z, m_playershot_to0
+   4725 18 05         [12]  190       jr destroy_entity
+   4727                     191    m_playershot_to0:
+   4727 3E 00         [ 7]  192       ld a, #0
+   4729 32 12 4B      [13]  193       ld (m_player_shot), a
+   472C                     194    destroy_entity:
+   472C CD 17 45      [17]  195       call man_entity_destroy
+   472F C9            [10]  196 ret
+                            197 
+                            198 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            199 ;; GAME PLAYER SHOT
+                            200 ;; 
+                            201 ;;IN -> e_mother: Pointer to
+   4730                     202 man_game_player_shot::
+                            203    ;;check if there is a shot already
+   4730 3A 12 4B      [13]  204    ld a,  (m_player_shot)
+   4733 FE 00         [ 7]  205    cp #0
+   4735 28 02         [12]  206    jr z, create_shot
+   4737 18 19         [12]  207       jr man_game_player_shot_end
+   4739                     208    create_shot:
+                            209    ;; save player pointer
+   4739 D5            [11]  210    push de
+   473A 21 FE 4A      [10]  211    ld hl, #playershot_template_e
+   473D CD 88 46      [17]  212    call man_game_create_template_entity
+   4740 C1            [10]  213    pop bc
+                            214    ;; e->player-> x + 2
+   4741 21 02 00      [10]  215    ld hl, #X
+   4744 09            [11]  216    add hl, bc
+   4745 7E            [ 7]  217    ld a, (hl)
+   4746 C6 02         [ 7]  218    add #2
+   4748 21 02 00      [10]  219    ld hl, #X
+   474B 19            [11]  220    add hl, de
+   474C 77            [ 7]  221    ld (hl), a
+                            222 
+   474D 3E 01         [ 7]  223    ld a, #1
+   474F 32 12 4B      [13]  224    ld (m_player_shot), a
+   4752                     225 man_game_player_shot_end:
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 102.
 Hexadecimal [16-Bits]
 
 
 
-                            226 ;; INIT
-                            227 ;;
-   4703                     228 man_game_init::
-                            229     ;; configure videomode, palet y border
-   4703 CD 6F 44      [17]  230         call     _sys_render_init
-                            231 
-                            232     ;; inicialize manager entity
-   4706 CD 84 44      [17]  233         call     _man_entity_init
-                            234 
-                            235     ;; Create mothership
-   4709 21 67 4A      [10]  236         ld       hl, #mothership_template_e
-   470C CD 3A 46      [17]  237         call man_game_create_template_entity
-   470F 21 02 00      [10]  238         ld    hl, #X
-   4712 19            [11]  239         add   hl, de
-   4713 36 26         [10]  240         ld    (hl), #38
-   4715 21 06 00      [10]  241         ld    hl, #VX
-   4718 19            [11]  242         add   hl, de
-   4719 36 01         [10]  243         ld    (hl), #1
-                            244 
-                            245     ;; creamos playership en x = 0
-   471B 21 89 4A      [10]  246        ld       hl, #playership_template1_e
-   471E CD 3A 46      [17]  247         call man_game_create_template_entity
-                            248    ;; cambiamos a la posición x = 10
-   4721 21 02 00      [10]  249          ld    hl, #X
-   4724 19            [11]  250          add   hl, de
-   4725 36 0A         [10]  251          ld    (hl), #10
-                            252    ;; creamos playership1
-   4727 21 89 4A      [10]  253        ld       hl, #playership_template1_e
-   472A CD 3A 46      [17]  254         call man_game_create_template_entity
-                            255    ;; cambiamos a la posición x = 20
-   472D 21 02 00      [10]  256          ld    hl, #X
-   4730 19            [11]  257          add   hl, de
-   4731 36 14         [10]  258          ld    (hl), #20
-                            259    ;; Create playership 1
-   4733 21 89 4A      [10]  260        ld       hl, #playership_template1_e
-   4736 CD 3A 46      [17]  261       call man_game_create_template_entity
-                            262    ;; Creamos player
-   4739 21 9A 4A      [10]  263    ld       hl, #playership_template0_e
-   473C CD 3A 46      [17]  264    call man_game_create_template_entity
-   473F C9            [10]  265 ret
-                            266 ;;;;;;;;;;;;;;;;;;;;;;
-                            267 ;; PLAY
-                            268 ;;
-                            269 
-   4740                     270 man_game_play::
-                            271    ;; infinite loop
-   4740                     272    loop:
-                            273       ;; call ai manager
-   4740 CD 97 43      [17]  274          call      _sys_ai_update
-                            275       ;; update positions
-   4743 CD 04 44      [17]  276          call     _sys_physics_update
-                            277       ;; call animations system
-   4746 CD E8 42      [17]  278          call     _sys_animations_update
-                            279       ;; render
-   4749 CD 65 44      [17]  280          call     _sys_render_update
+   4752 C9            [10]  226 ret
+                            227 ;;;;;;;;;;;;;;;;;;;;
+                            228 ;; INIT
+                            229 ;;
+   4753                     230 man_game_init::
+                            231     ;; configure videomode, palet y border
+   4753 CD B1 44      [17]  232         call     _sys_render_init
+                            233 
+                            234     ;; inicialize manager entity
+   4756 CD C6 44      [17]  235         call     _man_entity_init
+                            236 
+                            237     ;; Create mothership
+   4759 21 BA 4A      [10]  238         ld       hl, #mothership_template_e
+   475C CD 88 46      [17]  239         call man_game_create_template_entity
+   475F 21 02 00      [10]  240         ld    hl, #X
+   4762 19            [11]  241         add   hl, de
+   4763 36 26         [10]  242         ld    (hl), #38
+   4765 21 06 00      [10]  243         ld    hl, #VX
+   4768 19            [11]  244         add   hl, de
+   4769 36 01         [10]  245         ld    (hl), #1
+                            246 
+                            247     ;; creamos playership en x = 0
+   476B 21 DC 4A      [10]  248        ld       hl, #playership_template1_e
+   476E CD 88 46      [17]  249         call man_game_create_template_entity
+                            250    ;; cambiamos a la posición x = 10
+   4771 21 02 00      [10]  251          ld    hl, #X
+   4774 19            [11]  252          add   hl, de
+   4775 36 0A         [10]  253          ld    (hl), #10
+                            254    ;; creamos playership1
+   4777 21 DC 4A      [10]  255        ld       hl, #playership_template1_e
+   477A CD 88 46      [17]  256         call man_game_create_template_entity
+                            257    ;; cambiamos a la posición x = 20
+   477D 21 02 00      [10]  258          ld    hl, #X
+   4780 19            [11]  259          add   hl, de
+   4781 36 14         [10]  260          ld    (hl), #20
+                            261    ;; Create playership 1
+   4783 21 DC 4A      [10]  262        ld       hl, #playership_template1_e
+   4786 CD 88 46      [17]  263       call man_game_create_template_entity
+                            264    ;; Creamos player
+   4789 21 ED 4A      [10]  265    ld       hl, #playership_template0_e
+   478C CD 88 46      [17]  266    call man_game_create_template_entity
+   478F C9            [10]  267 ret
+                            268 ;;;;;;;;;;;;;;;;;;;;;;
+                            269 ;; PLAY
+                            270 ;;
+                            271 
+   4790                     272 man_game_play::
+                            273    ;; infinite loop
+   4790                     274    loop:
+                            275       ;; call ai manager
+   4790 CD D9 43      [17]  276          call      _sys_ai_update
+                            277       ;; update positions
+   4793 CD 46 44      [17]  278          call     _sys_physics_update
+                            279       ;; check collisions
+   4796 CD 51 43      [17]  280          call     _sys_collision_update
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 103.
 Hexadecimal [16-Bits]
 
 
 
-                            281       ;; update manager
-   474C CD FE 45      [17]  282          call     _man_entity_update
-                            283       ;; wait ( se mueve cada cinco fotogramas)
-   474F 3E 05         [ 7]  284          ld       a, #5
-   4751 CD 27 46      [17]  285 		 call     _wait
-                            286          ; call cpct_waitVSYNC_asm
-                            287       ;; jump to loop
-   4754 18 EA         [12]  288          jr       loop
-   4756 C9            [10]  289 ret
+                            281       ;; call animations system
+   4799 CD F8 42      [17]  282          call     _sys_animations_update
+                            283       ;; render
+   479C CD A7 44      [17]  284          call     _sys_render_update
+                            285       ;; update manager
+   479F CD 4C 46      [17]  286          call     _man_entity_update
+                            287       ;; wait ( se mueve cada cinco fotogramas)
+   47A2 3E 05         [ 7]  288          ld       a, #5
+   47A4 CD 75 46      [17]  289 		 call     _wait
+                            290          ; call cpct_waitVSYNC_asm
+                            291       ;; jump to loop
+   47A7 18 E7         [12]  292          jr       loop
+   47A9 C9            [10]  293 ret

@@ -18,7 +18,7 @@ Symbol Table
     SPRITE  =  0008     |     SPR_ENEM=  000A     |     SPR_ENEM=  000A 
     SPR_ENEM=  000A     |     SPR_ENEM=  000A     |     SPR_MOTH=  0012 
     SPR_MOTH=  0012     |     SPR_PLAY=  0008     |     SPR_PLAY=  0006 
-    SPR_PLAY=  0008     |     SPR_PLAY=  0006     |     SPR_VSHO=  0008 
+    SPR_PLAY=  0008     |     SPR_PLAY=  0006     |     SPR_VSHO=  0018 
     SPR_VSHO=  0001     |     TOTAL_EN=  000C     |     TOTAL_SP=  00CC 
     TYPE    =  0000     |     VX      =  0006     |     VY      =  0007 
     WIDTH   =  0004     |     X       =  0002     |     Y       =  0003 

@@ -29,16 +29,17 @@ Hexadecimal [16-Bits]
                              24       .globl sys_ai_behaviour_enemy
                              25       .globl _sys_animations_update
                              26       .globl sys_ai_behaviour_autodestroy
-                             27    ;; sprites
-                             28       .globl _spr_mothership
-                             29       .globl _spr_playership_0
-                             30       .globl _spr_playership_1
-                             31       .globl _spr_enemy1_0
-                             32       .globl _spr_enemy1_1
-                             33       .globl _spr_vshot
-                             34    ;; templates
-                             35    .globl mothership_template_e
-                             36    .globl enemy1_template_e
-                             37    .globl playership_template1_e
-                             38    .globl playership_template0_e
-                             39    .globl playershot_template_e
+                             27       .globl _sys_collision_update
+                             28    ;; sprites
+                             29       .globl _spr_mothership
+                             30       .globl _spr_playership_0
+                             31       .globl _spr_playership_1
+                             32       .globl _spr_enemy1_0
+                             33       .globl _spr_enemy1_1
+                             34       .globl _spr_vshot
+                             35    ;; templates
+                             36    .globl mothership_template_e
+                             37    .globl enemy1_template_e
+                             38    .globl playership_template1_e
+                             39    .globl playership_template0_e
+                             40    .globl playershot_template_e

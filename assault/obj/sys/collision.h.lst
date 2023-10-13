@@ -12,10 +12,11 @@ Hexadecimal [16-Bits]
                               7 
                               8                                           
                               9    ;; managers                            
-                             10       .globl _man_entity_for_all_pairs_matching                 
-                             11    ;; systems                             
-                             12 
-                             13    ;; sprites
-                             14       .globl _spr_mothership
-                             15       .globl _spr_enemy1_0
-                             16       .globl _spr_enemy1_1
+                             10       .globl _man_entity_for_all_pairs_matching_while1
+                             11       .globl man_game_entity_destroy                 
+                             12    ;; systems                             
+                             13 
+                             14    ;; sprites
+                             15       .globl _spr_mothership
+                             16       .globl _spr_enemy1_0
+                             17       .globl _spr_enemy1_1

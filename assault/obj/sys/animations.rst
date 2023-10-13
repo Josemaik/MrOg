@@ -5093,7 +5093,7 @@ Hexadecimal [16-Bits]
                      000A    65         SPR_ENEMY1_1_W = 10
                      000A    66         SPR_ENEMY1_1_H = 10
                      0001    67         SPR_VSHOT_W = 1
-                     0008    68         SPR_VSHOT_H = 8
+                     0018    68         SPR_VSHOT_H = 24
                              69         
                              70                                         
                              71 
@@ -5118,103 +5118,103 @@ Hexadecimal [16-Bits]
                              10 .area _CODE
                              11 
                              12 
-   428D                      13 sys_animations_update_one_entity:
+   429D                      13 sys_animations_update_one_entity:
                              14     ;; save in a the entity->animcounter
-   428D 21 0F 00      [10]   15     ld hl, #AnimCounter
-   4290 19            [11]   16     add hl, de
-   4291 7E            [ 7]   17     ld a, (hl)
-   4292 D6 01         [ 7]   18     sub #1
-   4294 77            [ 7]   19     ld (hl), a
+   429D 21 0F 00      [10]   15     ld hl, #AnimCounter
+   42A0 19            [11]   16     add hl, de
+   42A1 7E            [ 7]   17     ld a, (hl)
+   42A2 D6 01         [ 7]   18     sub #1
+   42A4 77            [ 7]   19     ld (hl), a
                              20     ;; if (a == 0)
-   4295 28 02         [12]   21     jr z, change_sprite
-   4297 18 4E         [12]   22         jr sys_animations_update_one_entity_end
-   4299                      23     change_sprite:
+   42A5 28 02         [12]   21     jr z, change_sprite
+   42A7 18 4E         [12]   22         jr sys_animations_update_one_entity_end
+   42A9                      23     change_sprite:
                              24 
                              25         ;; go to entity->animframe
-   4299 21 0D 00      [10]   26         ld hl, #AnimFrame
-   429C 19            [11]   27         add hl, de
+   42A9 21 0D 00      [10]   26         ld hl, #AnimFrame
+   42AC 19            [11]   27         add hl, de
                              28         ;; save memory pointer of frameanimation in bc
-   429D 4E            [ 7]   29         ld c, (hl)
-   429E 23            [ 6]   30         inc hl
-   429F 46            [ 7]   31         ld b, (hl)
+   42AD 4E            [ 7]   29         ld c, (hl)
+   42AE 23            [ 6]   30         inc hl
+   42AF 46            [ 7]   31         ld b, (hl)
                              32         ;; load memory pointer of frameanimation in hl and add space
-   42A0 21 03 00      [10]   33         ld hl, #SPACE_OF_AIMATION
-   42A3 09            [11]   34         add hl, bc
+   42B0 21 03 00      [10]   33         ld hl, #SPACE_OF_AIMATION
+   42B3 09            [11]   34         add hl, bc
                              35         ;; save new animation in bc
-   42A4 4D            [ 4]   36         ld c, l
-   42A5 44            [ 4]   37         ld b, h
+   42B4 4D            [ 4]   36         ld c, l
+   42B5 44            [ 4]   37         ld b, h
                              38         ;; put the value of bc in hl
-   42A6 21 0D 00      [10]   39         ld hl, #AnimFrame
-   42A9 19            [11]   40         add hl, de
-   42AA 71            [ 7]   41         ld (hl) , c
-   42AB 23            [ 6]   42         inc hl
-   42AC 70            [ 7]   43         ld (hl), b
+   42B6 21 0D 00      [10]   39         ld hl, #AnimFrame
+   42B9 19            [11]   40         add hl, de
+   42BA 71            [ 7]   41         ld (hl) , c
+   42BB 23            [ 6]   42         inc hl
+   42BC 70            [ 7]   43         ld (hl), b
                              44 
                              45         ;; save the memory pointer of animframe
                              46         ; push hl
                              47         ;; save in a the time of animation
-   42AD 21 00 00      [10]   48         ld		hl, #TIME
-   42B0 09            [11]   49 		add		hl, bc
-   42B1 7E            [ 7]   50 		ld		a, (hl)
+   42BD 21 00 00      [10]   48         ld		hl, #TIME
+   42C0 09            [11]   49 		add		hl, bc
+   42C1 7E            [ 7]   50 		ld		a, (hl)
                              51         ;; if (time == 0) gotostart else goto_next_sprite
-   42B2 FE 00         [ 7]   52         cp #0
-   42B4 28 02         [12]   53         jr z, goto_start
-   42B6 18 0E         [12]   54             jr goto_next_sprite
-   42B8                      55         goto_start:
+   42C2 FE 00         [ 7]   52         cp #0
+   42C4 28 02         [12]   53         jr z, goto_start
+   42C6 18 0E         [12]   54             jr goto_next_sprite
+   42C8                      55         goto_start:
                              56             ;; save in bc the value of next frame
-   42B8 21 01 00      [10]   57             ld hl, #VAL_NEXT_FRAME
-   42BB 09            [11]   58             add hl, bc
-   42BC 4E            [ 7]   59             ld c, (hl)
-   42BD 23            [ 6]   60             inc hl
+   42C8 21 01 00      [10]   57             ld hl, #VAL_NEXT_FRAME
+   42CB 09            [11]   58             add hl, bc
+   42CC 4E            [ 7]   59             ld c, (hl)
+   42CD 23            [ 6]   60             inc hl
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
 
 
-   42BE 46            [ 7]   61             ld b, (hl)
+   42CE 46            [ 7]   61             ld b, (hl)
                              62             ;; copy in entity->animframe the value of next frame(entity->animation->next)
-   42BF 21 0D 00      [10]   63             ld hl, #AnimFrame
-   42C2 19            [11]   64             add hl, de
-   42C3 71            [ 7]   65             ld (hl), c
-   42C4 23            [ 6]   66             inc hl
-   42C5 70            [ 7]   67             ld (hl), b
-   42C6                      68         goto_next_sprite:
-   42C6 21 0D 00      [10]   69             ld hl, #AnimFrame
-   42C9 19            [11]   70             add hl, de
+   42CF 21 0D 00      [10]   63             ld hl, #AnimFrame
+   42D2 19            [11]   64             add hl, de
+   42D3 71            [ 7]   65             ld (hl), c
+   42D4 23            [ 6]   66             inc hl
+   42D5 70            [ 7]   67             ld (hl), b
+   42D6                      68         goto_next_sprite:
+   42D6 21 0D 00      [10]   69             ld hl, #AnimFrame
+   42D9 19            [11]   70             add hl, de
                              71 
-   42CA 4E            [ 7]   72             ld c, (hl)
-   42CB 23            [ 6]   73             inc hl
-   42CC 46            [ 7]   74             ld b , (hl)
+   42DA 4E            [ 7]   72             ld c, (hl)
+   42DB 23            [ 6]   73             inc hl
+   42DC 46            [ 7]   74             ld b , (hl)
                              75 
-   42CD C5            [11]   76             push bc
+   42DD C5            [11]   76             push bc
                              77 
-   42CE 21 01 00      [10]   78             ld hl, #VAL_NEXT_FRAME
-   42D1 09            [11]   79             add hl, bc
+   42DE 21 01 00      [10]   78             ld hl, #VAL_NEXT_FRAME
+   42E1 09            [11]   79             add hl, bc
                              80 
-   42D2 4E            [ 7]   81             ld c, (hl)
-   42D3 23            [ 6]   82             inc hl
-   42D4 46            [ 7]   83             ld b, (hl)
+   42E2 4E            [ 7]   81             ld c, (hl)
+   42E3 23            [ 6]   82             inc hl
+   42E4 46            [ 7]   83             ld b, (hl)
                              84         
                              85             ;;;load next sprite for animation
-   42D5 21 08 00      [10]   86             ld hl, #SPRITE
-   42D8 19            [11]   87             add hl, de
-   42D9 71            [ 7]   88             ld (hl), c
-   42DA 23            [ 6]   89             inc hl
-   42DB 70            [ 7]   90             ld (hl), b
+   42E5 21 08 00      [10]   86             ld hl, #SPRITE
+   42E8 19            [11]   87             add hl, de
+   42E9 71            [ 7]   88             ld (hl), c
+   42EA 23            [ 6]   89             inc hl
+   42EB 70            [ 7]   90             ld (hl), b
                              91 
-   42DC C1            [10]   92             pop bc
+   42EC C1            [10]   92             pop bc
                              93             ;; put the counter to 12
-   42DD 21 00 00      [10]   94             ld hl, #TIME
-   42E0 09            [11]   95             add hl, bc
-   42E1 7E            [ 7]   96             ld a, (hl)
+   42ED 21 00 00      [10]   94             ld hl, #TIME
+   42F0 09            [11]   95             add hl, bc
+   42F1 7E            [ 7]   96             ld a, (hl)
                              97 
-   42E2 21 0F 00      [10]   98             ld hl, #AnimCounter
-   42E5 19            [11]   99             add hl, de
-   42E6 77            [ 7]  100             ld (hl), a
-   42E7                     101     sys_animations_update_one_entity_end:
-   42E7 C9            [10]  102 ret
-   42E8                     103 _sys_animations_update::
-   42E8 01 8D 42      [10]  104         ld      bc, #sys_animations_update_one_entity
-   42EB 21 10 00      [10]  105         ld      hl, #E_CMP_ANIMATED
-   42EE CD 31 45      [17]  106         call    _man_entity_for_all_matching
-   42F1 C9            [10]  107 ret
+   42F2 21 0F 00      [10]   98             ld hl, #AnimCounter
+   42F5 19            [11]   99             add hl, de
+   42F6 77            [ 7]  100             ld (hl), a
+   42F7                     101     sys_animations_update_one_entity_end:
+   42F7 C9            [10]  102 ret
+   42F8                     103 _sys_animations_update::
+   42F8 01 9D 42      [10]  104         ld      bc, #sys_animations_update_one_entity
+   42FB 21 10 00      [10]  105         ld      hl, #E_CMP_ANIMATED
+   42FE CD 73 45      [17]  106         call    _man_entity_for_all_matching
+   4301 C9            [10]  107 ret

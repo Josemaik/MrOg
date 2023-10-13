@@ -8,13 +8,13 @@ Symbol Table
     _man_ent   **** GX  |     _man_ent   **** GX  |     _man_ent   **** GX
     _spr_ene   **** GX  |     _spr_ene   **** GX  |     _spr_mot   **** GX
     _spr_pla   **** GX  |     _spr_pla   **** GX  |     _spr_vsh   **** GX
-    _sys_ai_   **** GX  |     _sys_ani   **** GX  |     _sys_phy   **** GX
-    _sys_ren   **** GX  |     _sys_ren   **** GX  |     cpct_mem   **** GX
-    cpct_wai   **** GX  |     cpct_wai   **** GX  |     enemy1_t   **** GX
-    man_anim   **** GX  |     man_enti   **** GX  |     mothersh   **** GX
-    playersh   **** GX  |     playersh   **** GX  |     playersh   **** GX
-    sys_ai_b   **** GX  |     sys_ai_b   **** GX  |     sys_ai_b   **** GX
-    sys_ai_b   **** GX
+    _sys_ai_   **** GX  |     _sys_ani   **** GX  |     _sys_col   **** GX
+    _sys_phy   **** GX  |     _sys_ren   **** GX  |     _sys_ren   **** GX
+    cpct_mem   **** GX  |     cpct_wai   **** GX  |     cpct_wai   **** GX
+    enemy1_t   **** GX  |     man_anim   **** GX  |     man_enti   **** GX
+    mothersh   **** GX  |     playersh   **** GX  |     playersh   **** GX
+    playersh   **** GX  |     sys_ai_b   **** GX  |     sys_ai_b   **** GX
+    sys_ai_b   **** GX  |     sys_ai_b   **** GX
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]

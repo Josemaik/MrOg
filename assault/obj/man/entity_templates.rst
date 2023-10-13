@@ -5023,19 +5023,20 @@ Hexadecimal [16-Bits]
                              24       .globl sys_ai_behaviour_enemy
                              25       .globl _sys_animations_update
                              26       .globl sys_ai_behaviour_autodestroy
-                             27    ;; sprites
-                             28       .globl _spr_mothership
-                             29       .globl _spr_playership_0
-                             30       .globl _spr_playership_1
-                             31       .globl _spr_enemy1_0
-                             32       .globl _spr_enemy1_1
-                             33       .globl _spr_vshot
-                             34    ;; templates
-                             35    .globl mothership_template_e
-                             36    .globl enemy1_template_e
-                             37    .globl playership_template1_e
-                             38    .globl playership_template0_e
-                             39    .globl playershot_template_e
+                             27       .globl _sys_collision_update
+                             28    ;; sprites
+                             29       .globl _spr_mothership
+                             30       .globl _spr_playership_0
+                             31       .globl _spr_playership_1
+                             32       .globl _spr_enemy1_0
+                             33       .globl _spr_enemy1_1
+                             34       .globl _spr_vshot
+                             35    ;; templates
+                             36    .globl mothership_template_e
+                             37    .globl enemy1_template_e
+                             38    .globl playership_template1_e
+                             39    .globl playership_template0_e
+                             40    .globl playershot_template_e
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
 Hexadecimal [16-Bits]
 
@@ -5114,7 +5115,7 @@ Hexadecimal [16-Bits]
                      000A    65         SPR_ENEMY1_1_W = 10
                      000A    66         SPR_ENEMY1_1_H = 10
                      0001    67         SPR_VSHOT_W = 1
-                     0008    68         SPR_VSHOT_H = 8
+                     0018    68         SPR_VSHOT_H = 24
                              69         
                              70                                         
                              71 
@@ -5135,88 +5136,88 @@ Hexadecimal [16-Bits]
                               6 .area _DATA
                               7 ;; creamos una entidad de inicialización
                               8 ;; MOTHERSHIP ENTITY
-   4A67                       9 mothership_template_e:: 
-   4A67 04                   10 	.db 	#E_TYPE_MOTHERSHIP				;; entity type
-   4A68 0B                   11       .db     #E_CMP_MOVABLE | #E_CMP_RENDER | #E_CMP_IA;; cmps
-   4A69 26                   12 		.db     #0x26               ;; x = 38
-   4A6A 0A                   13 		.db     #0x0A               ;; y = 10
-   4A6B 12                   14 		.db     #SPR_MOTHERSHIP_W   ;; width 
-   4A6C 12                   15 		.db     #SPR_MOTHERSHIP_H   ;; height
-   4A6D 01                   16 		.db     #1                 ;; vx = -1
-   4A6E 00                   17 		.db     #0x00               ;; vy = 0
-   4A6F 30 41                18 		.dw     #_spr_mothership    ;; sprite (2b)
-   4A71 3B 43                19       .dw     #sys_ai_behaviour_mothership ;; behaviour
-   4A73 00                   20 	  .db 	#0x00					;; ai_counter
-   4A74 00 00                21       .dw     #0x0000               ;;anim
-   4A76 00                   22       .db     #0x00              ;;animcounter c = 0
-   4A77 00                   23 	  .db 	#0x00				;;collides_against
+   4ABA                       9 mothership_template_e:: 
+   4ABA 04                   10 	.db 	#E_TYPE_MOTHERSHIP				;; entity type
+   4ABB 0B                   11       .db     #E_CMP_MOVABLE | #E_CMP_RENDER | #E_CMP_IA;; cmps
+   4ABC 26                   12 		.db     #0x26               ;; x = 38
+   4ABD 0A                   13 		.db     #0x0A               ;; y = 10
+   4ABE 12                   14 		.db     #SPR_MOTHERSHIP_W   ;; width 
+   4ABF 12                   15 		.db     #SPR_MOTHERSHIP_H   ;; height
+   4AC0 01                   16 		.db     #1                 ;; vx = -1
+   4AC1 00                   17 		.db     #0x00               ;; vy = 0
+   4AC2 40 41                18 		.dw     #_spr_mothership    ;; sprite (2b)
+   4AC4 7D 43                19       .dw     #sys_ai_behaviour_mothership ;; behaviour
+   4AC6 00                   20 	  .db 	#0x00					;; ai_counter
+   4AC7 00 00                21       .dw     #0x0000               ;;anim
+   4AC9 00                   22       .db     #0x00              ;;animcounter c = 0
+   4ACA 00                   23 	  .db 	#0x00				;;collides_against
                              24 ;; ENEMY1 ENTITY
-   4A78                      25 enemy1_template_e:: 
-   4A78 02                   26 .db 	#E_TYPE_ENEMY				;; entity type
-   4A79 3B                   27       .db     #E_CMP_MOVABLE | #E_CMP_ANIMATED | #E_CMP_RENDER | #E_CMP_IA | #E_CMP_COLLIDER;; cmps
-   4A7A 00                   28 		.db     #0x00               ;; x = 0
-   4A7B 28                   29 		.db     #LANE0_Y               ;; y = 40
-   4A7C 0A                   30 		.db     #SPR_ENEMY1_0_W   ;; width 
-   4A7D 0A                   31 		.db     #SPR_ENEMY1_0_H   ;; height
-   4A7E 00                   32 		.db     #0x00                 ;; vx = 0
-   4A7F 00                   33 		.db     #0x00               ;; vy = 0
-   4A80 08 40                34 		.dw     #_spr_enemy1_0    ;; sprite (2b)
-   4A82 19 43                35       .dw     #sys_ai_behaviour_enemy ;; behaviour
-   4A84 00                   36 	  .db 	#0x00					;; ai_counter
-   4A85 8E 49                37       .dw     #man_anim_enemy1               ;;anim
-   4A87 0C                   38       .db     #MAN_ANIM_ENEMY1_TIME          ;;animcounter c = 12
-   4A88 00                   39 	  .db 	#0x00				;;collides_against
+   4ACB                      25 enemy1_template_e:: 
+   4ACB 02                   26 .db 	#E_TYPE_ENEMY				;; entity type
+   4ACC 3B                   27       .db     #E_CMP_MOVABLE | #E_CMP_ANIMATED | #E_CMP_RENDER | #E_CMP_IA | #E_CMP_COLLIDER;; cmps
+   4ACD 00                   28 		.db     #0x00               ;; x = 0
+   4ACE 28                   29 		.db     #LANE0_Y               ;; y = 40
+   4ACF 0A                   30 		.db     #SPR_ENEMY1_0_W   ;; width 
+   4AD0 0A                   31 		.db     #SPR_ENEMY1_0_H   ;; height
+   4AD1 00                   32 		.db     #0x00                 ;; vx = 0
+   4AD2 00                   33 		.db     #0x00               ;; vy = 0
+   4AD3 18 40                34 		.dw     #_spr_enemy1_0    ;; sprite (2b)
+   4AD5 5B 43                35       .dw     #sys_ai_behaviour_enemy ;; behaviour
+   4AD7 00                   36 	  .db 	#0x00					;; ai_counter
+   4AD8 E1 49                37       .dw     #man_anim_enemy1               ;;anim
+   4ADA 0C                   38       .db     #MAN_ANIM_ENEMY1_TIME          ;;animcounter c = 12
+   4ADB 00                   39 	  .db 	#0x00				;;collides_against
                              40 
                              41 ;; PLAYERSHIP ENTITY
-   4A89                      42 playership_template1_e:: 
-   4A89 02                   43 .db 	#E_TYPE_ENEMY				;; entity type
-   4A8A 01                   44       .db     #E_CMP_RENDER ;; cmps
-   4A8B 00                   45 		.db     #0x00               ;; x = 0
-   4A8C C0                   46 		.db     #0xC0               ;; y = 192
-   4A8D 06                   47 		.db     #SPR_PLAYERSHIP_1_W   ;; width 
-   4A8E 08                   48 		.db     #SPR_PLAYERSHIP_1_H   ;; height
-   4A8F 00                   49 		.db     #0x00                 ;; vx = 0
-   4A90 00                   50 		.db     #0x00               ;; vy = 0
-   4A91 00 41                51 		.dw     #_spr_playership_1    ;; sprite (2b)
-   4A93 00 00                52       .dw     #0x0000 ;; behaviour
-   4A95 00                   53 	  .db 	#0x00					;; ai_counter
-   4A96 00 00                54       .dw     #0x0000 ;; anim
-   4A98 00                   55       .db     #0x00              ;;animcounter c = 0
-   4A99 00                   56 	  .db 	#0x00				;;collides_against
+   4ADC                      42 playership_template1_e:: 
+   4ADC 02                   43 .db 	#E_TYPE_ENEMY				;; entity type
+   4ADD 01                   44       .db     #E_CMP_RENDER ;; cmps
+   4ADE 00                   45 		.db     #0x00               ;; x = 0
+   4ADF C0                   46 		.db     #0xC0               ;; y = 192
+   4AE0 06                   47 		.db     #SPR_PLAYERSHIP_1_W   ;; width 
+   4AE1 08                   48 		.db     #SPR_PLAYERSHIP_1_H   ;; height
+   4AE2 00                   49 		.db     #0x00                 ;; vx = 0
+   4AE3 00                   50 		.db     #0x00               ;; vy = 0
+   4AE4 10 41                51 		.dw     #_spr_playership_1    ;; sprite (2b)
+   4AE6 00 00                52       .dw     #0x0000 ;; behaviour
+   4AE8 00                   53 	  .db 	#0x00					;; ai_counter
+   4AE9 00 00                54       .dw     #0x0000 ;; anim
+   4AEB 00                   55       .db     #0x00              ;;animcounter c = 0
+   4AEC 00                   56 	  .db 	#0x00				;;collides_against
                              57 ;; PLAYER
-   4A9A                      58 playership_template0_e:: 
-   4A9A 01                   59 		.db 	#E_TYPE_PLAYER				;; entity type
-   4A9B 27                   60       .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_INPUT | #E_CMP_COLLIDER ;; cmps
+   4AED                      58 playership_template0_e:: 
+   4AED 01                   59 		.db 	#E_TYPE_PLAYER				;; entity type
+   4AEE 07                   60       .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_INPUT ;;| #E_CMP_COLLIDER ;; cmps
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
 
 
-   4A9C 26                   61 		.db     #0x26               ;; x = 38
-   4A9D B4                   62 		.db     #PLAYER_Y               ;; y = 180
-   4A9E 06                   63 		.db     #SPR_PLAYERSHIP_0_W   ;; width 
-   4A9F 08                   64 		.db     #SPR_PLAYERSHIP_0_H   ;; height
-   4AA0 00                   65 		.db     #0x00                 ;; vx = 0
-   4AA1 00                   66 		.db     #0x00               ;; vy = 0
-   4AA2 D0 40                67 		.dw     #_spr_playership_0    ;; sprite (2b)
-   4AA4 00 00                68       .dw     #0x0000 ;; behaviour
-   4AA6 00                   69 	  .db 	#0x00					;; ai_counter
-   4AA7 00 00                70       .dw     #0x0000 ;; anim
-   4AA9 00                   71       .db     #0x00              ;;animcounter c = 0
-   4AAA 00                   72 	  .db 	#0x00				;;collides_against
+   4AEF 26                   61 		.db     #0x26               ;; x = 38
+   4AF0 B4                   62 		.db     #PLAYER_Y               ;; y = 180
+   4AF1 06                   63 		.db     #SPR_PLAYERSHIP_0_W   ;; width 
+   4AF2 08                   64 		.db     #SPR_PLAYERSHIP_0_H   ;; height
+   4AF3 00                   65 		.db     #0x00                 ;; vx = 0
+   4AF4 00                   66 		.db     #0x00               ;; vy = 0
+   4AF5 E0 40                67 		.dw     #_spr_playership_0    ;; sprite (2b)
+   4AF7 00 00                68       .dw     #0x0000 ;; behaviour
+   4AF9 00                   69 	  .db 	#0x00					;; ai_counter
+   4AFA 00 00                70       .dw     #0x0000 ;; anim
+   4AFC 00                   71       .db     #0x00              ;;animcounter c = 0
+   4AFD 00                   72 	  .db 	#0x00				;;collides_against
                              73 ;; PLAYER SHOT
-   4AAB                      74 playershot_template_e:: 
-   4AAB 08                   75 	.db 	#E_TYPE_SHOT				;; entity type
-   4AAC 2B                   76       .db     #E_CMP_MOVABLE | #E_CMP_RENDER | #E_CMP_IA | #E_CMP_COLLIDER;; cmps
-   4AAD 00                   77 		.db     #0x00               ;; x = 0
-   4AAE AC                   78 		.db     #PLAYERSHOT_Y               ;; y = 188
-   4AAF 01                   79 		.db     #SPR_VSHOT_W   ;; width 
-   4AB0 08                   80 		.db     #SPR_VSHOT_H   ;; height
-   4AB1 00                   81 		.db     #0x00                 ;; vx = 0
-   4AB2 F8                   82 		.db     #-8               ;; vy = 0
-   4AB3 00 40                83 		.dw     #_spr_vshot    ;; sprite (2b)
-   4AB5 2B 43                84       .dw     #sys_ai_behaviour_autodestroy ;; behaviour
-   4AB7 0E                   85 	  .db 	#0x0E					;; ai_counter = 14
-   4AB8 00 00                86       .dw     #0x0000               ;;anim
-   4ABA 00                   87       .db     #0x00          ;;animcounter c = 12
-   4ABB 02                   88 	  .db 	#E_TYPE_ENEMY				;;collides_against
+   4AFE                      74 playershot_template_e:: 
+   4AFE 08                   75 	.db 	#E_TYPE_SHOT				;; entity type
+   4AFF 2B                   76       .db     #E_CMP_MOVABLE | #E_CMP_RENDER | #E_CMP_IA | #E_CMP_COLLIDER;; cmps
+   4B00 00                   77 		.db     #0x00               ;; x = 0
+   4B01 AC                   78 		.db     #PLAYERSHOT_Y               ;; y = 188
+   4B02 01                   79 		.db     #SPR_VSHOT_W   ;; width 
+   4B03 18                   80 		.db     #SPR_VSHOT_H   ;; height
+   4B04 00                   81 		.db     #0x00                 ;; vx = 0
+   4B05 F8                   82 		.db     #-8               ;; vy = 0
+   4B06 00 40                83 		.dw     #_spr_vshot    ;; sprite (2b)
+   4B08 6D 43                84       .dw     #sys_ai_behaviour_autodestroy ;; behaviour
+   4B0A 0E                   85 	  .db 	#0x0E					;; ai_counter = 14
+   4B0B 00 00                86       .dw     #0x0000               ;;anim
+   4B0D 00                   87       .db     #0x00          ;;animcounter c = 12
+   4B0E 02                   88 	  .db 	#E_TYPE_ENEMY				;;collides_against

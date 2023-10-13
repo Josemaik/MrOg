@@ -50,5 +50,21 @@ _spr_vshot:
 	.db #0xff	; 255
 	.db #0xff	; 255
 	.db #0xff	; 255
+	.db #0xff	; 255
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
 	.area _INITIALIZER
 	.area _CABS (ABS)

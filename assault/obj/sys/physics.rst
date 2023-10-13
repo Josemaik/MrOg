@@ -84,7 +84,7 @@ Hexadecimal [16-Bits]
                      000A    65         SPR_ENEMY1_1_W = 10
                      000A    66         SPR_ENEMY1_1_H = 10
                      0001    67         SPR_VSHOT_W = 1
-                     0008    68         SPR_VSHOT_H = 8
+                     0018    68         SPR_VSHOT_H = 24
                              69         
                              70                                         
                              71 
@@ -5110,56 +5110,56 @@ Hexadecimal [16-Bits]
                               8 ;;;;;;;;;;;;;;;
                               9 ;; FUNCTIONS ;;
                              10 ;;;;;;;;;;;;;;;
-   43A1                      11 sys_physics_check_keyboard:
+   43E3                      11 sys_physics_check_keyboard:
                              12     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              13     ;; LEFT-RIGHT MOVEMEMENT     ;
                              14     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              15     ;; save entity
-   43A1 D5            [11]   16     push de
+   43E3 D5            [11]   16     push de
                              17     ;; scan keyboard
-   43A2 CD 6A 47      [17]   18     call cpct_scanKeyboard_f_asm
+   43E4 CD BD 47      [17]   18     call cpct_scanKeyboard_f_asm
                              19     ;; check letter O
-   43A5 21 04 04      [10]   20     ld      hl, #Key_O
-   43A8 CD D4 47      [17]   21     call cpct_isKeyPressed_asm
-   43AB 20 13         [12]   22     jr nz, sys_physics_o_is_pressed
+   43E7 21 04 04      [10]   20     ld      hl, #Key_O
+   43EA CD 27 48      [17]   21     call cpct_isKeyPressed_asm
+   43ED 20 13         [12]   22     jr nz, sys_physics_o_is_pressed
                              23     ;; check letter P
-   43AD 21 03 08      [10]   24     ld      hl, #Key_P
-   43B0 CD D4 47      [17]   25     call cpct_isKeyPressed_asm
-   43B3 20 14         [12]   26     jr nz, sys_physics_P_is_pressed
+   43EF 21 03 08      [10]   24     ld      hl, #Key_P
+   43F2 CD 27 48      [17]   25     call cpct_isKeyPressed_asm
+   43F5 20 14         [12]   26     jr nz, sys_physics_P_is_pressed
                              27     ;; check Space
-   43B5 21 05 80      [10]   28     ld      hl, #Key_Space
-   43B8 CD D4 47      [17]   29     call cpct_isKeyPressed_asm
-   43BB 20 15         [12]   30     jr nz, sys_physics_space_is_pressed
+   43F7 21 05 80      [10]   28     ld      hl, #Key_Space
+   43FA CD 27 48      [17]   29     call cpct_isKeyPressed_asm
+   43FD 20 15         [12]   30     jr nz, sys_physics_space_is_pressed
                              31 
-   43BD D1            [10]   32     pop de
-   43BE 18 18         [12]   33     jr sys_physics_check_keyboard_end
+   43FF D1            [10]   32     pop de
+   4400 18 18         [12]   33     jr sys_physics_check_keyboard_end
                              34     ;; O is pressed
-   43C0                      35     sys_physics_o_is_pressed:
+   4402                      35     sys_physics_o_is_pressed:
                              36         ;; retrieve entity
-   43C0 D1            [10]   37         pop de
+   4402 D1            [10]   37         pop de
                              38         ;; vx = 1
-   43C1 21 06 00      [10]   39         ld      hl, #VX
-   43C4 19            [11]   40         add     hl, de
-   43C5 36 FF         [10]   41         ld      (hl), #-1
+   4403 21 06 00      [10]   39         ld      hl, #VX
+   4406 19            [11]   40         add     hl, de
+   4407 36 FF         [10]   41         ld      (hl), #-1
                              42 
-   43C7 18 0F         [12]   43         jr      sys_physics_check_keyboard_end
+   4409 18 0F         [12]   43         jr      sys_physics_check_keyboard_end
                              44 
-   43C9                      45     sys_physics_P_is_pressed:
+   440B                      45     sys_physics_P_is_pressed:
                              46         ;; retrieve entity
-   43C9 D1            [10]   47         pop de
+   440B D1            [10]   47         pop de
                              48         ;; vx = 1
-   43CA 21 06 00      [10]   49         ld      hl, #VX
-   43CD 19            [11]   50         add     hl, de
-   43CE 36 01         [10]   51         ld      (hl), #1
+   440C 21 06 00      [10]   49         ld      hl, #VX
+   440F 19            [11]   50         add     hl, de
+   4410 36 01         [10]   51         ld      (hl), #1
                              52 
-   43D0 18 06         [12]   53         jr      sys_physics_check_keyboard_end
-   43D2                      54     sys_physics_space_is_pressed:
-   43D2 D1            [10]   55         pop de
-   43D3 CD E0 46      [17]   56         call man_game_player_shot
-   43D6 18 00         [12]   57     jr sys_physics_check_keyboard_end
+   4412 18 06         [12]   53         jr      sys_physics_check_keyboard_end
+   4414                      54     sys_physics_space_is_pressed:
+   4414 D1            [10]   55         pop de
+   4415 CD 30 47      [17]   56         call man_game_player_shot
+   4418 18 00         [12]   57     jr sys_physics_check_keyboard_end
                              58 
-   43D8                      59     sys_physics_check_keyboard_end:
-   43D8 C9            [10]   60     ret
+   441A                      59     sys_physics_check_keyboard_end:
+   441A C9            [10]   60     ret
                              61 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
@@ -5170,30 +5170,30 @@ Hexadecimal [16-Bits]
                              63 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              64 ;; IN =>  DE -> entity to update                                      
                              65 ;;pop de
-   43D9                      66 sys_physics_update_for_one:
+   441B                      66 sys_physics_update_for_one:
                              67     ;; if entity have input
-   43D9 21 01 00      [10]   68         ld      hl, #CMPs
-   43DC 19            [11]   69         add     hl, de
-   43DD 7E            [ 7]   70         ld      a, (hl)
+   441B 21 01 00      [10]   68         ld      hl, #CMPs
+   441E 19            [11]   69         add     hl, de
+   441F 7E            [ 7]   70         ld      a, (hl)
                              71 
-   43DE E6 04         [ 7]   72         and #E_CMP_INPUT
-   43E0 FE 04         [ 7]   73         cp  #E_CMP_INPUT
-   43E2 28 02         [12]   74         jr z, sys_physics_check_kb
-   43E4 18 03         [12]   75             jr sys_physics_no_check_kb
-   43E6                      76         sys_physics_check_kb:
-   43E6 CD A1 43      [17]   77             call sys_physics_check_keyboard
-   43E9                      78         sys_physics_no_check_kb:
+   4420 E6 04         [ 7]   72         and #E_CMP_INPUT
+   4422 FE 04         [ 7]   73         cp  #E_CMP_INPUT
+   4424 28 02         [12]   74         jr z, sys_physics_check_kb
+   4426 18 03         [12]   75             jr sys_physics_no_check_kb
+   4428                      76         sys_physics_check_kb:
+   4428 CD E3 43      [17]   77             call sys_physics_check_keyboard
+   442B                      78         sys_physics_no_check_kb:
                              79     ;;x+vx
                              80     ;; go to entity->x and load in a
-   43E9 21 02 00      [10]   81         ld      hl, #X
-   43EC 19            [11]   82         add     hl, de
-   43ED 7E            [ 7]   83         ld      a, (hl)    
+   442B 21 02 00      [10]   81         ld      hl, #X
+   442E 19            [11]   82         add     hl, de
+   442F 7E            [ 7]   83         ld      a, (hl)    
                              84 
                              85     ;; go to entity-vx 
-   43EE 21 06 00      [10]   86         ld      hl, #VX
-   43F1 19            [11]   87         add     hl, de
+   4430 21 06 00      [10]   86         ld      hl, #VX
+   4433 19            [11]   87         add     hl, de
                              88     ;; a+hl
-   43F2 86            [ 7]   89         add     (hl)
+   4434 86            [ 7]   89         add     (hl)
                              90 
                              91     ;; if in the end
                              92         ; jr      c, sys_destroy_entity 
@@ -5204,23 +5204,23 @@ Hexadecimal [16-Bits]
                              97     ;     call    _man_entity_set_for_destruction
                              98     ;     jr end_physics
                              99     ; sys_save_x:    
-   43F3 21 02 00      [10]  100         ld      hl, #X
-   43F6 19            [11]  101         add     hl, de
-   43F7 77            [ 7]  102         ld      (hl), a
+   4435 21 02 00      [10]  100         ld      hl, #X
+   4438 19            [11]  101         add     hl, de
+   4439 77            [ 7]  102         ld      (hl), a
                             103     ;; y+vy
                             104             ;; go to entity->vy
-   43F8 21 07 00      [10]  105                 ld      hl, #VY
-   43FB 19            [11]  106                 add     hl, de
-   43FC 7E            [ 7]  107                 ld      a, (hl)
+   443A 21 07 00      [10]  105                 ld      hl, #VY
+   443D 19            [11]  106                 add     hl, de
+   443E 7E            [ 7]  107                 ld      a, (hl)
                             108             ;; go to entity->y and add it to vy
-   43FD 21 03 00      [10]  109                 ld      hl, #Y
-   4400 19            [11]  110                 add     hl, de
+   443F 21 03 00      [10]  109                 ld      hl, #Y
+   4442 19            [11]  110                 add     hl, de
                             111 
-   4401 86            [ 7]  112                 add     (hl)
+   4443 86            [ 7]  112                 add     (hl)
                             113             ;; load it in entity->y
-   4402 77            [ 7]  114                 ld      (hl), a
-   4403                     115     end_physics:
-   4403 C9            [10]  116     ret
+   4444 77            [ 7]  114                 ld      (hl), a
+   4445                     115     end_physics:
+   4445 C9            [10]  116     ret
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 100.
 Hexadecimal [16-Bits]
 
@@ -5231,8 +5231,8 @@ Hexadecimal [16-Bits]
                             119 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                             120 ;; CAll PHYSICS FOR ALL ENTITY :;
                             121 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   4404                     122 _sys_physics_update::          
-   4404 01 D9 43      [10]  123         ld      bc, #sys_physics_update_for_one
-   4407 21 02 00      [10]  124         ld      hl, #E_CMP_MOVABLE
-   440A CD 31 45      [17]  125         call    _man_entity_for_all_matching
-   440D C9            [10]  126 ret
+   4446                     122 _sys_physics_update::          
+   4446 01 1B 44      [10]  123         ld      bc, #sys_physics_update_for_one
+   4449 21 02 00      [10]  124         ld      hl, #E_CMP_MOVABLE
+   444C CD 73 45      [17]  125         call    _man_entity_for_all_matching
+   444F C9            [10]  126 ret

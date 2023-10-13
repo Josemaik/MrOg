@@ -1,0 +1,23 @@
+;;;;;;;;;;;;;;;;;;;;  
+;; GLOBAL SYMBOLS ;;
+;;;;;;;;;;;;;;;;;;;;
+    ;; cpctelera
+      .globl cpct_waitVSYNC_asm           
+      .globl cpct_waitHalts_asm
+      .globl cpct_memcpy_asm           
+                                          
+   ;; managers                            
+      .globl _man_entity_init             
+      .globl _man_entity_update           
+      .globl _man_entity_create
+      .globl _man_entity_clone
+      .globl _man_entity_set_for_destruction
+      .globl man_entity_destroy                           
+   ;; systems                             
+      .globl _sys_physics_update          
+      .globl _sys_render_update                   
+      .globl _sys_render_init
+   ;; sprites
+
+   ;; templates
+   .globl playership_template0_e

@@ -5006,13 +5006,14 @@ Hexadecimal [16-Bits]
                               7 
                               8                                           
                               9    ;; managers                            
-                             10       .globl _man_entity_for_all_pairs_matching                 
-                             11    ;; systems                             
-                             12 
-                             13    ;; sprites
-                             14       .globl _spr_mothership
-                             15       .globl _spr_enemy1_0
-                             16       .globl _spr_enemy1_1
+                             10       .globl _man_entity_for_all_pairs_matching_while1
+                             11       .globl man_game_entity_destroy                 
+                             12    ;; systems                             
+                             13 
+                             14    ;; sprites
+                             15       .globl _spr_mothership
+                             16       .globl _spr_enemy1_0
+                             17       .globl _spr_enemy1_1
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
 Hexadecimal [16-Bits]
 
@@ -5091,7 +5092,7 @@ Hexadecimal [16-Bits]
                      000A    65         SPR_ENEMY1_1_W = 10
                      000A    66         SPR_ENEMY1_1_H = 10
                      0001    67         SPR_VSHOT_W = 1
-                     0008    68         SPR_VSHOT_H = 8
+                     0018    68         SPR_VSHOT_H = 24
                              69         
                              70                                         
                              71 
@@ -5119,37 +5120,135 @@ Hexadecimal [16-Bits]
                              13 ;;  updates the collision of a given entity
                              14 ;; IN -> DE: left entity
                              15 ;;       BC: rght entity
-   42F2                      16 sys_collisions_update_entities:
-                             17     ;; check if both entities can collide
-   42F2 21 10 00      [10]   18     ld hl, #COLLIDES_AGAINST
-   42F5 09            [11]   19     add hl, bc
-   42F6 7E            [ 7]   20     ld a, (hl)
-                             21 
-   42F7 21 00 00      [10]   22     ld hl, #TYPE
-   42FA 19            [11]   23     add hl, de
-   42FB A6            [ 7]   24     and (hl)
-                             25 
-   42FC BE            [ 7]   26     cp (hl)
-   42FD 28 0F         [12]   27     jr z, collision_between_entities
-                             28 
-   42FF 21 10 00      [10]   29     ld hl, #COLLIDES_AGAINST
-   4302 19            [11]   30     add hl, de
-   4303 7E            [ 7]   31     ld a, (hl)
+   4302                      16 sys_collisions_update_entities::
+                             17     ; ld a, #0x00
+                             18     ; ld (0xC000),a
+                             19     ;; check if both entities can collide
+                             20     ;; check if entity of right can collid another entity
+                             21     ;; e(r)->collides_against
+   4302 21 10 00      [10]   22     ld hl, #COLLIDES_AGAINST
+   4305 09            [11]   23     add hl, bc
+   4306 7E            [ 7]   24     ld a, (hl)
+                             25     ;; e(l)->type
+   4307 21 00 00      [10]   26     ld hl, #TYPE
+   430A 19            [11]   27     add hl, de
+   430B A6            [ 7]   28     and (hl)
+                             29     ;; check if can collide( e(r)->collides_against && e(l)->type == 0 )
+   430C BE            [ 7]   30     cp (hl)
+   430D 28 0F         [12]   31     jr z, check_collision_between_entities
                              32 
-   4304 21 00 00      [10]   33     ld hl, #TYPE
-   4307 09            [11]   34     add hl, bc
-   4308 A6            [ 7]   35     and (hl)
+   430F 21 10 00      [10]   33     ld hl, #COLLIDES_AGAINST
+   4312 19            [11]   34     add hl, de
+   4313 7E            [ 7]   35     ld a, (hl)
                              36 
-   4309 BE            [ 7]   37     cp (hl)
-   430A 28 02         [12]   38     jr z, collision_between_entities
-   430C 18 00         [12]   39         jr no_collision_between_entities
-   430E                      40     collision_between_entities:
-                             41         ;; check bounding boxes
-                             42         ;; there is collision, check entity types and react
-   430E                      43     no_collision_between_entities:
-   430E C9            [10]   44 ret
-   430F                      45 sys_collision_update::
-   430F 01 F2 42      [10]   46     ld bc, #sys_collisions_update_entities
-   4312 21 20 00      [10]   47     ld hl, #E_CMP_COLLIDER
-   4315 CD 82 45      [17]   48     call _man_entity_for_all_pairs_matching
-   4318 C9            [10]   49 ret
+   4314 21 00 00      [10]   37     ld hl, #TYPE
+   4317 09            [11]   38     add hl, bc
+   4318 A6            [ 7]   39     and (hl)
+                             40 
+   4319 BE            [ 7]   41     cp (hl)
+   431A 28 02         [12]   42     jr z, check_collision_between_entities
+   431C 18 32         [12]   43         jr dont_have_collision_between_entities
+   431E                      44     check_collision_between_entities:
+                             45         ;; check bounding boxes
+                             46         ;; A < B
+                             47         ;; if(x(l) + width(l) < x(r)) no collision
+                             48         ;; if(x(l) + width(l) - x(r) < 0)no collision
+                             49         ;; x(l)
+                             50         ; ld hl, #X
+                             51         ; add hl, de
+                             52         ; ld a, (hl)
+                             53         ; ;; width(l)
+                             54         ; ld hl,#WIDTH
+                             55         ; add hl,de
+                             56         ; add (hl)
+                             57         ; ;; x(r)
+                             58         ; ld hl, #X
+                             59         ; add hl, bc
+                             60         ; sub (hl)
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
+Hexadecimal [16-Bits]
+
+
+
+                             61         ; ; ;; if carry is 1 -> no collision
+                             62         ; jr c, no_collision
+                             63         ;     jr collision
+                             64         ; ;; C < D
+                             65         ; ;; if(x(r) + width(r) < x(l)) no collision
+                             66         ; ;; if(x(r) + width(r) - x(l) < 0)no collision
+                             67         ; ;; x(l)
+                             68         ; ld hl, #X
+                             69         ; add hl, bc
+                             70         ; ld a, (hl)
+                             71         ; ;; width(l)
+                             72         ; ld hl,#WIDTH
+                             73         ; add hl,bc
+                             74         ; add (hl)
+                             75         ; ;; x(r)
+                             76         ; ld hl, #X
+                             77         ; add hl, de
+                             78         ; sub (hl)
+                             79         
+                             80         ; jr c, no_collision
+                             81         ;     jr collision
+                             82         ;; check bounding boxes
+                             83         ;; A < B
+                             84         ;; if(y(l) + height(l) < y(r)) no collision
+                             85         ;; if(y(l) + height(l) - y(r) < 0)no collision
+                             86         ;; y(l)
+   431E 21 03 00      [10]   87         ld hl, #Y
+   4321 19            [11]   88         add hl, de
+   4322 7E            [ 7]   89         ld a, (hl)
+                             90         ;; height(l)
+   4323 21 05 00      [10]   91         ld hl,#HEIGHT
+   4326 19            [11]   92         add hl,de
+   4327 86            [ 7]   93         add (hl)
+                             94         ;; y(r)
+   4328 21 03 00      [10]   95         ld hl, #Y
+   432B 09            [11]   96         add hl, bc
+   432C 96            [ 7]   97         sub (hl)
+                             98         ; ;; if carry is 1 -> no collision
+   432D 38 1C         [12]   99         jr c, no_collision
+   432F 18 13         [12]  100             jr collision
+                            101         ; ;; C < D
+                            102         ; ;; if(y(r) + height(r) < y(l)) no collision
+                            103         ; ;; if(y(r) + height(r) - y(l) < 0)no collision
+                            104         ; ;; y(l)
+   4331 21 03 00      [10]  105         ld hl, #Y
+   4334 09            [11]  106         add hl, bc
+   4335 7E            [ 7]  107         ld a, (hl)
+                            108         ;; height(l)
+   4336 21 05 00      [10]  109         ld hl,#HEIGHT
+   4339 09            [11]  110         add hl,bc
+   433A 86            [ 7]  111         add (hl)
+                            112         ;; y(r)
+   433B 21 03 00      [10]  113         ld hl, #Y
+   433E 19            [11]  114         add hl, de
+   433F 96            [ 7]  115         sub (hl)
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 100.
+Hexadecimal [16-Bits]
+
+
+
+                            116         
+   4340 38 09         [12]  117         jr c, no_collision
+   4342 18 00         [12]  118             jr collision
+                            119 
+                            120 
+                            121         ;; si hay colision
+   4344                     122         collision:
+   4344 3E FF         [ 7]  123             ld a, #0xFF
+   4346 32 00 C0      [13]  124             ld (0xC000), a
+   4349 18 05         [12]  125             jr dont_have_collision_between_entities
+                            126             ; call man_game_entity_destroy
+                            127         ;; there is collision, check entity types and react
+   434B                     128         no_collision:
+   434B 3E 00         [ 7]  129             ld a, #0x00
+   434D 32 00 C0      [13]  130             ld (0xC000),a
+   4350                     131     dont_have_collision_between_entities:
+   4350 C9            [10]  132 ret
+   4351                     133 _sys_collision_update::
+   4351 01 02 43      [10]  134     ld bc, #sys_collisions_update_entities
+   4354 21 20 00      [10]  135     ld hl, #E_CMP_COLLIDER
+   4357 CD C4 45      [17]  136     call _man_entity_for_all_pairs_matching_while1
+   435A C9            [10]  137 ret

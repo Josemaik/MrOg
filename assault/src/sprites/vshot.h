@@ -4,7 +4,7 @@
 
 #include <types.h>
 #define SPR_VSHOT_W 1
-#define SPR_VSHOT_H 8
-extern const u8 spr_vshot[1 * 8];
+#define SPR_VSHOT_H 24
+extern const u8 spr_vshot[1 * 24];
 
 #endif

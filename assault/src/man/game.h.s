@@ -24,6 +24,7 @@
       .globl sys_ai_behaviour_enemy
       .globl _sys_animations_update
       .globl sys_ai_behaviour_autodestroy
+      .globl _sys_collision_update
    ;; sprites
       .globl _spr_mothership
       .globl _spr_playership_0

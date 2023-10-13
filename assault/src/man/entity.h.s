@@ -65,7 +65,7 @@
         SPR_ENEMY1_1_W = 10
         SPR_ENEMY1_1_H = 10
         SPR_VSHOT_W = 1
-        SPR_VSHOT_H = 8
+        SPR_VSHOT_H = 24
         
                                         
 

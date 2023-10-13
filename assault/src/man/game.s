@@ -83,7 +83,7 @@ man_game_create_enemy::
    cp #0
    ;; compruebo los enemigos que hay en línea (if menemyonlane == 0) creoenemy;
    jr z, create_enemy
-   jr man_game_create_enemy_end
+   jr man_retrieve_bc
    ;; Create new enemy and set x and vx
    create_enemy:
          ;; create enemy
@@ -109,8 +109,10 @@ man_game_create_enemy::
 		  add		hl, bc
 		  ld		(hl), a
 
+        jr man_game_create_enemy_end
+   man_retrieve_bc:
+        pop bc
    man_game_create_enemy_end:
-   pop bc
 ret
 man_game_enemy_lane_down::
    ;; only can go down if lane is 1 or 2
@@ -274,6 +276,8 @@ man_game_play::
          call      _sys_ai_update
       ;; update positions
          call     _sys_physics_update
+      ;; check collisions
+         call     _sys_collision_update
       ;; call animations system
          call     _sys_animations_update
       ;; render

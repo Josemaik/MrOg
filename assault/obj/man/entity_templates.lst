@@ -5023,19 +5023,20 @@ Hexadecimal [16-Bits]
                              24       .globl sys_ai_behaviour_enemy
                              25       .globl _sys_animations_update
                              26       .globl sys_ai_behaviour_autodestroy
-                             27    ;; sprites
-                             28       .globl _spr_mothership
-                             29       .globl _spr_playership_0
-                             30       .globl _spr_playership_1
-                             31       .globl _spr_enemy1_0
-                             32       .globl _spr_enemy1_1
-                             33       .globl _spr_vshot
-                             34    ;; templates
-                             35    .globl mothership_template_e
-                             36    .globl enemy1_template_e
-                             37    .globl playership_template1_e
-                             38    .globl playership_template0_e
-                             39    .globl playershot_template_e
+                             27       .globl _sys_collision_update
+                             28    ;; sprites
+                             29       .globl _spr_mothership
+                             30       .globl _spr_playership_0
+                             31       .globl _spr_playership_1
+                             32       .globl _spr_enemy1_0
+                             33       .globl _spr_enemy1_1
+                             34       .globl _spr_vshot
+                             35    ;; templates
+                             36    .globl mothership_template_e
+                             37    .globl enemy1_template_e
+                             38    .globl playership_template1_e
+                             39    .globl playership_template0_e
+                             40    .globl playershot_template_e
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
 Hexadecimal [16-Bits]
 
@@ -5114,7 +5115,7 @@ Hexadecimal [16-Bits]
                      000A    65         SPR_ENEMY1_1_W = 10
                      000A    66         SPR_ENEMY1_1_H = 10
                      0001    67         SPR_VSHOT_W = 1
-                     0008    68         SPR_VSHOT_H = 8
+                     0018    68         SPR_VSHOT_H = 24
                              69         
                              70                                         
                              71 
@@ -5186,7 +5187,7 @@ Hexadecimal [16-Bits]
                              57 ;; PLAYER
    0033                      58 playership_template0_e:: 
    0033 01                   59 		.db 	#E_TYPE_PLAYER				;; entity type
-   0034 27                   60       .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_INPUT | #E_CMP_COLLIDER ;; cmps
+   0034 07                   60       .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_INPUT ;;| #E_CMP_COLLIDER ;; cmps
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
@@ -5211,7 +5212,7 @@ Hexadecimal [16-Bits]
    0046 00                   77 		.db     #0x00               ;; x = 0
    0047 AC                   78 		.db     #PLAYERSHOT_Y               ;; y = 188
    0048 01                   79 		.db     #SPR_VSHOT_W   ;; width 
-   0049 08                   80 		.db     #SPR_VSHOT_H   ;; height
+   0049 18                   80 		.db     #SPR_VSHOT_H   ;; height
    004A 00                   81 		.db     #0x00                 ;; vx = 0
    004B F8                   82 		.db     #-8               ;; vy = 0
    004C 00 00                83 		.dw     #_spr_vshot    ;; sprite (2b)

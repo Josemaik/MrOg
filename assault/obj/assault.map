@@ -18,111 +18,111 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000000  s__CABS                         
      00000000  s__DABS                         
      00000142  l__DATA                         
-     0000097E  l__CODE                         
+     000009D1  l__CODE                         
      00004000  s__CODE                         
-     0000497E  s__DATA                         
-     00004AC0  s__GSFINAL                      
-     00004AC0  s__GSINIT                       
-     00004AC0  s__HOME                         
-     00004AC0  s__INITIALIZED                  
-     00004AC0  s__INITIALIZER                  
+     000049D1  s__DATA                         
+     00004B13  s__GSFINAL                      
+     00004B13  s__GSINIT                       
+     00004B13  s__HOME                         
+     00004B13  s__INITIALIZED                  
+     00004B13  s__INITIALIZER                  
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    0000097E =        2430. bytes (REL,CON)
+_CODE                               00004000    000009D1 =        2513. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
      00004000  _spr_vshot                         vshot
-     00004008  _spr_enemy1_0                      enemy1
-     0000406C  _spr_enemy1_1                      enemy1
-     000040D0  _spr_playership_0                  playership
-     00004100  _spr_playership_1                  playership
-     00004130  _spr_mothership                    mothership
-     00004274  _main_palette                      main_palette
-     00004284  _main                              Main
-     000042E8  _sys_animations_update             System_Animation
-     0000430F  sys_collision_update               System_Animation
-     00004319  sys_ai_behaviour_enemy             System_IA
-     0000432B  sys_ai_behaviour_autodestroy       System_IA
-     0000433B  sys_ai_behaviour_mothership        System_IA
-     0000434D  sys_ai_behaviour_left_right        System_IA
-     00004397  _sys_ai_update                     System_IA
-     00004404  _sys_physics_update                System_physics
-     00004465  _sys_render_update                 System_Render
-     0000446F  _sys_render_init                   System_Render
-     00004484  _man_entity_init                   Entity_Manager
-     0000449F  _man_entity_create                 Entity_Manager
-     000044BE  _man_entity_clone                  Entity_Manager
-     000044CC  _man_entity_set_for_destruction    Entity_Manager
-     000044D5  man_entity_destroy                 Entity_Manager
-     000044F7  _man_entity_for_all                Entity_Manager
-     00004531  _man_entity_for_all_matching       Entity_Manager
-     00004582  _man_entity_for_all_pairs_matchi   Entity_Manager
-     000045FE  _man_entity_update                 Entity_Manager
-     0000461E  _man_entity_free_space             Entity_Manager
-     0000463A  man_game_create_template_entity    Game_Manager
-     00004648  man_game_create_enemy              Game_Manager
-     00004682  man_game_enemy_lane_down           Game_Manager
-     000046CC  man_game_entity_destroy            Game_Manager
-     000046E0  man_game_player_shot               Game_Manager
-     00004703  man_game_init                      Game_Manager
-     00004740  man_game_play                      Game_Manager
-     00004757  cpct_setPalette_asm                cpct_video
-     0000476A  _cpct_scanKeyboard_f               cpct_keyboard
-     0000476A  cpct_scanKeyboard_f_asm            cpct_keyboard
-     000047D4  _cpct_isKeyPressed                 cpct_keyboard
-     000047D4  cpct_isKeyPressed_asm              cpct_keyboard
-     000047E0  cpct_setPALColour_asm              cpct_video
-     000047EA  cpct_drawSprite_asm                cpct_sprites
-     0000488A  _cpct_keyboardStatusBuffer         cpct_keyboard
-     00004894  cpct_waitHalts_asm                 cpct_memutils
-     00004898  _cpct_waitVSYNC                    cpct_video
-     00004898  cpct_waitVSYNC_asm                 cpct_video
-     000048A0  cpct_setVideoMode_asm              cpct_video
-     000048AD  cpct_memset_asm                    cpct_memutils
-     000048B5  cpct_memcpy_asm                    cpct_memutils
-     000048B8  _cpct_disableFirmware              cpct_firmware
+     00004018  _spr_enemy1_0                      enemy1
+     0000407C  _spr_enemy1_1                      enemy1
+     000040E0  _spr_playership_0                  playership
+     00004110  _spr_playership_1                  playership
+     00004140  _spr_mothership                    mothership
+     00004284  _main_palette                      main_palette
+     00004294  _main                              Main
+     000042F8  _sys_animations_update             System_Animation
+     00004302  sys_collisions_update_entities     System_Animation
+     00004351  _sys_collision_update              System_Animation
+     0000435B  sys_ai_behaviour_enemy             System_IA
+     0000436D  sys_ai_behaviour_autodestroy       System_IA
+     0000437D  sys_ai_behaviour_mothership        System_IA
+     0000438F  sys_ai_behaviour_left_right        System_IA
+     000043D9  _sys_ai_update                     System_IA
+     00004446  _sys_physics_update                System_physics
+     000044A7  _sys_render_update                 System_Render
+     000044B1  _sys_render_init                   System_Render
+     000044C6  _man_entity_init                   Entity_Manager
+     000044E1  _man_entity_create                 Entity_Manager
+     00004500  _man_entity_clone                  Entity_Manager
+     0000450E  _man_entity_set_for_destruction    Entity_Manager
+     00004517  man_entity_destroy                 Entity_Manager
+     00004539  _man_entity_for_all                Entity_Manager
+     00004573  _man_entity_for_all_matching       Entity_Manager
+     000045C4  _man_entity_for_all_pairs_matchi   Entity_Manager
+     0000464C  _man_entity_update                 Entity_Manager
+     0000466C  _man_entity_free_space             Entity_Manager
+     00004688  man_game_create_template_entity    Game_Manager
+     00004696  man_game_create_enemy              Game_Manager
+     000046D2  man_game_enemy_lane_down           Game_Manager
+     0000471C  man_game_entity_destroy            Game_Manager
+     00004730  man_game_player_shot               Game_Manager
+     00004753  man_game_init                      Game_Manager
+     00004790  man_game_play                      Game_Manager
+     000047AA  cpct_setPalette_asm                cpct_video
+     000047BD  _cpct_scanKeyboard_f               cpct_keyboard
+     000047BD  cpct_scanKeyboard_f_asm            cpct_keyboard
+     00004827  _cpct_isKeyPressed                 cpct_keyboard
+     00004827  cpct_isKeyPressed_asm              cpct_keyboard
+     00004833  cpct_setPALColour_asm              cpct_video
+     0000483D  cpct_drawSprite_asm                cpct_sprites
+     000048DD  _cpct_keyboardStatusBuffer         cpct_keyboard
+     000048E7  cpct_waitHalts_asm                 cpct_memutils
+     000048EB  _cpct_waitVSYNC                    cpct_video
+     000048EB  cpct_waitVSYNC_asm                 cpct_video
+     000048F3  cpct_setVideoMode_asm              cpct_video
+     00004900  cpct_memset_asm                    cpct_memutils
+     00004908  cpct_memcpy_asm                    cpct_memutils
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    0000097E =        2430. bytes (REL,CON)
+_CODE                               00004000    000009D1 =        2513. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     000048B8  _cpct_removeInterruptHandler       cpct_firmware
-     000048B8  cpct_disableFirmware_asm           cpct_firmware
-     000048B8  cpct_removeInterruptHandler_asm    cpct_firmware
-     000048C8  cpct_drawSolidBox_asm              cpct_sprites
-     0000496B  _cpct_mode_rom_status              cpct_firmware
-     0000496C  cpct_getScreenPtr_asm              cpct_video
-
+     0000490B  _cpct_disableFirmware              cpct_firmware
+     0000490B  _cpct_removeInterruptHandler       cpct_firmware
+     0000490B  cpct_disableFirmware_asm           cpct_firmware
+     0000490B  cpct_removeInterruptHandler_asm    cpct_firmware
+     0000491B  cpct_drawSolidBox_asm              cpct_sprites
+     000049BE  _cpct_mode_rom_status              cpct_firmware
+     000049BF  cpct_getScreenPtr_asm              cpct_video
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_DATA                               0000497E    00000142 =         322. bytes (REL,CON)
+_DATA                               000049D1    00000142 =         322. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     0000497E  _m_palette                         System_Render
-     0000498E  man_anim_enemy1                    Animation_Manager
-     00004997  m_entities                         Entity_Manager
-     00004A64  m_next_free_entity                 Entity_Manager
-     00004A66  m_reserved_entites                 Entity_Manager
-     00004A67  mothership_template_e              Templates_Manager
-     00004A78  enemy1_template_e                  Templates_Manager
-     00004A89  playership_template1_e             Templates_Manager
-     00004A9A  playership_template0_e             Templates_Manager
-     00004AAB  playershot_template_e              Templates_Manager
-     00004ABC  m_lane_status                      Game_Manager
-     00004ABF  m_player_shot                      Game_Manager
+     000049D1  _m_palette                         System_Render
+     000049E1  man_anim_enemy1                    Animation_Manager
+     000049EA  m_entities                         Entity_Manager
+     00004AB7  m_next_free_entity                 Entity_Manager
+     00004AB9  m_reserved_entites                 Entity_Manager
+     00004ABA  mothership_template_e              Templates_Manager
+     00004ACB  enemy1_template_e                  Templates_Manager
+     00004ADC  playership_template1_e             Templates_Manager
+     00004AED  playership_template0_e             Templates_Manager
+     00004AFE  playershot_template_e              Templates_Manager
+     00004B0F  m_lane_status                      Game_Manager
+     00004B12  m_player_shot                      Game_Manager
 ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
 
 Files Linked                              [ module(s) ]

@@ -5089,7 +5089,7 @@ Hexadecimal [16-Bits]
                      000A    65         SPR_ENEMY1_1_W = 10
                      000A    66         SPR_ENEMY1_1_H = 10
                      0001    67         SPR_VSHOT_W = 1
-                     0008    68         SPR_VSHOT_H = 8
+                     0018    68         SPR_VSHOT_H = 24
                              69         
                              70                                         
                              71 
@@ -5109,13 +5109,13 @@ Hexadecimal [16-Bits]
 
                               6 .area _DATA
                               7 ;;Array de sprites
-   498E                       8 man_anim_enemy1::
-   498E 0C                    9     .db #MAN_ANIM_ENEMY1_TIME
-   498F 08 40                10     .dw _spr_enemy1_0
-   4991 0C                   11     .db #MAN_ANIM_ENEMY1_TIME
-   4992 6C 40                12     .dw _spr_enemy1_1
-   4994 00                   13     .db #0x00
-   4995 8E 49                14     .dw #man_anim_enemy1
+   49E1                       8 man_anim_enemy1::
+   49E1 0C                    9     .db #MAN_ANIM_ENEMY1_TIME
+   49E2 18 40                10     .dw _spr_enemy1_0
+   49E4 0C                   11     .db #MAN_ANIM_ENEMY1_TIME
+   49E5 7C 40                12     .dw _spr_enemy1_1
+   49E7 00                   13     .db #0x00
+   49E8 E1 49                14     .dw #man_anim_enemy1
                              15 
                              16 .area _CODE
                              17 
