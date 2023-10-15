@@ -5008,31 +5008,31 @@ Hexadecimal [16-Bits]
                              13 .globl entity_man_create
                              14 
                              15 ;; Minion
-   426E                      16 plantilla_minion::
-   426E 28 32 01 00 07 0D    17     .db   40 ,  50 ,  1 ,  0 ,  7 , 13  
-   4274 08 40                18     .dw   _sp_minion_ship
-   4276 00 00                19     .db    00   ,  00
+   46EE                      16 plantilla_minion::
+   46EE 28 32 01 00 07 0D    17     .db   40 ,  50 ,  1 ,  0 ,  7 , 13  
+   46F4 88 44                18     .dw   _sp_minion_ship
+   46F6 00 00                19     .db    00   ,  00
                              20 ;; Enemigo
-   4278                      21 plantilla_enemigo::
-   4278 28 14 FF 00 0E 14    22     .db   40 ,  20 , -1 ,  0 , 14 , 20  
-   427E 63 40                23     .dw   _sp_enemy_ship
-   4280 00 00                24     .db    00   ,  00
+   46F8                      21 plantilla_enemigo::
+   46F8 28 14 FF 00 0E 14    22     .db   40 ,  20 , -1 ,  0 , 14 , 20  
+   46FE E3 44                23     .dw   _sp_enemy_ship
+   4700 00 00                24     .db    00   ,  00
                              25 
                              26 ;; Bala
-   4282                      27 plantilla_bala::
-   4282 28 B0 00 FE 01 08    28     .db   40 , 176 ,  0 , -2 , 1 , 8  
-   4288 00 40                29     .dw   _sp_ammo
-   428A 00 00                30     .db    00   ,  00
+   4702                      27 plantilla_bala::
+   4702 28 B0 00 FE 01 08    28     .db   40 , 176 ,  0 , -2 , 1 , 8  
+   4708 80 44                29     .dw   _sp_ammo
+   470A 00 00                30     .db    00   ,  00
                              31 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              32 ;; Plantilla de Player
                              33 ;;
-   428C                      34 plantilla_entidad:: 
+   470C                      34 plantilla_entidad:: 
                              35 ;;;;;;;;  x  ,  y  , vx , vy , w , h
-   428C 28 B8 00 00 0C 10    36     .db   40 , 184 ,  0 , 0  , 12 , 16  
+   470C 28 B8 00 00 0C 10    36     .db   40 , 184 ,  0 , 0  , 12 , 16  
                              37 ;;;;;;;;  sprite
-   4292 7B 41                38     .dw   _sp_player_ship
+   4712 FB 45                38     .dw   _sp_player_ship
                              39 ;;;;;;;;  ptr_l , ptr_h
-   4294 00 00                40     .db    00   ,  00
+   4714 00 00                40     .db    00   ,  00
                              41       
                      000A    42     entity_size == .-plantilla_entidad
                              43 
@@ -5049,10 +5049,10 @@ Hexadecimal [16-Bits]
                              54 
                      001E    55     max_entities == 30
                              56 
-   4296 00                   57     _num_entities::  .db 0
-   4297 99 42                58     _last_elem_ptr:: .dw _entity_array
-   4299                      59     _entity_array::
-   4299                      60         .ds max_entities*entity_size
+   4716 00                   57     _num_entities::  .db 0
+   4717 19 47                58     _last_elem_ptr:: .dw _entity_array
+   4719                      59     _entity_array::
+   4719                      60         .ds max_entities*entity_size
                              61 
                              62 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
@@ -5065,110 +5065,110 @@ Hexadecimal [16-Bits]
                              65 .area _DATA
                              66 .area _CODE
                              67 
-   43C5                      68 entity_man_init:
+   4845                      68 entity_man_init:
                              69     ;; Reset all component vector values
-   43C5 AF            [ 4]   70     xor a
-   43C6 32 96 42      [13]   71     ld  (_num_entities), a
+   4845 AF            [ 4]   70     xor a
+   4846 32 16 47      [13]   71     ld  (_num_entities), a
                              72 
-   43C9 21 99 42      [10]   73     ld  hl, #_entity_array
-   43CC 22 97 42      [16]   74     ld  (_last_elem_ptr), hl
+   4849 21 19 47      [10]   73     ld  hl, #_entity_array
+   484C 22 17 47      [16]   74     ld  (_last_elem_ptr), hl
                              75 
-   43CF CD D9 43      [17]   76     call entity_man_create_player
+   484F CD 59 48      [17]   76     call entity_man_create_player
                              77 
-   43D2 CD E0 43      [17]   78     call entity_man_create_enemy
+   4852 CD 60 48      [17]   78     call entity_man_create_enemy
                              79 
-   43D5 CD E7 43      [17]   80     call entity_man_create_minion
+   4855 CD 67 48      [17]   80     call entity_man_create_minion
                              81     
-   43D8 C9            [10]   82     ret
+   4858 C9            [10]   82     ret
                              83 
-   43D9                      84 entity_man_create_player::
+   4859                      84 entity_man_create_player::
                              85 
-   43D9 21 8C 42      [10]   86     ld   hl, #plantilla_entidad
-   43DC CD 05 44      [17]   87     call entity_man_create
+   4859 21 0C 47      [10]   86     ld   hl, #plantilla_entidad
+   485C CD 85 48      [17]   87     call entity_man_create
                              88 
-   43DF C9            [10]   89     ret
+   485F C9            [10]   89     ret
                              90 
-   43E0                      91 entity_man_create_enemy::
+   4860                      91 entity_man_create_enemy::
                              92 
-   43E0 21 78 42      [10]   93     ld   hl, #plantilla_enemigo
-   43E3 CD 05 44      [17]   94     call entity_man_create
+   4860 21 F8 46      [10]   93     ld   hl, #plantilla_enemigo
+   4863 CD 85 48      [17]   94     call entity_man_create
                              95 
-   43E6 C9            [10]   96     ret
+   4866 C9            [10]   96     ret
                              97 
-   43E7                      98 entity_man_create_minion::
+   4867                      98 entity_man_create_minion::
                              99 
-   43E7 21 6E 42      [10]  100     ld   hl, #plantilla_minion
-   43EA CD 05 44      [17]  101     call entity_man_create
+   4867 21 EE 46      [10]  100     ld   hl, #plantilla_minion
+   486A CD 85 48      [17]  101     call entity_man_create
                             102 
-   43ED C9            [10]  103     ret
+   486D C9            [10]  103     ret
                             104 
-   43EE                     105 entity_man_create_ammo::
+   486E                     105 entity_man_create_ammo::
                             106 
-   43EE DD 21 99 42   [14]  107     ld   ix, #_entity_array
-   43F2 DD 7E 00      [19]  108     ld    a, e_x(ix)
+   486E DD 21 19 47   [14]  107     ld   ix, #_entity_array
+   4872 DD 7E 00      [19]  108     ld    a, e_x(ix)
                             109 
-   43F5 C6 05         [ 7]  110     add a, #5
+   4875 C6 05         [ 7]  110     add a, #5
                             111 
-   43F7 DD 21 82 42   [14]  112     ld   ix, #plantilla_bala
-   43FB DD 77 00      [19]  113     ld   e_x(ix), a
+   4877 DD 21 02 47   [14]  112     ld   ix, #plantilla_bala
+   487B DD 77 00      [19]  113     ld   e_x(ix), a
                             114 
-   43FE 21 82 42      [10]  115     ld   hl, #plantilla_bala
-   4401 CD 05 44      [17]  116     call entity_man_create
+   487E 21 02 47      [10]  115     ld   hl, #plantilla_bala
+   4881 CD 85 48      [17]  116     call entity_man_create
                             117 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 97.
 Hexadecimal [16-Bits]
 
 
 
-   4404 C9            [10]  118     ret
+   4884 C9            [10]  118     ret
                             119 
                             120 ;; Input
                             121 ;;   HL: pointer to entity initializer
-   4405                     122 entity_man_create:
+   4885                     122 entity_man_create:
                             123 
-   4405 E5            [11]  124     push hl
+   4885 E5            [11]  124     push hl
                             125 
                             126     ;; Comprobar que hay espacio disponible
-   4406 3E 1E         [ 7]  127     ld       a, #max_entities
-   4408 2A 96 42      [16]  128     ld      hl, (_num_entities)
-   440B 95            [ 4]  129     sub      l
-   440C CA 2C 44      [10]  130     jp       z, end_create
+   4886 3E 1E         [ 7]  127     ld       a, #max_entities
+   4888 2A 16 47      [16]  128     ld      hl, (_num_entities)
+   488B 95            [ 4]  129     sub      l
+   488C CA AC 48      [10]  130     jp       z, end_create
                             131 
-   440F E1            [10]  132     pop hl
+   488F E1            [10]  132     pop hl
                             133 
-   4410 ED 5B 97 42   [20]  134     ld      de, (_last_elem_ptr)
-   4414 01 0A 00      [10]  135     ld      bc, #entity_size
-   4417 ED B0         [21]  136     ldir    ;; Copia desde donde apunta HL en el registro DE, tantos bytes como ponga en el registro BC
+   4890 ED 5B 17 47   [20]  134     ld      de, (_last_elem_ptr)
+   4894 01 0A 00      [10]  135     ld      bc, #entity_size
+   4897 ED B0         [21]  136     ldir    ;; Copia desde donde apunta HL en el registro DE, tantos bytes como ponga en el registro BC
                             137 
-   4419 3A 96 42      [13]  138     ld       a, (_num_entities)
-   441C 3C            [ 4]  139     inc      a
-   441D 32 96 42      [13]  140     ld       (_num_entities), a  
+   4899 3A 16 47      [13]  138     ld       a, (_num_entities)
+   489C 3C            [ 4]  139     inc      a
+   489D 32 16 47      [13]  140     ld       (_num_entities), a  
                             141 
-   4420 2A 97 42      [16]  142     ld      hl, (_last_elem_ptr)
-   4423 01 0A 00      [10]  143     ld      bc, #entity_size  
-   4426 09            [11]  144     add     hl, bc
-   4427 22 97 42      [16]  145     ld      (_last_elem_ptr), hl
+   48A0 2A 17 47      [16]  142     ld      hl, (_last_elem_ptr)
+   48A3 01 0A 00      [10]  143     ld      bc, #entity_size  
+   48A6 09            [11]  144     add     hl, bc
+   48A7 22 17 47      [16]  145     ld      (_last_elem_ptr), hl
                             146 
-   442A 18 01         [12]  147     jr fin
+   48AA 18 01         [12]  147     jr fin
                             148 
-   442C                     149     end_create:
-   442C E1            [10]  150     pop hl
+   48AC                     149     end_create:
+   48AC E1            [10]  150     pop hl
                             151 
-   442D                     152     fin:
+   48AD                     152     fin:
                             153 
-   442D C9            [10]  154     ret
+   48AD C9            [10]  154     ret
                             155 
                             156 ;; Input
                             157 ;;   IX: Pointer to entity
-   442E                     158 entity_man_destroy::
+   48AE                     158 entity_man_destroy::
                             159     ;; Borrar la entidad de pantalla
-   442E CD EB 44      [17]  160     call render_sys_erase_previous_instance
+   48AE CD 6B 49      [17]  160     call render_sys_erase_previous_instance
                             161     
                             162     ;; Reposicionar el _last_elem_ptr
-   4431 3A 97 42      [13]  163     ld       a, (_last_elem_ptr)
-   4434 06 0A         [ 7]  164     ld       b, #entity_size  
-   4436 90            [ 4]  165     sub      b
-   4437 32 97 42      [13]  166     ld      (_last_elem_ptr), a
+   48B1 3A 17 47      [13]  163     ld       a, (_last_elem_ptr)
+   48B4 06 0A         [ 7]  164     ld       b, #entity_size  
+   48B6 90            [ 4]  165     sub      b
+   48B7 32 17 47      [13]  166     ld      (_last_elem_ptr), a
                             167 
                             168     ;; Copiar la ultima entidad 
    01CC                     169     ld__de_ix
@@ -5180,25 +5180,25 @@ Hexadecimal [16-Bits]
 
 
 
-   443A DD 5D                 1    .dw #0x5DDD  ;; Opcode for ld e, ixl
+   48BA DD 5D                 1    .dw #0x5DDD  ;; Opcode for ld e, ixl
    01CE                       4    ld__d_ixh
-   443C DD 54                 1    .dw #0x54DD  ;; Opcode for ld d, ixh
+   48BC DD 54                 1    .dw #0x54DD  ;; Opcode for ld d, ixh
                               5    ;;------------
-   443E 2A 97 42      [16]  170     ld      hl, (_last_elem_ptr)
-   4441 01 0A 00      [10]  171     ld      bc, #entity_size
-   4444 ED B0         [21]  172     ldir
+   48BE 2A 17 47      [16]  170     ld      hl, (_last_elem_ptr)
+   48C1 01 0A 00      [10]  171     ld      bc, #entity_size
+   48C4 ED B0         [21]  172     ldir
                             173 
                             174     ;; Restar el numero de entidades actuales
-   4446 3A 96 42      [13]  175     ld       a, (_num_entities)
-   4449 3D            [ 4]  176     dec      a
-   444A 32 96 42      [13]  177     ld       (_num_entities), a
+   48C6 3A 16 47      [13]  175     ld       a, (_num_entities)
+   48C9 3D            [ 4]  176     dec      a
+   48CA 32 16 47      [13]  177     ld       (_num_entities), a
                             178 
-   444D C9            [10]  179     ret
+   48CD C9            [10]  179     ret
                             180 
                             181 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                             182 ;; Getters
                             183 ;;
-   444E                     184 entity_man_getArray::
-   444E DD 21 99 42   [14]  185     ld      ix, #_entity_array
-   4452 3A 96 42      [13]  186     ld       a, (_num_entities)
-   4455 C9            [10]  187     ret
+   48CE                     184 entity_man_getArray::
+   48CE DD 21 19 47   [14]  185     ld      ix, #_entity_array
+   48D2 3A 16 47      [13]  186     ld       a, (_num_entities)
+   48D5 C9            [10]  187     ret

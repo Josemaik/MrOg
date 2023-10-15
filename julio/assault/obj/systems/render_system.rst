@@ -5022,37 +5022,37 @@ Hexadecimal [16-Bits]
                              27 .area _DATA
                              28 .area _CODE
                              29 
-   44D3                      30 render_sys_init::
+   4953                      30 render_sys_init::
                              31 
-   44D3 CD 84 46      [17]   32     call cpct_disableFirmware_asm
+   4953 CD 04 4B      [17]   32     call cpct_disableFirmware_asm
                              33 
-   44D6 0E 00         [ 7]   34     ld   c, #0
-   44D8 CD 6F 46      [17]   35     call cpct_setVideoMode_asm
+   4956 0E 00         [ 7]   34     ld   c, #0
+   4958 CD EF 4A      [17]   35     call cpct_setVideoMode_asm
                              36 
-   44DB 21 3B 42      [10]   37     ld  hl, #_g_palette
-   44DE 11 10 00      [10]   38     ld  de, #16
-   44E1 CD 32 45      [17]   39     call cpct_setPalette_asm
+   495B 21 BB 46      [10]   37     ld  hl, #_g_palette
+   495E 11 10 00      [10]   38     ld  de, #16
+   4961 CD B2 49      [17]   39     call cpct_setPalette_asm
                              40 
    0011                      41     cpctm_setBorder_asm HW_BLACK
                               1    .radix h
    0011                       2    cpctm_setBorder_raw_asm \HW_BLACK ;; [28] Macro that does the job, but requires a number value to be passed
                               1    .globl cpct_setPALColour_asm
-   44E4 21 10 14      [10]    2    ld   hl, #0x1410         ;; [3]  H=Hardware value of desired colour, L=Border INK (16)
-   44E7 CD BB 45      [17]    3    call cpct_setPALColour_asm  ;; [25] Set Palette colour of the border
+   4964 21 10 14      [10]    2    ld   hl, #0x1410         ;; [3]  H=Hardware value of desired colour, L=Border INK (16)
+   4967 CD 3B 4A      [17]    3    call cpct_setPALColour_asm  ;; [25] Set Palette colour of the border
                               3    .radix d
                              42 
-   44EA C9            [10]   43     ret
+   496A C9            [10]   43     ret
                              44 
                              45 ;; Erase Previous Instance
-   44EB                      46 render_sys_erase_previous_instance::
-   44EB DD 5E 08      [19]   47     ld    e, e_ptr_l(ix)
-   44EE DD 56 09      [19]   48     ld    d, e_ptr_h(ix)
-   44F1 AF            [ 4]   49     xor   a
-   44F2 DD 4E 04      [19]   50     ld    c, e_w(ix)
-   44F5 DD 46 05      [19]   51     ld    b, e_h(ix)
-   44F8 CD 94 46      [17]   52     call  cpct_drawSolidBox_asm
+   496B                      46 render_sys_erase_previous_instance::
+   496B DD 5E 08      [19]   47     ld    e, e_ptr_l(ix)
+   496E DD 56 09      [19]   48     ld    d, e_ptr_h(ix)
+   4971 AF            [ 4]   49     xor   a
+   4972 DD 4E 04      [19]   50     ld    c, e_w(ix)
+   4975 DD 46 05      [19]   51     ld    b, e_h(ix)
+   4978 CD 14 4B      [17]   52     call  cpct_drawSolidBox_asm
                              53 
-   44FB C9            [10]   54     ret
+   497B C9            [10]   54     ret
                              55 
                              56 ;; Input
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
@@ -5062,37 +5062,37 @@ Hexadecimal [16-Bits]
 
                              57 ;;   IX: Pointer to first entity to render
                              58 ;;    A: Number of entities to render
-   44FC                      59 render_sys_update::
-   44FC 32 25 45      [13]   60     ld  (_ent_counter), a
+   497C                      59 render_sys_update::
+   497C 32 A5 49      [13]   60     ld  (_ent_counter), a
                              61 
-   44FF                      62 _render_loop:
+   497F                      62 _render_loop:
                              63     ;; Erase Previous Instance
-   44FF CD EB 44      [17]   64     call render_sys_erase_previous_instance
+   497F CD 6B 49      [17]   64     call render_sys_erase_previous_instance
                              65 
                              66     ;; Calculate new Video Memory Pointer
-   4502 11 00 C0      [10]   67     ld  de, #0xC000
-   4505 DD 4E 00      [19]   68     ld   c, e_x(ix)    ;; X
-   4508 DD 46 01      [19]   69     ld   b, e_y(ix)    ;; Y
-   450B CD 38 47      [17]   70     call cpct_getScreenPtr_asm
+   4982 11 00 C0      [10]   67     ld  de, #0xC000
+   4985 DD 4E 00      [19]   68     ld   c, e_x(ix)    ;; X
+   4988 DD 46 01      [19]   69     ld   b, e_y(ix)    ;; Y
+   498B CD B8 4B      [17]   70     call cpct_getScreenPtr_asm
                              71 
                              72     ;; Store Video Memory Pointer as Last
-   450E DD 75 08      [19]   73     ld    e_ptr_l(ix), l
-   4511 DD 74 09      [19]   74     ld    e_ptr_h(ix), h
+   498E DD 75 08      [19]   73     ld    e_ptr_l(ix), l
+   4991 DD 74 09      [19]   74     ld    e_ptr_h(ix), h
                              75 
                              76     ;; Draw Entity
-   4514 EB            [ 4]   77     ex  de, hl
-   4515 DD 6E 06      [19]   78     ld   l, e_pspr_l(ix)
-   4518 DD 66 07      [19]   79     ld   h, e_pspr_h(ix)
-   451B DD 4E 04      [19]   80     ld    c, e_w(ix)
-   451E DD 46 05      [19]   81     ld    b, e_h(ix)
-   4521 CD C5 45      [17]   82     call cpct_drawSprite_asm
+   4994 EB            [ 4]   77     ex  de, hl
+   4995 DD 6E 06      [19]   78     ld   l, e_pspr_l(ix)
+   4998 DD 66 07      [19]   79     ld   h, e_pspr_h(ix)
+   499B DD 4E 04      [19]   80     ld    c, e_w(ix)
+   499E DD 46 05      [19]   81     ld    b, e_h(ix)
+   49A1 CD 45 4A      [17]   82     call cpct_drawSprite_asm
                              83 
                      0052    84 _ent_counter = .+1
-   4524 3E 00         [ 7]   85     ld   a, #0
-   4526 3D            [ 4]   86     dec a
-   4527 C8            [11]   87     ret z
+   49A4 3E 00         [ 7]   85     ld   a, #0
+   49A6 3D            [ 4]   86     dec a
+   49A7 C8            [11]   87     ret z
                              88 
-   4528 32 25 45      [13]   89     ld  (_ent_counter), a
-   452B 01 0A 00      [10]   90     ld  bc, #entity_size
-   452E DD 09         [15]   91     add ix, bc
-   4530 18 CD         [12]   92     jr _render_loop
+   49A8 32 A5 49      [13]   89     ld  (_ent_counter), a
+   49AB 01 0A 00      [10]   90     ld  bc, #entity_size
+   49AE DD 09         [15]   91     add ix, bc
+   49B0 18 CD         [12]   92     jr _render_loop

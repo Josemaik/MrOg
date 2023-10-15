@@ -7,6 +7,8 @@
 -k /home/cpc/Escritorio/cpctelera/cpctelera/tools/sdcc-3.6.8-r9946/share/sdcc/lib/z80
 -l /home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
 -l z80
+obj/tilemaps/mapa.rel
+obj/sprites/tiles.rel
 obj/sprites/ammo.rel
 obj/sprites/minion_ship.rel
 obj/sprites/enemy_ship.rel
