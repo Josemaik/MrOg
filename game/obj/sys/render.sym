@@ -66,25 +66,26 @@ Symbol Table
     Key_U   =  0405     |     Key_V   =  8006     |     Key_W   =  0807 
     Key_X   =  8007     |     Key_Y   =  0805     |     Key_Z   =  8008 
     MAN_ANIM=  000C     |     PAL_INKR=  0040     |     PAL_PENR=  0000 
-    PPI_PORT=  00F5     |     SPACE_4_=  0011     |     SPRITE  =  0008 
-    TOTAL_EN=  0001     |     TOTAL_SP=  0011     |     TYPE    =  0000 
-    VX      =  0006     |     VY      =  0007     |     WIDTH   =  0004 
-    X       =  0002     |     Y       =  0003     |   1 _m_palet   0000 GR
-    _main_pa   **** GX  |     _man_ent   **** GX  |     _man_ent   **** GX
-  0 _sys_ren   0061 GR  |   0 _sys_ren   0057 GR  |     cpct_dra   **** GX
-    cpct_dra   **** GX  |     cpct_get   **** GX  |     cpct_mem   **** GX
-    cpct_mem   **** GX  |     cpct_pag=  0000     |     cpct_pag=  0010 
-    cpct_pag=  0020     |     cpct_pag=  0030     |     cpct_set   **** GX
-    cpct_set   **** GX  |     cpct_set   **** GX  |     firmware=  0038 
+    PPI_PORT=  00F5     |     SPACE_4_=  0013     |     SPRITE  =  0008 
+    SPR_SPRI=  0010     |     SPR_SPRI=  0008     |     TOTAL_EN=  0001 
+    TOTAL_SP=  0013     |     TYPE    =  0000     |     VX      =  0006 
+    VY      =  0007     |     WIDTH   =  0004     |     X       =  0002 
+    Y       =  0003     |   1 _m_palet   0000 GR  |     _main_pa   **** GX
+    _man_ent   **** GX  |     _man_ent   **** GX  |   0 _sys_ren   007B GR
+  0 _sys_ren   0071 GR  |     cpct_dra   **** GX  |     cpct_dra   **** GX
+    cpct_get   **** GX  |     cpct_mem   **** GX  |     cpct_mem   **** GX
+    cpct_pag=  0000     |     cpct_pag=  0010     |     cpct_pag=  0020 
+    cpct_pag=  0030     |     cpct_set   **** GX  |     cpct_set   **** GX
+    cpct_set   **** GX  |     firmware=  0038     |     last_dra=  0011 
     opc_DI  =  00F3     |     opc_EI  =  00FB     |     opc_JR  =  0018 
-    opc_LD_D=  0016     |   0 sys_rend   0053 R   |   0 sys_rend   0012 R
-  0 sys_rend   0000 R   |   0 sys_rend   002F R   |   0 sys_rend   0056 R
+    opc_LD_D=  0016     |   0 sys_rend   0019 R   |   0 sys_rend   0000 R
+  0 sys_rend   0036 R   |   0 sys_rend   0070 R
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   76   flags    0
+   0 _CODE      size   90   flags    0
    1 _DATA      size   10   flags    0
 

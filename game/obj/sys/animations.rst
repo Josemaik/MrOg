@@ -5010,7 +5010,7 @@ Hexadecimal [16-Bits]
                              11    ;; managers                            
                              12       .globl _man_entity_for_all_matching                  
                              13    ;; systems                             
-                             14 
+                             14    .globl move_active
                              15    ;; sprites
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
 Hexadecimal [16-Bits]
@@ -5037,163 +5037,169 @@ Hexadecimal [16-Bits]
                      000C    17         IA_COUNTER = 12
                      000D    18         AnimFrame = 13     ;;u8(2)
                      000F    19         AnimCounter = 15    ;;u8
-                     0010    20         COLLIDES_AGAINST = 16    
-                             21                                         
-                             22     ;; Entity types                  
-                     0000    23         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
-                     0001    24         E_TYPE_PLAYER   = 0x01 
-                     0002    25         E_TYPE_ENEMY   = 0x02 
-                     0004    26         E_TYPE_MOTHERSHIP   = 0x04 
-                     0008    27         E_TYPE_SHOT   = 0x08 
-                     0080    28         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
-                     0002    29         E_TYPE_DEFAULT  = E_TYPE_ENEMY
-                             30     ;; Components    
-                     0001    31         E_CMP_RENDER   = 0x01   ;; renderable entity
-                     0002    32         E_CMP_MOVABLE  = 0x02   ;; movable entity
-                     0004    33         E_CMP_INPUT    = 0x04   ;; Entity controlable by input
-                     0008    34         E_CMP_IA       = 0x08   ;; Entity controlable by artificial inteligence
-                     0010    35         E_CMP_ANIMATED = 0x10   ;; Animated Entity
-                     0020    36         E_CMP_COLLIDER = 0x20   ;; Entity that can collide
-                     007F    37         E_CMP_DEFAULT  = 0x7F   ;; default entity  
-                             38             
-                             39                                         
-                             40     ;; OTHERS
-                     0011    41         SPACE_4_ONE_ENTITY     = 17      ;; space for one entity
-                     0001    42         TOTAL_ENTITIES         = 1      ;; number of entities                          
-                     0011    43         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
-                     000C    44         MAN_ANIM_ENEMY1_TIME   = 12
-                             45     ;; LANES
-                             46       
-                             47     ;; PLAYER
-                             48        
-                             49     ;;   SPRITE PROPERTIES
-                             50        
-                             51         
-                             52                                         
-                             53 
-                             54 
+                     0010    20         COLLIDES_AGAINST = 16
+                     0011    21         last_draw = 17
+                             22                                         
+                             23     ;; Entity types                  
+                     0000    24         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
+                     0001    25         E_TYPE_PLAYER   = 0x01 
+                     0002    26         E_TYPE_ENEMY   = 0x02 
+                     0004    27         E_TYPE_MOTHERSHIP   = 0x04 
+                     0008    28         E_TYPE_SHOT   = 0x08 
+                     0080    29         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
+                     0002    30         E_TYPE_DEFAULT  = E_TYPE_ENEMY
+                             31     ;; Components    
+                     0001    32         E_CMP_RENDER   = 0x01   ;; renderable entity
+                     0002    33         E_CMP_MOVABLE  = 0x02   ;; movable entity
+                     0004    34         E_CMP_INPUT    = 0x04   ;; Entity controlable by input
+                     0008    35         E_CMP_IA       = 0x08   ;; Entity controlable by artificial inteligence
+                     0010    36         E_CMP_ANIMATED = 0x10   ;; Animated Entity
+                     0020    37         E_CMP_COLLIDER = 0x20   ;; Entity that can collide
+                     007F    38         E_CMP_DEFAULT  = 0x7F   ;; default entity  
+                             39             
+                             40                                         
+                             41     ;; OTHERS
+                     0013    42         SPACE_4_ONE_ENTITY     = 19      ;; space for one entity
+                     0001    43         TOTAL_ENTITIES         = 1      ;; number of entities                          
+                     0013    44         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
+                     000C    45         MAN_ANIM_ENEMY1_TIME   = 12
+                             46     ;; LANES
+                             47       
+                             48     ;; PLAYER
+                             49        
+                             50     ;;   SPRITE PROPERTIES
+                     0008    51        SPR_SPRITE1_S_W = 8
+                     0010    52        SPR_SPRITE1_S_H = 16
+                             53         
+                             54                                         
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 97.
 Hexadecimal [16-Bits]
 
 
 
-                             55     ;;;;;;;;;;;;;;;;;;;;
-                             56     ;; GLOBAL SYMBOLS ;;
+                             55 
+                             56 
                              57     ;;;;;;;;;;;;;;;;;;;;
-                             58     ;;cpctelera
-                             59     .globl cpct_memset_asm      
-                             60     .globl cpct_memcpy_asm
-                             61     ;;animations      
-                             62    
+                             58     ;; GLOBAL SYMBOLS ;;
+                             59     ;;;;;;;;;;;;;;;;;;;;
+                             60     ;;cpctelera
+                             61     .globl cpct_memset_asm      
+                             62     .globl cpct_memcpy_asm
+                             63     ;;animations      
+                             64    
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 98.
 Hexadecimal [16-Bits]
 
 
 
                               6 .area _DATA
-                              7 ;;Array de sprites
+                              7 
                               8 
-                              9 
-                             10 .area _CODE
+                              9 .area _CODE
+                             10 
                              11 
-                             12 
-   4019                      13 sys_animations_update_one_entity:
-                             14     ;; save in a the entity->animcounter
-   4019 21 0F 00      [10]   15     ld hl, #AnimCounter
-   401C 19            [11]   16     add hl, de
-   401D 7E            [ 7]   17     ld a, (hl)
-   401E D6 01         [ 7]   18     sub #1
-   4020 77            [ 7]   19     ld (hl), a
-                             20     ;; if (a == 0)
-   4021 28 02         [12]   21     jr z, change_sprite
-   4023 18 4E         [12]   22         jr sys_animations_update_one_entity_end
-   4025                      23     change_sprite:
-                             24 
-                             25         ;; go to entity->animframe
-   4025 21 0D 00      [10]   26         ld hl, #AnimFrame
-   4028 19            [11]   27         add hl, de
-                             28         ;; save memory pointer of frameanimation in bc
-   4029 4E            [ 7]   29         ld c, (hl)
-   402A 23            [ 6]   30         inc hl
-   402B 46            [ 7]   31         ld b, (hl)
-                             32         ;; load memory pointer of frameanimation in hl and add space
-   402C 21 03 00      [10]   33         ld hl, #SPACE_OF_AIMATION
-   402F 09            [11]   34         add hl, bc
-                             35         ;; save new animation in bc
-   4030 4D            [ 4]   36         ld c, l
-   4031 44            [ 4]   37         ld b, h
-                             38         ;; put the value of bc in hl
-   4032 21 0D 00      [10]   39         ld hl, #AnimFrame
-   4035 19            [11]   40         add hl, de
-   4036 71            [ 7]   41         ld (hl) , c
-   4037 23            [ 6]   42         inc hl
-   4038 70            [ 7]   43         ld (hl), b
-                             44 
-                             45         ;; save the memory pointer of animframe
-                             46         ; push hl
-                             47         ;; save in a the time of animation
-   4039 21 00 00      [10]   48         ld		hl, #TIME
-   403C 09            [11]   49 		add		hl, bc
-   403D 7E            [ 7]   50 		ld		a, (hl)
-                             51         ;; if (time == 0) gotostart else goto_next_sprite
-   403E FE 00         [ 7]   52         cp #0
-   4040 28 02         [12]   53         jr z, goto_start
-   4042 18 0E         [12]   54             jr goto_next_sprite
-   4044                      55         goto_start:
-                             56             ;; save in bc the value of next frame
-   4044 21 01 00      [10]   57             ld hl, #VAL_NEXT_FRAME
-   4047 09            [11]   58             add hl, bc
-   4048 4E            [ 7]   59             ld c, (hl)
-   4049 23            [ 6]   60             inc hl
+   4619                      12 sys_animations_update_one_entity:
+   4619 3A 0B 47      [13]   13     ld a , (move_active)
+   461C FE 01         [ 7]   14     cp #1
+   461E 28 02         [12]   15     jr z, start_animating
+   4620 18 5A         [12]   16         jr sys_animations_update_one_entity_end
+   4622                      17     start_animating:
+                             18     ;; save in a the entity->animcounter
+   4622 21 0F 00      [10]   19     ld hl, #AnimCounter
+   4625 19            [11]   20     add hl, de
+   4626 7E            [ 7]   21     ld a, (hl)
+   4627 D6 01         [ 7]   22     sub #1
+   4629 77            [ 7]   23     ld (hl), a
+                             24     ;; if (a == 0)
+   462A 28 02         [12]   25     jr z, change_sprite
+   462C 18 4E         [12]   26         jr sys_animations_update_one_entity_end
+   462E                      27     change_sprite:
+                             28 
+                             29         ;; go to entity->animframe
+   462E 21 0D 00      [10]   30         ld hl, #AnimFrame
+   4631 19            [11]   31         add hl, de
+                             32         ;; save memory pointer of frameanimation in bc
+   4632 4E            [ 7]   33         ld c, (hl)
+   4633 23            [ 6]   34         inc hl
+   4634 46            [ 7]   35         ld b, (hl)
+                             36         ;; load memory pointer of frameanimation in hl and add space
+   4635 21 03 00      [10]   37         ld hl, #SPACE_OF_AIMATION
+   4638 09            [11]   38         add hl, bc
+                             39         ;; save new animation in bc
+   4639 4D            [ 4]   40         ld c, l
+   463A 44            [ 4]   41         ld b, h
+                             42         ;; put the value of bc in hl
+   463B 21 0D 00      [10]   43         ld hl, #AnimFrame
+   463E 19            [11]   44         add hl, de
+   463F 71            [ 7]   45         ld (hl) , c
+   4640 23            [ 6]   46         inc hl
+   4641 70            [ 7]   47         ld (hl), b
+                             48 
+                             49         ;; save the memory pointer of animframe
+                             50         ; push hl
+                             51         ;; save in a the time of animation
+   4642 21 00 00      [10]   52         ld		hl, #TIME
+   4645 09            [11]   53 		add		hl, bc
+   4646 7E            [ 7]   54 		ld		a, (hl)
+                             55         ;; if (time == 0) gotostart else goto_next_sprite
+   4647 FE 00         [ 7]   56         cp #0
+   4649 28 02         [12]   57         jr z, goto_start
+   464B 18 0E         [12]   58             jr goto_next_sprite
+   464D                      59         goto_start:
+                             60             ;; save in bc the value of next frame
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
 
 
-   404A 46            [ 7]   61             ld b, (hl)
-                             62             ;; copy in entity->animframe the value of next frame(entity->animation->next)
-   404B 21 0D 00      [10]   63             ld hl, #AnimFrame
-   404E 19            [11]   64             add hl, de
-   404F 71            [ 7]   65             ld (hl), c
-   4050 23            [ 6]   66             inc hl
-   4051 70            [ 7]   67             ld (hl), b
-   4052                      68         goto_next_sprite:
-   4052 21 0D 00      [10]   69             ld hl, #AnimFrame
-   4055 19            [11]   70             add hl, de
-                             71 
-   4056 4E            [ 7]   72             ld c, (hl)
-   4057 23            [ 6]   73             inc hl
-   4058 46            [ 7]   74             ld b , (hl)
+   464D 21 01 00      [10]   61             ld hl, #VAL_NEXT_FRAME
+   4650 09            [11]   62             add hl, bc
+   4651 4E            [ 7]   63             ld c, (hl)
+   4652 23            [ 6]   64             inc hl
+   4653 46            [ 7]   65             ld b, (hl)
+                             66             ;; copy in entity->animframe the value of next frame(entity->animation->next)
+   4654 21 0D 00      [10]   67             ld hl, #AnimFrame
+   4657 19            [11]   68             add hl, de
+   4658 71            [ 7]   69             ld (hl), c
+   4659 23            [ 6]   70             inc hl
+   465A 70            [ 7]   71             ld (hl), b
+   465B                      72         goto_next_sprite:
+   465B 21 0D 00      [10]   73             ld hl, #AnimFrame
+   465E 19            [11]   74             add hl, de
                              75 
-   4059 C5            [11]   76             push bc
-                             77 
-   405A 21 01 00      [10]   78             ld hl, #VAL_NEXT_FRAME
-   405D 09            [11]   79             add hl, bc
-                             80 
-   405E 4E            [ 7]   81             ld c, (hl)
-   405F 23            [ 6]   82             inc hl
-   4060 46            [ 7]   83             ld b, (hl)
-                             84         
-                             85             ;;;load next sprite for animation
-   4061 21 08 00      [10]   86             ld hl, #SPRITE
-   4064 19            [11]   87             add hl, de
-   4065 71            [ 7]   88             ld (hl), c
-   4066 23            [ 6]   89             inc hl
-   4067 70            [ 7]   90             ld (hl), b
-                             91 
-   4068 C1            [10]   92             pop bc
-                             93             ;; put the counter to 12
-   4069 21 00 00      [10]   94             ld hl, #TIME
-   406C 09            [11]   95             add hl, bc
-   406D 7E            [ 7]   96             ld a, (hl)
-                             97 
-   406E 21 0F 00      [10]   98             ld hl, #AnimCounter
-   4071 19            [11]   99             add hl, de
-   4072 77            [ 7]  100             ld (hl), a
-   4073                     101     sys_animations_update_one_entity_end:
-   4073 C9            [10]  102 ret
-   4074                     103 _sys_animations_update::
-   4074 01 19 40      [10]  104         ld      bc, #sys_animations_update_one_entity
-   4077 21 10 00      [10]  105         ld      hl, #E_CMP_ANIMATED
-   407A CD C7 42      [17]  106         call    _man_entity_for_all_matching
-   407D C9            [10]  107 ret
+   465F 4E            [ 7]   76             ld c, (hl)
+   4660 23            [ 6]   77             inc hl
+   4661 46            [ 7]   78             ld b , (hl)
+                             79 
+   4662 C5            [11]   80             push bc
+                             81 
+   4663 21 01 00      [10]   82             ld hl, #VAL_NEXT_FRAME
+   4666 09            [11]   83             add hl, bc
+                             84 
+   4667 4E            [ 7]   85             ld c, (hl)
+   4668 23            [ 6]   86             inc hl
+   4669 46            [ 7]   87             ld b, (hl)
+                             88         
+                             89             ;;;load next sprite for animation
+   466A 21 08 00      [10]   90             ld hl, #SPRITE
+   466D 19            [11]   91             add hl, de
+   466E 71            [ 7]   92             ld (hl), c
+   466F 23            [ 6]   93             inc hl
+   4670 70            [ 7]   94             ld (hl), b
+                             95 
+   4671 C1            [10]   96             pop bc
+                             97             ;; put the counter to 12
+   4672 21 00 00      [10]   98             ld hl, #TIME
+   4675 09            [11]   99             add hl, bc
+   4676 7E            [ 7]  100             ld a, (hl)
+                            101 
+   4677 21 0F 00      [10]  102             ld hl, #AnimCounter
+   467A 19            [11]  103             add hl, de
+   467B 77            [ 7]  104             ld (hl), a
+   467C                     105     sys_animations_update_one_entity_end:
+   467C C9            [10]  106 ret
+   467D                     107 _sys_animations_update::
+   467D 01 19 46      [10]  108         ld      bc, #sys_animations_update_one_entity
+   4680 21 10 00      [10]  109         ld      hl, #E_CMP_ANIMATED
+   4683 CD 2F 49      [17]  110         call    _man_entity_for_all_matching
+   4686 C9            [10]  111 ret

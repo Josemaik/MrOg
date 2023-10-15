@@ -14,3 +14,9 @@ Hexadecimal [16-Bits]
                               9    ;; cpct
                              10       .globl cpct_scanKeyboard_f_asm
                              11       .globl cpct_isKeyPressed_asm
+                             12    ;; sys
+                             13    .globl anim_W
+                             14    .globl anim_A
+                             15    .globl anim_S
+                             16    .globl anim_D
+                             17    

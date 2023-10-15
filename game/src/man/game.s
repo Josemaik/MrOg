@@ -5,8 +5,6 @@
 .include "entity.h.s"
 .area _DATA
 
-
-
 .area _CODE
 ;;;;;;;;;;;;;;;;;;;;;
 ;; PRIVATE FUNCTION;;
@@ -89,13 +87,13 @@ man_game_play::
       ;; check collisions
          ; call     _sys_collision_update
       ;; call animations system
-         ; call     _sys_animations_update
+         call     _sys_animations_update
       ;; render
          call     _sys_render_update
       ;; update manager
          call     _man_entity_update
       ;; wait ( se mueve cada cinco fotogramas)
-         ld       a, #5
+         ld       a, #4
 		 call     _wait
          ; call cpct_waitVSYNC_asm
       ;; jump to loop

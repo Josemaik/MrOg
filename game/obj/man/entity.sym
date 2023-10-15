@@ -66,18 +66,19 @@ Symbol Table
     Key_U   =  0405     |     Key_V   =  8006     |     Key_W   =  0807 
     Key_X   =  8007     |     Key_Y   =  0805     |     Key_Z   =  8008 
     MAN_ANIM=  000C     |     PAL_INKR=  0040     |     PAL_PENR=  0000 
-    PPI_PORT=  00F5     |     SPACE_4_=  0011     |     SPRITE  =  0008 
-    TOTAL_EN=  0001     |     TOTAL_SP=  0011     |     TYPE    =  0000 
-    VX      =  0006     |     VY      =  0007     |     WIDTH   =  0004 
-    X       =  0002     |     Y       =  0003     |   0 _man_ent   003A GR
-  0 _man_ent   001B GR  |   0 _man_ent   0073 GR  |   0 _man_ent   00AD GR
-  0 _man_ent   00FE GR  |   0 _man_ent   014C R   |   0 _man_ent   01A6 GR
-  0 _man_ent   0000 GR  |   0 _man_ent   0048 GR  |   0 _man_ent   0186 GR
-  0 _return_   009A R   |   0 _return_   00EB R   |     cpct_mem   **** GX
-    cpct_mem   **** GX  |     cpct_pag=  0000     |     cpct_pag=  0010 
-    cpct_pag=  0020     |     cpct_pag=  0030     |     firmware=  0038 
-  1 m_entiti   0000 GR  |   1 m_next_f   0012 GR  |   1 m_reserv   0014 GR
-  1 m_zero_b   0011 R   |   0 man_cont   0139 R   |   0 man_end_   00A4 R
+    PPI_PORT=  00F5     |     SPACE_4_=  0013     |     SPRITE  =  0008 
+    SPR_SPRI=  0010     |     SPR_SPRI=  0008     |     TOTAL_EN=  0001 
+    TOTAL_SP=  0013     |     TYPE    =  0000     |     VX      =  0006 
+    VY      =  0007     |     WIDTH   =  0004     |     X       =  0002 
+    Y       =  0003     |   0 _man_ent   003A GR  |   0 _man_ent   001B GR
+  0 _man_ent   0073 GR  |   0 _man_ent   00AD GR  |   0 _man_ent   00FE GR
+  0 _man_ent   014C R   |   0 _man_ent   01A6 GR  |   0 _man_ent   0000 GR
+  0 _man_ent   0048 GR  |   0 _man_ent   0186 GR  |   0 _return_   009A R
+  0 _return_   00EB R   |     cpct_mem   **** GX  |     cpct_mem   **** GX
+    cpct_pag=  0000     |     cpct_pag=  0010     |     cpct_pag=  0020 
+    cpct_pag=  0030     |     firmware=  0038     |     last_dra=  0011 
+  1 m_entiti   0000 GR  |   1 m_next_f   0014 GR  |   1 m_reserv   0016 GR
+  1 m_zero_b   0013 R   |   0 man_cont   0139 R   |   0 man_end_   00A4 R
   0 man_end_   00F5 R   |   0 man_end_   0143 R   |   0 man_end_   0185 R
   0 man_enti   0051 GR  |   0 man_goto   0132 R   |   0 man_if_n   0065 R
   0 man_init   0085 R   |   0 man_init   00C5 R   |   0 man_init   0116 R
@@ -92,5 +93,5 @@ Hexadecimal [16-Bits]
 Area Table
 
    0 _CODE      size  1AF   flags    0
-   1 _DATA      size   15   flags    0
+   1 _DATA      size   17   flags    0
 

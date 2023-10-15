@@ -16,5 +16,5 @@ Hexadecimal [16-Bits]
                              11    ;; managers                            
                              12       .globl _man_entity_for_all_matching                  
                              13    ;; systems                             
-                             14 
+                             14    .globl move_active
                              15    ;; sprites

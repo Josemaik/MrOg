@@ -22,7 +22,8 @@ Hexadecimal [16-Bits]
                              17       .globl _sys_physics_update          
                              18       .globl _sys_render_update                   
                              19       .globl _sys_render_init
-                             20    ;; sprites
-                             21 
-                             22    ;; templates
-                             23    .globl playership_template0_e
+                             20       .globl _sys_animations_update
+                             21    ;; sprites
+                             22 
+                             23    ;; templates
+                             24    .globl playership_template0_e

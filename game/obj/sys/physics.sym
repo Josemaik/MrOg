@@ -66,26 +66,29 @@ Symbol Table
     Key_U   =  0405     |     Key_V   =  8006     |     Key_W   =  0807 
     Key_X   =  8007     |     Key_Y   =  0805     |     Key_Z   =  8008 
     MAN_ANIM=  000C     |     PAL_INKR=  0040     |     PAL_PENR=  0000 
-    PPI_PORT=  00F5     |     SPACE_4_=  0011     |     SPRITE  =  0008 
-    TOTAL_EN=  0001     |     TOTAL_SP=  0011     |     TYPE    =  0000 
-    VX      =  0006     |     VY      =  0007     |     WIDTH   =  0004 
-    X       =  0002     |     Y       =  0003     |     _man_ent   **** GX
-    _man_ent   **** GX  |     _man_ent   **** GX  |   0 _sys_phy   0099 GR
-    cpct_isK   **** GX  |     cpct_mem   **** GX  |     cpct_mem   **** GX
-    cpct_pag=  0000     |     cpct_pag=  0010     |     cpct_pag=  0020 
-    cpct_pag=  0030     |     cpct_sca   **** GX  |   0 end_phys   0098 R
-    firmware=  0038     |   0 move_x_a   007C R   |   0 move_y_a   008D R
-  0 movement   0000 R   |     opc_DI  =  00F3     |     opc_EI  =  00FB 
-    opc_JR  =  0018     |     opc_LD_D=  0016     |   0 sys_phys   0028 R
-  0 sys_phys   0036 R   |   0 sys_phys   0052 R   |   0 sys_phys   0044 R
-  0 sys_phys   0070 R   |   0 sys_phys   0001 R   |   0 sys_phys   0062 R
-  0 sys_phys   0073 R   |   0 sys_phys   0063 R
+    PPI_PORT=  00F5     |     SPACE_4_=  0013     |     SPRITE  =  0008 
+    SPR_SPRI=  0010     |     SPR_SPRI=  0008     |     TOTAL_EN=  0001 
+    TOTAL_SP=  0013     |     TYPE    =  0000     |     VX      =  0006 
+    VY      =  0007     |     WIDTH   =  0004     |     X       =  0002 
+    Y       =  0003     |     _man_ent   **** GX  |     _man_ent   **** GX
+    _man_ent   **** GX  |   0 _sys_phy   00DE GR  |     anim_A     **** GX
+    anim_D     **** GX  |     anim_S     **** GX  |     anim_W     **** GX
+  0 choose_a   0000 GR  |     cpct_isK   **** GX  |     cpct_mem   **** GX
+    cpct_mem   **** GX  |     cpct_pag=  0000     |     cpct_pag=  0010 
+    cpct_pag=  0020     |     cpct_pag=  0030     |     cpct_sca   **** GX
+  0 end_phys   00DD R   |     firmware=  0038     |     last_dra=  0011 
+  0 move_act   0001 GR  |   0 move_x_a   00C1 R   |   0 move_y_a   00D2 R
+    opc_DI  =  00F3     |     opc_EI  =  00FB     |     opc_JR  =  0018 
+    opc_LD_D=  0016     |   0 sys_phys   0029 R   |   0 sys_phys   0048 R
+  0 sys_phys   0086 R   |   0 sys_phys   0067 R   |   0 sys_phys   00B5 R
+  0 sys_phys   0002 R   |   0 sys_phys   00A7 R   |   0 sys_phys   00B8 R
+  0 sys_phys   00A8 R
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   A3   flags    0
+   0 _CODE      size   E8   flags    0
    1 _DATA      size    0   flags    0
 
