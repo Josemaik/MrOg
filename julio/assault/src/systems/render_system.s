@@ -19,7 +19,12 @@
 .globl cpct_drawSolidBox_asm
 .globl cpct_drawSprite_asm
 
+.globl cpct_etm_drawTilemap4x8_ag_asm
+.globl cpct_etm_setDrawTilemap4x8_ag_asm
+
 .globl _sp_player_ship
+.globl _tiles_00
+.globl _tilemap_01
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Code
@@ -40,6 +45,8 @@ render_sys_init::
 
     cpctm_setBorder_asm HW_BLACK
 
+    call render_sys_tilemap
+
     ret
 
 ;; Erase Previous Instance
@@ -50,6 +57,20 @@ render_sys_erase_previous_instance::
     ld    c, e_w(ix)
     ld    b, e_h(ix)
     call  cpct_drawSolidBox_asm
+
+    ret
+
+;; Render tilemap
+render_sys_tilemap::
+
+    ld  bc, #0x1914      ;; height and width
+    ld  de, #0x30        ;; tilemapWidth
+    ld  hl, #_tiles_00   ;; pointer to the start of the tileset
+    call cpct_etm_setDrawTilemap4x8_ag_asm
+
+    ld  hl, #0xC000      ;; video memory location
+    ld  de, #_tilemap_01 ;; pointer to the upper-left of the view
+    call cpct_etm_drawTilemap4x8_ag_asm
 
     ret
 

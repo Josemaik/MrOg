@@ -8,6 +8,7 @@ Symbol Table
     entity_m   **** GX  |     entity_m   **** GX  |     input_sy   **** GX
     input_sy   **** GX  |   0 loop       000C R   |     physics_   **** GX
     physics_   **** GX  |     render_s   **** GX  |     render_s   **** GX
+    render_s   **** GX
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]

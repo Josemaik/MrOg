@@ -9,6 +9,7 @@
 # Conversion 
 #$(eval $(call TMX2DATA, CONVERT, tmxfile, array )) 
 
+$(eval $(call TMX2DATA, SET_OUTPUTS     , hs s       ))
 $(eval $(call TMX2DATA, SET_FOLDER      , src/tilemaps/   )) 
 $(eval $(call TMX2DATA, CONVERT, img/mapa.tmx, tilemap_01 )) 
 

@@ -33,7 +33,7 @@ plantilla_bala::
 ;;
 plantilla_entidad:: 
 ;;;;;;;;  x  ,  y  , vx , vy , w , h
-    .db   40 , 184 ,  0 , 0  , 12 , 16  
+    .db   40 , 178 ,  0 , 0  , 12 , 16  
 ;;;;;;;;  sprite
     .dw   _sp_player_ship
 ;;;;;;;;  ptr_l , ptr_h
@@ -75,9 +75,9 @@ entity_man_init:
 
     call entity_man_create_player
 
-    call entity_man_create_enemy
+    ;; call entity_man_create_enemy
 
-    call entity_man_create_minion
+    ;; call entity_man_create_minion
     
     ret
 

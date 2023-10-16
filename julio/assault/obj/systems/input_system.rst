@@ -5001,8 +5001,8 @@ Hexadecimal [16-Bits]
 
 
                               8 
-   48D6                       9 delay:
-   48D6 0A                   10     .db 10
+   4A80                       9 delay:
+   4A80 0A                   10     .db 10
                              11 
                              12 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              13 ;; Code
@@ -5010,46 +5010,46 @@ Hexadecimal [16-Bits]
                              15 .area _DATA
                              16 .area _CODE
                              17 
-   48D7                      18 input_sys_init::
-   48D7 C9            [10]   19     ret
+   4A81                      18 input_sys_init::
+   4A81 C9            [10]   19     ret
                              20 
                              21 ;; Input
                              22 ;;   IX: Pointer to entity[0] - player
-   48D8                      23 input_sys_update::
+   4A82                      23 input_sys_update::
                              24     ;; Reset velocities
-   48D8 DD 36 02 00   [19]   25     ld    e_vx(ix), #0
-   48DC DD 36 03 00   [19]   26     ld    e_vy(ix), #0
+   4A82 DD 36 02 00   [19]   25     ld    e_vx(ix), #0
+   4A86 DD 36 03 00   [19]   26     ld    e_vy(ix), #0
                              27 
                              28     ;; Scan the keyboard
-   48E0 CD C5 49      [17]   29     call cpct_scanKeyboard_f_asm
+   4A8A CD 88 4B      [17]   29     call cpct_scanKeyboard_f_asm
                              30 
                              31     ;; Check for movement keys
-   48E3 21 04 04      [10]   32     ld    hl, #Key_O
-   48E6 CD 2F 4A      [17]   33     call  cpct_isKeyPressed_asm
-   48E9 28 04         [12]   34     jr    z, O_NotPressed
-   48EB                      35 O_Pressed:
-   48EB DD 36 02 FF   [19]   36     ld    e_vx(ix), #-1
-   48EF                      37 O_NotPressed:
+   4A8D 21 04 04      [10]   32     ld    hl, #Key_O
+   4A90 CD F2 4B      [17]   33     call  cpct_isKeyPressed_asm
+   4A93 28 04         [12]   34     jr    z, O_NotPressed
+   4A95                      35 O_Pressed:
+   4A95 DD 36 02 FF   [19]   36     ld    e_vx(ix), #-1
+   4A99                      37 O_NotPressed:
                              38 
-   48EF 21 03 08      [10]   39     ld    hl, #Key_P
-   48F2 CD 2F 4A      [17]   40     call  cpct_isKeyPressed_asm
-   48F5 28 04         [12]   41     jr    z, P_NotPressed
-   48F7                      42 P_Pressed:
-   48F7 DD 36 02 01   [19]   43     ld    e_vx(ix), #1
-   48FB                      44 P_NotPressed:
+   4A99 21 03 08      [10]   39     ld    hl, #Key_P
+   4A9C CD F2 4B      [17]   40     call  cpct_isKeyPressed_asm
+   4A9F 28 04         [12]   41     jr    z, P_NotPressed
+   4AA1                      42 P_Pressed:
+   4AA1 DD 36 02 01   [19]   43     ld    e_vx(ix), #1
+   4AA5                      44 P_NotPressed:
                              45 
                              46 ;; Delay para que no se puedan disparar balas seguidas
-   48FB 3A D6 48      [13]   47     ld     a, (delay)
-   48FE 3D            [ 4]   48     dec    a
-   48FF 20 0B         [12]   49     jr     nz, Delay
+   4AA5 3A 80 4A      [13]   47     ld     a, (delay)
+   4AA8 3D            [ 4]   48     dec    a
+   4AA9 20 0B         [12]   49     jr     nz, Delay
                              50 
-   4901 21 05 80      [10]   51     ld    hl, #Key_Space
-   4904 CD 2F 4A      [17]   52     call  cpct_isKeyPressed_asm
-   4907 28 06         [12]   53     jr    z, Space_NotPressed
-   4909                      54 Space_Pressed:
-   4909 CD 6E 48      [17]   55     call entity_man_create_ammo
-   490C                      56 Delay:
-   490C 32 D6 48      [13]   57     ld     (delay), a
-   490F                      58 Space_NotPressed:
+   4AAB 21 05 80      [10]   51     ld    hl, #Key_Space
+   4AAE CD F2 4B      [17]   52     call  cpct_isKeyPressed_asm
+   4AB1 28 06         [12]   53     jr    z, Space_NotPressed
+   4AB3                      54 Space_Pressed:
+   4AB3 CD 18 4A      [17]   55     call entity_man_create_ammo
+   4AB6                      56 Delay:
+   4AB6 32 80 4A      [13]   57     ld     (delay), a
+   4AB9                      58 Space_NotPressed:
                              59 
-   490F C9            [10]   60     ret
+   4AB9 C9            [10]   60     ret

@@ -22,4 +22,5 @@ $(eval $(call IMG2SP, CONVERT         , img/minion_ship.png , 0, 0, sp_minion_sh
 
 $(eval $(call IMG2SP, CONVERT         , img/ammo.png , 0, 0, sp_ammo))
 
+$(eval $(call IMG2SP, SET_IMG_FORMAT  , zgtiles            ))
 $(eval $(call IMG2SP, CONVERT         , img/tiles.png , 8, 8, tiles))
