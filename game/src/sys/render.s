@@ -90,6 +90,12 @@ sys_render_draw_one_entity:
         pop    hl
     ret
 
+;;;;;;;;;;;;;;;;;;;;
+;; RENDER TILEMAP ;;
+;;;;;;;;;;;;;;;;;;;;
+sys_render_tilemap:
+
+    ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; RENDER ONE ENTITY ;;
