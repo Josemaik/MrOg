@@ -5016,10 +5016,11 @@ Hexadecimal [16-Bits]
                              17       .globl _sys_physics_update          
                              18       .globl _sys_render_update                   
                              19       .globl _sys_render_init
-                             20    ;; sprites
-                             21 
-                             22    ;; templates
-                             23    .globl playership_template0_e
+                             20       .globl _sys_animations_update
+                             21    ;; sprites
+                             22 
+                             23    ;; templates
+                             24    .globl playership_template0_e
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
 Hexadecimal [16-Bits]
 
@@ -5045,102 +5046,105 @@ Hexadecimal [16-Bits]
                      000C    17         IA_COUNTER = 12
                      000D    18         AnimFrame = 13     ;;u8(2)
                      000F    19         AnimCounter = 15    ;;u8
-                     0010    20         COLLIDES_AGAINST = 16    
-                             21                                         
-                             22     ;; Entity types                  
-                     0000    23         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
-                     0001    24         E_TYPE_PLAYER   = 0x01 
-                     0002    25         E_TYPE_ENEMY   = 0x02 
-                     0004    26         E_TYPE_MOTHERSHIP   = 0x04 
-                     0008    27         E_TYPE_SHOT   = 0x08 
-                     0080    28         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
-                     0002    29         E_TYPE_DEFAULT  = E_TYPE_ENEMY
-                             30     ;; Components    
-                     0001    31         E_CMP_RENDER   = 0x01   ;; renderable entity
-                     0002    32         E_CMP_MOVABLE  = 0x02   ;; movable entity
-                     0004    33         E_CMP_INPUT    = 0x04   ;; Entity controlable by input
-                     0008    34         E_CMP_IA       = 0x08   ;; Entity controlable by artificial inteligence
-                     0010    35         E_CMP_ANIMATED = 0x10   ;; Animated Entity
-                     0020    36         E_CMP_COLLIDER = 0x20   ;; Entity that can collide
-                     007F    37         E_CMP_DEFAULT  = 0x7F   ;; default entity  
-                             38             
-                             39                                         
-                             40     ;; OTHERS
-                     0011    41         SPACE_4_ONE_ENTITY     = 17      ;; space for one entity
-                     0001    42         TOTAL_ENTITIES         = 1      ;; number of entities                          
-                     0011    43         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
-                     000C    44         MAN_ANIM_ENEMY1_TIME   = 12
-                             45     ;; LANES
-                             46       
-                             47     ;; PLAYER
-                             48        
-                             49     ;;   SPRITE PROPERTIES
-                             50        
-                             51         
-                             52                                         
-                             53 
-                             54 
+                     0010    20         COLLIDES_AGAINST = 16
+                     0011    21         last_draw = 17
+                             22                                         
+                             23     ;; Entity types                  
+                     0000    24         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
+                     0001    25         E_TYPE_PLAYER   = 0x01 
+                     0002    26         E_TYPE_ENEMY   = 0x02 
+                     0004    27         E_TYPE_MOTHERSHIP   = 0x04 
+                     0008    28         E_TYPE_SHOT   = 0x08 
+                     0080    29         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
+                     0002    30         E_TYPE_DEFAULT  = E_TYPE_ENEMY
+                             31     ;; Components    
+                     0001    32         E_CMP_RENDER   = 0x01   ;; renderable entity
+                     0002    33         E_CMP_MOVABLE  = 0x02   ;; movable entity
+                     0004    34         E_CMP_INPUT    = 0x04   ;; Entity controlable by input
+                     0008    35         E_CMP_IA       = 0x08   ;; Entity controlable by artificial inteligence
+                     0010    36         E_CMP_ANIMATED = 0x10   ;; Animated Entity
+                     0020    37         E_CMP_COLLIDER = 0x20   ;; Entity that can collide
+                     007F    38         E_CMP_DEFAULT  = 0x7F   ;; default entity  
+                             39             
+                             40                                         
+                             41     ;; OTHERS
+                     0013    42         SPACE_4_ONE_ENTITY     = 19      ;; space for one entity
+                     0001    43         TOTAL_ENTITIES         = 1      ;; number of entities                          
+                     0013    44         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
+                     000C    45         MAN_ANIM_ENEMY1_TIME   = 12
+                             46     ;; LANES
+                             47       
+                             48     ;; PLAYER
+                             49        
+                             50     ;;   SPRITE PROPERTIES
+                     0008    51        SPR_SPRITE1_S_W = 8
+                     0010    52        SPR_SPRITE1_S_H = 16
+                             53         
+                             54                                         
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 97.
 Hexadecimal [16-Bits]
 
 
 
-                             55     ;;;;;;;;;;;;;;;;;;;;
-                             56     ;; GLOBAL SYMBOLS ;;
+                             55 
+                             56 
                              57     ;;;;;;;;;;;;;;;;;;;;
-                             58     ;;cpctelera
-                             59     .globl cpct_memset_asm      
-                             60     .globl cpct_memcpy_asm
-                             61     ;;animations      
-                             62    
+                             58     ;; GLOBAL SYMBOLS ;;
+                             59     ;;;;;;;;;;;;;;;;;;;;
+                             60     ;;cpctelera
+                             61     .globl cpct_memset_asm      
+                             62     .globl cpct_memcpy_asm
+                             63     ;;animations      
+                             64    
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 98.
 Hexadecimal [16-Bits]
 
 
 
-                              6 
-                              7 ;; sprite de prueba para probar el movimiento
-   43C9                       8 sprite::
-   43C9 00 00 00 00 00 00     9 	.db 0x00,0x00,0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-        00 00 00 00 00
-   43D4 00 00 00 00 00 00    10 	.db 0x00,0x00,0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-        00 00 00 00 00
-   43DF 00 00 00 00 00 00    11 	.db 0x00,0x00,0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-        00 00 00 00 00
-   43EA 00 00 00 FF FF FF    12 	.db 0x00,0x00,0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00
-        FF FF 00 00 00
-   43F5 00 00 00 FF FF FF    13 	.db 0x00,0x00,0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00 
-        FF FF 00 00 00
-   4400 00 00 00 FF FF FF    14 	.db 0x00,0x00,0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00 
-        FF FF 00 00 00
-   440B 00 00 00 FF FF FF    15 	.db 0x00,0x00,0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00 
-        FF FF 00 00 00
-   4416 00 00 00 FF FF FF    16 	.db 0x00,0x00,0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00 
-        FF FF 00 00 00
-   4421 00 00 00 FF FF FF    17 	.db 0x00,0x00,0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00
-        FF FF 00 00 00
-   442C 00 00 00 00 00 00    18 	.db 0x00,0x00,0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-        00 00 00 00 00
-   4437 00 00 00 00 00 00    19 	.db 0x00,0x00,0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-        00 00 00 00 00
-   4442 00 00 00 00 00 00    20 	.db 0x00,0x00,0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00  
-        00 00 00 00 00
-                             21 
-                             22 
-                             23 
-                             24 .area _DATA
-   46DC                      25 playership_template0_e:: 
-   46DC 01                   26 		.db 	#E_TYPE_PLAYER			;; entity type
-   46DD 07                   27       .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_INPUT ;;| #E_CMP_COLLIDER ;; cmps
-   46DE 26                   28 		.db     #0x26               ;; x = 38
-   46DF 41                   29 		.db     #65              ;; y = 180
-   46E0 0B                   30 		.db     #11   ;; width 
-   46E1 0C                   31 		.db     #12   ;; height
-   46E2 00                   32 		.db     #0x00                 ;; vx = 0
-   46E3 00                   33 		.db     #0x00               ;; vy = 0
-   46E4 C9 43                34 		.dw     #sprite    ;; sprite (2b)
-   46E6 00 00                35       .dw     #0x0000 ;; behaviour
-   46E8 00                   36 	  .db 	#0x00					;; ai_counter
-   46E9 00 00                37       .dw     #0x0000 ;; anim
-   46EB 00                   38       .db     #0x00              ;;animcounter c = 0
-   46EC 00                   39 	  .db 	#0x00				;;collides_against
+                              6 .include "animation.h.s"
+                              1         ;;;;;;;;;;;;;;;;;;;;
+                              2         ;; DEFINED VALUES ;;
+                              3         ;;;;;;;;;;;;;;;;;;;;
+                              4           ;; cpctelera
+                              5          
+                              6                                           
+                              7    ;; managers                            
+                              8                        
+                              9    ;; systems                             
+                             10 
+                             11    ;; sprites
+                             12   .globl _spr_sprite1_S
+                             13   .globl _spr_sprite2_S
+                             14   .globl _spr_sprite3_S
+                             15   .globl _spr_sprite4_S
+                             16   .globl _spr_sprite1_W
+                             17   .globl _spr_sprite2_W
+                             18   .globl _spr_sprite3_W
+                             19   .globl _spr_sprite4_W
+                             20   .globl _spr_sprite1_A
+                             21   .globl _spr_sprite2_A
+                             22   .globl _spr_sprite3_A
+                             23   .globl _spr_sprite4_A
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
+Hexadecimal [16-Bits]
+
+
+
+                              7 
+                              8 .area _DATA
+   4D01                       9 playership_template0_e:: 
+   4D01 01                   10 		.db 	#E_TYPE_PLAYER			;; entity type
+   4D02 17                   11       .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_INPUT | #E_CMP_ANIMATED ;; cmps
+   4D03 26                   12 		.db     #0x26               ;; x = 38
+   4D04 41                   13 		.db     #65              ;; y = 180
+   4D05 08                   14 		.db     #SPR_SPRITE1_S_W   ;; width 
+   4D06 10                   15 		.db     #SPR_SPRITE1_S_H   ;; height
+   4D07 00                   16 		.db     #0x00                 ;; vx = 0
+   4D08 00                   17 		.db     #0x00               ;; vy = 0
+   4D09 80 45                18 		.dw     #_spr_sprite1_S  ;; sprite (2b)
+   4D0B 00 00                19       .dw     #0x0000 ;; behaviour
+   4D0D 00                   20 	  .db 	#0x00					;; ai_counter
+   4D0E 00 00                21       .dw     #0x0000 ;; anim
+   4D10 01                   22       .db     #0x01            ;;animcounter c = 0
+   4D11 00                   23 	  .db 	#0x00				;;collides_against
+   4D12 00 00                24 	  .dw   #0x0000				;; last draw

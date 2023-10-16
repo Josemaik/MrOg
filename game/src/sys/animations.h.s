@@ -11,5 +11,5 @@
    ;; managers                            
       .globl _man_entity_for_all_matching                  
    ;; systems                             
-
+   .globl move_active
    ;; sprites

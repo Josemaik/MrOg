@@ -4,13 +4,17 @@
 .include "animations.h.s"
 .include "man/entity.h.s"
 .area _DATA
-;;Array de sprites
 
 
 .area _CODE
 
 
 sys_animations_update_one_entity:
+    ld a , (move_active)
+    cp #1
+    jr z, start_animating
+        jr sys_animations_update_one_entity_end
+    start_animating:
     ;; save in a the entity->animcounter
     ld hl, #AnimCounter
     add hl, de

@@ -9,3 +9,9 @@
    ;; cpct
       .globl cpct_scanKeyboard_f_asm
       .globl cpct_isKeyPressed_asm
+   ;; sys
+   .globl anim_W
+   .globl anim_A
+   .globl anim_S
+   .globl anim_D
+   

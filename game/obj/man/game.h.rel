@@ -1,5 +1,5 @@
 XL2
-H 1 areas E global symbols
+H 1 areas F global symbols
 S _sys_physics_update Ref0000
 S _man_entity_clone Ref0000
 S cpct_waitHalts_asm Ref0000
@@ -10,6 +10,7 @@ S _man_entity_init Ref0000
 S playership_template0_e Ref0000
 S _sys_render_init Ref0000
 S cpct_waitVSYNC_asm Ref0000
+S _sys_animations_update Ref0000
 S cpct_memcpy_asm Ref0000
 S _man_entity_update Ref0000
 S _man_entity_set_for_destruction Ref0000

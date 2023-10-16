@@ -14,9 +14,7 @@
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
 
-sys_render_draw_solid_box:
-    ;; save hl in stck
-        push hl
+sys_render_draw_solid_box:  
     ;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; draw solid box
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -37,10 +35,17 @@ sys_render_draw_solid_box:
             ld hl,#HEIGHT
             add hl,de
             ld b, (hl)
-         ;; save video memory pointer in DE and in the stack
-            pop     de
 
+            push de
+        ;; load last draw in de
+            ld hl, #last_draw
+            add hl, de
+            ld d, (hl)
+            inc hl
+            ld e, (hl)
+  
         call cpct_drawSolidBox_asm
+        pop de
 ret
 sys_render_draw_one_entity:
     ;; save hl in stck
@@ -76,7 +81,7 @@ sys_render_draw_one_entity:
             ld      a, (de)
             ld      h, a
          ;; save video memory pointer in DE and in the stack
-            pop     de
+            pop de
             push    de
 
         call cpct_drawSprite_asm
@@ -92,6 +97,9 @@ sys_render_draw_one_entity:
 ;; IN => DE -> entity to update
 ;;
 sys_render_update_for_one:
+    ;; erase last draw of entity
+    call sys_render_draw_solid_box
+
 ;;cpct_getScreenPtr_asm
     ;; IN => DE -> screen start
     ;;       C  -> x
@@ -115,10 +123,21 @@ sys_render_update_for_one:
             ld      de, #CPCT_VMEM_START_ASM
 
             call    cpct_getScreenPtr_asm
-
+            ;; save last draw
+            ld 4(ix), h
+            ld 5(ix), l
     ;; retrieve entity of the stack
         pop     de
         push hl
+        ;; set entity->last draw
+        ld hl, #last_draw
+        add hl, de
+        ld a, 4(ix)
+        ld (hl) , a
+        inc hl
+        ld a , 5(ix)
+        ld (hl), a
+
         ;; go to entity->type
             ld      hl, #TYPE
             add     hl, de
@@ -128,14 +147,14 @@ sys_render_update_for_one:
             pop hl
             and     #E_TYPE_DEAD
             cp      #E_TYPE_DEAD
-            jr      z, sys_render_dont_draw 
+            jr      z, sys_render_update_for_one_end 
         ;; draw entity -> _sys_render_draw_one_entity
         ;; IN =>  DE -> entity to draw
         ;; OUP => HL
         call    sys_render_draw_one_entity
         jr sys_render_update_for_one_end
-    sys_render_dont_draw:
-        call    sys_render_draw_solid_box
+    ; sys_render_dont_draw:
+    ;     call    sys_render_draw_solid_box
     sys_render_update_for_one_end:
 ret
 

@@ -31,54 +31,56 @@ Hexadecimal [16-Bits]
                      000C    17         IA_COUNTER = 12
                      000D    18         AnimFrame = 13     ;;u8(2)
                      000F    19         AnimCounter = 15    ;;u8
-                     0010    20         COLLIDES_AGAINST = 16    
-                             21                                         
-                             22     ;; Entity types                  
-                     0000    23         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
-                     0001    24         E_TYPE_PLAYER   = 0x01 
-                     0002    25         E_TYPE_ENEMY   = 0x02 
-                     0004    26         E_TYPE_MOTHERSHIP   = 0x04 
-                     0008    27         E_TYPE_SHOT   = 0x08 
-                     0080    28         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
-                     0002    29         E_TYPE_DEFAULT  = E_TYPE_ENEMY
-                             30     ;; Components    
-                     0001    31         E_CMP_RENDER   = 0x01   ;; renderable entity
-                     0002    32         E_CMP_MOVABLE  = 0x02   ;; movable entity
-                     0004    33         E_CMP_INPUT    = 0x04   ;; Entity controlable by input
-                     0008    34         E_CMP_IA       = 0x08   ;; Entity controlable by artificial inteligence
-                     0010    35         E_CMP_ANIMATED = 0x10   ;; Animated Entity
-                     0020    36         E_CMP_COLLIDER = 0x20   ;; Entity that can collide
-                     007F    37         E_CMP_DEFAULT  = 0x7F   ;; default entity  
-                             38             
-                             39                                         
-                             40     ;; OTHERS
-                     0011    41         SPACE_4_ONE_ENTITY     = 17      ;; space for one entity
-                     0001    42         TOTAL_ENTITIES         = 1      ;; number of entities                          
-                     0011    43         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
-                     000C    44         MAN_ANIM_ENEMY1_TIME   = 12
-                             45     ;; LANES
-                             46       
-                             47     ;; PLAYER
-                             48        
-                             49     ;;   SPRITE PROPERTIES
-                             50        
-                             51         
-                             52                                         
-                             53 
-                             54 
+                     0010    20         COLLIDES_AGAINST = 16
+                     0011    21         last_draw = 17
+                             22                                         
+                             23     ;; Entity types                  
+                     0000    24         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
+                     0001    25         E_TYPE_PLAYER   = 0x01 
+                     0002    26         E_TYPE_ENEMY   = 0x02 
+                     0004    27         E_TYPE_MOTHERSHIP   = 0x04 
+                     0008    28         E_TYPE_SHOT   = 0x08 
+                     0080    29         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
+                     0002    30         E_TYPE_DEFAULT  = E_TYPE_ENEMY
+                             31     ;; Components    
+                     0001    32         E_CMP_RENDER   = 0x01   ;; renderable entity
+                     0002    33         E_CMP_MOVABLE  = 0x02   ;; movable entity
+                     0004    34         E_CMP_INPUT    = 0x04   ;; Entity controlable by input
+                     0008    35         E_CMP_IA       = 0x08   ;; Entity controlable by artificial inteligence
+                     0010    36         E_CMP_ANIMATED = 0x10   ;; Animated Entity
+                     0020    37         E_CMP_COLLIDER = 0x20   ;; Entity that can collide
+                     007F    38         E_CMP_DEFAULT  = 0x7F   ;; default entity  
+                             39             
+                             40                                         
+                             41     ;; OTHERS
+                     0013    42         SPACE_4_ONE_ENTITY     = 19      ;; space for one entity
+                     0001    43         TOTAL_ENTITIES         = 1      ;; number of entities                          
+                     0013    44         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
+                     000C    45         MAN_ANIM_ENEMY1_TIME   = 12
+                             46     ;; LANES
+                             47       
+                             48     ;; PLAYER
+                             49        
+                             50     ;;   SPRITE PROPERTIES
+                     0008    51        SPR_SPRITE1_S_W = 8
+                     0010    52        SPR_SPRITE1_S_H = 16
+                             53         
+                             54                                         
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 
 
-                             55     ;;;;;;;;;;;;;;;;;;;;
-                             56     ;; GLOBAL SYMBOLS ;;
+                             55 
+                             56 
                              57     ;;;;;;;;;;;;;;;;;;;;
-                             58     ;;cpctelera
-                             59     .globl cpct_memset_asm      
-                             60     .globl cpct_memcpy_asm
-                             61     ;;animations      
-                             62    
+                             58     ;; GLOBAL SYMBOLS ;;
+                             59     ;;;;;;;;;;;;;;;;;;;;
+                             60     ;;cpctelera
+                             61     .globl cpct_memset_asm      
+                             62     .globl cpct_memcpy_asm
+                             63     ;;animations      
+                             64    
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
 Hexadecimal [16-Bits]
 
@@ -5115,50 +5117,50 @@ Hexadecimal [16-Bits]
                              39 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              40 ;; IN =>  DE -> entity to update                                      
                              41 ;;
-   40D7                      42 sys_ai_update_for_one:
+   46E0                      42 sys_ai_update_for_one:
                              43     
                              44     ;; guardo un checkpoint
-   40D7 21 F6 40      [10]   45     ld      hl, #_return_hear_ia
-   40DA E5            [11]   46     push    hl
+   46E0 21 FF 46      [10]   45     ld      hl, #_return_hear_ia
+   46E3 E5            [11]   46     push    hl
                              47 
-   40DB D5            [11]   48     push de
+   46E4 D5            [11]   48     push de
                              49     ;; go to entity-> iabehaviour
-   40DC 21 0A 00      [10]   50     ld      hl, #IA_behaviour
-   40DF 19            [11]   51     add     hl, de
+   46E5 21 0A 00      [10]   50     ld      hl, #IA_behaviour
+   46E8 19            [11]   51     add     hl, de
                              52     ;; de<=>hl and save first byte in L
-   40E0 5D            [ 4]   53     ld      e, l
-   40E1 54            [ 4]   54     ld      d, h
-   40E2 1A            [ 7]   55     ld      a, (de) 
-   40E3 6F            [ 4]   56     ld      l, a
+   46E9 5D            [ 4]   53     ld      e, l
+   46EA 54            [ 4]   54     ld      d, h
+   46EB 1A            [ 7]   55     ld      a, (de) 
+   46EC 6F            [ 4]   56     ld      l, a
                              57     ;; add 1 to de and save second byte in H
-   40E4 13            [ 6]   58     inc     de
-   40E5 1A            [ 7]   59     ld      a, (de)
-   40E6 67            [ 4]   60     ld      h, a
+   46ED 13            [ 6]   58     inc     de
+   46EE 1A            [ 7]   59     ld      a, (de)
+   46EF 67            [ 4]   60     ld      h, a
                              61     ;; save in stack memory pointer to call function
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
 
 
-   40E7 DD 75 04      [19]   62     ld      4(ix), l
-   40EA DD 74 05      [19]   63     ld      5(ix), h
+   46F0 DD 75 04      [19]   62     ld      4(ix), l
+   46F3 DD 74 05      [19]   63     ld      5(ix), h
                              64 
-   40ED D1            [10]   65     pop de
+   46F6 D1            [10]   65     pop de
                              66     ;; call function
-   40EE DD 4E 04      [19]   67     ld c, 4(ix)
-   40F1 DD 46 05      [19]   68     ld b, 5(ix)
-   40F4 C5            [11]   69     push bc
-   40F5 C9            [10]   70     ret
-   40F6                      71     _return_hear_ia:
-   40F6 C9            [10]   72 ret
+   46F7 DD 4E 04      [19]   67     ld c, 4(ix)
+   46FA DD 46 05      [19]   68     ld b, 5(ix)
+   46FD C5            [11]   69     push bc
+   46FE C9            [10]   70     ret
+   46FF                      71     _return_hear_ia:
+   46FF C9            [10]   72 ret
                              73 
                              74 
                              75 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              76 ;; CAll PHYSICS FOR ALL ENTITY :;
                              77 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   40F7                      78 _sys_ai_update::          
-   40F7 01 D7 40      [10]   79         ld      bc, #sys_ai_update_for_one
-   40FA 21 0A 00      [10]   80         ld      hl, #E_CMP_IA | #E_CMP_MOVABLE
-   40FD CD C7 42      [17]   81         call    _man_entity_for_all_matching
-   4100 C9            [10]   82 ret
+   4700                      78 _sys_ai_update::          
+   4700 01 E0 46      [10]   79         ld      bc, #sys_ai_update_for_one
+   4703 21 0A 00      [10]   80         ld      hl, #E_CMP_IA | #E_CMP_MOVABLE
+   4706 CD 2F 49      [17]   81         call    _man_entity_for_all_matching
+   4709 C9            [10]   82 ret
                              83 

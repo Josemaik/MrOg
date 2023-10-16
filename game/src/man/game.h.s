@@ -17,6 +17,7 @@
       .globl _sys_physics_update          
       .globl _sys_render_update                   
       .globl _sys_render_init
+      .globl _sys_animations_update
    ;; sprites
 
    ;; templates

@@ -5008,6 +5008,18 @@ Hexadecimal [16-Bits]
                               9    ;; systems                             
                              10 
                              11    ;; sprites
+                             12   .globl _spr_sprite1_S
+                             13   .globl _spr_sprite2_S
+                             14   .globl _spr_sprite3_S
+                             15   .globl _spr_sprite4_S
+                             16   .globl _spr_sprite1_W
+                             17   .globl _spr_sprite2_W
+                             18   .globl _spr_sprite3_W
+                             19   .globl _spr_sprite4_W
+                             20   .globl _spr_sprite1_A
+                             21   .globl _spr_sprite2_A
+                             22   .globl _spr_sprite3_A
+                             23   .globl _spr_sprite4_A
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
 Hexadecimal [16-Bits]
 
@@ -5033,62 +5045,109 @@ Hexadecimal [16-Bits]
                      000C    17         IA_COUNTER = 12
                      000D    18         AnimFrame = 13     ;;u8(2)
                      000F    19         AnimCounter = 15    ;;u8
-                     0010    20         COLLIDES_AGAINST = 16    
-                             21                                         
-                             22     ;; Entity types                  
-                     0000    23         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
-                     0001    24         E_TYPE_PLAYER   = 0x01 
-                     0002    25         E_TYPE_ENEMY   = 0x02 
-                     0004    26         E_TYPE_MOTHERSHIP   = 0x04 
-                     0008    27         E_TYPE_SHOT   = 0x08 
-                     0080    28         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
-                     0002    29         E_TYPE_DEFAULT  = E_TYPE_ENEMY
-                             30     ;; Components    
-                     0001    31         E_CMP_RENDER   = 0x01   ;; renderable entity
-                     0002    32         E_CMP_MOVABLE  = 0x02   ;; movable entity
-                     0004    33         E_CMP_INPUT    = 0x04   ;; Entity controlable by input
-                     0008    34         E_CMP_IA       = 0x08   ;; Entity controlable by artificial inteligence
-                     0010    35         E_CMP_ANIMATED = 0x10   ;; Animated Entity
-                     0020    36         E_CMP_COLLIDER = 0x20   ;; Entity that can collide
-                     007F    37         E_CMP_DEFAULT  = 0x7F   ;; default entity  
-                             38             
-                             39                                         
-                             40     ;; OTHERS
-                     0011    41         SPACE_4_ONE_ENTITY     = 17      ;; space for one entity
-                     0001    42         TOTAL_ENTITIES         = 1      ;; number of entities                          
-                     0011    43         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
-                     000C    44         MAN_ANIM_ENEMY1_TIME   = 12
-                             45     ;; LANES
-                             46       
-                             47     ;; PLAYER
-                             48        
-                             49     ;;   SPRITE PROPERTIES
-                             50        
-                             51         
-                             52                                         
-                             53 
-                             54 
+                     0010    20         COLLIDES_AGAINST = 16
+                     0011    21         last_draw = 17
+                             22                                         
+                             23     ;; Entity types                  
+                     0000    24         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
+                     0001    25         E_TYPE_PLAYER   = 0x01 
+                     0002    26         E_TYPE_ENEMY   = 0x02 
+                     0004    27         E_TYPE_MOTHERSHIP   = 0x04 
+                     0008    28         E_TYPE_SHOT   = 0x08 
+                     0080    29         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
+                     0002    30         E_TYPE_DEFAULT  = E_TYPE_ENEMY
+                             31     ;; Components    
+                     0001    32         E_CMP_RENDER   = 0x01   ;; renderable entity
+                     0002    33         E_CMP_MOVABLE  = 0x02   ;; movable entity
+                     0004    34         E_CMP_INPUT    = 0x04   ;; Entity controlable by input
+                     0008    35         E_CMP_IA       = 0x08   ;; Entity controlable by artificial inteligence
+                     0010    36         E_CMP_ANIMATED = 0x10   ;; Animated Entity
+                     0020    37         E_CMP_COLLIDER = 0x20   ;; Entity that can collide
+                     007F    38         E_CMP_DEFAULT  = 0x7F   ;; default entity  
+                             39             
+                             40                                         
+                             41     ;; OTHERS
+                     0013    42         SPACE_4_ONE_ENTITY     = 19      ;; space for one entity
+                     0001    43         TOTAL_ENTITIES         = 1      ;; number of entities                          
+                     0013    44         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
+                     000C    45         MAN_ANIM_ENEMY1_TIME   = 12
+                             46     ;; LANES
+                             47       
+                             48     ;; PLAYER
+                             49        
+                             50     ;;   SPRITE PROPERTIES
+                     0008    51        SPR_SPRITE1_S_W = 8
+                     0010    52        SPR_SPRITE1_S_H = 16
+                             53         
+                             54                                         
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 97.
 Hexadecimal [16-Bits]
 
 
 
-                             55     ;;;;;;;;;;;;;;;;;;;;
-                             56     ;; GLOBAL SYMBOLS ;;
+                             55 
+                             56 
                              57     ;;;;;;;;;;;;;;;;;;;;
-                             58     ;;cpctelera
-                             59     .globl cpct_memset_asm      
-                             60     .globl cpct_memcpy_asm
-                             61     ;;animations      
-                             62    
+                             58     ;; GLOBAL SYMBOLS ;;
+                             59     ;;;;;;;;;;;;;;;;;;;;
+                             60     ;;cpctelera
+                             61     .globl cpct_memset_asm      
+                             62     .globl cpct_memcpy_asm
+                             63     ;;animations      
+                             64    
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 98.
 Hexadecimal [16-Bits]
 
 
 
                               6 .area _DATA
-                              7 ;;Array de sprites
+                              7 
                               8 
-                              9 
-                             10 .area _CODE
-                             11 
+                              9 ;;Array de sprites
+   4CAE                      10 anim_W::
+   4CAE 0C                   11   .db #MAN_ANIM_ENEMY1_TIME
+   4CAF 80 43                12     .dw _spr_sprite1_W
+   4CB1 0C                   13     .db #MAN_ANIM_ENEMY1_TIME
+   4CB2 00 43                14     .dw _spr_sprite2_W
+   4CB4 0C                   15     .db #MAN_ANIM_ENEMY1_TIME
+   4CB5 80 42                16     .dw _spr_sprite3_W
+   4CB7 0C                   17     .db #MAN_ANIM_ENEMY1_TIME
+   4CB8 00 42                18     .dw _spr_sprite4_W
+   4CBA 00                   19     .db #0x00
+   4CBB AE 4C                20     .dw #anim_W
+   4CBD                      21 anim_A::
+   4CBD 0C                   22  .db #MAN_ANIM_ENEMY1_TIME
+   4CBE 80 41                23     .dw _spr_sprite1_A
+   4CC0 0C                   24     .db #MAN_ANIM_ENEMY1_TIME
+   4CC1 00 41                25     .dw _spr_sprite2_A
+   4CC3 0C                   26     .db #MAN_ANIM_ENEMY1_TIME
+   4CC4 80 40                27     .dw _spr_sprite3_A
+   4CC6 0C                   28     .db #MAN_ANIM_ENEMY1_TIME
+   4CC7 00 40                29     .dw _spr_sprite4_A
+   4CC9 00                   30     .db #0x00
+   4CCA BD 4C                31     .dw #anim_A
+   4CCC                      32 anim_S::
+   4CCC 0C                   33  .db #MAN_ANIM_ENEMY1_TIME
+   4CCD 80 45                34     .dw _spr_sprite1_S
+   4CCF 0C                   35     .db #MAN_ANIM_ENEMY1_TIME
+   4CD0 00 45                36     .dw _spr_sprite2_S
+   4CD2 0C                   37     .db #MAN_ANIM_ENEMY1_TIME
+   4CD3 80 44                38     .dw _spr_sprite3_S
+   4CD5 0C                   39     .db #MAN_ANIM_ENEMY1_TIME
+   4CD6 00 44                40     .dw _spr_sprite4_S
+   4CD8 00                   41     .db #0x00
+   4CD9 CC 4C                42     .dw #anim_S
+   4CDB                      43 anim_D::
+   4CDB 0C                   44   .db #MAN_ANIM_ENEMY1_TIME
+   4CDC 80 41                45     .dw _spr_sprite1_A
+   4CDE 0C                   46     .db #MAN_ANIM_ENEMY1_TIME
+   4CDF 00 41                47     .dw _spr_sprite2_A
+   4CE1 0C                   48     .db #MAN_ANIM_ENEMY1_TIME
+   4CE2 80 40                49     .dw _spr_sprite3_A
+   4CE4 0C                   50     .db #MAN_ANIM_ENEMY1_TIME
+   4CE5 00 40                51     .dw _spr_sprite4_A
+   4CE7 00                   52     .db #0x00
+   4CE8 BD 4C                53     .dw #anim_A
+                             54 
+                             55 .area _CODE
+                             56 
