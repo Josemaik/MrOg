@@ -14,7 +14,13 @@ Hexadecimal [16-Bits]
                               9         .globl cpct_drawSprite_asm
                              10         .globl cpct_drawSolidBox_asm      
                              11                                         
-                             12    ;; managers                          
+                             12     ;; managers                          
                              13         .globl _man_entity_for_all
                              14         .globl _man_entity_for_all_matching
-                             15         .globl _main_palette      
+                             15         .globl _main_palette  
+                             16 
+                             17     ;; tilemap
+                             18         .globl _tiles_0  
+                             19         .globl _tilemap_01
+                             20         .globl cpct_etm_setDrawTilemap4x8_ag_asm 
+                             21         .globl cpct_etm_drawTilemap4x8_ag_asm

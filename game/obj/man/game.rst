@@ -5111,28 +5111,28 @@ Hexadecimal [16-Bits]
                              13 ;;;;;;;;;;;;;;;;;;;;
                              14 ;; WAIT
                              15 ;;
-   4A31                      16 _wait:
+   4FFA                      16 _wait:
                              17     ;; loop
-   4A31                      18       wait_init_for:
+   4FFA                      18       wait_init_for:
                              19          ;; compare A with 0 and two halts
-   4A31 FE 00         [ 7]   20             cp       #0                   
-   4A33 28 0E         [12]   21             jr       z, wait_end_for      
-   4A35 06 02         [ 7]   22             ld       b, #2
-   4A37 CD B4 4B      [17]   23             call     cpct_waitHalts_asm
+   4FFA FE 00         [ 7]   20             cp       #0                   
+   4FFC 28 0E         [12]   21             jr       z, wait_end_for      
+   4FFE 06 02         [ 7]   22             ld       b, #2
+   5000 CD 16 52      [17]   23             call     cpct_waitHalts_asm
                              24 
                              25          ;; save a
-   4A3A F5            [11]   26             push     af
+   5003 F5            [11]   26             push     af
                              27          ;; wait sync
-   4A3B CD B8 4B      [17]   28             call     cpct_waitVSYNC_asm
+   5004 CD 1A 52      [17]   28             call     cpct_waitVSYNC_asm
                              29          
                              30          ;; a-1
-   4A3E F1            [10]   31             pop      af
-   4A3F D6 01         [ 7]   32             sub      #1
+   5007 F1            [10]   31             pop      af
+   5008 D6 01         [ 7]   32             sub      #1
                              33          ;; go loop
-   4A41 18 EE         [12]   34             jr       wait_init_for
+   500A 18 EE         [12]   34             jr       wait_init_for
                              35    ;; end for
-   4A43                      36       wait_end_for:
-   4A43 C9            [10]   37    ret
+   500C                      36       wait_end_for:
+   500C C9            [10]   37    ret
                              38 ;;;;;;;;;;;;;;;;;;;;;
                              39 ;; PUBLIC FUNCTION ;;
                              40 ;;;;;;;;;;;;;;;;;;;;;
@@ -5140,65 +5140,65 @@ Hexadecimal [16-Bits]
                              42 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              43 ;;;CREATE TEMPLATE
                              44 ;;
-   4A44                      45 man_game_create_template_entity::
-   4A44 E5            [11]   46    push hl
+   500D                      45 man_game_create_template_entity::
+   500D E5            [11]   46    push hl
                              47    ;; create entity
-   4A45 CD 9D 48      [17]   48         call _man_entity_create
+   500E CD 66 4E      [17]   48         call _man_entity_create
                              49     
                              50         ;; load entity from stack
-   4A48 E1            [10]   51         pop hl
-   4A49 D5            [11]   52         push de
-   4A4A 01 13 00      [10]   53         ld bc,#SPACE_4_ONE_ENTITY
-   4A4D CD D5 4B      [17]   54         call cpct_memcpy_asm
-   4A50 D1            [10]   55         pop de
-   4A51 C9            [10]   56    ret
+   5011 E1            [10]   51         pop hl
+   5012 D5            [11]   52         push de
+   5013 01 13 00      [10]   53         ld bc,#SPACE_4_ONE_ENTITY
+   5016 CD 37 52      [17]   54         call cpct_memcpy_asm
+   5019 D1            [10]   55         pop de
+   501A C9            [10]   56    ret
                              57 
                              58 
-   4A52                      59 _inicialize_templates:
-   4A52 21 01 4D      [10]   60         ld       hl, #playership_template0_e
+   501B                      59 _inicialize_templates:
+   501B 21 8F 53      [10]   60         ld       hl, #playership_template0_e
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
 
 
-   4A55 CD 44 4A      [17]   61         call man_game_create_template_entity
-   4A58 C9            [10]   62 ret
+   501E CD 0D 50      [17]   61         call man_game_create_template_entity
+   5021 C9            [10]   62 ret
                              63 ;;;;;;;;;;;;;;;;;;;;
                              64 ;; INIT
                              65 ;;
-   4A59                      66 man_game_init::
+   5022                      66 man_game_init::
                              67     ;; configure videomode, palet y border
-   4A59 CD 6D 48      [17]   68         call     _sys_render_init
+   5022 CD 36 4E      [17]   68         call     _sys_render_init
                              69 
                              70     ;; inicialize manager entity
-   4A5C CD 82 48      [17]   71         call     _man_entity_init
+   5025 CD 4B 4E      [17]   71         call     _man_entity_init
                              72 
                              73     ;; Create mothership
-   4A5F CD 52 4A      [17]   74        call    _inicialize_templates
-   4A62 C9            [10]   75 ret
+   5028 CD 1B 50      [17]   74        call    _inicialize_templates
+   502B C9            [10]   75 ret
                              76 ;;;;;;;;;;;;;;;;;;;;;;
                              77 ;; PLAY
                              78 ;;
                              79 
-   4A63                      80 man_game_play::
+   502C                      80 man_game_play::
                              81    ;; infinite loop
-   4A63                      82    loop:
+   502C                      82    loop:
                              83       ;; call ai manager
                              84          ; call      _sys_ai_update
                              85       ;; update positions
-   4A63 CD E8 47      [17]   86          call     _sys_physics_update
+   502C CD 98 4D      [17]   86          call     _sys_physics_update
                              87       ;; check collisions
                              88          ; call     _sys_collision_update
                              89       ;; call animations system
-   4A66 CD 7D 46      [17]   90          call     _sys_animations_update
+   502F CD 2D 4C      [17]   90          call     _sys_animations_update
                              91       ;; render
-   4A69 CD 63 48      [17]   92          call     _sys_render_update
+   5032 CD 29 4E      [17]   92          call     _sys_render_update
                              93       ;; update manager
-   4A6C CD 08 4A      [17]   94          call     _man_entity_update
+   5035 CD D1 4F      [17]   94          call     _man_entity_update
                              95       ;; wait ( se mueve cada cinco fotogramas)
-   4A6F 3E 04         [ 7]   96          ld       a, #4
-   4A71 CD 31 4A      [17]   97 		 call     _wait
+   5038 3E 04         [ 7]   96          ld       a, #4
+   503A CD FA 4F      [17]   97 		 call     _wait
                              98          ; call cpct_waitVSYNC_asm
                              99       ;; jump to loop
-   4A74 18 ED         [12]  100          jr       loop
-   4A76 C9            [10]  101 ret
+   503D 18 ED         [12]  100          jr       loop
+   503F C9            [10]  101 ret

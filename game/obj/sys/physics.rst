@@ -5098,57 +5098,57 @@ Hexadecimal [16-Bits]
                               7 
                               8 ;; if the value == 1 => X axis
                               9 ;; if the value == 0 => Y axis
-   470A                      10 choose_axis::
-   470A 00                   11     .db 0x00
-   470B                      12 move_active::
-   470B 00                   13     .db 0x00
+   4CBA                      10 choose_axis::
+   4CBA 00                   11     .db 0x00
+   4CBB                      12 move_active::
+   4CBB 00                   13     .db 0x00
                              14 ;;;;;;;;;;;;;;;
                              15 ;; FUNCTIONS ;;
                              16 ;;;;;;;;;;;;;;;
-   470C                      17 sys_physics_check_keyboard:
+   4CBC                      17 sys_physics_check_keyboard:
                              18     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              19     ;; LEFT-RIGHT MOVEMEMENT     ;
                              20     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              21     ;; save entity
-   470C D5            [11]   22     push de
+   4CBC D5            [11]   22     push de
                              23     ;; scan keyboard
-   470D CD 8A 4A      [17]   24     call cpct_scanKeyboard_f_asm
+   4CBD CD 53 50      [17]   24     call cpct_scanKeyboard_f_asm
                              25     ;; check letter O
-   4710 21 08 20      [10]   26     ld      hl, #Key_A
-   4713 CD F4 4A      [17]   27     call cpct_isKeyPressed_asm
-   4716 20 1B         [12]   28     jr nz, sys_physics_A_is_pressed
+   4CC0 21 08 20      [10]   26     ld      hl, #Key_A
+   4CC3 CD BD 50      [17]   27     call cpct_isKeyPressed_asm
+   4CC6 20 1B         [12]   28     jr nz, sys_physics_A_is_pressed
                              29     ;; check letter P
-   4718 21 07 20      [10]   30     ld      hl, #Key_D
-   471B CD F4 4A      [17]   31     call cpct_isKeyPressed_asm
-   471E 20 32         [12]   32     jr nz, sys_physics_D_is_pressed
-   4720 21 07 08      [10]   33      ld      hl, #Key_W
-   4723 CD F4 4A      [17]   34     call cpct_isKeyPressed_asm
-   4726 20 49         [12]   35     jr nz, sys_physics_W_is_pressed
-   4728 21 07 10      [10]   36      ld      hl, #Key_S
-   472B CD F4 4A      [17]   37     call cpct_isKeyPressed_asm
-   472E 20 60         [12]   38     jr nz, sys_physics_S_is_pressed
+   4CC8 21 07 20      [10]   30     ld      hl, #Key_D
+   4CCB CD BD 50      [17]   31     call cpct_isKeyPressed_asm
+   4CCE 20 32         [12]   32     jr nz, sys_physics_D_is_pressed
+   4CD0 21 07 08      [10]   33      ld      hl, #Key_W
+   4CD3 CD BD 50      [17]   34     call cpct_isKeyPressed_asm
+   4CD6 20 49         [12]   35     jr nz, sys_physics_W_is_pressed
+   4CD8 21 07 10      [10]   36      ld      hl, #Key_S
+   4CDB CD BD 50      [17]   37     call cpct_isKeyPressed_asm
+   4CDE 20 60         [12]   38     jr nz, sys_physics_S_is_pressed
                              39 
-   4730 D1            [10]   40     pop de
-   4731 18 7E         [12]   41     jr sys_physics_check_keyboard_end
+   4CE0 D1            [10]   40     pop de
+   4CE1 18 7E         [12]   41     jr sys_physics_check_keyboard_end
                              42     ;; O is pressed
-   4733                      43     sys_physics_A_is_pressed:
+   4CE3                      43     sys_physics_A_is_pressed:
                              44         ;; set movement active
-   4733 3E 01         [ 7]   45         ld a, #1
-   4735 32 0B 47      [13]   46         ld (move_active), a
+   4CE3 3E 01         [ 7]   45         ld a, #1
+   4CE5 32 BB 4C      [13]   46         ld (move_active), a
                              47         ;; set 1 to put the axis x active
-   4738 3E 01         [ 7]   48         ld a, #1
-   473A 32 0A 47      [13]   49         ld (choose_axis), a
+   4CE8 3E 01         [ 7]   48         ld a, #1
+   4CEA 32 BA 4C      [13]   49         ld (choose_axis), a
                              50          ;; retrieve entity
-   473D D1            [10]   51         pop de
+   4CED D1            [10]   51         pop de
                              52         ;;set animation array
-   473E 21 BD 4C      [10]   53         ld hl, #anim_A
-   4741 E5            [11]   54         push hl
-   4742 21 0D 00      [10]   55         ld hl, #AnimFrame
-   4745 19            [11]   56         add hl, de
-   4746 C1            [10]   57         pop bc
-   4747 71            [ 7]   58         ld (hl),c
-   4748 23            [ 6]   59         inc hl
-   4749 70            [ 7]   60         ld (hl),b
+   4CEE 21 4B 53      [10]   53         ld hl, #anim_A
+   4CF1 E5            [11]   54         push hl
+   4CF2 21 0D 00      [10]   55         ld hl, #AnimFrame
+   4CF5 19            [11]   56         add hl, de
+   4CF6 C1            [10]   57         pop bc
+   4CF7 71            [ 7]   58         ld (hl),c
+   4CF8 23            [ 6]   59         inc hl
+   4CF9 70            [ 7]   60         ld (hl),b
                              61        
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
@@ -5156,135 +5156,135 @@ Hexadecimal [16-Bits]
 
 
                              62         ;; vx = 1
-   474A 21 06 00      [10]   63         ld      hl, #VX
-   474D 19            [11]   64         add     hl, de
-   474E 36 FF         [10]   65         ld      (hl), #-1
+   4CFA 21 06 00      [10]   63         ld      hl, #VX
+   4CFD 19            [11]   64         add     hl, de
+   4CFE 36 FF         [10]   65         ld      (hl), #-1
                              66 
-   4750 18 5F         [12]   67         jr      sys_physics_check_keyboard_end
+   4D00 18 5F         [12]   67         jr      sys_physics_check_keyboard_end
                              68 
-   4752                      69     sys_physics_D_is_pressed:
+   4D02                      69     sys_physics_D_is_pressed:
                              70     ;; set movement active
-   4752 3E 01         [ 7]   71         ld a, #1
-   4754 32 0B 47      [13]   72         ld (move_active), a
+   4D02 3E 01         [ 7]   71         ld a, #1
+   4D04 32 BB 4C      [13]   72         ld (move_active), a
                              73         ;; set 1 to put the axis x active
-   4757 3E 01         [ 7]   74         ld a, #1
-   4759 32 0A 47      [13]   75         ld (choose_axis), a
+   4D07 3E 01         [ 7]   74         ld a, #1
+   4D09 32 BA 4C      [13]   75         ld (choose_axis), a
                              76         ;; retrieve entity
-   475C D1            [10]   77         pop de
+   4D0C D1            [10]   77         pop de
                              78         ;;set animation array
-   475D 21 DB 4C      [10]   79         ld hl, #anim_D
-   4760 E5            [11]   80         push hl
-   4761 21 0D 00      [10]   81         ld hl, #AnimFrame
-   4764 19            [11]   82         add hl, de
-   4765 C1            [10]   83         pop bc
-   4766 71            [ 7]   84         ld (hl),c
-   4767 23            [ 6]   85         inc hl
-   4768 70            [ 7]   86         ld (hl),b
+   4D0D 21 69 53      [10]   79         ld hl, #anim_D
+   4D10 E5            [11]   80         push hl
+   4D11 21 0D 00      [10]   81         ld hl, #AnimFrame
+   4D14 19            [11]   82         add hl, de
+   4D15 C1            [10]   83         pop bc
+   4D16 71            [ 7]   84         ld (hl),c
+   4D17 23            [ 6]   85         inc hl
+   4D18 70            [ 7]   86         ld (hl),b
                              87         
                              88         ;; vx = 1
-   4769 21 06 00      [10]   89         ld      hl, #VX
-   476C 19            [11]   90         add     hl, de
-   476D 36 01         [10]   91         ld      (hl), #1
+   4D19 21 06 00      [10]   89         ld      hl, #VX
+   4D1C 19            [11]   90         add     hl, de
+   4D1D 36 01         [10]   91         ld      (hl), #1
                              92 
-   476F 18 40         [12]   93         jr      sys_physics_check_keyboard_end
-   4771                      94     sys_physics_W_is_pressed:
+   4D1F 18 40         [12]   93         jr      sys_physics_check_keyboard_end
+   4D21                      94     sys_physics_W_is_pressed:
                              95     ;; set movement active
-   4771 3E 01         [ 7]   96         ld a, #1
-   4773 32 0B 47      [13]   97         ld (move_active), a
+   4D21 3E 01         [ 7]   96         ld a, #1
+   4D23 32 BB 4C      [13]   97         ld (move_active), a
                              98     ;; set 0 to put the axis y active
-   4776 3E 00         [ 7]   99         ld a, #0
-   4778 32 0A 47      [13]  100         ld (choose_axis), a
+   4D26 3E 00         [ 7]   99         ld a, #0
+   4D28 32 BA 4C      [13]  100         ld (choose_axis), a
                             101         ;; retrieve entity
-   477B D1            [10]  102         pop de
+   4D2B D1            [10]  102         pop de
                             103         ;;set animation array
-   477C 21 AE 4C      [10]  104         ld hl, #anim_W
-   477F E5            [11]  105         push hl
-   4780 21 0D 00      [10]  106         ld hl, #AnimFrame
-   4783 19            [11]  107         add hl, de
-   4784 C1            [10]  108         pop bc
-   4785 71            [ 7]  109         ld (hl),c
-   4786 23            [ 6]  110         inc hl
-   4787 70            [ 7]  111         ld (hl),b
+   4D2C 21 3C 53      [10]  104         ld hl, #anim_W
+   4D2F E5            [11]  105         push hl
+   4D30 21 0D 00      [10]  106         ld hl, #AnimFrame
+   4D33 19            [11]  107         add hl, de
+   4D34 C1            [10]  108         pop bc
+   4D35 71            [ 7]  109         ld (hl),c
+   4D36 23            [ 6]  110         inc hl
+   4D37 70            [ 7]  111         ld (hl),b
                             112         
                             113         ;; vx = 1
-   4788 21 07 00      [10]  114         ld      hl, #VY
-   478B 19            [11]  115         add     hl, de
-   478C 36 FE         [10]  116         ld      (hl), #-2
+   4D38 21 07 00      [10]  114         ld      hl, #VY
+   4D3B 19            [11]  115         add     hl, de
+   4D3C 36 FE         [10]  116         ld      (hl), #-2
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 100.
 Hexadecimal [16-Bits]
 
 
 
                             117 
-   478E 18 21         [12]  118         jr      sys_physics_check_keyboard_end
-   4790                     119     sys_physics_S_is_pressed:
+   4D3E 18 21         [12]  118         jr      sys_physics_check_keyboard_end
+   4D40                     119     sys_physics_S_is_pressed:
                             120      ;; set movement active
-   4790 3E 01         [ 7]  121         ld a, #1
-   4792 32 0B 47      [13]  122         ld (move_active), a
+   4D40 3E 01         [ 7]  121         ld a, #1
+   4D42 32 BB 4C      [13]  122         ld (move_active), a
                             123     ;; set 0 to put the axis y active
-   4795 3E 00         [ 7]  124         ld a, #0
-   4797 32 0A 47      [13]  125         ld (choose_axis), a
+   4D45 3E 00         [ 7]  124         ld a, #0
+   4D47 32 BA 4C      [13]  125         ld (choose_axis), a
                             126         ;; retrieve entity
-   479A D1            [10]  127         pop de
+   4D4A D1            [10]  127         pop de
                             128         ;;set animation array
-   479B 21 CC 4C      [10]  129         ld hl, #anim_S
-   479E E5            [11]  130         push hl
-   479F 21 0D 00      [10]  131         ld hl, #AnimFrame
-   47A2 19            [11]  132         add hl, de
-   47A3 C1            [10]  133         pop bc
-   47A4 71            [ 7]  134         ld (hl),c
-   47A5 23            [ 6]  135         inc hl
-   47A6 70            [ 7]  136         ld (hl),b
+   4D4B 21 5A 53      [10]  129         ld hl, #anim_S
+   4D4E E5            [11]  130         push hl
+   4D4F 21 0D 00      [10]  131         ld hl, #AnimFrame
+   4D52 19            [11]  132         add hl, de
+   4D53 C1            [10]  133         pop bc
+   4D54 71            [ 7]  134         ld (hl),c
+   4D55 23            [ 6]  135         inc hl
+   4D56 70            [ 7]  136         ld (hl),b
                             137         
                             138         ;; vx = 1
-   47A7 21 07 00      [10]  139         ld      hl, #VY
-   47AA 19            [11]  140         add     hl, de
-   47AB 36 02         [10]  141         ld      (hl), #2
+   4D57 21 07 00      [10]  139         ld      hl, #VY
+   4D5A 19            [11]  140         add     hl, de
+   4D5B 36 02         [10]  141         ld      (hl), #2
                             142 
-   47AD 18 02         [12]  143         jr      sys_physics_check_keyboard_end
-   47AF 18 00         [12]  144     jr sys_physics_check_keyboard_end
+   4D5D 18 02         [12]  143         jr      sys_physics_check_keyboard_end
+   4D5F 18 00         [12]  144     jr sys_physics_check_keyboard_end
                             145 
-   47B1                     146     sys_physics_check_keyboard_end:
-   47B1 C9            [10]  147     ret
+   4D61                     146     sys_physics_check_keyboard_end:
+   4D61 C9            [10]  147     ret
                             148 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                             149 ;; UPDATE PHYSICS FOR ONE ENTITY 
                             150 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                             151 ;; IN =>  DE -> entity to update                                      
                             152 ;;pop de
-   47B2                     153 sys_physics_update_for_one:
+   4D62                     153 sys_physics_update_for_one:
                             154     ;; if entity have input
-   47B2 21 01 00      [10]  155         ld      hl, #CMPs
-   47B5 19            [11]  156         add     hl, de
-   47B6 7E            [ 7]  157         ld      a, (hl)
+   4D62 21 01 00      [10]  155         ld      hl, #CMPs
+   4D65 19            [11]  156         add     hl, de
+   4D66 7E            [ 7]  157         ld      a, (hl)
                             158 
-   47B7 E6 04         [ 7]  159         and #E_CMP_INPUT
-   47B9 FE 04         [ 7]  160         cp  #E_CMP_INPUT
-   47BB 28 02         [12]  161         jr z, sys_physics_check_kb
-   47BD 18 03         [12]  162             jr sys_physics_no_check_kb
-   47BF                     163         sys_physics_check_kb:
-   47BF CD 0C 47      [17]  164             call sys_physics_check_keyboard
-   47C2                     165         sys_physics_no_check_kb:
+   4D67 E6 04         [ 7]  159         and #E_CMP_INPUT
+   4D69 FE 04         [ 7]  160         cp  #E_CMP_INPUT
+   4D6B 28 02         [12]  161         jr z, sys_physics_check_kb
+   4D6D 18 03         [12]  162             jr sys_physics_no_check_kb
+   4D6F                     163         sys_physics_check_kb:
+   4D6F CD BC 4C      [17]  164             call sys_physics_check_keyboard
+   4D72                     165         sys_physics_no_check_kb:
                             166     ;;x+vx
                             167     ;; go to entity->x and load in a
-   47C2 3A 0A 47      [13]  168         ld a, (choose_axis)
-   47C5 FE 01         [ 7]  169         cp #1
-   47C7 28 02         [12]  170         jr z, move_x_axis
-   47C9 18 11         [12]  171             jr move_y_axis
+   4D72 3A BA 4C      [13]  168         ld a, (choose_axis)
+   4D75 FE 01         [ 7]  169         cp #1
+   4D77 28 02         [12]  170         jr z, move_x_axis
+   4D79 18 11         [12]  171             jr move_y_axis
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 101.
 Hexadecimal [16-Bits]
 
 
 
-   47CB                     172 move_x_axis:
-   47CB 21 02 00      [10]  173         ld      hl, #X
-   47CE 19            [11]  174         add     hl, de
-   47CF 7E            [ 7]  175         ld      a, (hl)    
+   4D7B                     172 move_x_axis:
+   4D7B 21 02 00      [10]  173         ld      hl, #X
+   4D7E 19            [11]  174         add     hl, de
+   4D7F 7E            [ 7]  175         ld      a, (hl)    
                             176 
                             177     ;; go to entity-vx 
-   47D0 21 06 00      [10]  178         ld      hl, #VX
-   47D3 19            [11]  179         add     hl, de
+   4D80 21 06 00      [10]  178         ld      hl, #VX
+   4D83 19            [11]  179         add     hl, de
                             180     ;; a+hl
-   47D4 86            [ 7]  181         add     (hl)
+   4D84 86            [ 7]  181         add     (hl)
                             182 
                             183     ;; if in the end
                             184         ; jr      c, sys_destroy_entity 
@@ -5295,33 +5295,33 @@ Hexadecimal [16-Bits]
                             189     ;     call    _man_entity_set_for_destruction
                             190     ;     jr end_physics
                             191     ; sys_save_x:    
-   47D5 21 02 00      [10]  192         ld      hl, #X
-   47D8 19            [11]  193         add     hl, de
-   47D9 77            [ 7]  194         ld      (hl), a
+   4D85 21 02 00      [10]  192         ld      hl, #X
+   4D88 19            [11]  193         add     hl, de
+   4D89 77            [ 7]  194         ld      (hl), a
                             195 
-   47DA 18 0B         [12]  196         jr end_physics
+   4D8A 18 0B         [12]  196         jr end_physics
                             197     ;; y+vy
-   47DC                     198     move_y_axis:
+   4D8C                     198     move_y_axis:
                             199             ;; go to entity->vy
-   47DC 21 07 00      [10]  200                 ld      hl, #VY
-   47DF 19            [11]  201                 add     hl, de
-   47E0 7E            [ 7]  202                 ld      a, (hl)
+   4D8C 21 07 00      [10]  200                 ld      hl, #VY
+   4D8F 19            [11]  201                 add     hl, de
+   4D90 7E            [ 7]  202                 ld      a, (hl)
                             203             ;; go to entity->y and add it to vy
-   47E1 21 03 00      [10]  204                 ld      hl, #Y
-   47E4 19            [11]  205                 add     hl, de
+   4D91 21 03 00      [10]  204                 ld      hl, #Y
+   4D94 19            [11]  205                 add     hl, de
                             206 
-   47E5 86            [ 7]  207                 add     (hl)
+   4D95 86            [ 7]  207                 add     (hl)
                             208             ;; load it in entity->y
-   47E6 77            [ 7]  209                 ld      (hl), a
-   47E7                     210     end_physics:
-   47E7 C9            [10]  211     ret
+   4D96 77            [ 7]  209                 ld      (hl), a
+   4D97                     210     end_physics:
+   4D97 C9            [10]  211     ret
                             212 
                             213 
                             214 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                             215 ;; CAll PHYSICS FOR ALL ENTITY :;
                             216 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   47E8                     217 _sys_physics_update::          
-   47E8 01 B2 47      [10]  218         ld      bc, #sys_physics_update_for_one
-   47EB 21 02 00      [10]  219         ld      hl, #E_CMP_MOVABLE
-   47EE CD 2F 49      [17]  220         call    _man_entity_for_all_matching
-   47F1 C9            [10]  221 ret
+   4D98                     217 _sys_physics_update::          
+   4D98 01 62 4D      [10]  218         ld      bc, #sys_physics_update_for_one
+   4D9B 21 02 00      [10]  219         ld      hl, #E_CMP_MOVABLE
+   4D9E CD F8 4E      [17]  220         call    _man_entity_for_all_matching
+   4DA1 C9            [10]  221 ret

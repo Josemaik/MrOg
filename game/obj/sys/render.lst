@@ -5094,10 +5094,16 @@ Hexadecimal [16-Bits]
                               9         .globl cpct_drawSprite_asm
                              10         .globl cpct_drawSolidBox_asm      
                              11                                         
-                             12    ;; managers                          
+                             12     ;; managers                          
                              13         .globl _man_entity_for_all
                              14         .globl _man_entity_for_all_matching
-                             15         .globl _main_palette      
+                             15         .globl _main_palette  
+                             16 
+                             17     ;; tilemap
+                             18         .globl _tiles_0  
+                             19         .globl _tilemap_01
+                             20         .globl cpct_etm_setDrawTilemap4x8_ag_asm 
+                             21         .globl cpct_etm_drawTilemap4x8_ag_asm
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
@@ -5189,121 +5195,137 @@ Hexadecimal [16-Bits]
    0034 E1            [10]   90         pop    hl
    0035 C9            [10]   91     ret
                              92 
-                             93 
-                             94 ;;;;;;;;;;;;;;;;;;;;;;;
-                             95 ;; RENDER ONE ENTITY ;;
-                             96 ;;;;;;;;;;;;;;;;;;;;;;;
-                             97 ;; IN => DE -> entity to update
-                             98 ;;
-   0036                      99 sys_render_update_for_one:
-                            100     ;; erase last draw of entity
-   0036 CD 00 00      [17]  101     call sys_render_draw_solid_box
-                            102 
-                            103 ;;cpct_getScreenPtr_asm
-                            104     ;; IN => DE -> screen start
-                            105     ;;       C  -> x
-                            106     ;;       B  -> y
-                            107     ;; OUT =>  HL -> memory direction
-                            108 
-                            109         ;; get to entity->x and save to C
-   0039 21 02 00      [10]  110             ld      hl, #X
-   003C 19            [11]  111             add     hl, de
-   003D 4E            [ 7]  112             ld      c, (hl)
-                            113 
-                            114         ;; get to entity->y and save to B
-   003E 21 03 00      [10]  115             ld      hl, #Y
-   0041 19            [11]  116             add     hl, de
-   0042 46            [ 7]  117             ld      b, (hl)
-                            118 
-                            119         ;; save entity to update
-   0043 D5            [11]  120             push    de
-                            121 
+                             93 ;;;;;;;;;;;;;;;;;;;;
+                             94 ;; RENDER TILEMAP ;;
+                             95 ;;;;;;;;;;;;;;;;;;;;
+   0036                      96 sys_render_tilemap:
+   0036 01 14 19      [10]   97     ld   bc, #0x1914      ;; height and width
+   0039 11 30 00      [10]   98     ld   de, #0x30        ;; tilemap width
+   003C 21 00 00      [10]   99     ld   hl, #_tiles_0    ;; pointer to tileset
+   003F CD 00 00      [17]  100     call cpct_etm_setDrawTilemap4x8_ag_asm
+                            101 
+   0042 21 00 C0      [10]  102     ld   hl, #0xC000      ;; pointer memory location
+   0045 11 00 00      [10]  103     ld   de, #_tilemap_01 ;; pointer to the upper-left tilemap
+   0048 CD 00 00      [17]  104     call cpct_etm_drawTilemap4x8_ag_asm
+                            105 
+   004B C9            [10]  106     ret
+                            107 
+                            108 ;;;;;;;;;;;;;;;;;;;;;;;
+                            109 ;; RENDER ONE ENTITY ;;
+                            110 ;;;;;;;;;;;;;;;;;;;;;;;
+                            111 ;; IN => DE -> entity to update
+                            112 ;;
+   004C                     113 sys_render_update_for_one:
+                            114     ;; erase last draw of entity
+   004C CD 00 00      [17]  115     call sys_render_draw_solid_box
+                            116 
+                            117 ;;cpct_getScreenPtr_asm
+                            118     ;; IN => DE -> screen start
+                            119     ;;       C  -> x
+                            120     ;;       B  -> y
+                            121     ;; OUT =>  HL -> memory direction
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 101.
 Hexadecimal [16-Bits]
 
 
 
-                            122         ;; load in DE start of the memory
-   0044 11 00 C0      [10]  123             ld      de, #CPCT_VMEM_START_ASM
-                            124 
-   0047 CD 00 00      [17]  125             call    cpct_getScreenPtr_asm
-                            126             ;; save last draw
-   004A DD 74 04      [19]  127             ld 4(ix), h
-   004D DD 75 05      [19]  128             ld 5(ix), l
-                            129     ;; retrieve entity of the stack
-   0050 D1            [10]  130         pop     de
-   0051 E5            [11]  131         push hl
-                            132         ;; set entity->last draw
-   0052 21 11 00      [10]  133         ld hl, #last_draw
-   0055 19            [11]  134         add hl, de
-   0056 DD 7E 04      [19]  135         ld a, 4(ix)
-   0059 77            [ 7]  136         ld (hl) , a
-   005A 23            [ 6]  137         inc hl
-   005B DD 7E 05      [19]  138         ld a , 5(ix)
-   005E 77            [ 7]  139         ld (hl), a
-                            140 
-                            141         ;; go to entity->type
-   005F 21 00 00      [10]  142             ld      hl, #TYPE
-   0062 19            [11]  143             add     hl, de
-                            144 
-                            145         ;; load in A entity->type and compare with #E_TYPE_DEAD
-   0063 7E            [ 7]  146             ld      a, (hl)
-   0064 E1            [10]  147             pop hl
-   0065 E6 80         [ 7]  148             and     #E_TYPE_DEAD
-   0067 FE 80         [ 7]  149             cp      #E_TYPE_DEAD
-   0069 28 05         [12]  150             jr      z, sys_render_update_for_one_end 
-                            151         ;; draw entity -> _sys_render_draw_one_entity
-                            152         ;; IN =>  DE -> entity to draw
-                            153         ;; OUP => HL
-   006B CD 19 00      [17]  154         call    sys_render_draw_one_entity
-   006E 18 00         [12]  155         jr sys_render_update_for_one_end
-                            156     ; sys_render_dont_draw:
-                            157     ;     call    sys_render_draw_solid_box
-   0070                     158     sys_render_update_for_one_end:
-   0070 C9            [10]  159 ret
-                            160 
-                            161 
-                            162 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            163 ;; CAll RENDER FOR ALL ENTITY :;
-                            164 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   0071                     165 _sys_render_update::
-   0071 01 36 00      [10]  166         ld      bc, #sys_render_update_for_one
-   0074 21 01 00      [10]  167         ld      hl, #E_CMP_RENDER
-   0077 CD 00 00      [17]  168         call    _man_entity_for_all_matching
-   007A C9            [10]  169 ret
-                            170 
-                            171 
-                            172 
-                            173 ;;;;;;;;;;;;;;;;;;;;;;
-                            174 ;; CAll RENDER INIT :;
-                            175 ;;;;;;;;;;;;;;;;;;;;;;
-   007B                     176 _sys_render_init::
+                            122 
+                            123         ;; get to entity->x and save to C
+   004F 21 02 00      [10]  124             ld      hl, #X
+   0052 19            [11]  125             add     hl, de
+   0053 4E            [ 7]  126             ld      c, (hl)
+                            127 
+                            128         ;; get to entity->y and save to B
+   0054 21 03 00      [10]  129             ld      hl, #Y
+   0057 19            [11]  130             add     hl, de
+   0058 46            [ 7]  131             ld      b, (hl)
+                            132 
+                            133         ;; save entity to update
+   0059 D5            [11]  134             push    de
+                            135 
+                            136         ;; load in DE start of the memory
+   005A 11 00 C0      [10]  137             ld      de, #CPCT_VMEM_START_ASM
+                            138 
+   005D CD 00 00      [17]  139             call    cpct_getScreenPtr_asm
+                            140             ;; save last draw
+   0060 DD 74 04      [19]  141             ld 4(ix), h
+   0063 DD 75 05      [19]  142             ld 5(ix), l
+                            143     ;; retrieve entity of the stack
+   0066 D1            [10]  144         pop     de
+   0067 E5            [11]  145         push hl
+                            146         ;; set entity->last draw
+   0068 21 11 00      [10]  147         ld hl, #last_draw
+   006B 19            [11]  148         add hl, de
+   006C DD 7E 04      [19]  149         ld a, 4(ix)
+   006F 77            [ 7]  150         ld (hl) , a
+   0070 23            [ 6]  151         inc hl
+   0071 DD 7E 05      [19]  152         ld a , 5(ix)
+   0074 77            [ 7]  153         ld (hl), a
+                            154 
+                            155         ;; go to entity->type
+   0075 21 00 00      [10]  156             ld      hl, #TYPE
+   0078 19            [11]  157             add     hl, de
+                            158 
+                            159         ;; load in A entity->type and compare with #E_TYPE_DEAD
+   0079 7E            [ 7]  160             ld      a, (hl)
+   007A E1            [10]  161             pop hl
+   007B E6 80         [ 7]  162             and     #E_TYPE_DEAD
+   007D FE 80         [ 7]  163             cp      #E_TYPE_DEAD
+   007F 28 05         [12]  164             jr      z, sys_render_update_for_one_end 
+                            165         ;; draw entity -> _sys_render_draw_one_entity
+                            166         ;; IN =>  DE -> entity to draw
+                            167         ;; OUP => HL
+   0081 CD 19 00      [17]  168         call    sys_render_draw_one_entity
+   0084 18 00         [12]  169         jr sys_render_update_for_one_end
+                            170     ; sys_render_dont_draw:
+                            171     ;     call    sys_render_draw_solid_box
+   0086                     172     sys_render_update_for_one_end:
+   0086 C9            [10]  173 ret
+                            174 
+                            175 
+                            176 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 102.
 Hexadecimal [16-Bits]
 
 
 
-                            177 
-                            178     ;; set the video mode to 0 to draw pixels -> cpct_setVideoMode_asm
-                            179         ;; INPUTS ;;
-                            180             ;; C -> mode value
-   007B 0E 00         [ 7]  181         ld       c, #0
-   007D CD 00 00      [17]  182         call     cpct_setVideoMode_asm
-                            183 
-                            184     ;; paint border black
-   0080                     185         cpctm_setBorder_asm HW_BLACK
-                              1    .radix h
-   0080                       2    cpctm_setBorder_raw_asm \HW_BLACK ;; [28] Macro that does the job, but requires a number value to be passed
-                              1    .globl cpct_setPALColour_asm
-   0080 21 10 14      [10]    2    ld   hl, #0x1410         ;; [3]  H=Hardware value of desired colour, L=Border INK (16)
-   0083 CD 00 00      [17]    3    call cpct_setPALColour_asm  ;; [25] Set Palette colour of the border
-                              3    .radix d
-                            186     ;; set the palete -> cpct_setPalette_asm
-                            187         ;; INPUTS ;;
-                            188             ;; HL -> pointer of the palette
-                            189             ;; DE -> size of the palette
-   0086 21 00 00      [10]  190         ld       hl, #_main_palette
-   0089 11 10 00      [10]  191         ld       de, #16
-   008C CD 00 00      [17]  192         call     cpct_setPalette_asm
+                            177 ;; CAll RENDER FOR ALL ENTITY :;
+                            178 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   0087                     179 _sys_render_update::
+   0087 CD 36 00      [17]  180         call sys_render_tilemap
+                            181 
+   008A 01 4C 00      [10]  182         ld      bc, #sys_render_update_for_one
+   008D 21 01 00      [10]  183         ld      hl, #E_CMP_RENDER
+   0090 CD 00 00      [17]  184         call    _man_entity_for_all_matching
+   0093 C9            [10]  185 ret
+                            186 
+                            187 
+                            188 
+                            189 ;;;;;;;;;;;;;;;;;;;;;;
+                            190 ;; CAll RENDER INIT :;
+                            191 ;;;;;;;;;;;;;;;;;;;;;;
+   0094                     192 _sys_render_init::
                             193 
-   008F C9            [10]  194     ret
+                            194     ;; set the video mode to 0 to draw pixels -> cpct_setVideoMode_asm
+                            195         ;; INPUTS ;;
+                            196             ;; C -> mode value
+   0094 0E 00         [ 7]  197         ld       c, #0
+   0096 CD 00 00      [17]  198         call     cpct_setVideoMode_asm
+                            199 
+                            200     ;; paint border black
+   0099                     201         cpctm_setBorder_asm HW_WHITE
+                              1    .radix h
+   0099                       2    cpctm_setBorder_raw_asm \HW_WHITE ;; [28] Macro that does the job, but requires a number value to be passed
+                              1    .globl cpct_setPALColour_asm
+   0099 21 10 00      [10]    2    ld   hl, #0x010         ;; [3]  H=Hardware value of desired colour, L=Border INK (16)
+   009C CD 00 00      [17]    3    call cpct_setPALColour_asm  ;; [25] Set Palette colour of the border
+                              3    .radix d
+                            202     ;; set the palete -> cpct_setPalette_asm
+                            203         ;; INPUTS ;;
+                            204             ;; HL -> pointer of the palette
+                            205             ;; DE -> size of the palette
+   009F 21 00 00      [10]  206         ld       hl, #_main_palette
+   00A2 11 10 00      [10]  207         ld       de, #16
+   00A5 CD 00 00      [17]  208         call     cpct_setPalette_asm
+                            209 
+   00A8 C9            [10]  210     ret

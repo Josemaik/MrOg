@@ -9,7 +9,13 @@
         .globl cpct_drawSprite_asm
         .globl cpct_drawSolidBox_asm      
                                         
-   ;; managers                          
+    ;; managers                          
         .globl _man_entity_for_all
         .globl _man_entity_for_all_matching
-        .globl _main_palette      
+        .globl _main_palette  
+
+    ;; tilemap
+        .globl _tiles_0  
+        .globl _tilemap_01
+        .globl cpct_etm_setDrawTilemap4x8_ag_asm 
+        .globl cpct_etm_drawTilemap4x8_ag_asm
