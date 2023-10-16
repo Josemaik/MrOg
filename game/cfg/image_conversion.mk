@@ -30,7 +30,7 @@ $(eval $(call IMG2SP, CONVERT, assets/sprite3_A.png , 16, 16, spr_sprite3_A))
 $(eval $(call IMG2SP, CONVERT, assets/sprite4_A.png , 16, 16, spr_sprite4_A))
 
 $(eval $(call IMG2SP, SET_IMG_FORMAT  , zgtiles            ))
-$(eval $(call IMG2SP, CONVERT         , img/tiles.png , 8, 8, tiles))
+$(eval $(call IMG2SP, CONVERT         , assets/tiles.png , 8, 8, tiles))
 
 ##
 ## OLD MACROS (For compatibility)

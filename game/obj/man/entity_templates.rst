@@ -5132,19 +5132,19 @@ Hexadecimal [16-Bits]
 
                               7 
                               8 .area _DATA
-   4D01                       9 playership_template0_e:: 
-   4D01 01                   10 		.db 	#E_TYPE_PLAYER			;; entity type
-   4D02 17                   11       .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_INPUT | #E_CMP_ANIMATED ;; cmps
-   4D03 26                   12 		.db     #0x26               ;; x = 38
-   4D04 41                   13 		.db     #65              ;; y = 180
-   4D05 08                   14 		.db     #SPR_SPRITE1_S_W   ;; width 
-   4D06 10                   15 		.db     #SPR_SPRITE1_S_H   ;; height
-   4D07 00                   16 		.db     #0x00                 ;; vx = 0
-   4D08 00                   17 		.db     #0x00               ;; vy = 0
-   4D09 80 45                18 		.dw     #_spr_sprite1_S  ;; sprite (2b)
-   4D0B 00 00                19       .dw     #0x0000 ;; behaviour
-   4D0D 00                   20 	  .db 	#0x00					;; ai_counter
-   4D0E 00 00                21       .dw     #0x0000 ;; anim
-   4D10 01                   22       .db     #0x01            ;;animcounter c = 0
-   4D11 00                   23 	  .db 	#0x00				;;collides_against
-   4D12 00 00                24 	  .dw   #0x0000				;; last draw
+   538F                       9 playership_template0_e:: 
+   538F 01                   10 		.db 	#E_TYPE_PLAYER			;; entity type
+   5390 17                   11       .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_INPUT | #E_CMP_ANIMATED ;; cmps
+   5391 26                   12 		.db     #0x26               ;; x = 38
+   5392 41                   13 		.db     #65              ;; y = 180
+   5393 08                   14 		.db     #SPR_SPRITE1_S_W   ;; width 
+   5394 10                   15 		.db     #SPR_SPRITE1_S_H   ;; height
+   5395 00                   16 		.db     #0x00                 ;; vx = 0
+   5396 00                   17 		.db     #0x00               ;; vy = 0
+   5397 80 46                18 		.dw     #_spr_sprite1_S  ;; sprite (2b)
+   5399 00 00                19       .dw     #0x0000 ;; behaviour
+   539B 00                   20 	  .db 	#0x00					;; ai_counter
+   539C 00 00                21       .dw     #0x0000 ;; anim
+   539E 01                   22       .db     #0x01            ;;animcounter c = 0
+   539F 00                   23 	  .db 	#0x00				;;collides_against
+   53A0 00 00                24 	  .dw   #0x0000				;; last draw

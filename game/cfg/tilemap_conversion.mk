@@ -10,7 +10,7 @@
 
 $(eval $(call TMX2DATA, SET_OUTPUTS     , hs s       ))
 $(eval $(call TMX2DATA, SET_FOLDER      , src/tilemaps/   )) 
-$(eval $(call TMX2DATA, CONVERT, img/mapa.tmx, tilemap_01 )) 
+$(eval $(call TMX2DATA, CONVERT, assets/mapa.tmx, tilemap_01 )) 
 
 ##
 ## OLD MACROS (For compatibility)
