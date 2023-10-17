@@ -1,1 +1,6 @@
-/game/obj
+game/game.cdt
+game/game.dsk
+game/game.sna
+game/obj/*
+!game/obj/readme.md
+julio/*

@@ -1,20 +1,0 @@
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
-Hexadecimal [16-Bits]
-
-Symbol Table
-
-    .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
-    .__.H$L.=  0000 L   |     _man_ent   **** GX  |     _man_ent   **** GX
-    _man_ent   **** GX  |     _man_ent   **** GX  |     _man_ent   **** GX
-    _song_pr   **** GX  |     _sys_ani   **** GX  |     _sys_phy   **** GX
-    _sys_ren   **** GX  |     _sys_ren   **** GX  |     cpct_akp   **** GX
-    cpct_akp   **** GX  |     cpct_mem   **** GX  |     cpct_wai   **** GX
-    cpct_wai   **** GX  |     man_enti   **** GX  |     playersh   **** GX
-
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
-Hexadecimal [16-Bits]
-
-Area Table
-
-   0 _CODE      size    0   flags    0
-

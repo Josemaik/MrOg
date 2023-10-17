@@ -90,6 +90,20 @@ sys_render_draw_one_entity:
         pop    hl
     ret
 
+;;;;;;;;;;;;;;;;;;;;
+;; RENDER TILEMAP ;;
+;;;;;;;;;;;;;;;;;;;;
+sys_render_tilemap:
+    ld   bc, #0x1914      ;; height and width
+    ld   de, #0x30        ;; tilemap width
+    ld   hl, #_tiles_0    ;; pointer to tileset
+    call cpct_etm_setDrawTilemap4x8_ag_asm
+
+    ld   hl, #0xC000      ;; pointer memory location
+    ld   de, #_tilemap_01 ;; pointer to the upper-left tilemap
+    call cpct_etm_drawTilemap4x8_ag_asm
+
+    ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; RENDER ONE ENTITY ;;
@@ -163,6 +177,8 @@ ret
 ;; CAll RENDER FOR ALL ENTITY :;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 _sys_render_update::
+        call sys_render_tilemap
+
         ld      bc, #sys_render_update_for_one
         ld      hl, #E_CMP_RENDER
         call    _man_entity_for_all_matching
@@ -182,7 +198,7 @@ _sys_render_init::
         call     cpct_setVideoMode_asm
 
     ;; paint border black
-        cpctm_setBorder_asm HW_BLACK
+        cpctm_setBorder_asm HW_WHITE
     ;; set the palete -> cpct_setPalette_asm
         ;; INPUTS ;;
             ;; HL -> pointer of the palette
