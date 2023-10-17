@@ -75,13 +75,14 @@ Symbol Table
     _spr_spr   **** GX  |     _spr_spr   **** GX  |     _spr_spr   **** GX
     _spr_spr   **** GX  |     _spr_spr   **** GX  |     _spr_spr   **** GX
     _spr_spr   **** GX  |     _spr_spr   **** GX  |     _spr_spr   **** GX
-    _spr_spr   **** GX  |     _spr_spr   **** GX  |   1 anim_A     000F GR
-  1 anim_D     002D GR  |   1 anim_S     001E GR  |   1 anim_W     0000 GR
-    cpct_mem   **** GX  |     cpct_mem   **** GX  |     cpct_pag=  0000 
-    cpct_pag=  0010     |     cpct_pag=  0020     |     cpct_pag=  0030 
-    directio=  0012     |     firmware=  0038     |     last_dra=  0011 
-    opc_DI  =  00F3     |     opc_EI  =  00FB     |     opc_JR  =  0018 
-    opc_LD_D=  0016 
+    _spr_spr   **** GX  |     _spr_spr   **** GX  |     _spr_spr   **** GX
+    _spr_spr   **** GX  |     _spr_spr   **** GX  |     _spr_spr   **** GX
+  1 anim_A     000F GR  |   1 anim_D     002D GR  |   1 anim_S     001E GR
+  1 anim_W     0000 GR  |     cpct_mem   **** GX  |     cpct_mem   **** GX
+    cpct_pag=  0000     |     cpct_pag=  0010     |     cpct_pag=  0020 
+    cpct_pag=  0030     |     directio=  0013     |     firmware=  0038 
+    last_dra=  0011     |     opc_DI  =  00F3     |     opc_EI  =  00FB 
+    opc_JR  =  0018     |     opc_LD_D=  0016 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]

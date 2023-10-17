@@ -77,7 +77,7 @@ Symbol Table
   0 change_s   0038 R   |   0 check_an   000C GR  |     cpct_mem   **** GX
     cpct_mem   **** GX  |     cpct_pag=  0000     |     cpct_pag=  0010 
     cpct_pag=  0020     |     cpct_pag=  0030     |   0 desactiv   0000 GR
-    directio=  0012     |     firmware=  0038     |   0 goto_nex   0065 R
+    directio=  0013     |     firmware=  0038     |   0 goto_nex   0065 R
   0 goto_sta   0057 R   |     last_dra=  0011     |     opc_DI  =  00F3 
     opc_EI  =  00FB     |     opc_JR  =  0018     |     opc_LD_D=  0016 
   0 set_velo   002B R   |     setveloc   **** GX  |   0 start_an   0038 R

@@ -5040,7 +5040,7 @@ Hexadecimal [16-Bits]
                      000F    19         AnimCounter = 15    ;;u8
                      0010    20         COLLIDES_AGAINST = 16
                      0011    21         last_draw = 17
-                     0012    22         direction = 18
+                     0013    22         direction = 19
                              23                                         
                              24     ;; Entity types                  
                      0000    25         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
@@ -5117,7 +5117,7 @@ Hexadecimal [16-Bits]
                              22 ;; IN -> bc => direction of entity
                              23 ;;       4(ix) and 5(ix) => the array of the animation
    000C                      24 check_animation::
-   000C 21 12 00      [10]   25         ld hl, #direction
+   000C 21 13 00      [10]   25         ld hl, #direction
    000F 19            [11]   26         add hl, de
    0010 7E            [ 7]   27         ld a , (hl)
    0011 A1            [ 4]   28         and c
@@ -5127,8 +5127,8 @@ Hexadecimal [16-Bits]
    0015 C5            [11]   32         push bc
                              33         ;;set animation array
                              34         ;; retrieve animation here in hl
-   0016 DD 66 04      [19]   35         ld h, 4(ix)
-   0019 DD 6E 05      [19]   36         ld l, 5(ix)
+   0016 DD 6E 04      [19]   35         ld l, 4(ix)
+   0019 DD 66 05      [19]   36         ld h, 5(ix)
    001C E5            [11]   37         push hl
                              38         ;; go to entity-> animframe
    001D 21 0D 00      [10]   39         ld hl, #AnimFrame
@@ -5141,7 +5141,7 @@ Hexadecimal [16-Bits]
                              46         ;; retrieve direction
    0025 C1            [10]   47         pop bc
                              48         ;; set direction
-   0026 21 12 00      [10]   49         ld hl, #direction
+   0026 21 13 00      [10]   49         ld hl, #direction
    0029 19            [11]   50         add hl, de
    002A 71            [ 7]   51         ld (hl), c
                              52         

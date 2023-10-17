@@ -72,23 +72,23 @@ Symbol Table
     TOTAL_EN=  0001     |     TOTAL_SP=  0014     |     TYPE    =  0000 
     VX      =  0006     |     VY      =  0007     |     WIDTH   =  0004 
     X       =  0002     |     Y       =  0003     |     _man_ent   **** GX
-  0 _sys_inp   0088 GR  |     active_a   **** GX  |     anim_A     **** GX
+  0 _sys_inp   008E GR  |     active_a   **** GX  |     anim_A     **** GX
     anim_D     **** GX  |     anim_S     **** GX  |     anim_W     **** GX
     check_an   **** GX  |     choose_a   **** GX  |     choose_a   **** GX
     cpct_isK   **** GX  |     cpct_mem   **** GX  |     cpct_mem   **** GX
     cpct_pag=  0000     |     cpct_pag=  0010     |     cpct_pag=  0020 
     cpct_pag=  0030     |     cpct_sca   **** GX  |     desactiv   **** GX
-    directio=  0012     |     firmware=  0038     |     last_dra=  0011 
+    directio=  0013     |     firmware=  0038     |     last_dra=  0011 
     opc_DI  =  00F3     |     opc_EI  =  00FB     |     opc_JR  =  0018 
     opc_LD_D=  0016     |     stop_spr   **** GX  |   0 sys_inpu   0000 R
-  0 sys_inpu   0087 R   |   0 sys_phys   002B R   |   0 sys_phys   0042 R
-  0 sys_phys   0070 R   |   0 sys_phys   0059 R
+  0 sys_inpu   008D R   |   0 sys_phys   002D R   |   0 sys_phys   0045 R
+  0 sys_phys   0075 R   |   0 sys_phys   005D R
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   92   flags    0
+   0 _CODE      size   98   flags    0
    1 _DATA      size    0   flags    0
 

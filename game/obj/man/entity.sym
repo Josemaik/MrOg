@@ -77,7 +77,7 @@ Symbol Table
   0 _man_ent   0000 GR  |   0 _man_ent   0048 GR  |   0 _man_ent   0186 GR
   0 _return_   009A R   |   0 _return_   00EB R   |     cpct_mem   **** GX
     cpct_mem   **** GX  |     cpct_pag=  0000     |     cpct_pag=  0010 
-    cpct_pag=  0020     |     cpct_pag=  0030     |     directio=  0012 
+    cpct_pag=  0020     |     cpct_pag=  0030     |     directio=  0013 
     firmware=  0038     |     last_dra=  0011     |   1 m_entiti   0000 GR
   1 m_next_f   0015 GR  |   1 m_reserv   0017 GR  |   1 m_zero_b   0014 R
   0 man_cont   0139 R   |   0 man_end_   00A4 R   |   0 man_end_   00F5 R

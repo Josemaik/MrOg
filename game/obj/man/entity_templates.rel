@@ -1,16 +1,24 @@
 XL2
-H 2 areas 21 global symbols
+H 2 areas 25 global symbols
 M Templates_Manager
+S _spr_spritesheet_00 Ref0000
 S _sys_physics_update Ref0000
+S _spr_spritesheet_10 Ref0000
+S _spr_spritesheet_01 Ref0000
+S _spr_spritesheet_11 Ref0000
+S _spr_spritesheet_02 Ref0000
+S _spr_spritesheet_12 Ref0000
+S _spr_spritesheet_03 Ref0000
+S _spr_spritesheet_13 Ref0000
+S _spr_spritesheet_04 Ref0000
+S _spr_spritesheet_14 Ref0000
+S _spr_spritesheet_05 Ref0000
 S _man_entity_clone Ref0000
-S _spr_sprite1_S Ref0000
-S _spr_sprite2_S Ref0000
-S _spr_sprite3_S Ref0000
-S _spr_sprite4_S Ref0000
-S _spr_sprite1_W Ref0000
-S _spr_sprite2_W Ref0000
-S _spr_sprite3_W Ref0000
-S _spr_sprite4_W Ref0000
+S _spr_spritesheet_15 Ref0000
+S _spr_spritesheet_06 Ref0000
+S _spr_spritesheet_07 Ref0000
+S _spr_spritesheet_08 Ref0000
+S _spr_spritesheet_09 Ref0000
 S cpct_waitHalts_asm Ref0000
 S DIRECT_A Def0002
 S DIRECT_D Def0008
@@ -27,11 +35,7 @@ S _sys_animations_update Ref0000
 S cpct_memset_asm Ref0000
 S cpct_memcpy_asm Ref0000
 S _man_entity_update Ref0000
-S _spr_sprite1_A Ref0000
 S _man_entity_set_for_destruction Ref0000
-S _spr_sprite2_A Ref0000
-S _spr_sprite3_A Ref0000
-S _spr_sprite4_A Ref0000
 S _sys_render_update Ref0000
 A _CODE size 0 flags 0 addr 0
 A _DATA size 14 flags 0 addr 0
@@ -39,6 +43,6 @@ S playership_template0_e Def0000
 T 00 00
 R 00 00 01 00
 T 00 00 01 17 26 41 08 10 00 00 00 00 00 00 00
-R 00 00 01 00 02 0A 02 00
+R 00 00 01 00 02 0A 00 00
 T 0D 00 00 00 00 00 00 00 04
 R 00 00 01 00

@@ -5049,7 +5049,7 @@ Hexadecimal [16-Bits]
                      000F    19         AnimCounter = 15    ;;u8
                      0010    20         COLLIDES_AGAINST = 16
                      0011    21         last_draw = 17
-                     0012    22         direction = 18
+                     0013    22         direction = 19
                              23                                         
                              24     ;; Entity types                  
                      0000    25         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
@@ -5119,18 +5119,22 @@ Hexadecimal [16-Bits]
                               9    ;; systems                             
                              10 
                              11    ;; sprites
-                             12   .globl _spr_sprite1_S
-                             13   .globl _spr_sprite2_S
-                             14   .globl _spr_sprite3_S
-                             15   .globl _spr_sprite4_S
-                             16   .globl _spr_sprite1_W
-                             17   .globl _spr_sprite2_W
-                             18   .globl _spr_sprite3_W
-                             19   .globl _spr_sprite4_W
-                             20   .globl _spr_sprite1_A
-                             21   .globl _spr_sprite2_A
-                             22   .globl _spr_sprite3_A
-                             23   .globl _spr_sprite4_A
+                             12   .globl _spr_spritesheet_00
+                             13   .globl _spr_spritesheet_01
+                             14   .globl _spr_spritesheet_02
+                             15   .globl _spr_spritesheet_03
+                             16   .globl _spr_spritesheet_04
+                             17   .globl _spr_spritesheet_05
+                             18   .globl _spr_spritesheet_06
+                             19   .globl _spr_spritesheet_07
+                             20   .globl _spr_spritesheet_08
+                             21   .globl _spr_spritesheet_09
+                             22   .globl _spr_spritesheet_10
+                             23   .globl _spr_spritesheet_11
+                             24   .globl _spr_spritesheet_12
+                             25   .globl _spr_spritesheet_13
+                             26   .globl _spr_spritesheet_14
+                             27   .globl _spr_spritesheet_15
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
@@ -5138,20 +5142,20 @@ Hexadecimal [16-Bits]
 
                               7 
                               8 .area _DATA
-   4D59                       9 playership_template0_e:: 
-   4D59 01                   10 		.db 	#E_TYPE_PLAYER			;; entity type
-   4D5A 17                   11       .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_INPUT | #E_CMP_ANIMATED ;; cmps
-   4D5B 26                   12 		.db     #0x26               ;; x = 38
-   4D5C 41                   13 		.db     #65              ;; y = 180
-   4D5D 08                   14 		.db     #SPR_SPRITE1_S_W   ;; width 
-   4D5E 10                   15 		.db     #SPR_SPRITE1_S_H   ;; height
-   4D5F 00                   16 		.db     #0x00                 ;; vx = 0
-   4D60 00                   17 		.db     #0x00               ;; vy = 0
-   4D61 80 45                18 		.dw     #_spr_sprite1_S  ;; sprite (2b)
-   4D63 00 00                19       .dw     #0x0000 ;; behaviour
-   4D65 00                   20 	  .db 	#0x00					;; ai_counter
-   4D66 00 00                21       .dw     #0x0000 ;; anim
-   4D68 00                   22       .db     #0x00            ;;animcounter c = 0
-   4D69 00                   23 	  .db 	#0x00				;;collides_against
-   4D6A 00 00                24 	  .dw   #0x0000				;; last draw
-   4D6C 04                   25 	  .db   #DIRECT_S			;; direction
+   4F62                       9 playership_template0_e:: 
+   4F62 01                   10 		.db 	#E_TYPE_PLAYER			;; entity type
+   4F63 17                   11       .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_INPUT | #E_CMP_ANIMATED ;; cmps
+   4F64 26                   12 		.db     #0x26               ;; x = 38
+   4F65 41                   13 		.db     #65              ;; y = 180
+   4F66 08                   14 		.db     #SPR_SPRITE1_S_W   ;; width 
+   4F67 10                   15 		.db     #SPR_SPRITE1_S_H   ;; height
+   4F68 00                   16 		.db     #0x00                 ;; vx = 0
+   4F69 00                   17 		.db     #0x00               ;; vy = 0
+   4F6A 00 40                18 		.dw     #_spr_spritesheet_00  ;; sprite (2b)
+   4F6C 00 00                19       .dw     #0x0000 ;; behaviour
+   4F6E 00                   20 	  .db 	#0x00					;; ai_counter
+   4F6F 00 00                21       .dw     #0x0000 ;; anim
+   4F71 00                   22       .db     #0x00            ;;animcounter c = 0
+   4F72 00                   23 	  .db 	#0x00				;;collides_against
+   4F73 00 00                24 	  .dw   #0x0000				;; last draw
+   4F75 04                   25 	  .db   #DIRECT_S			;; direction

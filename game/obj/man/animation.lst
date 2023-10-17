@@ -5008,18 +5008,22 @@ Hexadecimal [16-Bits]
                               9    ;; systems                             
                              10 
                              11    ;; sprites
-                             12   .globl _spr_sprite1_S
-                             13   .globl _spr_sprite2_S
-                             14   .globl _spr_sprite3_S
-                             15   .globl _spr_sprite4_S
-                             16   .globl _spr_sprite1_W
-                             17   .globl _spr_sprite2_W
-                             18   .globl _spr_sprite3_W
-                             19   .globl _spr_sprite4_W
-                             20   .globl _spr_sprite1_A
-                             21   .globl _spr_sprite2_A
-                             22   .globl _spr_sprite3_A
-                             23   .globl _spr_sprite4_A
+                             12   .globl _spr_spritesheet_00
+                             13   .globl _spr_spritesheet_01
+                             14   .globl _spr_spritesheet_02
+                             15   .globl _spr_spritesheet_03
+                             16   .globl _spr_spritesheet_04
+                             17   .globl _spr_spritesheet_05
+                             18   .globl _spr_spritesheet_06
+                             19   .globl _spr_spritesheet_07
+                             20   .globl _spr_spritesheet_08
+                             21   .globl _spr_spritesheet_09
+                             22   .globl _spr_spritesheet_10
+                             23   .globl _spr_spritesheet_11
+                             24   .globl _spr_spritesheet_12
+                             25   .globl _spr_spritesheet_13
+                             26   .globl _spr_spritesheet_14
+                             27   .globl _spr_spritesheet_15
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
 Hexadecimal [16-Bits]
 
@@ -5047,7 +5051,7 @@ Hexadecimal [16-Bits]
                      000F    19         AnimCounter = 15    ;;u8
                      0010    20         COLLIDES_AGAINST = 16
                      0011    21         last_draw = 17
-                     0012    22         direction = 18
+                     0013    22         direction = 19
                              23                                         
                              24     ;; Entity types                  
                      0000    25         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
@@ -5111,48 +5115,48 @@ Hexadecimal [16-Bits]
                               9 ;;Array de sprites
    0000                      10 anim_W::
    0000 0C                   11   .db #MAN_ANIM_ENEMY1_TIME
-   0001 00 00                12     .dw _spr_sprite1_W
+   0001 00 00                12     .dw _spr_spritesheet_08
    0003 0C                   13     .db #MAN_ANIM_ENEMY1_TIME
-   0004 00 00                14     .dw _spr_sprite2_W
+   0004 00 00                14     .dw _spr_spritesheet_09
    0006 0C                   15     .db #MAN_ANIM_ENEMY1_TIME
-   0007 00 00                16     .dw _spr_sprite3_W
+   0007 00 00                16     .dw _spr_spritesheet_10
    0009 0C                   17     .db #MAN_ANIM_ENEMY1_TIME
-   000A 00 00                18     .dw _spr_sprite4_W
+   000A 00 00                18     .dw _spr_spritesheet_11
    000C 00                   19     .db #0x00
    000D 00 00                20     .dw #anim_W
    000F                      21 anim_A::
    000F 0C                   22  .db #MAN_ANIM_ENEMY1_TIME
-   0010 00 00                23     .dw _spr_sprite1_A
+   0010 00 00                23     .dw _spr_spritesheet_04
    0012 0C                   24     .db #MAN_ANIM_ENEMY1_TIME
-   0013 00 00                25     .dw _spr_sprite2_A
+   0013 00 00                25     .dw _spr_spritesheet_05
    0015 0C                   26     .db #MAN_ANIM_ENEMY1_TIME
-   0016 00 00                27     .dw _spr_sprite3_A
+   0016 00 00                27     .dw _spr_spritesheet_06
    0018 0C                   28     .db #MAN_ANIM_ENEMY1_TIME
-   0019 00 00                29     .dw _spr_sprite4_A
+   0019 00 00                29     .dw _spr_spritesheet_07
    001B 00                   30     .db #0x00
    001C 0F 00                31     .dw #anim_A
    001E                      32 anim_S::
    001E 0C                   33  .db #MAN_ANIM_ENEMY1_TIME
-   001F 00 00                34     .dw _spr_sprite1_S
+   001F 00 00                34     .dw _spr_spritesheet_00
    0021 0C                   35     .db #MAN_ANIM_ENEMY1_TIME
-   0022 00 00                36     .dw _spr_sprite2_S
+   0022 00 00                36     .dw _spr_spritesheet_01
    0024 0C                   37     .db #MAN_ANIM_ENEMY1_TIME
-   0025 00 00                38     .dw _spr_sprite3_S
+   0025 00 00                38     .dw _spr_spritesheet_02
    0027 0C                   39     .db #MAN_ANIM_ENEMY1_TIME
-   0028 00 00                40     .dw _spr_sprite4_S
+   0028 00 00                40     .dw _spr_spritesheet_03
    002A 00                   41     .db #0x00
    002B 1E 00                42     .dw #anim_S
    002D                      43 anim_D::
    002D 0C                   44   .db #MAN_ANIM_ENEMY1_TIME
-   002E 00 00                45     .dw _spr_sprite1_A
+   002E 00 00                45     .dw _spr_spritesheet_12
    0030 0C                   46     .db #MAN_ANIM_ENEMY1_TIME
-   0031 00 00                47     .dw _spr_sprite2_A
+   0031 00 00                47     .dw _spr_spritesheet_13
    0033 0C                   48     .db #MAN_ANIM_ENEMY1_TIME
-   0034 00 00                49     .dw _spr_sprite3_A
+   0034 00 00                49     .dw _spr_spritesheet_14
    0036 0C                   50     .db #MAN_ANIM_ENEMY1_TIME
-   0037 00 00                51     .dw _spr_sprite4_A
+   0037 00 00                51     .dw _spr_spritesheet_15
    0039 00                   52     .db #0x00
-   003A 0F 00                53     .dw #anim_A
+   003A 2D 00                53     .dw #anim_D
                              54 
                              55 .area _CODE
                              56 

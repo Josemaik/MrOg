@@ -13,11 +13,13 @@
       .globl choose_axis_x
       .globl choose_axis_y
       .globl check_animation
-        .globl anim_W
+    .globl anim_W
    .globl anim_A
    .globl anim_S
    .globl anim_D
 sys_input_update_for_one:
+    ;; save entity
+    push de
      ;; scan keyboard
     call cpct_scanKeyboard_f_asm
     ;; check letter O
@@ -34,12 +36,13 @@ sys_input_update_for_one:
      ld      hl, #Key_S
     call cpct_isKeyPressed_asm
     jr nz, sys_physics_S_is_pressed
-
+    pop de
     ;; no se ha pulsado ninguna tecla
     call stop_sprite
     call desactive_animating
     jr sys_input_update_for_one_end
     sys_physics_A_is_pressed:
+        pop de
         call active_animation
         call choose_axis_x
         ld bc, #anim_A
@@ -49,6 +52,7 @@ sys_input_update_for_one:
         call check_animation
         jr sys_input_update_for_one_end
     sys_physics_D_is_pressed:
+        pop de
         call active_animation
         call choose_axis_x
         ld bc, #anim_D
@@ -58,6 +62,7 @@ sys_input_update_for_one:
         call check_animation
         jr sys_input_update_for_one_end
     sys_physics_W_is_pressed:
+        pop de
         call active_animation
         call choose_axis_y
         ld bc, #anim_W
@@ -67,6 +72,7 @@ sys_input_update_for_one:
         call check_animation
         jr sys_input_update_for_one_end
     sys_physics_S_is_pressed:
+        pop de
         call active_animation
         call choose_axis_y
         ld bc, #anim_S

@@ -39,14 +39,17 @@ setvelocity::
     cp #DIRECT_A
     jr z, set_velocity_x_A
 ;; check is direction is D
+    ld a, (hl)
     and #DIRECT_D
     cp #DIRECT_D
     jr z, set_velocity_x_D
 ;; check is direction is W
+    ld a, (hl)
     and #DIRECT_W
     cp #DIRECT_W
     jr z, set_velocity_x_W
 ;; check is direction is S
+    ld a, (hl)
     and #DIRECT_S
     cp #DIRECT_S
      jr z, set_velocity_x_S
@@ -64,12 +67,12 @@ setvelocity::
     set_velocity_x_W:
         ld      hl, #VY
         add     hl, de
-        ld      (hl), #2
+        ld      (hl), #-2
         jr setvelocity_end
     set_velocity_x_S:
         ld      hl, #VY
         add     hl, de
-        ld      (hl), #-2
+        ld      (hl), #2
 
     setvelocity_end:
 ret

@@ -5049,7 +5049,7 @@ Hexadecimal [16-Bits]
                      000F    19         AnimCounter = 15    ;;u8
                      0010    20         COLLIDES_AGAINST = 16
                      0011    21         last_draw = 17
-                     0012    22         direction = 18
+                     0013    22         direction = 19
                              23                                         
                              24     ;; Entity types                  
                      0000    25         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
@@ -5117,28 +5117,28 @@ Hexadecimal [16-Bits]
                              13 ;;;;;;;;;;;;;;;;;;;;
                              14 ;; WAIT
                              15 ;;
-   4A84                      16 _wait:
+   4C8D                      16 _wait:
                              17     ;; loop
-   4A84                      18       wait_init_for:
+   4C8D                      18       wait_init_for:
                              19          ;; compare A with 0 and two halts
-   4A84 FE 00         [ 7]   20             cp       #0                   
-   4A86 28 0E         [12]   21             jr       z, wait_end_for      
-   4A88 06 02         [ 7]   22             ld       b, #2
-   4A8A CD 0A 4C      [17]   23             call     cpct_waitHalts_asm
+   4C8D FE 00         [ 7]   20             cp       #0                   
+   4C8F 28 0E         [12]   21             jr       z, wait_end_for      
+   4C91 06 02         [ 7]   22             ld       b, #2
+   4C93 CD 13 4E      [17]   23             call     cpct_waitHalts_asm
                              24 
                              25          ;; save a
-   4A8D F5            [11]   26             push     af
+   4C96 F5            [11]   26             push     af
                              27          ;; wait sync
-   4A8E CD 0E 4C      [17]   28             call     cpct_waitVSYNC_asm
+   4C97 CD 17 4E      [17]   28             call     cpct_waitVSYNC_asm
                              29          
                              30          ;; a-1
-   4A91 F1            [10]   31             pop      af
-   4A92 D6 01         [ 7]   32             sub      #1
+   4C9A F1            [10]   31             pop      af
+   4C9B D6 01         [ 7]   32             sub      #1
                              33          ;; go loop
-   4A94 18 EE         [12]   34             jr       wait_init_for
+   4C9D 18 EE         [12]   34             jr       wait_init_for
                              35    ;; end for
-   4A96                      36       wait_end_for:
-   4A96 C9            [10]   37    ret
+   4C9F                      36       wait_end_for:
+   4C9F C9            [10]   37    ret
                              38 ;;;;;;;;;;;;;;;;;;;;;
                              39 ;; PUBLIC FUNCTION ;;
                              40 ;;;;;;;;;;;;;;;;;;;;;
@@ -5146,67 +5146,67 @@ Hexadecimal [16-Bits]
                              42 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              43 ;;;CREATE TEMPLATE
                              44 ;;
-   4A97                      45 man_game_create_template_entity::
-   4A97 E5            [11]   46    push hl
+   4CA0                      45 man_game_create_template_entity::
+   4CA0 E5            [11]   46    push hl
                              47    ;; create entity
-   4A98 CD F0 48      [17]   48         call _man_entity_create
+   4CA1 CD F9 4A      [17]   48         call _man_entity_create
                              49     
                              50         ;; load entity from stack
-   4A9B E1            [10]   51         pop hl
-   4A9C D5            [11]   52         push de
-   4A9D 01 14 00      [10]   53         ld bc,#SPACE_4_ONE_ENTITY
-   4AA0 CD 2B 4C      [17]   54         call cpct_memcpy_asm
-   4AA3 D1            [10]   55         pop de
-   4AA4 C9            [10]   56    ret
+   4CA4 E1            [10]   51         pop hl
+   4CA5 D5            [11]   52         push de
+   4CA6 01 14 00      [10]   53         ld bc,#SPACE_4_ONE_ENTITY
+   4CA9 CD 34 4E      [17]   54         call cpct_memcpy_asm
+   4CAC D1            [10]   55         pop de
+   4CAD C9            [10]   56    ret
                              57 
                              58 
-   4AA5                      59 _inicialize_templates:
-   4AA5 21 59 4D      [10]   60         ld       hl, #playership_template0_e
+   4CAE                      59 _inicialize_templates:
+   4CAE 21 62 4F      [10]   60         ld       hl, #playership_template0_e
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
 
 
-   4AA8 CD 97 4A      [17]   61         call man_game_create_template_entity
-   4AAB C9            [10]   62 ret
+   4CB1 CD A0 4C      [17]   61         call man_game_create_template_entity
+   4CB4 C9            [10]   62 ret
                              63 ;;;;;;;;;;;;;;;;;;;;
                              64 ;; INIT
                              65 ;;
-   4AAC                      66 man_game_init::
+   4CB5                      66 man_game_init::
                              67     ;; configure videomode, palet y border
-   4AAC CD C0 48      [17]   68         call     _sys_render_init
+   4CB5 CD C9 4A      [17]   68         call     _sys_render_init
                              69 
                              70     ;; inicialize manager entity
-   4AAF CD D5 48      [17]   71         call     _man_entity_init
+   4CB8 CD DE 4A      [17]   71         call     _man_entity_init
                              72 
                              73     ;; Create mothership
-   4AB2 CD A5 4A      [17]   74        call    _inicialize_templates
-   4AB5 C9            [10]   75 ret
+   4CBB CD AE 4C      [17]   74        call    _inicialize_templates
+   4CBE C9            [10]   75 ret
                              76 ;;;;;;;;;;;;;;;;;;;;;;
                              77 ;; PLAY
                              78 ;;
                              79 
-   4AB6                      80 man_game_play::
+   4CBF                      80 man_game_play::
                              81    ;; infinite loop
-   4AB6                      82    loop:
+   4CBF                      82    loop:
                              83       ;; call ai manager
                              84          ; call      _sys_ai_update
                              85       ;; update positions
-   4AB6 CD 3B 48      [17]   86          call     _sys_physics_update
+   4CBF CD 44 4A      [17]   86          call     _sys_physics_update
                              87       ;; check collisions
                              88          ; call     _sys_collision_update
                              89       ;; call input
-   4AB9 CD B5 47      [17]   90          call _sys_input_update
+   4CC2 CD BB 49      [17]   90          call _sys_input_update
                              91       ;; call animations system
-   4ABC CD A0 46      [17]   92          call     _sys_animations_update
+   4CC5 CD A0 48      [17]   92          call     _sys_animations_update
                              93       ;; render
-   4ABF CD B6 48      [17]   94          call     _sys_render_update
+   4CC8 CD BF 4A      [17]   94          call     _sys_render_update
                              95       ;; update manager
-   4AC2 CD 5B 4A      [17]   96          call     _man_entity_update
+   4CCB CD 64 4C      [17]   96          call     _man_entity_update
                              97       ;; wait ( se mueve cada cinco fotogramas)
-   4AC5 3E 03         [ 7]   98          ld       a, #3
-   4AC7 CD 84 4A      [17]   99 		 call     _wait
+   4CCE 3E 03         [ 7]   98          ld       a, #3
+   4CD0 CD 8D 4C      [17]   99 		 call     _wait
                             100       ; call cpct_waitVSYNC_asm
                             101       ;; jump to loop
-   4ACA 18 EA         [12]  102          jr       loop
-   4ACC C9            [10]  103 ret
+   4CD3 18 EA         [12]  102          jr       loop
+   4CD5 C9            [10]  103 ret

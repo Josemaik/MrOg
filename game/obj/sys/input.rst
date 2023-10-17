@@ -33,7 +33,7 @@ Hexadecimal [16-Bits]
                      000F    19         AnimCounter = 15    ;;u8
                      0010    20         COLLIDES_AGAINST = 16
                      0011    21         last_draw = 17
-                     0012    22         direction = 18
+                     0013    22         direction = 19
                              23                                         
                              24     ;; Entity types                  
                      0000    25         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
@@ -5087,272 +5087,278 @@ Hexadecimal [16-Bits]
                              13       .globl choose_axis_x
                              14       .globl choose_axis_y
                              15       .globl check_animation
-                             16         .globl anim_W
+                             16     .globl anim_W
                              17    .globl anim_A
                              18    .globl anim_S
                              19    .globl anim_D
-   472D                      20 sys_input_update_for_one:
-                             21      ;; scan keyboard
-   472D CD E0 4A      [17]   22     call cpct_scanKeyboard_f_asm
-                             23     ;; check letter O
-   4730 21 08 20      [10]   24     ld      hl, #Key_A
-   4733 CD 4A 4B      [17]   25     call cpct_isKeyPressed_asm
-   4736 20 20         [12]   26     jr nz, sys_physics_A_is_pressed
-                             27     ;; check letter P
-   4738 21 07 20      [10]   28     ld      hl, #Key_D
-   473B CD 4A 4B      [17]   29     call cpct_isKeyPressed_asm
-   473E 20 2F         [12]   30     jr nz, sys_physics_D_is_pressed
-   4740 21 07 08      [10]   31      ld      hl, #Key_W
-   4743 CD 4A 4B      [17]   32     call cpct_isKeyPressed_asm
-   4746 20 3E         [12]   33     jr nz, sys_physics_W_is_pressed
-   4748 21 07 10      [10]   34      ld      hl, #Key_S
-   474B CD 4A 4B      [17]   35     call cpct_isKeyPressed_asm
-   474E 20 4D         [12]   36     jr nz, sys_physics_S_is_pressed
-                             37 
-                             38     ;; no se ha pulsado ninguna tecla
-   4750 CD C0 47      [17]   39     call stop_sprite
-   4753 CD 19 46      [17]   40     call desactive_animating
-   4756 18 5C         [12]   41     jr sys_input_update_for_one_end
-   4758                      42     sys_physics_A_is_pressed:
-   4758 CD 1F 46      [17]   43         call active_animation
-   475B CD CD 47      [17]   44         call choose_axis_x
-   475E 01 14 4D      [10]   45         ld bc, #anim_A
-   4761 DD 71 04      [19]   46         ld 4(ix), c
-   4764 DD 70 05      [19]   47         ld 5(ix), b
-   4767 01 02 00      [10]   48         ld bc, #DIRECT_A
-   476A CD 25 46      [17]   49         call check_animation
-   476D 18 45         [12]   50         jr sys_input_update_for_one_end
-   476F                      51     sys_physics_D_is_pressed:
-   476F CD 1F 46      [17]   52         call active_animation
-   4772 CD CD 47      [17]   53         call choose_axis_x
-   4775 01 32 4D      [10]   54         ld bc, #anim_D
-   4778 DD 71 04      [19]   55         ld 4(ix), c
-   477B DD 70 05      [19]   56         ld 5(ix), b
-   477E 01 08 00      [10]   57         ld bc, #DIRECT_D
-   4781 CD 25 46      [17]   58         call check_animation
-   4784 18 2E         [12]   59         jr sys_input_update_for_one_end
-   4786                      60     sys_physics_W_is_pressed:
+   492D                      20 sys_input_update_for_one:
+                             21     ;; save entity
+   492D D5            [11]   22     push de
+                             23      ;; scan keyboard
+   492E CD E9 4C      [17]   24     call cpct_scanKeyboard_f_asm
+                             25     ;; check letter O
+   4931 21 08 20      [10]   26     ld      hl, #Key_A
+   4934 CD 53 4D      [17]   27     call cpct_isKeyPressed_asm
+   4937 20 21         [12]   28     jr nz, sys_physics_A_is_pressed
+                             29     ;; check letter P
+   4939 21 07 20      [10]   30     ld      hl, #Key_D
+   493C CD 53 4D      [17]   31     call cpct_isKeyPressed_asm
+   493F 20 31         [12]   32     jr nz, sys_physics_D_is_pressed
+   4941 21 07 08      [10]   33      ld      hl, #Key_W
+   4944 CD 53 4D      [17]   34     call cpct_isKeyPressed_asm
+   4947 20 41         [12]   35     jr nz, sys_physics_W_is_pressed
+   4949 21 07 10      [10]   36      ld      hl, #Key_S
+   494C CD 53 4D      [17]   37     call cpct_isKeyPressed_asm
+   494F 20 51         [12]   38     jr nz, sys_physics_S_is_pressed
+   4951 D1            [10]   39     pop de
+                             40     ;; no se ha pulsado ninguna tecla
+   4952 CD C6 49      [17]   41     call stop_sprite
+   4955 CD 19 48      [17]   42     call desactive_animating
+   4958 18 60         [12]   43     jr sys_input_update_for_one_end
+   495A                      44     sys_physics_A_is_pressed:
+   495A D1            [10]   45         pop de
+   495B CD 1F 48      [17]   46         call active_animation
+   495E CD D3 49      [17]   47         call choose_axis_x
+   4961 01 1D 4F      [10]   48         ld bc, #anim_A
+   4964 DD 71 04      [19]   49         ld 4(ix), c
+   4967 DD 70 05      [19]   50         ld 5(ix), b
+   496A 01 02 00      [10]   51         ld bc, #DIRECT_A
+   496D CD 25 48      [17]   52         call check_animation
+   4970 18 48         [12]   53         jr sys_input_update_for_one_end
+   4972                      54     sys_physics_D_is_pressed:
+   4972 D1            [10]   55         pop de
+   4973 CD 1F 48      [17]   56         call active_animation
+   4976 CD D3 49      [17]   57         call choose_axis_x
+   4979 01 3B 4F      [10]   58         ld bc, #anim_D
+   497C DD 71 04      [19]   59         ld 4(ix), c
+   497F DD 70 05      [19]   60         ld 5(ix), b
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 98.
 Hexadecimal [16-Bits]
 
 
 
-   4786 CD 1F 46      [17]   61         call active_animation
-   4789 CD D3 47      [17]   62         call choose_axis_y
-   478C 01 05 4D      [10]   63         ld bc, #anim_W
-   478F DD 71 04      [19]   64         ld 4(ix), c
-   4792 DD 70 05      [19]   65         ld 5(ix), b
-   4795 01 01 00      [10]   66         ld bc, #DIRECT_W
-   4798 CD 25 46      [17]   67         call check_animation
-   479B 18 17         [12]   68         jr sys_input_update_for_one_end
-   479D                      69     sys_physics_S_is_pressed:
-   479D CD 1F 46      [17]   70         call active_animation
-   47A0 CD D3 47      [17]   71         call choose_axis_y
-   47A3 01 23 4D      [10]   72         ld bc, #anim_S
-   47A6 DD 71 04      [19]   73         ld 4(ix), c
-   47A9 DD 70 05      [19]   74         ld 5(ix), b
-   47AC 01 04 00      [10]   75         ld bc, #DIRECT_S
-   47AF CD 25 46      [17]   76         call check_animation
-   47B2 18 00         [12]   77         jr sys_input_update_for_one_end
-   47B4                      78     sys_input_update_for_one_end:
-   47B4 C9            [10]   79 ret
-                             80 
-                             81 
-                             82     ; ;; save entity
-                             83     ; push de
-                             84     ; ;; scan keyboard
-                             85     ; call cpct_scanKeyboard_f_asm
-                             86     ; ;; check letter O
-                             87     ; ld      hl, #Key_A
-                             88     ; call cpct_isKeyPressed_asm
-                             89     ; jr nz, sys_physics_A_is_pressed
-                             90     ; ;; check letter P
-                             91     ; ld      hl, #Key_D
-                             92     ; call cpct_isKeyPressed_asm
-                             93     ; jr nz, sys_physics_D_is_pressed
-                             94     ;  ld      hl, #Key_W
-                             95     ; call cpct_isKeyPressed_asm
-                             96     ; jr nz, sys_physics_W_is_pressed
-                             97     ;  ld      hl, #Key_S
+   4982 01 08 00      [10]   61         ld bc, #DIRECT_D
+   4985 CD 25 48      [17]   62         call check_animation
+   4988 18 30         [12]   63         jr sys_input_update_for_one_end
+   498A                      64     sys_physics_W_is_pressed:
+   498A D1            [10]   65         pop de
+   498B CD 1F 48      [17]   66         call active_animation
+   498E CD D9 49      [17]   67         call choose_axis_y
+   4991 01 0E 4F      [10]   68         ld bc, #anim_W
+   4994 DD 71 04      [19]   69         ld 4(ix), c
+   4997 DD 70 05      [19]   70         ld 5(ix), b
+   499A 01 01 00      [10]   71         ld bc, #DIRECT_W
+   499D CD 25 48      [17]   72         call check_animation
+   49A0 18 18         [12]   73         jr sys_input_update_for_one_end
+   49A2                      74     sys_physics_S_is_pressed:
+   49A2 D1            [10]   75         pop de
+   49A3 CD 1F 48      [17]   76         call active_animation
+   49A6 CD D9 49      [17]   77         call choose_axis_y
+   49A9 01 2C 4F      [10]   78         ld bc, #anim_S
+   49AC DD 71 04      [19]   79         ld 4(ix), c
+   49AF DD 70 05      [19]   80         ld 5(ix), b
+   49B2 01 04 00      [10]   81         ld bc, #DIRECT_S
+   49B5 CD 25 48      [17]   82         call check_animation
+   49B8 18 00         [12]   83         jr sys_input_update_for_one_end
+   49BA                      84     sys_input_update_for_one_end:
+   49BA C9            [10]   85 ret
+                             86 
+                             87 
+                             88     ; ;; save entity
+                             89     ; push de
+                             90     ; ;; scan keyboard
+                             91     ; call cpct_scanKeyboard_f_asm
+                             92     ; ;; check letter O
+                             93     ; ld      hl, #Key_A
+                             94     ; call cpct_isKeyPressed_asm
+                             95     ; jr nz, sys_physics_A_is_pressed
+                             96     ; ;; check letter P
+                             97     ; ld      hl, #Key_D
                              98     ; call cpct_isKeyPressed_asm
-                             99     ; jr nz, sys_physics_S_is_pressed
-                            100 
-                            101     ; pop de
-                            102     ; ;; nothing key is pressed
-                            103     
-                            104     ; ;; parar animacion
-                            105    
-                            106     ; jr sys_physics_check_keyboard_end
-                            107     ; ;; O is pressed
-                            108     ; sys_physics_A_is_pressed:
-                            109     ;     ;; set movement active
-                            110     ;     ld a, #1
-                            111     ;     ld (move_active), a
-                            112     ;     ;; set 1 to put the axis x active
-                            113     ;     ld a, #1
-                            114     ;     ld (choose_axis), a
-                            115     ;      ;; retrieve entity
+                             99     ; jr nz, sys_physics_D_is_pressed
+                            100     ;  ld      hl, #Key_W
+                            101     ; call cpct_isKeyPressed_asm
+                            102     ; jr nz, sys_physics_W_is_pressed
+                            103     ;  ld      hl, #Key_S
+                            104     ; call cpct_isKeyPressed_asm
+                            105     ; jr nz, sys_physics_S_is_pressed
+                            106 
+                            107     ; pop de
+                            108     ; ;; nothing key is pressed
+                            109     
+                            110     ; ;; parar animacion
+                            111    
+                            112     ; jr sys_physics_check_keyboard_end
+                            113     ; ;; O is pressed
+                            114     ; sys_physics_A_is_pressed:
+                            115     ;     ;; set movement active
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
 
 
-                            116     ;     pop de
-                            117     ;     ;;check animations
-                            118     ;     ld hl, #direction
-                            119     ;     add hl, de
-                            120     ;     ld a , (hl)
-                            121     ;     and #DIRECT_A
-                            122     ;     cp #DIRECT_A
-                            123     ;     jr z, goto_velocity1 ;; si la animacion ya estaba en A
-                            124     ;     ;;set animation array
-                            125     ;     ld hl, #anim_A
-                            126     ;     push hl
-                            127     ;     ld hl, #AnimFrame
-                            128     ;     add hl, de
-                            129     ;     pop bc
-                            130     ;     ld (hl),c
-                            131     ;     inc hl
-                            132     ;     ld (hl),b
-                            133     ;     ;; set direction
-                            134     ;     ld hl, #direction
-                            135     ;     add hl, de
-                            136     ;     ld (hl), #DIRECT_A
-                            137         
-                            138     ;    goto_velocity1:
-                            139     ;     ;; vx = 1
-                            140     ;     ld      hl, #VX
-                            141     ;     add     hl, de
-                            142     ;     ld      (hl), #-1
-                            143 
-                            144     ;     jr      sys_physics_check_keyboard_end
-                            145 
-                            146     ; sys_physics_D_is_pressed:
-                            147     ; ;; set movement active
-                            148     ;     ld a, #1
-                            149     ;     ld (move_active), a
-                            150     ;     ;; set 1 to put the axis x active
-                            151     ;     ld a, #1
-                            152     ;     ld (choose_axis), a
-                            153     ;     ;; retrieve entity
-                            154     ;     pop de
-                            155     ;     ;;check animations
-                            156     ;     ld hl, #direction
-                            157     ;     add hl, de
-                            158     ;     ld a , (hl)
-                            159     ;     and #DIRECT_D
-                            160     ;     cp #DIRECT_D
-                            161     ;     jr z, goto_velocity ;; si la animacion ya estaba en A
-                            162     ;     ; ;;set animation array
-                            163     ;     ld hl, #anim_D
-                            164     ;     push hl
-                            165     ;     ld hl, #AnimFrame
-                            166     ;     add hl, de
-                            167     ;     pop bc
-                            168     ;     ld (hl),c
-                            169     ;     inc hl
-                            170     ;     ld (hl),b
+                            116     ;     ld a, #1
+                            117     ;     ld (move_active), a
+                            118     ;     ;; set 1 to put the axis x active
+                            119     ;     ld a, #1
+                            120     ;     ld (choose_axis), a
+                            121     ;      ;; retrieve entity
+                            122     ;     pop de
+                            123     ;     ;;check animations
+                            124     ;     ld hl, #direction
+                            125     ;     add hl, de
+                            126     ;     ld a , (hl)
+                            127     ;     and #DIRECT_A
+                            128     ;     cp #DIRECT_A
+                            129     ;     jr z, goto_velocity1 ;; si la animacion ya estaba en A
+                            130     ;     ;;set animation array
+                            131     ;     ld hl, #anim_A
+                            132     ;     push hl
+                            133     ;     ld hl, #AnimFrame
+                            134     ;     add hl, de
+                            135     ;     pop bc
+                            136     ;     ld (hl),c
+                            137     ;     inc hl
+                            138     ;     ld (hl),b
+                            139     ;     ;; set direction
+                            140     ;     ld hl, #direction
+                            141     ;     add hl, de
+                            142     ;     ld (hl), #DIRECT_A
+                            143         
+                            144     ;    goto_velocity1:
+                            145     ;     ;; vx = 1
+                            146     ;     ld      hl, #VX
+                            147     ;     add     hl, de
+                            148     ;     ld      (hl), #-1
+                            149 
+                            150     ;     jr      sys_physics_check_keyboard_end
+                            151 
+                            152     ; sys_physics_D_is_pressed:
+                            153     ; ;; set movement active
+                            154     ;     ld a, #1
+                            155     ;     ld (move_active), a
+                            156     ;     ;; set 1 to put the axis x active
+                            157     ;     ld a, #1
+                            158     ;     ld (choose_axis), a
+                            159     ;     ;; retrieve entity
+                            160     ;     pop de
+                            161     ;     ;;check animations
+                            162     ;     ld hl, #direction
+                            163     ;     add hl, de
+                            164     ;     ld a , (hl)
+                            165     ;     and #DIRECT_D
+                            166     ;     cp #DIRECT_D
+                            167     ;     jr z, goto_velocity ;; si la animacion ya estaba en A
+                            168     ;     ; ;;set animation array
+                            169     ;     ld hl, #anim_D
+                            170     ;     push hl
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 100.
 Hexadecimal [16-Bits]
 
 
 
-                            171     ;     ; set direction
-                            172     ;     ld hl, #direction
-                            173     ;     add hl, de
-                            174     ;     ld (hl), #DIRECT_D
-                            175         
-                            176     ;    goto_velocity:
-                            177     ;     ;; vx = 1
-                            178     ;     ld      hl, #VX
-                            179     ;     add     hl, de
-                            180     ;     ld      (hl), #1
-                            181 
-                            182     ;     jr      sys_physics_check_keyboard_end
-                            183     ; sys_physics_W_is_pressed:
-                            184     ; ;; set movement active
-                            185     ;     ld a, #1
-                            186     ;     ld (move_active), a
-                            187     ; ;; set 0 to put the axis y active
-                            188     ;     ld a, #0
-                            189     ;     ld (choose_axis), a
-                            190     ;     ;; retrieve entity
-                            191     ;     pop de
-                            192     ;     ; ld hl, #direction
-                            193     ;     ; add hl, de
-                            194     ;     ; ld a , (hl)
-                            195     ;     ; and #DIRECT_D
-                            196     ;     ; cp #DIRECT_D
-                            197     ;     ; jr z, goto_velocity ;; si la animacion ya estaba en A
-                            198     ;     ; ; ;;set animation array
-                            199     ;     ; ld hl, #anim_D
-                            200     ;     ; push hl
-                            201     ;     ; ld hl, #AnimFrame
-                            202     ;     ; add hl, de
-                            203     ;     ; pop bc
-                            204     ;     ; ld (hl),c
-                            205     ;     ; inc hl
-                            206     ;     ; ld (hl),b
-                            207     ;     ; ; set direction
-                            208     ;     ; ld hl, #direction
-                            209     ;     ; add hl, de
-                            210     ;     ; ld (hl), #DIRECT_D
-                            211         
-                            212     ;     ; goto_velocity2:
-                            213         
-                            214         
-                            215     ;     ;; vx = 1
-                            216     ;     ; ld      hl, #VY
-                            217     ;     ; add     hl, de
-                            218     ;     ; ld      (hl), #-2
-                            219 
-                            220     ;     ; jr      sys_physics_check_keyboard_end
-                            221     ; sys_physics_S_is_pressed:
-                            222     ;  ;; set movement active
-                            223     ; ;     ld a, #1
-                            224     ; ;     ld (move_active), a
-                            225     ; ; ;; set 0 to put the axis y active
+                            171     ;     ld hl, #AnimFrame
+                            172     ;     add hl, de
+                            173     ;     pop bc
+                            174     ;     ld (hl),c
+                            175     ;     inc hl
+                            176     ;     ld (hl),b
+                            177     ;     ; set direction
+                            178     ;     ld hl, #direction
+                            179     ;     add hl, de
+                            180     ;     ld (hl), #DIRECT_D
+                            181         
+                            182     ;    goto_velocity:
+                            183     ;     ;; vx = 1
+                            184     ;     ld      hl, #VX
+                            185     ;     add     hl, de
+                            186     ;     ld      (hl), #1
+                            187 
+                            188     ;     jr      sys_physics_check_keyboard_end
+                            189     ; sys_physics_W_is_pressed:
+                            190     ; ;; set movement active
+                            191     ;     ld a, #1
+                            192     ;     ld (move_active), a
+                            193     ; ;; set 0 to put the axis y active
+                            194     ;     ld a, #0
+                            195     ;     ld (choose_axis), a
+                            196     ;     ;; retrieve entity
+                            197     ;     pop de
+                            198     ;     ; ld hl, #direction
+                            199     ;     ; add hl, de
+                            200     ;     ; ld a , (hl)
+                            201     ;     ; and #DIRECT_D
+                            202     ;     ; cp #DIRECT_D
+                            203     ;     ; jr z, goto_velocity ;; si la animacion ya estaba en A
+                            204     ;     ; ; ;;set animation array
+                            205     ;     ; ld hl, #anim_D
+                            206     ;     ; push hl
+                            207     ;     ; ld hl, #AnimFrame
+                            208     ;     ; add hl, de
+                            209     ;     ; pop bc
+                            210     ;     ; ld (hl),c
+                            211     ;     ; inc hl
+                            212     ;     ; ld (hl),b
+                            213     ;     ; ; set direction
+                            214     ;     ; ld hl, #direction
+                            215     ;     ; add hl, de
+                            216     ;     ; ld (hl), #DIRECT_D
+                            217         
+                            218     ;     ; goto_velocity2:
+                            219         
+                            220         
+                            221     ;     ;; vx = 1
+                            222     ;     ; ld      hl, #VY
+                            223     ;     ; add     hl, de
+                            224     ;     ; ld      (hl), #-2
+                            225 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 101.
 Hexadecimal [16-Bits]
 
 
 
-                            226     ; ;     ld a, #0
-                            227     ; ;     ld (choose_axis), a
-                            228     ; ;     ;; retrieve entity
-                            229     ; ;     pop de
-                            230     ; ;     ;;check animations
-                            231     ;     ; ld hl, #direction
-                            232     ;     ; add hl, de
-                            233     ;     ; ld a , (hl)
-                            234     ;     ; and #DIRECT_S
-                            235     ;     ; cp #DIRECT_S
-                            236     ;     ; jr z, goto_velocity3 ;; si la animacion ya estaba en A
-                            237     ;     ; ;;set animation array
-                            238     ;     ; ld hl, #anim_S
-                            239     ;     ; push hl
-                            240     ;     ; ld hl, #AnimFrame
-                            241     ;     ; add hl, de
-                            242     ;     ; pop bc
-                            243     ;     ; ld (hl),c
-                            244     ;     ; inc hl
-                            245     ;     ; ld (hl),b
-                            246     ;     ; ;; set direction
-                            247     ;     ; ld hl, #direction
-                            248     ;     ; add hl, de
-                            249     ;     ; ld (hl), #DIRECT_S
-                            250         
-                            251     ;     ; goto_velocity3:
-                            252         
-                            253         
-                            254     ;     ;; vx = 1
-                            255     ;     ; ld      hl, #VY
-                            256     ;     ; add     hl, de
-                            257     ;     ; ld      (hl), #2
-                            258 
-                            259     ;     ; jr      sys_physics_check_keyboard_end
-   47B5                     260 _sys_input_update::          
-   47B5 01 2D 47      [10]  261         ld      bc, #sys_input_update_for_one
-   47B8 21 04 00      [10]  262         ld      hl, #E_CMP_INPUT 
-   47BB CD 82 49      [17]  263         call    _man_entity_for_all_matching
-   47BE C9            [10]  264 ret
+                            226     ;     ; jr      sys_physics_check_keyboard_end
+                            227     ; sys_physics_S_is_pressed:
+                            228     ;  ;; set movement active
+                            229     ; ;     ld a, #1
+                            230     ; ;     ld (move_active), a
+                            231     ; ; ;; set 0 to put the axis y active
+                            232     ; ;     ld a, #0
+                            233     ; ;     ld (choose_axis), a
+                            234     ; ;     ;; retrieve entity
+                            235     ; ;     pop de
+                            236     ; ;     ;;check animations
+                            237     ;     ; ld hl, #direction
+                            238     ;     ; add hl, de
+                            239     ;     ; ld a , (hl)
+                            240     ;     ; and #DIRECT_S
+                            241     ;     ; cp #DIRECT_S
+                            242     ;     ; jr z, goto_velocity3 ;; si la animacion ya estaba en A
+                            243     ;     ; ;;set animation array
+                            244     ;     ; ld hl, #anim_S
+                            245     ;     ; push hl
+                            246     ;     ; ld hl, #AnimFrame
+                            247     ;     ; add hl, de
+                            248     ;     ; pop bc
+                            249     ;     ; ld (hl),c
+                            250     ;     ; inc hl
+                            251     ;     ; ld (hl),b
+                            252     ;     ; ;; set direction
+                            253     ;     ; ld hl, #direction
+                            254     ;     ; add hl, de
+                            255     ;     ; ld (hl), #DIRECT_S
+                            256         
+                            257     ;     ; goto_velocity3:
+                            258         
+                            259         
+                            260     ;     ;; vx = 1
+                            261     ;     ; ld      hl, #VY
+                            262     ;     ; add     hl, de
+                            263     ;     ; ld      (hl), #2
+                            264 
+                            265     ;     ; jr      sys_physics_check_keyboard_end
+   49BB                     266 _sys_input_update::          
+   49BB 01 2D 49      [10]  267         ld      bc, #sys_input_update_for_one
+   49BE 21 04 00      [10]  268         ld      hl, #E_CMP_INPUT 
+   49C1 CD 8B 4B      [17]  269         call    _man_entity_for_all_matching
+   49C4 C9            [10]  270 ret

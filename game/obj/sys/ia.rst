@@ -33,7 +33,7 @@ Hexadecimal [16-Bits]
                      000F    19         AnimCounter = 15    ;;u8
                      0010    20         COLLIDES_AGAINST = 16
                      0011    21         last_draw = 17
-                     0012    22         direction = 18
+                     0013    22         direction = 19
                              23                                         
                              24     ;; Entity types                  
                      0000    25         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
@@ -5122,50 +5122,50 @@ Hexadecimal [16-Bits]
                              39 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              40 ;; IN =>  DE -> entity to update                                      
                              41 ;;
-   4703                      42 sys_ai_update_for_one:
+   4903                      42 sys_ai_update_for_one:
                              43     
                              44     ;; guardo un checkpoint
-   4703 21 22 47      [10]   45     ld      hl, #_return_hear_ia
-   4706 E5            [11]   46     push    hl
+   4903 21 22 49      [10]   45     ld      hl, #_return_hear_ia
+   4906 E5            [11]   46     push    hl
                              47 
-   4707 D5            [11]   48     push de
+   4907 D5            [11]   48     push de
                              49     ;; go to entity-> iabehaviour
-   4708 21 0A 00      [10]   50     ld      hl, #IA_behaviour
-   470B 19            [11]   51     add     hl, de
+   4908 21 0A 00      [10]   50     ld      hl, #IA_behaviour
+   490B 19            [11]   51     add     hl, de
                              52     ;; de<=>hl and save first byte in L
-   470C 5D            [ 4]   53     ld      e, l
-   470D 54            [ 4]   54     ld      d, h
-   470E 1A            [ 7]   55     ld      a, (de) 
-   470F 6F            [ 4]   56     ld      l, a
+   490C 5D            [ 4]   53     ld      e, l
+   490D 54            [ 4]   54     ld      d, h
+   490E 1A            [ 7]   55     ld      a, (de) 
+   490F 6F            [ 4]   56     ld      l, a
                              57     ;; add 1 to de and save second byte in H
-   4710 13            [ 6]   58     inc     de
-   4711 1A            [ 7]   59     ld      a, (de)
-   4712 67            [ 4]   60     ld      h, a
+   4910 13            [ 6]   58     inc     de
+   4911 1A            [ 7]   59     ld      a, (de)
+   4912 67            [ 4]   60     ld      h, a
                              61     ;; save in stack memory pointer to call function
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
 
 
-   4713 DD 75 04      [19]   62     ld      4(ix), l
-   4716 DD 74 05      [19]   63     ld      5(ix), h
+   4913 DD 75 04      [19]   62     ld      4(ix), l
+   4916 DD 74 05      [19]   63     ld      5(ix), h
                              64 
-   4719 D1            [10]   65     pop de
+   4919 D1            [10]   65     pop de
                              66     ;; call function
-   471A DD 4E 04      [19]   67     ld c, 4(ix)
-   471D DD 46 05      [19]   68     ld b, 5(ix)
-   4720 C5            [11]   69     push bc
-   4721 C9            [10]   70     ret
-   4722                      71     _return_hear_ia:
-   4722 C9            [10]   72 ret
+   491A DD 4E 04      [19]   67     ld c, 4(ix)
+   491D DD 46 05      [19]   68     ld b, 5(ix)
+   4920 C5            [11]   69     push bc
+   4921 C9            [10]   70     ret
+   4922                      71     _return_hear_ia:
+   4922 C9            [10]   72 ret
                              73 
                              74 
                              75 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              76 ;; CAll PHYSICS FOR ALL ENTITY :;
                              77 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   4723                      78 _sys_ai_update::          
-   4723 01 03 47      [10]   79         ld      bc, #sys_ai_update_for_one
-   4726 21 0A 00      [10]   80         ld      hl, #E_CMP_IA | #E_CMP_MOVABLE
-   4729 CD 82 49      [17]   81         call    _man_entity_for_all_matching
-   472C C9            [10]   82 ret
+   4923                      78 _sys_ai_update::          
+   4923 01 03 49      [10]   79         ld      bc, #sys_ai_update_for_one
+   4926 21 0A 00      [10]   80         ld      hl, #E_CMP_IA | #E_CMP_MOVABLE
+   4929 CD 8B 4B      [17]   81         call    _man_entity_for_all_matching
+   492C C9            [10]   82 ret
                              83 

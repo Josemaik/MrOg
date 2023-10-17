@@ -77,14 +77,15 @@ Symbol Table
     _spr_spr   **** GX  |     _spr_spr   **** GX  |     _spr_spr   **** GX
     _spr_spr   **** GX  |     _spr_spr   **** GX  |     _spr_spr   **** GX
     _spr_spr   **** GX  |     _spr_spr   **** GX  |     _spr_spr   **** GX
-    _spr_spr   **** GX  |     _sys_ani   **** GX  |     _sys_inp   **** GX
-    _sys_phy   **** GX  |     _sys_ren   **** GX  |     _sys_ren   **** GX
-    cpct_mem   **** GX  |     cpct_mem   **** GX  |     cpct_pag=  0000 
-    cpct_pag=  0010     |     cpct_pag=  0020     |     cpct_pag=  0030 
-    cpct_wai   **** GX  |     cpct_wai   **** GX  |     directio=  0012 
-    firmware=  0038     |     last_dra=  0011     |     man_enti   **** GX
-    opc_DI  =  00F3     |     opc_EI  =  00FB     |     opc_JR  =  0018 
-    opc_LD_D=  0016     |   1 playersh   0000 GR
+    _spr_spr   **** GX  |     _spr_spr   **** GX  |     _spr_spr   **** GX
+    _spr_spr   **** GX  |     _spr_spr   **** GX  |     _sys_ani   **** GX
+    _sys_inp   **** GX  |     _sys_phy   **** GX  |     _sys_ren   **** GX
+    _sys_ren   **** GX  |     cpct_mem   **** GX  |     cpct_mem   **** GX
+    cpct_pag=  0000     |     cpct_pag=  0010     |     cpct_pag=  0020 
+    cpct_pag=  0030     |     cpct_wai   **** GX  |     cpct_wai   **** GX
+    directio=  0013     |     firmware=  0038     |     last_dra=  0011 
+    man_enti   **** GX  |     opc_DI  =  00F3     |     opc_EI  =  00FB 
+    opc_JR  =  0018     |     opc_LD_D=  0016     |   1 playersh   0000 GR
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]

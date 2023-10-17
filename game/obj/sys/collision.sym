@@ -75,7 +75,7 @@ Symbol Table
   0 _sys_col   004F GR  |   0 check_co   001C R   |   0 collisio   0042 R
     cpct_mem   **** GX  |     cpct_mem   **** GX  |     cpct_pag=  0000 
     cpct_pag=  0010     |     cpct_pag=  0020     |     cpct_pag=  0030 
-    directio=  0012     |   0 dont_hav   004E R   |     firmware=  0038 
+    directio=  0013     |   0 dont_hav   004E R   |     firmware=  0038 
     last_dra=  0011     |   0 no_colli   0049 R   |     opc_DI  =  00F3 
     opc_EI  =  00FB     |     opc_JR  =  0018     |     opc_LD_D=  0016 
   0 sys_coll   0000 GR

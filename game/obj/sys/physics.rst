@@ -33,7 +33,7 @@ Hexadecimal [16-Bits]
                      000F    19         AnimCounter = 15    ;;u8
                      0010    20         COLLIDES_AGAINST = 16
                      0011    21         last_draw = 17
-                     0012    22         direction = 18
+                     0013    22         direction = 19
                              23                                         
                              24     ;; Entity types                  
                      0000    25         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
@@ -5096,153 +5096,156 @@ Hexadecimal [16-Bits]
                               7 
                               8 ;; if the value == 1 => X axis
                               9 ;; if the value == 0 => Y axis
-   47BF                      10 choose_axis::
-   47BF 00                   11     .db 0x00
+   49C5                      10 choose_axis::
+   49C5 00                   11     .db 0x00
                              12 
                              13 ;;;;;;;;;;;;;;;
                              14 ;; FUNCTIONS ;;
                              15 ;;;;;;;;;;;;;;;
-   47C0                      16 stop_sprite::
+   49C6                      16 stop_sprite::
                              17 ;;parar sprite
-   47C0 21 07 00      [10]   18     ld      hl, #VY
-   47C3 19            [11]   19     add     hl, de
-   47C4 36 00         [10]   20     ld      (hl),#0
-   47C6 21 06 00      [10]   21     ld      hl, #VX
-   47C9 19            [11]   22     add     hl, de
-   47CA 36 00         [10]   23     ld      (hl),#0
-   47CC C9            [10]   24 ret
-   47CD                      25 choose_axis_x::
-   47CD 3E 01         [ 7]   26     ld a, #1
-   47CF 32 BF 47      [13]   27     ld (choose_axis), a
-   47D2 C9            [10]   28 ret
-   47D3                      29 choose_axis_y::
-   47D3 3E 00         [ 7]   30     ld a, #0
-   47D5 32 BF 47      [13]   31     ld (choose_axis), a
-   47D8 C9            [10]   32 ret
-   47D9                      33 setvelocity::
-   47D9 21 12 00      [10]   34     ld hl , #direction
-   47DC 19            [11]   35     add hl, de
-   47DD 7E            [ 7]   36     ld a, (hl)
+   49C6 21 07 00      [10]   18     ld      hl, #VY
+   49C9 19            [11]   19     add     hl, de
+   49CA 36 00         [10]   20     ld      (hl),#0
+   49CC 21 06 00      [10]   21     ld      hl, #VX
+   49CF 19            [11]   22     add     hl, de
+   49D0 36 00         [10]   23     ld      (hl),#0
+   49D2 C9            [10]   24 ret
+   49D3                      25 choose_axis_x::
+   49D3 3E 01         [ 7]   26     ld a, #1
+   49D5 32 C5 49      [13]   27     ld (choose_axis), a
+   49D8 C9            [10]   28 ret
+   49D9                      29 choose_axis_y::
+   49D9 3E 00         [ 7]   30     ld a, #0
+   49DB 32 C5 49      [13]   31     ld (choose_axis), a
+   49DE C9            [10]   32 ret
+   49DF                      33 setvelocity::
+   49DF 21 13 00      [10]   34     ld hl , #direction
+   49E2 19            [11]   35     add hl, de
+   49E3 7E            [ 7]   36     ld a, (hl)
                              37     ;; check is direction is A
-   47DE E6 02         [ 7]   38     and #DIRECT_A
-   47E0 FE 02         [ 7]   39     cp #DIRECT_A
-   47E2 28 12         [12]   40     jr z, set_velocity_x_A
+   49E4 E6 02         [ 7]   38     and #DIRECT_A
+   49E6 FE 02         [ 7]   39     cp #DIRECT_A
+   49E8 28 15         [12]   40     jr z, set_velocity_x_A
                              41 ;; check is direction is D
-   47E4 E6 08         [ 7]   42     and #DIRECT_D
-   47E6 FE 08         [ 7]   43     cp #DIRECT_D
-   47E8 28 14         [12]   44     jr z, set_velocity_x_D
-                             45 ;; check is direction is W
-   47EA E6 01         [ 7]   46     and #DIRECT_W
-   47EC FE 01         [ 7]   47     cp #DIRECT_W
-   47EE 28 16         [12]   48     jr z, set_velocity_x_W
-                             49 ;; check is direction is S
-   47F0 E6 04         [ 7]   50     and #DIRECT_S
-   47F2 FE 04         [ 7]   51     cp #DIRECT_S
-   47F4 28 18         [12]   52      jr z, set_velocity_x_S
-                             53 
-   47F6                      54     set_velocity_x_A:
-   47F6 21 06 00      [10]   55         ld      hl, #VX
-   47F9 19            [11]   56         add     hl, de
-   47FA 36 FF         [10]   57         ld      (hl), #-1
-   47FC 18 16         [12]   58         jr setvelocity_end
-   47FE                      59     set_velocity_x_D:
-   47FE 21 06 00      [10]   60         ld      hl, #VX
-   4801 19            [11]   61         add     hl, de
+   49EA 7E            [ 7]   42     ld a, (hl)
+   49EB E6 08         [ 7]   43     and #DIRECT_D
+   49ED FE 08         [ 7]   44     cp #DIRECT_D
+   49EF 28 16         [12]   45     jr z, set_velocity_x_D
+                             46 ;; check is direction is W
+   49F1 7E            [ 7]   47     ld a, (hl)
+   49F2 E6 01         [ 7]   48     and #DIRECT_W
+   49F4 FE 01         [ 7]   49     cp #DIRECT_W
+   49F6 28 17         [12]   50     jr z, set_velocity_x_W
+                             51 ;; check is direction is S
+   49F8 7E            [ 7]   52     ld a, (hl)
+   49F9 E6 04         [ 7]   53     and #DIRECT_S
+   49FB FE 04         [ 7]   54     cp #DIRECT_S
+   49FD 28 18         [12]   55      jr z, set_velocity_x_S
+                             56 
+   49FF                      57     set_velocity_x_A:
+   49FF 21 06 00      [10]   58         ld      hl, #VX
+   4A02 19            [11]   59         add     hl, de
+   4A03 36 FF         [10]   60         ld      (hl), #-1
+   4A05 18 16         [12]   61         jr setvelocity_end
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
 
 
-   4802 36 01         [10]   62         ld      (hl), #1
-   4804 18 0E         [12]   63         jr setvelocity_end
-   4806                      64     set_velocity_x_W:
-   4806 21 07 00      [10]   65         ld      hl, #VY
-   4809 19            [11]   66         add     hl, de
-   480A 36 02         [10]   67         ld      (hl), #2
-   480C 18 06         [12]   68         jr setvelocity_end
-   480E                      69     set_velocity_x_S:
-   480E 21 07 00      [10]   70         ld      hl, #VY
-   4811 19            [11]   71         add     hl, de
-   4812 36 FE         [10]   72         ld      (hl), #-2
-                             73 
-   4814                      74     setvelocity_end:
-   4814 C9            [10]   75 ret
-                             76 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             77 ;; UPDATE PHYSICS FOR ONE ENTITY 
-                             78 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             79 ;; IN =>  DE -> entity to update                                      
-                             80 ;;pop de
-   4815                      81 sys_physics_update_for_one:
-                             82     ;; if entity have input
-                             83         ; ld      hl, #CMPs
-                             84         ; add     hl, de
-                             85         ; ld      a, (hl)
-                             86 
-                             87         ; and #E_CMP_INPUT
-                             88         ; cp  #E_CMP_INPUT
-                             89         ; jr z, sys_physics_check_kb
-                             90         ;     jr sys_physics_no_check_kb
-                             91         ; sys_physics_check_kb:
-                             92         ;     call sys_physics_check_keyboard
-                             93         ; sys_physics_no_check_kb:
-                             94     ;;x+vx
-                             95     ;; go to entity->x and load in a
-   4815 3A BF 47      [13]   96         ld a, (choose_axis)
-   4818 FE 01         [ 7]   97         cp #1
-   481A 28 02         [12]   98         jr z, move_x_axis
-   481C 18 11         [12]   99             jr move_y_axis
-   481E                     100 move_x_axis:
-   481E 21 02 00      [10]  101         ld      hl, #X
-   4821 19            [11]  102         add     hl, de
-   4822 7E            [ 7]  103         ld      a, (hl)    
-                            104 
-                            105     ;; go to entity-vx 
-   4823 21 06 00      [10]  106         ld      hl, #VX
-   4826 19            [11]  107         add     hl, de
-                            108     ;; a+hl
-   4827 86            [ 7]  109         add     (hl)
-                            110 
-                            111     ;; if in the end
-                            112         ; jr      c, sys_destroy_entity 
-                            113     ;; x > 0        
-                            114         ; jr      sys_save_vx
-                            115     ;; x < 0
-                            116     ; sys_destroy_entity:
+   4A07                      62     set_velocity_x_D:
+   4A07 21 06 00      [10]   63         ld      hl, #VX
+   4A0A 19            [11]   64         add     hl, de
+   4A0B 36 01         [10]   65         ld      (hl), #1
+   4A0D 18 0E         [12]   66         jr setvelocity_end
+   4A0F                      67     set_velocity_x_W:
+   4A0F 21 07 00      [10]   68         ld      hl, #VY
+   4A12 19            [11]   69         add     hl, de
+   4A13 36 FE         [10]   70         ld      (hl), #-2
+   4A15 18 06         [12]   71         jr setvelocity_end
+   4A17                      72     set_velocity_x_S:
+   4A17 21 07 00      [10]   73         ld      hl, #VY
+   4A1A 19            [11]   74         add     hl, de
+   4A1B 36 02         [10]   75         ld      (hl), #2
+                             76 
+   4A1D                      77     setvelocity_end:
+   4A1D C9            [10]   78 ret
+                             79 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             80 ;; UPDATE PHYSICS FOR ONE ENTITY 
+                             81 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             82 ;; IN =>  DE -> entity to update                                      
+                             83 ;;pop de
+   4A1E                      84 sys_physics_update_for_one:
+                             85     ;; if entity have input
+                             86         ; ld      hl, #CMPs
+                             87         ; add     hl, de
+                             88         ; ld      a, (hl)
+                             89 
+                             90         ; and #E_CMP_INPUT
+                             91         ; cp  #E_CMP_INPUT
+                             92         ; jr z, sys_physics_check_kb
+                             93         ;     jr sys_physics_no_check_kb
+                             94         ; sys_physics_check_kb:
+                             95         ;     call sys_physics_check_keyboard
+                             96         ; sys_physics_no_check_kb:
+                             97     ;;x+vx
+                             98     ;; go to entity->x and load in a
+   4A1E 3A C5 49      [13]   99         ld a, (choose_axis)
+   4A21 FE 01         [ 7]  100         cp #1
+   4A23 28 02         [12]  101         jr z, move_x_axis
+   4A25 18 11         [12]  102             jr move_y_axis
+   4A27                     103 move_x_axis:
+   4A27 21 02 00      [10]  104         ld      hl, #X
+   4A2A 19            [11]  105         add     hl, de
+   4A2B 7E            [ 7]  106         ld      a, (hl)    
+                            107 
+                            108     ;; go to entity-vx 
+   4A2C 21 06 00      [10]  109         ld      hl, #VX
+   4A2F 19            [11]  110         add     hl, de
+                            111     ;; a+hl
+   4A30 86            [ 7]  112         add     (hl)
+                            113 
+                            114     ;; if in the end
+                            115         ; jr      c, sys_destroy_entity 
+                            116     ;; x > 0        
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 100.
 Hexadecimal [16-Bits]
 
 
 
-                            117     ;     call    _man_entity_set_for_destruction
-                            118     ;     jr end_physics
-                            119     ; sys_save_x:    
-   4828 21 02 00      [10]  120         ld      hl, #X
-   482B 19            [11]  121         add     hl, de
-   482C 77            [ 7]  122         ld      (hl), a
-                            123 
-   482D 18 0B         [12]  124         jr end_physics
-                            125     ;; y+vy
-   482F                     126     move_y_axis:
-                            127             ;; go to entity->vy
-   482F 21 07 00      [10]  128                 ld      hl, #VY
-   4832 19            [11]  129                 add     hl, de
-   4833 7E            [ 7]  130                 ld      a, (hl)
-                            131             ;; go to entity->y and add it to vy
-   4834 21 03 00      [10]  132                 ld      hl, #Y
-   4837 19            [11]  133                 add     hl, de
-                            134 
-   4838 86            [ 7]  135                 add     (hl)
-                            136             ;; load it in entity->y
-   4839 77            [ 7]  137                 ld      (hl), a
-   483A                     138     end_physics:
-   483A C9            [10]  139     ret
-                            140 
-                            141 
-                            142 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            143 ;; CAll PHYSICS FOR ALL ENTITY :;
-                            144 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   483B                     145 _sys_physics_update::          
-   483B 01 15 48      [10]  146         ld      bc, #sys_physics_update_for_one
-   483E 21 02 00      [10]  147         ld      hl, #E_CMP_MOVABLE
-   4841 CD 82 49      [17]  148         call    _man_entity_for_all_matching
-   4844 C9            [10]  149 ret
+                            117         ; jr      sys_save_vx
+                            118     ;; x < 0
+                            119     ; sys_destroy_entity:
+                            120     ;     call    _man_entity_set_for_destruction
+                            121     ;     jr end_physics
+                            122     ; sys_save_x:    
+   4A31 21 02 00      [10]  123         ld      hl, #X
+   4A34 19            [11]  124         add     hl, de
+   4A35 77            [ 7]  125         ld      (hl), a
+                            126 
+   4A36 18 0B         [12]  127         jr end_physics
+                            128     ;; y+vy
+   4A38                     129     move_y_axis:
+                            130             ;; go to entity->vy
+   4A38 21 07 00      [10]  131                 ld      hl, #VY
+   4A3B 19            [11]  132                 add     hl, de
+   4A3C 7E            [ 7]  133                 ld      a, (hl)
+                            134             ;; go to entity->y and add it to vy
+   4A3D 21 03 00      [10]  135                 ld      hl, #Y
+   4A40 19            [11]  136                 add     hl, de
+                            137 
+   4A41 86            [ 7]  138                 add     (hl)
+                            139             ;; load it in entity->y
+   4A42 77            [ 7]  140                 ld      (hl), a
+   4A43                     141     end_physics:
+   4A43 C9            [10]  142     ret
+                            143 
+                            144 
+                            145 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            146 ;; CAll PHYSICS FOR ALL ENTITY :;
+                            147 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   4A44                     148 _sys_physics_update::          
+   4A44 01 1E 4A      [10]  149         ld      bc, #sys_physics_update_for_one
+   4A47 21 02 00      [10]  150         ld      hl, #E_CMP_MOVABLE
+   4A4A CD 8B 4B      [17]  151         call    _man_entity_for_all_matching
+   4A4D C9            [10]  152 ret

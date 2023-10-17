@@ -1,16 +1,20 @@
 XL2
-H 1 areas D global symbols
-S _spr_sprite1_S Ref0000
-S _spr_sprite2_S Ref0000
-S _spr_sprite3_S Ref0000
-S _spr_sprite4_S Ref0000
-S _spr_sprite1_W Ref0000
-S _spr_sprite2_W Ref0000
-S _spr_sprite3_W Ref0000
-S _spr_sprite4_W Ref0000
+H 1 areas 11 global symbols
+S _spr_spritesheet_00 Ref0000
+S _spr_spritesheet_10 Ref0000
+S _spr_spritesheet_01 Ref0000
+S _spr_spritesheet_11 Ref0000
+S _spr_spritesheet_02 Ref0000
+S _spr_spritesheet_12 Ref0000
+S _spr_spritesheet_03 Ref0000
+S _spr_spritesheet_13 Ref0000
+S _spr_spritesheet_04 Ref0000
+S _spr_spritesheet_14 Ref0000
+S _spr_spritesheet_05 Ref0000
+S _spr_spritesheet_15 Ref0000
+S _spr_spritesheet_06 Ref0000
+S _spr_spritesheet_07 Ref0000
+S _spr_spritesheet_08 Ref0000
+S _spr_spritesheet_09 Ref0000
 S .__.ABS. Def0000
-S _spr_sprite1_A Ref0000
-S _spr_sprite2_A Ref0000
-S _spr_sprite3_A Ref0000
-S _spr_sprite4_A Ref0000
 A _CODE size 0 flags 0 addr 0

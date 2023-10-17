@@ -72,22 +72,22 @@ Symbol Table
     TOTAL_EN=  0001     |     TOTAL_SP=  0014     |     TYPE    =  0000 
     VX      =  0006     |     VY      =  0007     |     WIDTH   =  0004 
     X       =  0002     |     Y       =  0003     |     _man_ent   **** GX
-    _man_ent   **** GX  |     _man_ent   **** GX  |   0 _sys_phy   007C GR
+    _man_ent   **** GX  |     _man_ent   **** GX  |   0 _sys_phy   007F GR
   0 choose_a   0000 GR  |   0 choose_a   000E GR  |   0 choose_a   0014 GR
     cpct_mem   **** GX  |     cpct_mem   **** GX  |     cpct_pag=  0000 
     cpct_pag=  0010     |     cpct_pag=  0020     |     cpct_pag=  0030 
-    directio=  0012     |   0 end_phys   007B R   |     firmware=  0038 
-    last_dra=  0011     |   0 move_x_a   005F R   |   0 move_y_a   0070 R
+    directio=  0013     |   0 end_phys   007E R   |     firmware=  0038 
+    last_dra=  0011     |   0 move_x_a   0062 R   |   0 move_y_a   0073 R
     opc_DI  =  00F3     |     opc_EI  =  00FB     |     opc_JR  =  0018 
-    opc_LD_D=  0016     |   0 set_velo   0037 R   |   0 set_velo   003F R
-  0 set_velo   004F R   |   0 set_velo   0047 R   |   0 setveloc   001A GR
-  0 setveloc   0055 R   |   0 stop_spr   0001 GR  |   0 sys_phys   0056 R
+    opc_LD_D=  0016     |   0 set_velo   003A R   |   0 set_velo   0042 R
+  0 set_velo   0052 R   |   0 set_velo   004A R   |   0 setveloc   001A GR
+  0 setveloc   0058 R   |   0 stop_spr   0001 GR  |   0 sys_phys   0059 R
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   86   flags    0
+   0 _CODE      size   89   flags    0
    1 _DATA      size    0   flags    0
 

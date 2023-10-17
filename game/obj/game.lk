@@ -7,18 +7,7 @@
 -k /home/cpc/cpctelera/cpctelera/tools/sdcc-3.6.8-r9946/share/sdcc/lib/z80
 -l /home/cpc/cpctelera/cpctelera/cpctelera.lib
 -l z80
-obj/sprites/sprite4_A.rel
-obj/sprites/sprite3_A.rel
-obj/sprites/sprite2_A.rel
-obj/sprites/sprite1_A.rel
-obj/sprites/sprite4_W.rel
-obj/sprites/sprite3_W.rel
-obj/sprites/sprite2_W.rel
-obj/sprites/sprite1_W.rel
-obj/sprites/sprite4_S.rel
-obj/sprites/sprite3_S.rel
-obj/sprites/sprite2_S.rel
-obj/sprites/sprite1_S.rel
+obj/sprites/spritesheet.rel
 obj/sprites/main_palette.rel
 obj/main.rel
 obj/sys/animations.h.rel

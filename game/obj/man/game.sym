@@ -78,7 +78,7 @@ Symbol Table
     _sys_ren   **** GX  |   0 _wait      0000 R   |     cpct_mem   **** GX
     cpct_mem   **** GX  |     cpct_pag=  0000     |     cpct_pag=  0010 
     cpct_pag=  0020     |     cpct_pag=  0030     |     cpct_wai   **** GX
-    cpct_wai   **** GX  |     directio=  0012     |     firmware=  0038 
+    cpct_wai   **** GX  |     directio=  0013     |     firmware=  0038 
     last_dra=  0011     |   0 loop       0032 R   |     man_enti   **** GX
   0 man_game   0013 GR  |   0 man_game   0028 GR  |   0 man_game   0032 GR
     opc_DI  =  00F3     |     opc_EI  =  00FB     |     opc_JR  =  0018 

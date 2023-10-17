@@ -4998,8 +4998,8 @@ Hexadecimal [16-Bits]
                               3 
                               4 .area _DATA
                               5 
-   4CF5                       6     _m_palette::
-   4CF5                       7         .ds 16
+   4EFE                       6     _m_palette::
+   4EFE                       7         .ds 16
                               8 
                               9 .area _CODE
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
@@ -5029,7 +5029,7 @@ Hexadecimal [16-Bits]
                      000F    19         AnimCounter = 15    ;;u8
                      0010    20         COLLIDES_AGAINST = 16
                      0011    21         last_draw = 17
-                     0012    22         direction = 18
+                     0013    22         direction = 19
                              23                                         
                              24     ;; Entity types                  
                      0000    25         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
@@ -5113,7 +5113,7 @@ Hexadecimal [16-Bits]
                              14 ;; FUNCTIONS ;;
                              15 ;;;;;;;;;;;;;;;
                              16 
-   4845                      17 sys_render_draw_solid_box:  
+   4A4E                      17 sys_render_draw_solid_box:  
                              18     ;;;;;;;;;;;;;;;;;;;;;;;;;;
                              19     ;; draw solid box
                              20     ;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -5125,30 +5125,30 @@ Hexadecimal [16-Bits]
                              26     ;;
                              27         ;; de => memory position of entity
                              28         ;;a->colour pattern
-   4845 3E 00         [ 7]   29             ld a, #0
+   4A4E 3E 00         [ 7]   29             ld a, #0
                              30         ;; hl point width, add de, save in c ,hl
-   4847 21 04 00      [10]   31             ld hl,#WIDTH
-   484A 19            [11]   32             add hl,de
-   484B 4E            [ 7]   33             ld c, (hl)
+   4A50 21 04 00      [10]   31             ld hl,#WIDTH
+   4A53 19            [11]   32             add hl,de
+   4A54 4E            [ 7]   33             ld c, (hl)
                              34         ;; hl point height, add de, save in b ,hl
-   484C 21 05 00      [10]   35             ld hl,#HEIGHT
-   484F 19            [11]   36             add hl,de
-   4850 46            [ 7]   37             ld b, (hl)
+   4A55 21 05 00      [10]   35             ld hl,#HEIGHT
+   4A58 19            [11]   36             add hl,de
+   4A59 46            [ 7]   37             ld b, (hl)
                              38 
-   4851 D5            [11]   39             push de
+   4A5A D5            [11]   39             push de
                              40         ;; load last draw in de
-   4852 21 11 00      [10]   41             ld hl, #last_draw
-   4855 19            [11]   42             add hl, de
-   4856 56            [ 7]   43             ld d, (hl)
-   4857 23            [ 6]   44             inc hl
-   4858 5E            [ 7]   45             ld e, (hl)
+   4A5B 21 11 00      [10]   41             ld hl, #last_draw
+   4A5E 19            [11]   42             add hl, de
+   4A5F 56            [ 7]   43             ld d, (hl)
+   4A60 23            [ 6]   44             inc hl
+   4A61 5E            [ 7]   45             ld e, (hl)
                              46   
-   4859 CD 3E 4C      [17]   47         call cpct_drawSolidBox_asm
-   485C D1            [10]   48         pop de
-   485D C9            [10]   49 ret
-   485E                      50 sys_render_draw_one_entity:
+   4A62 CD 47 4E      [17]   47         call cpct_drawSolidBox_asm
+   4A65 D1            [10]   48         pop de
+   4A66 C9            [10]   49 ret
+   4A67                      50 sys_render_draw_one_entity:
                              51     ;; save hl in stck
-   485E E5            [11]   52         push hl
+   4A67 E5            [11]   52         push hl
                              53     ;;;;;;;;;;;;;;;;;;;;;;;;;;
                              54     ;; draw sprite
                              55     ;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -5160,39 +5160,39 @@ Hexadecimal [16-Bits]
                              61     ;;
                              62         ;; de => memory position of entity
                              63         ;; hl point width, add de, save in c ,hl
-   485F 21 04 00      [10]   64             ld hl,#WIDTH
-   4862 19            [11]   65             add hl,de
-   4863 4E            [ 7]   66             ld c, (hl)
+   4A68 21 04 00      [10]   64             ld hl,#WIDTH
+   4A6B 19            [11]   65             add hl,de
+   4A6C 4E            [ 7]   66             ld c, (hl)
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 100.
 Hexadecimal [16-Bits]
 
 
 
                              67         ;; hl point height, add de, save in b ,hl
-   4864 21 05 00      [10]   68             ld hl,#HEIGHT
-   4867 19            [11]   69             add hl,de
-   4868 46            [ 7]   70             ld b, (hl)
+   4A6D 21 05 00      [10]   68             ld hl,#HEIGHT
+   4A70 19            [11]   69             add hl,de
+   4A71 46            [ 7]   70             ld b, (hl)
                              71         ;;hl point sprite,add de and hl-> sprite
-   4869 21 08 00      [10]   72             ld hl, #SPRITE
-   486C 19            [11]   73             add hl,de
+   4A72 21 08 00      [10]   72             ld hl, #SPRITE
+   4A75 19            [11]   73             add hl,de
                              74         ;; save first byte in L
-   486D 5D            [ 4]   75             ld      e, l
-   486E 54            [ 4]   76             ld      d, h
-   486F 1A            [ 7]   77             ld      a, (de) 
-   4870 6F            [ 4]   78             ld      l, a
+   4A76 5D            [ 4]   75             ld      e, l
+   4A77 54            [ 4]   76             ld      d, h
+   4A78 1A            [ 7]   77             ld      a, (de) 
+   4A79 6F            [ 4]   78             ld      l, a
                              79         ;; add 1 to de and save second byte in H
-   4871 13            [ 6]   80             inc     de
-   4872 1A            [ 7]   81             ld      a, (de)
-   4873 67            [ 4]   82             ld      h, a
+   4A7A 13            [ 6]   80             inc     de
+   4A7B 1A            [ 7]   81             ld      a, (de)
+   4A7C 67            [ 4]   82             ld      h, a
                              83          ;; save video memory pointer in DE and in the stack
-   4874 D1            [10]   84             pop de
-   4875 D5            [11]   85             push    de
+   4A7D D1            [10]   84             pop de
+   4A7E D5            [11]   85             push    de
                              86 
-   4876 CD 60 4B      [17]   87         call cpct_drawSprite_asm
+   4A7F CD 69 4D      [17]   87         call cpct_drawSprite_asm
                              88 
                              89     ;; save the pointer to memory of video
-   4879 E1            [10]   90         pop    hl
-   487A C9            [10]   91     ret
+   4A82 E1            [10]   90         pop    hl
+   4A83 C9            [10]   91     ret
                              92 
                              93 
                              94 ;;;;;;;;;;;;;;;;;;;;;;;
@@ -5200,9 +5200,9 @@ Hexadecimal [16-Bits]
                              96 ;;;;;;;;;;;;;;;;;;;;;;;
                              97 ;; IN => DE -> entity to update
                              98 ;;
-   487B                      99 sys_render_update_for_one:
+   4A84                      99 sys_render_update_for_one:
                             100     ;; erase last draw of entity
-   487B CD 45 48      [17]  101     call sys_render_draw_solid_box
+   4A84 CD 4E 4A      [17]  101     call sys_render_draw_solid_box
                             102 
                             103 ;;cpct_getScreenPtr_asm
                             104     ;; IN => DE -> screen start
@@ -5211,17 +5211,17 @@ Hexadecimal [16-Bits]
                             107     ;; OUT =>  HL -> memory direction
                             108 
                             109         ;; get to entity->x and save to C
-   487E 21 02 00      [10]  110             ld      hl, #X
-   4881 19            [11]  111             add     hl, de
-   4882 4E            [ 7]  112             ld      c, (hl)
+   4A87 21 02 00      [10]  110             ld      hl, #X
+   4A8A 19            [11]  111             add     hl, de
+   4A8B 4E            [ 7]  112             ld      c, (hl)
                             113 
                             114         ;; get to entity->y and save to B
-   4883 21 03 00      [10]  115             ld      hl, #Y
-   4886 19            [11]  116             add     hl, de
-   4887 46            [ 7]  117             ld      b, (hl)
+   4A8C 21 03 00      [10]  115             ld      hl, #Y
+   4A8F 19            [11]  116             add     hl, de
+   4A90 46            [ 7]  117             ld      b, (hl)
                             118 
                             119         ;; save entity to update
-   4888 D5            [11]  120             push    de
+   4A91 D5            [11]  120             push    de
                             121 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 101.
 Hexadecimal [16-Bits]
@@ -5229,60 +5229,60 @@ Hexadecimal [16-Bits]
 
 
                             122         ;; load in DE start of the memory
-   4889 11 00 C0      [10]  123             ld      de, #CPCT_VMEM_START_ASM
+   4A92 11 00 C0      [10]  123             ld      de, #CPCT_VMEM_START_ASM
                             124 
-   488C CD E2 4C      [17]  125             call    cpct_getScreenPtr_asm
+   4A95 CD EB 4E      [17]  125             call    cpct_getScreenPtr_asm
                             126             ;; save last draw
-   488F DD 74 04      [19]  127             ld 4(ix), h
-   4892 DD 75 05      [19]  128             ld 5(ix), l
+   4A98 DD 74 04      [19]  127             ld 4(ix), h
+   4A9B DD 75 05      [19]  128             ld 5(ix), l
                             129     ;; retrieve entity of the stack
-   4895 D1            [10]  130         pop     de
-   4896 E5            [11]  131         push hl
+   4A9E D1            [10]  130         pop     de
+   4A9F E5            [11]  131         push hl
                             132         ;; set entity->last draw
-   4897 21 11 00      [10]  133         ld hl, #last_draw
-   489A 19            [11]  134         add hl, de
-   489B DD 7E 04      [19]  135         ld a, 4(ix)
-   489E 77            [ 7]  136         ld (hl) , a
-   489F 23            [ 6]  137         inc hl
-   48A0 DD 7E 05      [19]  138         ld a , 5(ix)
-   48A3 77            [ 7]  139         ld (hl), a
+   4AA0 21 11 00      [10]  133         ld hl, #last_draw
+   4AA3 19            [11]  134         add hl, de
+   4AA4 DD 7E 04      [19]  135         ld a, 4(ix)
+   4AA7 77            [ 7]  136         ld (hl) , a
+   4AA8 23            [ 6]  137         inc hl
+   4AA9 DD 7E 05      [19]  138         ld a , 5(ix)
+   4AAC 77            [ 7]  139         ld (hl), a
                             140 
                             141         ;; go to entity->type
-   48A4 21 00 00      [10]  142             ld      hl, #TYPE
-   48A7 19            [11]  143             add     hl, de
+   4AAD 21 00 00      [10]  142             ld      hl, #TYPE
+   4AB0 19            [11]  143             add     hl, de
                             144 
                             145         ;; load in A entity->type and compare with #E_TYPE_DEAD
-   48A8 7E            [ 7]  146             ld      a, (hl)
-   48A9 E1            [10]  147             pop hl
-   48AA E6 80         [ 7]  148             and     #E_TYPE_DEAD
-   48AC FE 80         [ 7]  149             cp      #E_TYPE_DEAD
-   48AE 28 05         [12]  150             jr      z, sys_render_update_for_one_end 
+   4AB1 7E            [ 7]  146             ld      a, (hl)
+   4AB2 E1            [10]  147             pop hl
+   4AB3 E6 80         [ 7]  148             and     #E_TYPE_DEAD
+   4AB5 FE 80         [ 7]  149             cp      #E_TYPE_DEAD
+   4AB7 28 05         [12]  150             jr      z, sys_render_update_for_one_end 
                             151         ;; draw entity -> _sys_render_draw_one_entity
                             152         ;; IN =>  DE -> entity to draw
                             153         ;; OUP => HL
-   48B0 CD 5E 48      [17]  154         call    sys_render_draw_one_entity
-   48B3 18 00         [12]  155         jr sys_render_update_for_one_end
+   4AB9 CD 67 4A      [17]  154         call    sys_render_draw_one_entity
+   4ABC 18 00         [12]  155         jr sys_render_update_for_one_end
                             156     ; sys_render_dont_draw:
                             157     ;     call    sys_render_draw_solid_box
-   48B5                     158     sys_render_update_for_one_end:
-   48B5 C9            [10]  159 ret
+   4ABE                     158     sys_render_update_for_one_end:
+   4ABE C9            [10]  159 ret
                             160 
                             161 
                             162 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                             163 ;; CAll RENDER FOR ALL ENTITY :;
                             164 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   48B6                     165 _sys_render_update::
-   48B6 01 7B 48      [10]  166         ld      bc, #sys_render_update_for_one
-   48B9 21 01 00      [10]  167         ld      hl, #E_CMP_RENDER
-   48BC CD 82 49      [17]  168         call    _man_entity_for_all_matching
-   48BF C9            [10]  169 ret
+   4ABF                     165 _sys_render_update::
+   4ABF 01 84 4A      [10]  166         ld      bc, #sys_render_update_for_one
+   4AC2 21 01 00      [10]  167         ld      hl, #E_CMP_RENDER
+   4AC5 CD 8B 4B      [17]  168         call    _man_entity_for_all_matching
+   4AC8 C9            [10]  169 ret
                             170 
                             171 
                             172 
                             173 ;;;;;;;;;;;;;;;;;;;;;;
                             174 ;; CAll RENDER INIT :;
                             175 ;;;;;;;;;;;;;;;;;;;;;;
-   48C0                     176 _sys_render_init::
+   4AC9                     176 _sys_render_init::
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 102.
 Hexadecimal [16-Bits]
 
@@ -5292,23 +5292,23 @@ Hexadecimal [16-Bits]
                             178     ;; set the video mode to 0 to draw pixels -> cpct_setVideoMode_asm
                             179         ;; INPUTS ;;
                             180             ;; C -> mode value
-   48C0 0E 00         [ 7]  181         ld       c, #0
-   48C2 CD 16 4C      [17]  182         call     cpct_setVideoMode_asm
+   4AC9 0E 00         [ 7]  181         ld       c, #0
+   4ACB CD 1F 4E      [17]  182         call     cpct_setVideoMode_asm
                             183 
                             184     ;; paint border black
    0080                     185         cpctm_setBorder_asm HW_BLACK
                               1    .radix h
    0080                       2    cpctm_setBorder_raw_asm \HW_BLACK ;; [28] Macro that does the job, but requires a number value to be passed
                               1    .globl cpct_setPALColour_asm
-   48C5 21 10 14      [10]    2    ld   hl, #0x1410         ;; [3]  H=Hardware value of desired colour, L=Border INK (16)
-   48C8 CD 56 4B      [17]    3    call cpct_setPALColour_asm  ;; [25] Set Palette colour of the border
+   4ACE 21 10 14      [10]    2    ld   hl, #0x1410         ;; [3]  H=Hardware value of desired colour, L=Border INK (16)
+   4AD1 CD 5F 4D      [17]    3    call cpct_setPALColour_asm  ;; [25] Set Palette colour of the border
                               3    .radix d
                             186     ;; set the palete -> cpct_setPalette_asm
                             187         ;; INPUTS ;;
                             188             ;; HL -> pointer of the palette
                             189             ;; DE -> size of the palette
-   48CB 21 00 46      [10]  190         ld       hl, #_main_palette
-   48CE 11 10 00      [10]  191         ld       de, #16
-   48D1 CD CD 4A      [17]  192         call     cpct_setPalette_asm
+   4AD4 21 00 48      [10]  190         ld       hl, #_main_palette
+   4AD7 11 10 00      [10]  191         ld       de, #16
+   4ADA CD D6 4C      [17]  192         call     cpct_setPalette_asm
                             193 
-   48D4 C9            [10]  194     ret
+   4ADD C9            [10]  194     ret

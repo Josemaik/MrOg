@@ -32,8 +32,8 @@ check_animation::
         push bc
         ;;set animation array
         ;; retrieve animation here in hl
-        ld h, 4(ix)
-        ld l, 5(ix)
+        ld l, 4(ix)
+        ld h, 5(ix)
         push hl
         ;; go to entity-> animframe
         ld hl, #AnimFrame

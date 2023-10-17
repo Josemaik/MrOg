@@ -19,7 +19,7 @@
         AnimCounter = 15    ;;u8
         COLLIDES_AGAINST = 16
         last_draw = 17
-        direction = 18
+        direction = 19
                                         
     ;; Entity types                  
         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities

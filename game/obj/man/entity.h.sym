@@ -17,7 +17,7 @@ Symbol Table
     SPR_SPRI=  0008     |     TOTAL_EN=  0001     |     TOTAL_SP=  0014 
     TYPE    =  0000     |     VX      =  0006     |     VY      =  0007 
     WIDTH   =  0004     |     X       =  0002     |     Y       =  0003 
-    cpct_mem   **** GX  |     cpct_mem   **** GX  |     directio=  0012 
+    cpct_mem   **** GX  |     cpct_mem   **** GX  |     directio=  0013 
     last_dra=  0011 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.

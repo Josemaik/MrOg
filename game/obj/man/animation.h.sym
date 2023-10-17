@@ -8,7 +8,8 @@ Symbol Table
     _spr_spr   **** GX  |     _spr_spr   **** GX  |     _spr_spr   **** GX
     _spr_spr   **** GX  |     _spr_spr   **** GX  |     _spr_spr   **** GX
     _spr_spr   **** GX  |     _spr_spr   **** GX  |     _spr_spr   **** GX
-    _spr_spr   **** GX
+    _spr_spr   **** GX  |     _spr_spr   **** GX  |     _spr_spr   **** GX
+    _spr_spr   **** GX  |     _spr_spr   **** GX
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]

@@ -14,15 +14,19 @@ Hexadecimal [16-Bits]
                               9    ;; systems                             
                              10 
                              11    ;; sprites
-                             12   .globl _spr_sprite1_S
-                             13   .globl _spr_sprite2_S
-                             14   .globl _spr_sprite3_S
-                             15   .globl _spr_sprite4_S
-                             16   .globl _spr_sprite1_W
-                             17   .globl _spr_sprite2_W
-                             18   .globl _spr_sprite3_W
-                             19   .globl _spr_sprite4_W
-                             20   .globl _spr_sprite1_A
-                             21   .globl _spr_sprite2_A
-                             22   .globl _spr_sprite3_A
-                             23   .globl _spr_sprite4_A
+                             12   .globl _spr_spritesheet_00
+                             13   .globl _spr_spritesheet_01
+                             14   .globl _spr_spritesheet_02
+                             15   .globl _spr_spritesheet_03
+                             16   .globl _spr_spritesheet_04
+                             17   .globl _spr_spritesheet_05
+                             18   .globl _spr_spritesheet_06
+                             19   .globl _spr_spritesheet_07
+                             20   .globl _spr_spritesheet_08
+                             21   .globl _spr_spritesheet_09
+                             22   .globl _spr_spritesheet_10
+                             23   .globl _spr_spritesheet_11
+                             24   .globl _spr_spritesheet_12
+                             25   .globl _spr_spritesheet_13
+                             26   .globl _spr_spritesheet_14
+                             27   .globl _spr_spritesheet_15
