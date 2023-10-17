@@ -5018,54 +5018,59 @@ Hexadecimal [16-Bits]
                      000F    19         AnimCounter = 15    ;;u8
                      0010    20         COLLIDES_AGAINST = 16
                      0011    21         last_draw = 17
-                             22                                         
-                             23     ;; Entity types                  
-                     0000    24         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
-                     0001    25         E_TYPE_PLAYER   = 0x01 
-                     0002    26         E_TYPE_ENEMY   = 0x02 
-                     0004    27         E_TYPE_MOTHERSHIP   = 0x04 
-                     0008    28         E_TYPE_SHOT   = 0x08 
-                     0080    29         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
-                     0002    30         E_TYPE_DEFAULT  = E_TYPE_ENEMY
-                             31     ;; Components    
-                     0001    32         E_CMP_RENDER   = 0x01   ;; renderable entity
-                     0002    33         E_CMP_MOVABLE  = 0x02   ;; movable entity
-                     0004    34         E_CMP_INPUT    = 0x04   ;; Entity controlable by input
-                     0008    35         E_CMP_IA       = 0x08   ;; Entity controlable by artificial inteligence
-                     0010    36         E_CMP_ANIMATED = 0x10   ;; Animated Entity
-                     0020    37         E_CMP_COLLIDER = 0x20   ;; Entity that can collide
-                     007F    38         E_CMP_DEFAULT  = 0x7F   ;; default entity  
-                             39             
-                             40                                         
-                             41     ;; OTHERS
-                     0013    42         SPACE_4_ONE_ENTITY     = 19      ;; space for one entity
-                     0001    43         TOTAL_ENTITIES         = 1      ;; number of entities                          
-                     0013    44         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
-                     000C    45         MAN_ANIM_ENEMY1_TIME   = 12
-                             46     ;; LANES
-                             47       
-                             48     ;; PLAYER
-                             49        
-                             50     ;;   SPRITE PROPERTIES
-                     0008    51        SPR_SPRITE1_S_W = 8
-                     0010    52        SPR_SPRITE1_S_H = 16
-                             53         
-                             54                                         
+                     0012    22         direction = 18
+                             23                                         
+                             24     ;; Entity types                  
+                     0000    25         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
+                     0001    26         E_TYPE_PLAYER   = 0x01 
+                     0002    27         E_TYPE_ENEMY   = 0x02 
+                     0004    28         E_TYPE_MOTHERSHIP   = 0x04 
+                     0008    29         E_TYPE_SHOT   = 0x08 
+                     0080    30         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
+                     0002    31         E_TYPE_DEFAULT  = E_TYPE_ENEMY
+                             32     ;; Components    
+                     0001    33         E_CMP_RENDER   = 0x01   ;; renderable entity
+                     0002    34         E_CMP_MOVABLE  = 0x02   ;; movable entity
+                     0004    35         E_CMP_INPUT    = 0x04   ;; Entity controlable by input
+                     0008    36         E_CMP_IA       = 0x08   ;; Entity controlable by artificial inteligence
+                     0010    37         E_CMP_ANIMATED = 0x10   ;; Animated Entity
+                     0020    38         E_CMP_COLLIDER = 0x20   ;; Entity that can collide
+                     007F    39         E_CMP_DEFAULT  = 0x7F   ;; default entity  
+                             40             
+                             41                                         
+                             42     ;; OTHERS
+                     0014    43         SPACE_4_ONE_ENTITY     = 20      ;; space for one entity
+                     0001    44         TOTAL_ENTITIES         = 1      ;; number of entities                          
+                     0014    45         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
+                     000C    46         MAN_ANIM_ENEMY1_TIME   = 12
+                             47     ;; DIRECTIONS
+                     0001    48     DIRECT_W == 0x01
+                     0002    49     DIRECT_A == 0x02
+                     0004    50     DIRECT_S == 0x04
+                     0008    51     DIRECT_D == 0x08
+                             52       
+                             53     ;; PLAYER
+                             54        
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
 Hexadecimal [16-Bits]
 
 
 
-                             55 
-                             56 
-                             57     ;;;;;;;;;;;;;;;;;;;;
-                             58     ;; GLOBAL SYMBOLS ;;
-                             59     ;;;;;;;;;;;;;;;;;;;;
-                             60     ;;cpctelera
-                             61     .globl cpct_memset_asm      
-                             62     .globl cpct_memcpy_asm
-                             63     ;;animations      
-                             64    
+                             55     ;;   SPRITE PROPERTIES
+                     0008    56        SPR_SPRITE1_S_W = 8
+                     0010    57        SPR_SPRITE1_S_H = 16
+                             58         
+                             59                                         
+                             60 
+                             61 
+                             62     ;;;;;;;;;;;;;;;;;;;;
+                             63     ;; GLOBAL SYMBOLS ;;
+                             64     ;;;;;;;;;;;;;;;;;;;;
+                             65     ;;cpctelera
+                             66     .globl cpct_memset_asm      
+                             67     .globl cpct_memcpy_asm
+                             68     ;;animations      
+                             69    
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 97.
 Hexadecimal [16-Bits]
 
@@ -5076,12 +5081,12 @@ Hexadecimal [16-Bits]
                               7 
    0000                       8     m_entities::    ;;entities
    0000                       9         .ds #TOTAL_SPACE_4_ENTITIES
-   0013                      10     m_zero_byte_end_entities:      ;;zero-byte to signal invalid entities
-   0013                      11         .ds 1
-   0014                      12     m_next_free_entity::    ;; pointer to next free entity
-   0014                      13         .ds 2
-   0016                      14     m_reserved_entites:: ;;number of reserved entities
-   0016                      15         .ds 1   ;;u8
+   0014                      10     m_zero_byte_end_entities:      ;;zero-byte to signal invalid entities
+   0014                      11         .ds 1
+   0015                      12     m_next_free_entity::    ;; pointer to next free entity
+   0015                      13         .ds 2
+   0017                      14     m_reserved_entites:: ;;number of reserved entities
+   0017                      15         .ds 1   ;;u8
                              16 
                              17 .area _CODE
                              18 ;;;;;;;;;;;;;;;;;;;;;;
@@ -5096,7 +5101,7 @@ Hexadecimal [16-Bits]
                              27     ;; save the first element of entities
                              28     ;;m_next_free_entity = m_entities;
    0000 21 00 00      [10]   29         ld      hl, #m_entities
-   0003 22 14 00      [16]   30         ld      (m_next_free_entity),  hl
+   0003 22 15 00      [16]   30         ld      (m_next_free_entity),  hl
                              31 
                              32     ;; fill all the entitites with 0s -> cpct_memset_asm
                              33     ;; IN =>         DE  -> pointer to the array to fill
@@ -5105,16 +5110,16 @@ Hexadecimal [16-Bits]
    0006 5D            [ 4]   36         ld      e, l
    0007 54            [ 4]   37         ld      d, h
    0008 3E 00         [ 7]   38         ld      a, #0
-   000A 01 13 00      [10]   39         ld      bc, #TOTAL_SPACE_4_ENTITIES
+   000A 01 14 00      [10]   39         ld      bc, #TOTAL_SPACE_4_ENTITIES
    000D CD 00 00      [17]   40         call    cpct_memset_asm
                              41     
                              42     ;; load a 0 in reserved_entities
    0010 3E 00         [ 7]   43         ld      a, #0
-   0012 32 16 00      [13]   44         ld      (m_reserved_entites), a
+   0012 32 17 00      [13]   44         ld      (m_reserved_entites), a
                              45     
                              46     ;; load invalid type in _m_zero_byte_end_entities
    0015 3E 00         [ 7]   47         ld      a, #E_TYPE_INVALID
-   0017 32 13 00      [13]   48         ld      (m_zero_byte_end_entities), a
+   0017 32 14 00      [13]   48         ld      (m_zero_byte_end_entities), a
                              49 
    001A C9            [10]   50     ret
                              51 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -5131,7 +5136,7 @@ Hexadecimal [16-Bits]
 
 
 
-   001B ED 5B 14 00   [20]   60         ld      de, (m_next_free_entity)
+   001B ED 5B 15 00   [20]   60         ld      de, (m_next_free_entity)
                              61 
                              62     ;; set type on default
    001F 21 00 00      [10]   63         ld      hl, #TYPE
@@ -5143,14 +5148,14 @@ Hexadecimal [16-Bits]
    0029 36 7F         [10]   69         ld (hl), #E_CMP_DEFAULT
                              70 
                              71     ;; update the pointer to SPACE_4_ONE_ENTITY positons furthers (the next entity)
-   002B 21 13 00      [10]   72         ld      hl, #SPACE_4_ONE_ENTITY
+   002B 21 14 00      [10]   72         ld      hl, #SPACE_4_ONE_ENTITY
    002E 19            [11]   73         add     hl, de
-   002F 22 14 00      [16]   74         ld      (m_next_free_entity), hl
+   002F 22 15 00      [16]   74         ld      (m_next_free_entity), hl
                              75 
                              76     ;; increase reserved entities
-   0032 3A 16 00      [13]   77         ld      a, (m_reserved_entites)
+   0032 3A 17 00      [13]   77         ld      a, (m_reserved_entites)
    0035 3C            [ 4]   78         inc     a
-   0036 32 16 00      [13]   79         ld      (m_reserved_entites), a
+   0036 32 17 00      [13]   79         ld      (m_reserved_entites), a
                              80 
    0039 C9            [10]   81     ret
                              82 
@@ -5172,7 +5177,7 @@ Hexadecimal [16-Bits]
                              98     ;; retrieve de entity to clone in hl
    003E E1            [10]   99     pop hl
                             100     ;; size in bc
-   003F 01 13 00      [10]  101     ld      bc, #SPACE_4_ONE_ENTITY
+   003F 01 14 00      [10]  101     ld      bc, #SPACE_4_ONE_ENTITY
                             102     ;; save pinter to new entity
    0042 D5            [11]  103     push de
                             104     ;; copy entity to clone in new entity
@@ -5221,8 +5226,8 @@ Hexadecimal [16-Bits]
                             142         ;;          BC -> size of data 
                             143 
                             144         ;; go to last entity -> _m_next_free_entity - SPACE_4_ONE_ENTITY
-   0051 2A 14 00      [16]  145         ld      hl, (m_next_free_entity)
-   0054 01 13 00      [10]  146         ld      bc, #SPACE_4_ONE_ENTITY
+   0051 2A 15 00      [16]  145         ld      hl, (m_next_free_entity)
+   0054 01 14 00      [10]  146         ld      bc, #SPACE_4_ONE_ENTITY
    0057 B7            [ 4]  147         or      a
    0058 ED 42         [15]  148         sbc     hl, bc
                             149     
@@ -5255,12 +5260,12 @@ Hexadecimal [16-Bits]
    0066 36 00         [10]  171         ld      (hl), #E_TYPE_INVALID
                             172 
                             173     ;; set _m_next_free_entity to last
-   0068 22 14 00      [16]  174         ld      (m_next_free_entity), hl
+   0068 22 15 00      [16]  174         ld      (m_next_free_entity), hl
                             175 
                             176     ;; decrease reserved entities
-   006B 3A 16 00      [13]  177         ld      a, (m_reserved_entites)
+   006B 3A 17 00      [13]  177         ld      a, (m_reserved_entites)
    006E 3D            [ 4]  178         dec     a
-   006F 32 16 00      [13]  179         ld      (m_reserved_entites), a
+   006F 32 17 00      [13]  179         ld      (m_reserved_entites), a
                             180 
    0072 C9            [10]  181     ret
                             182 
@@ -5313,7 +5318,7 @@ Hexadecimal [16-Bits]
 
    009A                     225             _return_hear:
    009A D1            [10]  226                     pop de
-   009B 21 13 00      [10]  227                     ld      hl, #SPACE_4_ONE_ENTITY
+   009B 21 14 00      [10]  227                     ld      hl, #SPACE_4_ONE_ENTITY
    009E 19            [11]  228                     add     hl, de
                             229 
                             230                 ;; HL<=>DE
@@ -5393,7 +5398,7 @@ Hexadecimal [16-Bits]
                             299             ;; if entity is not movable continue here
    00EB                     300             _return_hear_match:
    00EB D1            [10]  301                     pop de
-   00EC 21 13 00      [10]  302                     ld      hl, #SPACE_4_ONE_ENTITY
+   00EC 21 14 00      [10]  302                     ld      hl, #SPACE_4_ONE_ENTITY
    00EF 19            [11]  303                     add     hl, de
                             304 
                             305                 ;; HL<=>DE
@@ -5465,7 +5470,7 @@ Hexadecimal [16-Bits]
                             366               
                             367                 ;; if entity is not movable continue here
    0132                     368                     man_goto_while_r:
-   0132 21 13 00      [10]  369                             ld      hl, #SPACE_4_ONE_ENTITY
+   0132 21 14 00      [10]  369                             ld      hl, #SPACE_4_ONE_ENTITY
    0135 19            [11]  370                             add     hl, de
                             371                             
    0136 CD 4C 01      [17]  372                             call _man_entity_for_all_pairs_matching_while2
@@ -5473,7 +5478,7 @@ Hexadecimal [16-Bits]
    0139                     374             man_continues_while_l:
    0139 D1            [10]  375                                 pop de
                             376 
-   013A 21 13 00      [10]  377                                 ld      hl, #SPACE_4_ONE_ENTITY
+   013A 21 14 00      [10]  377                                 ld      hl, #SPACE_4_ONE_ENTITY
    013D 19            [11]  378                                 add     hl, de
    013E E5            [11]  379                                 push hl
                             380                             ;; HL<=>DE
@@ -5540,7 +5545,7 @@ Hexadecimal [16-Bits]
    017A D1            [10]  436                     pop de
    017B C1            [10]  437                     pop bc
                             438 
-   017C 21 13 00      [10]  439                     ld hl, #SPACE_4_ONE_ENTITY
+   017C 21 14 00      [10]  439                     ld hl, #SPACE_4_ONE_ENTITY
    017F 19            [11]  440                     add hl, de
                             441 
    0180 EB            [ 4]  442                     ex de, hl
@@ -5582,7 +5587,7 @@ Hexadecimal [16-Bits]
    0196 28 08         [12]  473                 jr      z, man_update_destroy_entity   
                             474 
                             475                 ;; add SPACE_4_ONE_ENTITY De <==> HL
-   0198 21 13 00      [10]  476                     ld      hl, #SPACE_4_ONE_ENTITY
+   0198 21 14 00      [10]  476                     ld      hl, #SPACE_4_ONE_ENTITY
    019B 19            [11]  477                     add     hl, de
                             478 
                             479                 ;;  HL<==>DE
@@ -5614,7 +5619,7 @@ Hexadecimal [16-Bits]
    01A6                     500 _man_entity_free_space::
                             501     
    01A6 3E 01         [ 7]  502     ld      a, #TOTAL_ENTITIES
-   01A8 ED 4B 16 00   [20]  503     ld      bc, (m_reserved_entites)
+   01A8 ED 4B 17 00   [20]  503     ld      bc, (m_reserved_entites)
    01AC 91            [ 4]  504     sub     c
                             505 
    01AD 6F            [ 4]  506     ld      l, a

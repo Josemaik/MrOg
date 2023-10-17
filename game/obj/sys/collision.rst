@@ -5037,54 +5037,59 @@ Hexadecimal [16-Bits]
                      000F    19         AnimCounter = 15    ;;u8
                      0010    20         COLLIDES_AGAINST = 16
                      0011    21         last_draw = 17
-                             22                                         
-                             23     ;; Entity types                  
-                     0000    24         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
-                     0001    25         E_TYPE_PLAYER   = 0x01 
-                     0002    26         E_TYPE_ENEMY   = 0x02 
-                     0004    27         E_TYPE_MOTHERSHIP   = 0x04 
-                     0008    28         E_TYPE_SHOT   = 0x08 
-                     0080    29         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
-                     0002    30         E_TYPE_DEFAULT  = E_TYPE_ENEMY
-                             31     ;; Components    
-                     0001    32         E_CMP_RENDER   = 0x01   ;; renderable entity
-                     0002    33         E_CMP_MOVABLE  = 0x02   ;; movable entity
-                     0004    34         E_CMP_INPUT    = 0x04   ;; Entity controlable by input
-                     0008    35         E_CMP_IA       = 0x08   ;; Entity controlable by artificial inteligence
-                     0010    36         E_CMP_ANIMATED = 0x10   ;; Animated Entity
-                     0020    37         E_CMP_COLLIDER = 0x20   ;; Entity that can collide
-                     007F    38         E_CMP_DEFAULT  = 0x7F   ;; default entity  
-                             39             
-                             40                                         
-                             41     ;; OTHERS
-                     0013    42         SPACE_4_ONE_ENTITY     = 19      ;; space for one entity
-                     0001    43         TOTAL_ENTITIES         = 1      ;; number of entities                          
-                     0013    44         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
-                     000C    45         MAN_ANIM_ENEMY1_TIME   = 12
-                             46     ;; LANES
-                             47       
-                             48     ;; PLAYER
-                             49        
-                             50     ;;   SPRITE PROPERTIES
-                     0008    51        SPR_SPRITE1_S_W = 8
-                     0010    52        SPR_SPRITE1_S_H = 16
-                             53         
-                             54                                         
+                     0012    22         direction = 18
+                             23                                         
+                             24     ;; Entity types                  
+                     0000    25         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
+                     0001    26         E_TYPE_PLAYER   = 0x01 
+                     0002    27         E_TYPE_ENEMY   = 0x02 
+                     0004    28         E_TYPE_MOTHERSHIP   = 0x04 
+                     0008    29         E_TYPE_SHOT   = 0x08 
+                     0080    30         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
+                     0002    31         E_TYPE_DEFAULT  = E_TYPE_ENEMY
+                             32     ;; Components    
+                     0001    33         E_CMP_RENDER   = 0x01   ;; renderable entity
+                     0002    34         E_CMP_MOVABLE  = 0x02   ;; movable entity
+                     0004    35         E_CMP_INPUT    = 0x04   ;; Entity controlable by input
+                     0008    36         E_CMP_IA       = 0x08   ;; Entity controlable by artificial inteligence
+                     0010    37         E_CMP_ANIMATED = 0x10   ;; Animated Entity
+                     0020    38         E_CMP_COLLIDER = 0x20   ;; Entity that can collide
+                     007F    39         E_CMP_DEFAULT  = 0x7F   ;; default entity  
+                             40             
+                             41                                         
+                             42     ;; OTHERS
+                     0014    43         SPACE_4_ONE_ENTITY     = 20      ;; space for one entity
+                     0001    44         TOTAL_ENTITIES         = 1      ;; number of entities                          
+                     0014    45         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
+                     000C    46         MAN_ANIM_ENEMY1_TIME   = 12
+                             47     ;; DIRECTIONS
+                     0001    48     DIRECT_W == 0x01
+                     0002    49     DIRECT_A == 0x02
+                     0004    50     DIRECT_S == 0x04
+                     0008    51     DIRECT_D == 0x08
+                             52       
+                             53     ;; PLAYER
+                             54        
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 97.
 Hexadecimal [16-Bits]
 
 
 
-                             55 
-                             56 
-                             57     ;;;;;;;;;;;;;;;;;;;;
-                             58     ;; GLOBAL SYMBOLS ;;
-                             59     ;;;;;;;;;;;;;;;;;;;;
-                             60     ;;cpctelera
-                             61     .globl cpct_memset_asm      
-                             62     .globl cpct_memcpy_asm
-                             63     ;;animations      
-                             64    
+                             55     ;;   SPRITE PROPERTIES
+                     0008    56        SPR_SPRITE1_S_W = 8
+                     0010    57        SPR_SPRITE1_S_H = 16
+                             58         
+                             59                                         
+                             60 
+                             61 
+                             62     ;;;;;;;;;;;;;;;;;;;;
+                             63     ;; GLOBAL SYMBOLS ;;
+                             64     ;;;;;;;;;;;;;;;;;;;;
+                             65     ;;cpctelera
+                             66     .globl cpct_memset_asm      
+                             67     .globl cpct_memcpy_asm
+                             68     ;;animations      
+                             69    
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 98.
 Hexadecimal [16-Bits]
 
@@ -5100,35 +5105,35 @@ Hexadecimal [16-Bits]
                              13 ;;  updates the collision of a given entity
                              14 ;; IN -> DE: left entity
                              15 ;;       BC: rght entity
-   4687                      16 sys_collisions_update_entities::
+   46AA                      16 sys_collisions_update_entities::
                              17     ; ld a, #0x00
                              18     ; ld (0xC000),a
                              19     ;; check if both entities can collide
                              20     ;; check if entity of right can collid another entity
                              21     ;; e(r)->collides_against
-   4687 21 10 00      [10]   22     ld hl, #COLLIDES_AGAINST
-   468A 09            [11]   23     add hl, bc
-   468B 7E            [ 7]   24     ld a, (hl)
+   46AA 21 10 00      [10]   22     ld hl, #COLLIDES_AGAINST
+   46AD 09            [11]   23     add hl, bc
+   46AE 7E            [ 7]   24     ld a, (hl)
                              25     ;; e(l)->type
-   468C 21 00 00      [10]   26     ld hl, #TYPE
-   468F 19            [11]   27     add hl, de
-   4690 A6            [ 7]   28     and (hl)
+   46AF 21 00 00      [10]   26     ld hl, #TYPE
+   46B2 19            [11]   27     add hl, de
+   46B3 A6            [ 7]   28     and (hl)
                              29     ;; check if can collide( e(r)->collides_against && e(l)->type == 0 )
-   4691 BE            [ 7]   30     cp (hl)
-   4692 28 0F         [12]   31     jr z, check_collision_between_entities
+   46B4 BE            [ 7]   30     cp (hl)
+   46B5 28 0F         [12]   31     jr z, check_collision_between_entities
                              32 
-   4694 21 10 00      [10]   33     ld hl, #COLLIDES_AGAINST
-   4697 19            [11]   34     add hl, de
-   4698 7E            [ 7]   35     ld a, (hl)
+   46B7 21 10 00      [10]   33     ld hl, #COLLIDES_AGAINST
+   46BA 19            [11]   34     add hl, de
+   46BB 7E            [ 7]   35     ld a, (hl)
                              36 
-   4699 21 00 00      [10]   37     ld hl, #TYPE
-   469C 09            [11]   38     add hl, bc
-   469D A6            [ 7]   39     and (hl)
+   46BC 21 00 00      [10]   37     ld hl, #TYPE
+   46BF 09            [11]   38     add hl, bc
+   46C0 A6            [ 7]   39     and (hl)
                              40 
-   469E BE            [ 7]   41     cp (hl)
-   469F 28 02         [12]   42     jr z, check_collision_between_entities
-   46A1 18 32         [12]   43         jr dont_have_collision_between_entities
-   46A3                      44     check_collision_between_entities:
+   46C1 BE            [ 7]   41     cp (hl)
+   46C2 28 02         [12]   42     jr z, check_collision_between_entities
+   46C4 18 32         [12]   43         jr dont_have_collision_between_entities
+   46C6                      44     check_collision_between_entities:
                              45         ;; check bounding boxes
                              46         ;; A < B
                              47         ;; if(x(l) + width(l) < x(r)) no collision
@@ -5176,59 +5181,59 @@ Hexadecimal [16-Bits]
                              84         ;; if(y(l) + height(l) < y(r)) no collision
                              85         ;; if(y(l) + height(l) - y(r) < 0)no collision
                              86         ;; y(l)
-   46A3 21 03 00      [10]   87         ld hl, #Y
-   46A6 19            [11]   88         add hl, de
-   46A7 7E            [ 7]   89         ld a, (hl)
+   46C6 21 03 00      [10]   87         ld hl, #Y
+   46C9 19            [11]   88         add hl, de
+   46CA 7E            [ 7]   89         ld a, (hl)
                              90         ;; height(l)
-   46A8 21 05 00      [10]   91         ld hl,#HEIGHT
-   46AB 19            [11]   92         add hl,de
-   46AC 86            [ 7]   93         add (hl)
+   46CB 21 05 00      [10]   91         ld hl,#HEIGHT
+   46CE 19            [11]   92         add hl,de
+   46CF 86            [ 7]   93         add (hl)
                              94         ;; y(r)
-   46AD 21 03 00      [10]   95         ld hl, #Y
-   46B0 09            [11]   96         add hl, bc
-   46B1 96            [ 7]   97         sub (hl)
+   46D0 21 03 00      [10]   95         ld hl, #Y
+   46D3 09            [11]   96         add hl, bc
+   46D4 96            [ 7]   97         sub (hl)
                              98         ; ;; if carry is 1 -> no collision
-   46B2 38 1C         [12]   99         jr c, no_collision
-   46B4 18 13         [12]  100             jr collision
+   46D5 38 1C         [12]   99         jr c, no_collision
+   46D7 18 13         [12]  100             jr collision
                             101         ; ;; C < D
                             102         ; ;; if(y(r) + height(r) < y(l)) no collision
                             103         ; ;; if(y(r) + height(r) - y(l) < 0)no collision
                             104         ; ;; y(l)
-   46B6 21 03 00      [10]  105         ld hl, #Y
-   46B9 09            [11]  106         add hl, bc
-   46BA 7E            [ 7]  107         ld a, (hl)
+   46D9 21 03 00      [10]  105         ld hl, #Y
+   46DC 09            [11]  106         add hl, bc
+   46DD 7E            [ 7]  107         ld a, (hl)
                             108         ;; height(l)
-   46BB 21 05 00      [10]  109         ld hl,#HEIGHT
-   46BE 09            [11]  110         add hl,bc
-   46BF 86            [ 7]  111         add (hl)
+   46DE 21 05 00      [10]  109         ld hl,#HEIGHT
+   46E1 09            [11]  110         add hl,bc
+   46E2 86            [ 7]  111         add (hl)
                             112         ;; y(r)
-   46C0 21 03 00      [10]  113         ld hl, #Y
-   46C3 19            [11]  114         add hl, de
-   46C4 96            [ 7]  115         sub (hl)
+   46E3 21 03 00      [10]  113         ld hl, #Y
+   46E6 19            [11]  114         add hl, de
+   46E7 96            [ 7]  115         sub (hl)
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 100.
 Hexadecimal [16-Bits]
 
 
 
                             116         
-   46C5 38 09         [12]  117         jr c, no_collision
-   46C7 18 00         [12]  118             jr collision
+   46E8 38 09         [12]  117         jr c, no_collision
+   46EA 18 00         [12]  118             jr collision
                             119 
                             120 
                             121         ;; si hay colision
-   46C9                     122         collision:
-   46C9 3E FF         [ 7]  123             ld a, #0xFF
-   46CB 32 00 C0      [13]  124             ld (0xC000), a
-   46CE 18 05         [12]  125             jr dont_have_collision_between_entities
+   46EC                     122         collision:
+   46EC 3E FF         [ 7]  123             ld a, #0xFF
+   46EE 32 00 C0      [13]  124             ld (0xC000), a
+   46F1 18 05         [12]  125             jr dont_have_collision_between_entities
                             126             ; call man_game_entity_destroy
                             127         ;; there is collision, check entity types and react
-   46D0                     128         no_collision:
-   46D0 3E 00         [ 7]  129             ld a, #0x00
-   46D2 32 00 C0      [13]  130             ld (0xC000),a
-   46D5                     131     dont_have_collision_between_entities:
-   46D5 C9            [10]  132 ret
-   46D6                     133 _sys_collision_update::
-   46D6 01 87 46      [10]  134     ld bc, #sys_collisions_update_entities
-   46D9 21 20 00      [10]  135     ld hl, #E_CMP_COLLIDER
-   46DC CD 80 49      [17]  136     call _man_entity_for_all_pairs_matching_while1
-   46DF C9            [10]  137 ret
+   46F3                     128         no_collision:
+   46F3 3E 00         [ 7]  129             ld a, #0x00
+   46F5 32 00 C0      [13]  130             ld (0xC000),a
+   46F8                     131     dont_have_collision_between_entities:
+   46F8 C9            [10]  132 ret
+   46F9                     133 _sys_collision_update::
+   46F9 01 AA 46      [10]  134     ld bc, #sys_collisions_update_entities
+   46FC 21 20 00      [10]  135     ld hl, #E_CMP_COLLIDER
+   46FF CD D3 49      [17]  136     call _man_entity_for_all_pairs_matching_while1
+   4702 C9            [10]  137 ret

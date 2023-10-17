@@ -5018,8 +5018,8 @@ Hexadecimal [16-Bits]
    4610                      23 _main::
                              24 
                              25    ;; disable firmware
-   4610 CD D8 4B      [17]   26       call     cpct_disableFirmware_asm
+   4610 CD 2E 4C      [17]   26       call     cpct_disableFirmware_asm
                              27    ;; call game init
-   4613 CD 59 4A      [17]   28       call man_game_init
+   4613 CD AC 4A      [17]   28       call man_game_init
                              29    ;; call game manager
-   4616 CD 63 4A      [17]   30       call man_game_play
+   4616 CD B6 4A      [17]   30       call man_game_play

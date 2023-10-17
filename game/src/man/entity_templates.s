@@ -19,6 +19,7 @@ playership_template0_e::
       .dw     #0x0000 ;; behaviour
 	  .db 	#0x00					;; ai_counter
       .dw     #0x0000 ;; anim
-      .db     #0x01            ;;animcounter c = 0
+      .db     #0x00            ;;animcounter c = 0
 	  .db 	#0x00				;;collides_against
 	  .dw   #0x0000				;; last draw
+	  .db   #DIRECT_S			;; direction

@@ -5017,10 +5017,11 @@ Hexadecimal [16-Bits]
                              18       .globl _sys_render_update                   
                              19       .globl _sys_render_init
                              20       .globl _sys_animations_update
-                             21    ;; sprites
-                             22 
-                             23    ;; templates
-                             24    .globl playership_template0_e
+                             21       .globl _sys_input_update
+                             22    ;; sprites
+                             23 
+                             24    ;; templates
+                             25    .globl playership_template0_e
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
 Hexadecimal [16-Bits]
 
@@ -5048,54 +5049,59 @@ Hexadecimal [16-Bits]
                      000F    19         AnimCounter = 15    ;;u8
                      0010    20         COLLIDES_AGAINST = 16
                      0011    21         last_draw = 17
-                             22                                         
-                             23     ;; Entity types                  
-                     0000    24         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
-                     0001    25         E_TYPE_PLAYER   = 0x01 
-                     0002    26         E_TYPE_ENEMY   = 0x02 
-                     0004    27         E_TYPE_MOTHERSHIP   = 0x04 
-                     0008    28         E_TYPE_SHOT   = 0x08 
-                     0080    29         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
-                     0002    30         E_TYPE_DEFAULT  = E_TYPE_ENEMY
-                             31     ;; Components    
-                     0001    32         E_CMP_RENDER   = 0x01   ;; renderable entity
-                     0002    33         E_CMP_MOVABLE  = 0x02   ;; movable entity
-                     0004    34         E_CMP_INPUT    = 0x04   ;; Entity controlable by input
-                     0008    35         E_CMP_IA       = 0x08   ;; Entity controlable by artificial inteligence
-                     0010    36         E_CMP_ANIMATED = 0x10   ;; Animated Entity
-                     0020    37         E_CMP_COLLIDER = 0x20   ;; Entity that can collide
-                     007F    38         E_CMP_DEFAULT  = 0x7F   ;; default entity  
-                             39             
-                             40                                         
-                             41     ;; OTHERS
-                     0013    42         SPACE_4_ONE_ENTITY     = 19      ;; space for one entity
-                     0001    43         TOTAL_ENTITIES         = 1      ;; number of entities                          
-                     0013    44         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
-                     000C    45         MAN_ANIM_ENEMY1_TIME   = 12
-                             46     ;; LANES
-                             47       
-                             48     ;; PLAYER
-                             49        
-                             50     ;;   SPRITE PROPERTIES
-                     0008    51        SPR_SPRITE1_S_W = 8
-                     0010    52        SPR_SPRITE1_S_H = 16
-                             53         
-                             54                                         
+                     0012    22         direction = 18
+                             23                                         
+                             24     ;; Entity types                  
+                     0000    25         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
+                     0001    26         E_TYPE_PLAYER   = 0x01 
+                     0002    27         E_TYPE_ENEMY   = 0x02 
+                     0004    28         E_TYPE_MOTHERSHIP   = 0x04 
+                     0008    29         E_TYPE_SHOT   = 0x08 
+                     0080    30         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
+                     0002    31         E_TYPE_DEFAULT  = E_TYPE_ENEMY
+                             32     ;; Components    
+                     0001    33         E_CMP_RENDER   = 0x01   ;; renderable entity
+                     0002    34         E_CMP_MOVABLE  = 0x02   ;; movable entity
+                     0004    35         E_CMP_INPUT    = 0x04   ;; Entity controlable by input
+                     0008    36         E_CMP_IA       = 0x08   ;; Entity controlable by artificial inteligence
+                     0010    37         E_CMP_ANIMATED = 0x10   ;; Animated Entity
+                     0020    38         E_CMP_COLLIDER = 0x20   ;; Entity that can collide
+                     007F    39         E_CMP_DEFAULT  = 0x7F   ;; default entity  
+                             40             
+                             41                                         
+                             42     ;; OTHERS
+                     0014    43         SPACE_4_ONE_ENTITY     = 20      ;; space for one entity
+                     0001    44         TOTAL_ENTITIES         = 1      ;; number of entities                          
+                     0014    45         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
+                     000C    46         MAN_ANIM_ENEMY1_TIME   = 12
+                             47     ;; DIRECTIONS
+                     0001    48     DIRECT_W == 0x01
+                     0002    49     DIRECT_A == 0x02
+                     0004    50     DIRECT_S == 0x04
+                     0008    51     DIRECT_D == 0x08
+                             52       
+                             53     ;; PLAYER
+                             54        
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 97.
 Hexadecimal [16-Bits]
 
 
 
-                             55 
-                             56 
-                             57     ;;;;;;;;;;;;;;;;;;;;
-                             58     ;; GLOBAL SYMBOLS ;;
-                             59     ;;;;;;;;;;;;;;;;;;;;
-                             60     ;;cpctelera
-                             61     .globl cpct_memset_asm      
-                             62     .globl cpct_memcpy_asm
-                             63     ;;animations      
-                             64    
+                             55     ;;   SPRITE PROPERTIES
+                     0008    56        SPR_SPRITE1_S_W = 8
+                     0010    57        SPR_SPRITE1_S_H = 16
+                             58         
+                             59                                         
+                             60 
+                             61 
+                             62     ;;;;;;;;;;;;;;;;;;;;
+                             63     ;; GLOBAL SYMBOLS ;;
+                             64     ;;;;;;;;;;;;;;;;;;;;
+                             65     ;;cpctelera
+                             66     .globl cpct_memset_asm      
+                             67     .globl cpct_memcpy_asm
+                             68     ;;animations      
+                             69    
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 98.
 Hexadecimal [16-Bits]
 
@@ -5111,28 +5117,28 @@ Hexadecimal [16-Bits]
                              13 ;;;;;;;;;;;;;;;;;;;;
                              14 ;; WAIT
                              15 ;;
-   4A31                      16 _wait:
+   4A84                      16 _wait:
                              17     ;; loop
-   4A31                      18       wait_init_for:
+   4A84                      18       wait_init_for:
                              19          ;; compare A with 0 and two halts
-   4A31 FE 00         [ 7]   20             cp       #0                   
-   4A33 28 0E         [12]   21             jr       z, wait_end_for      
-   4A35 06 02         [ 7]   22             ld       b, #2
-   4A37 CD B4 4B      [17]   23             call     cpct_waitHalts_asm
+   4A84 FE 00         [ 7]   20             cp       #0                   
+   4A86 28 0E         [12]   21             jr       z, wait_end_for      
+   4A88 06 02         [ 7]   22             ld       b, #2
+   4A8A CD 0A 4C      [17]   23             call     cpct_waitHalts_asm
                              24 
                              25          ;; save a
-   4A3A F5            [11]   26             push     af
+   4A8D F5            [11]   26             push     af
                              27          ;; wait sync
-   4A3B CD B8 4B      [17]   28             call     cpct_waitVSYNC_asm
+   4A8E CD 0E 4C      [17]   28             call     cpct_waitVSYNC_asm
                              29          
                              30          ;; a-1
-   4A3E F1            [10]   31             pop      af
-   4A3F D6 01         [ 7]   32             sub      #1
+   4A91 F1            [10]   31             pop      af
+   4A92 D6 01         [ 7]   32             sub      #1
                              33          ;; go loop
-   4A41 18 EE         [12]   34             jr       wait_init_for
+   4A94 18 EE         [12]   34             jr       wait_init_for
                              35    ;; end for
-   4A43                      36       wait_end_for:
-   4A43 C9            [10]   37    ret
+   4A96                      36       wait_end_for:
+   4A96 C9            [10]   37    ret
                              38 ;;;;;;;;;;;;;;;;;;;;;
                              39 ;; PUBLIC FUNCTION ;;
                              40 ;;;;;;;;;;;;;;;;;;;;;
@@ -5140,65 +5146,67 @@ Hexadecimal [16-Bits]
                              42 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              43 ;;;CREATE TEMPLATE
                              44 ;;
-   4A44                      45 man_game_create_template_entity::
-   4A44 E5            [11]   46    push hl
+   4A97                      45 man_game_create_template_entity::
+   4A97 E5            [11]   46    push hl
                              47    ;; create entity
-   4A45 CD 9D 48      [17]   48         call _man_entity_create
+   4A98 CD F0 48      [17]   48         call _man_entity_create
                              49     
                              50         ;; load entity from stack
-   4A48 E1            [10]   51         pop hl
-   4A49 D5            [11]   52         push de
-   4A4A 01 13 00      [10]   53         ld bc,#SPACE_4_ONE_ENTITY
-   4A4D CD D5 4B      [17]   54         call cpct_memcpy_asm
-   4A50 D1            [10]   55         pop de
-   4A51 C9            [10]   56    ret
+   4A9B E1            [10]   51         pop hl
+   4A9C D5            [11]   52         push de
+   4A9D 01 14 00      [10]   53         ld bc,#SPACE_4_ONE_ENTITY
+   4AA0 CD 2B 4C      [17]   54         call cpct_memcpy_asm
+   4AA3 D1            [10]   55         pop de
+   4AA4 C9            [10]   56    ret
                              57 
                              58 
-   4A52                      59 _inicialize_templates:
-   4A52 21 01 4D      [10]   60         ld       hl, #playership_template0_e
+   4AA5                      59 _inicialize_templates:
+   4AA5 21 59 4D      [10]   60         ld       hl, #playership_template0_e
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
 
 
-   4A55 CD 44 4A      [17]   61         call man_game_create_template_entity
-   4A58 C9            [10]   62 ret
+   4AA8 CD 97 4A      [17]   61         call man_game_create_template_entity
+   4AAB C9            [10]   62 ret
                              63 ;;;;;;;;;;;;;;;;;;;;
                              64 ;; INIT
                              65 ;;
-   4A59                      66 man_game_init::
+   4AAC                      66 man_game_init::
                              67     ;; configure videomode, palet y border
-   4A59 CD 6D 48      [17]   68         call     _sys_render_init
+   4AAC CD C0 48      [17]   68         call     _sys_render_init
                              69 
                              70     ;; inicialize manager entity
-   4A5C CD 82 48      [17]   71         call     _man_entity_init
+   4AAF CD D5 48      [17]   71         call     _man_entity_init
                              72 
                              73     ;; Create mothership
-   4A5F CD 52 4A      [17]   74        call    _inicialize_templates
-   4A62 C9            [10]   75 ret
+   4AB2 CD A5 4A      [17]   74        call    _inicialize_templates
+   4AB5 C9            [10]   75 ret
                              76 ;;;;;;;;;;;;;;;;;;;;;;
                              77 ;; PLAY
                              78 ;;
                              79 
-   4A63                      80 man_game_play::
+   4AB6                      80 man_game_play::
                              81    ;; infinite loop
-   4A63                      82    loop:
+   4AB6                      82    loop:
                              83       ;; call ai manager
                              84          ; call      _sys_ai_update
                              85       ;; update positions
-   4A63 CD E8 47      [17]   86          call     _sys_physics_update
+   4AB6 CD 3B 48      [17]   86          call     _sys_physics_update
                              87       ;; check collisions
                              88          ; call     _sys_collision_update
-                             89       ;; call animations system
-   4A66 CD 7D 46      [17]   90          call     _sys_animations_update
-                             91       ;; render
-   4A69 CD 63 48      [17]   92          call     _sys_render_update
-                             93       ;; update manager
-   4A6C CD 08 4A      [17]   94          call     _man_entity_update
-                             95       ;; wait ( se mueve cada cinco fotogramas)
-   4A6F 3E 04         [ 7]   96          ld       a, #4
-   4A71 CD 31 4A      [17]   97 		 call     _wait
-                             98          ; call cpct_waitVSYNC_asm
-                             99       ;; jump to loop
-   4A74 18 ED         [12]  100          jr       loop
-   4A76 C9            [10]  101 ret
+                             89       ;; call input
+   4AB9 CD B5 47      [17]   90          call _sys_input_update
+                             91       ;; call animations system
+   4ABC CD A0 46      [17]   92          call     _sys_animations_update
+                             93       ;; render
+   4ABF CD B6 48      [17]   94          call     _sys_render_update
+                             95       ;; update manager
+   4AC2 CD 5B 4A      [17]   96          call     _man_entity_update
+                             97       ;; wait ( se mueve cada cinco fotogramas)
+   4AC5 3E 03         [ 7]   98          ld       a, #3
+   4AC7 CD 84 4A      [17]   99 		 call     _wait
+                            100       ; call cpct_waitVSYNC_asm
+                            101       ;; jump to loop
+   4ACA 18 EA         [12]  102          jr       loop
+   4ACC C9            [10]  103 ret

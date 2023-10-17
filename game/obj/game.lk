@@ -27,6 +27,7 @@ obj/sys/collision.h.rel
 obj/sys/collision.rel
 obj/sys/ia.h.rel
 obj/sys/ia.rel
+obj/sys/input.rel
 obj/sys/physics.h.rel
 obj/sys/physics.rel
 obj/sys/render.h.rel

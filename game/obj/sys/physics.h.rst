@@ -11,12 +11,5 @@ Hexadecimal [16-Bits]
                               6       .globl _man_entity_for_all
                               7       .globl _man_entity_for_all_matching                 
                               8       .globl _man_entity_set_for_destruction   
-                              9    ;; cpct
-                             10       .globl cpct_scanKeyboard_f_asm
-                             11       .globl cpct_isKeyPressed_asm
-                             12    ;; sys
-                             13    .globl anim_W
-                             14    .globl anim_A
-                             15    .globl anim_S
-                             16    .globl anim_D
-                             17    
+                              9 
+                             10    ;; sys

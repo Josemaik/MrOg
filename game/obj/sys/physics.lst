@@ -33,54 +33,59 @@ Hexadecimal [16-Bits]
                      000F    19         AnimCounter = 15    ;;u8
                      0010    20         COLLIDES_AGAINST = 16
                      0011    21         last_draw = 17
-                             22                                         
-                             23     ;; Entity types                  
-                     0000    24         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
-                     0001    25         E_TYPE_PLAYER   = 0x01 
-                     0002    26         E_TYPE_ENEMY   = 0x02 
-                     0004    27         E_TYPE_MOTHERSHIP   = 0x04 
-                     0008    28         E_TYPE_SHOT   = 0x08 
-                     0080    29         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
-                     0002    30         E_TYPE_DEFAULT  = E_TYPE_ENEMY
-                             31     ;; Components    
-                     0001    32         E_CMP_RENDER   = 0x01   ;; renderable entity
-                     0002    33         E_CMP_MOVABLE  = 0x02   ;; movable entity
-                     0004    34         E_CMP_INPUT    = 0x04   ;; Entity controlable by input
-                     0008    35         E_CMP_IA       = 0x08   ;; Entity controlable by artificial inteligence
-                     0010    36         E_CMP_ANIMATED = 0x10   ;; Animated Entity
-                     0020    37         E_CMP_COLLIDER = 0x20   ;; Entity that can collide
-                     007F    38         E_CMP_DEFAULT  = 0x7F   ;; default entity  
-                             39             
-                             40                                         
-                             41     ;; OTHERS
-                     0013    42         SPACE_4_ONE_ENTITY     = 19      ;; space for one entity
-                     0001    43         TOTAL_ENTITIES         = 1      ;; number of entities                          
-                     0013    44         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
-                     000C    45         MAN_ANIM_ENEMY1_TIME   = 12
-                             46     ;; LANES
-                             47       
-                             48     ;; PLAYER
-                             49        
-                             50     ;;   SPRITE PROPERTIES
-                     0008    51        SPR_SPRITE1_S_W = 8
-                     0010    52        SPR_SPRITE1_S_H = 16
-                             53         
-                             54                                         
+                     0012    22         direction = 18
+                             23                                         
+                             24     ;; Entity types                  
+                     0000    25         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
+                     0001    26         E_TYPE_PLAYER   = 0x01 
+                     0002    27         E_TYPE_ENEMY   = 0x02 
+                     0004    28         E_TYPE_MOTHERSHIP   = 0x04 
+                     0008    29         E_TYPE_SHOT   = 0x08 
+                     0080    30         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
+                     0002    31         E_TYPE_DEFAULT  = E_TYPE_ENEMY
+                             32     ;; Components    
+                     0001    33         E_CMP_RENDER   = 0x01   ;; renderable entity
+                     0002    34         E_CMP_MOVABLE  = 0x02   ;; movable entity
+                     0004    35         E_CMP_INPUT    = 0x04   ;; Entity controlable by input
+                     0008    36         E_CMP_IA       = 0x08   ;; Entity controlable by artificial inteligence
+                     0010    37         E_CMP_ANIMATED = 0x10   ;; Animated Entity
+                     0020    38         E_CMP_COLLIDER = 0x20   ;; Entity that can collide
+                     007F    39         E_CMP_DEFAULT  = 0x7F   ;; default entity  
+                             40             
+                             41                                         
+                             42     ;; OTHERS
+                     0014    43         SPACE_4_ONE_ENTITY     = 20      ;; space for one entity
+                     0001    44         TOTAL_ENTITIES         = 1      ;; number of entities                          
+                     0014    45         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
+                     000C    46         MAN_ANIM_ENEMY1_TIME   = 12
+                             47     ;; DIRECTIONS
+                     0001    48     DIRECT_W == 0x01
+                     0002    49     DIRECT_A == 0x02
+                     0004    50     DIRECT_S == 0x04
+                     0008    51     DIRECT_D == 0x08
+                             52       
+                             53     ;; PLAYER
+                             54        
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 
 
-                             55 
-                             56 
-                             57     ;;;;;;;;;;;;;;;;;;;;
-                             58     ;; GLOBAL SYMBOLS ;;
-                             59     ;;;;;;;;;;;;;;;;;;;;
-                             60     ;;cpctelera
-                             61     .globl cpct_memset_asm      
-                             62     .globl cpct_memcpy_asm
-                             63     ;;animations      
-                             64    
+                             55     ;;   SPRITE PROPERTIES
+                     0008    56        SPR_SPRITE1_S_W = 8
+                     0010    57        SPR_SPRITE1_S_H = 16
+                             58         
+                             59                                         
+                             60 
+                             61 
+                             62     ;;;;;;;;;;;;;;;;;;;;
+                             63     ;; GLOBAL SYMBOLS ;;
+                             64     ;;;;;;;;;;;;;;;;;;;;
+                             65     ;;cpctelera
+                             66     .globl cpct_memset_asm      
+                             67     .globl cpct_memcpy_asm
+                             68     ;;animations      
+                             69    
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
 Hexadecimal [16-Bits]
 
@@ -95,15 +100,8 @@ Hexadecimal [16-Bits]
                               6       .globl _man_entity_for_all
                               7       .globl _man_entity_for_all_matching                 
                               8       .globl _man_entity_set_for_destruction   
-                              9    ;; cpct
-                             10       .globl cpct_scanKeyboard_f_asm
-                             11       .globl cpct_isKeyPressed_asm
-                             12    ;; sys
-                             13    .globl anim_W
-                             14    .globl anim_A
-                             15    .globl anim_S
-                             16    .globl anim_D
-                             17    
+                              9 
+                             10    ;; sys
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
 Hexadecimal [16-Bits]
 
@@ -5100,228 +5098,151 @@ Hexadecimal [16-Bits]
                               9 ;; if the value == 0 => Y axis
    0000                      10 choose_axis::
    0000 00                   11     .db 0x00
-   0001                      12 move_active::
-   0001 00                   13     .db 0x00
-                             14 ;;;;;;;;;;;;;;;
-                             15 ;; FUNCTIONS ;;
-                             16 ;;;;;;;;;;;;;;;
-   0002                      17 sys_physics_check_keyboard:
-                             18     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             19     ;; LEFT-RIGHT MOVEMEMENT     ;
-                             20     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             21     ;; save entity
-   0002 D5            [11]   22     push de
-                             23     ;; scan keyboard
-   0003 CD 00 00      [17]   24     call cpct_scanKeyboard_f_asm
-                             25     ;; check letter O
-   0006 21 08 20      [10]   26     ld      hl, #Key_A
-   0009 CD 00 00      [17]   27     call cpct_isKeyPressed_asm
-   000C 20 1B         [12]   28     jr nz, sys_physics_A_is_pressed
-                             29     ;; check letter P
-   000E 21 07 20      [10]   30     ld      hl, #Key_D
-   0011 CD 00 00      [17]   31     call cpct_isKeyPressed_asm
-   0014 20 32         [12]   32     jr nz, sys_physics_D_is_pressed
-   0016 21 07 08      [10]   33      ld      hl, #Key_W
-   0019 CD 00 00      [17]   34     call cpct_isKeyPressed_asm
-   001C 20 49         [12]   35     jr nz, sys_physics_W_is_pressed
-   001E 21 07 10      [10]   36      ld      hl, #Key_S
-   0021 CD 00 00      [17]   37     call cpct_isKeyPressed_asm
-   0024 20 60         [12]   38     jr nz, sys_physics_S_is_pressed
-                             39 
-   0026 D1            [10]   40     pop de
-   0027 18 7E         [12]   41     jr sys_physics_check_keyboard_end
-                             42     ;; O is pressed
-   0029                      43     sys_physics_A_is_pressed:
-                             44         ;; set movement active
-   0029 3E 01         [ 7]   45         ld a, #1
-   002B 32 01 00      [13]   46         ld (move_active), a
-                             47         ;; set 1 to put the axis x active
-   002E 3E 01         [ 7]   48         ld a, #1
-   0030 32 00 00      [13]   49         ld (choose_axis), a
-                             50          ;; retrieve entity
-   0033 D1            [10]   51         pop de
-                             52         ;;set animation array
-   0034 21 00 00      [10]   53         ld hl, #anim_A
-   0037 E5            [11]   54         push hl
-   0038 21 0D 00      [10]   55         ld hl, #AnimFrame
-   003B 19            [11]   56         add hl, de
-   003C C1            [10]   57         pop bc
-   003D 71            [ 7]   58         ld (hl),c
-   003E 23            [ 6]   59         inc hl
-   003F 70            [ 7]   60         ld (hl),b
-                             61        
+                             12 
+                             13 ;;;;;;;;;;;;;;;
+                             14 ;; FUNCTIONS ;;
+                             15 ;;;;;;;;;;;;;;;
+   0001                      16 stop_sprite::
+                             17 ;;parar sprite
+   0001 21 07 00      [10]   18     ld      hl, #VY
+   0004 19            [11]   19     add     hl, de
+   0005 36 00         [10]   20     ld      (hl),#0
+   0007 21 06 00      [10]   21     ld      hl, #VX
+   000A 19            [11]   22     add     hl, de
+   000B 36 00         [10]   23     ld      (hl),#0
+   000D C9            [10]   24 ret
+   000E                      25 choose_axis_x::
+   000E 3E 01         [ 7]   26     ld a, #1
+   0010 32 00 00      [13]   27     ld (choose_axis), a
+   0013 C9            [10]   28 ret
+   0014                      29 choose_axis_y::
+   0014 3E 00         [ 7]   30     ld a, #0
+   0016 32 00 00      [13]   31     ld (choose_axis), a
+   0019 C9            [10]   32 ret
+   001A                      33 setvelocity::
+   001A 21 12 00      [10]   34     ld hl , #direction
+   001D 19            [11]   35     add hl, de
+   001E 7E            [ 7]   36     ld a, (hl)
+                             37     ;; check is direction is A
+   001F E6 02         [ 7]   38     and #DIRECT_A
+   0021 FE 02         [ 7]   39     cp #DIRECT_A
+   0023 28 12         [12]   40     jr z, set_velocity_x_A
+                             41 ;; check is direction is D
+   0025 E6 08         [ 7]   42     and #DIRECT_D
+   0027 FE 08         [ 7]   43     cp #DIRECT_D
+   0029 28 14         [12]   44     jr z, set_velocity_x_D
+                             45 ;; check is direction is W
+   002B E6 01         [ 7]   46     and #DIRECT_W
+   002D FE 01         [ 7]   47     cp #DIRECT_W
+   002F 28 16         [12]   48     jr z, set_velocity_x_W
+                             49 ;; check is direction is S
+   0031 E6 04         [ 7]   50     and #DIRECT_S
+   0033 FE 04         [ 7]   51     cp #DIRECT_S
+   0035 28 18         [12]   52      jr z, set_velocity_x_S
+                             53 
+   0037                      54     set_velocity_x_A:
+   0037 21 06 00      [10]   55         ld      hl, #VX
+   003A 19            [11]   56         add     hl, de
+   003B 36 FF         [10]   57         ld      (hl), #-1
+   003D 18 16         [12]   58         jr setvelocity_end
+   003F                      59     set_velocity_x_D:
+   003F 21 06 00      [10]   60         ld      hl, #VX
+   0042 19            [11]   61         add     hl, de
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
 
 
-                             62         ;; vx = 1
-   0040 21 06 00      [10]   63         ld      hl, #VX
-   0043 19            [11]   64         add     hl, de
-   0044 36 FF         [10]   65         ld      (hl), #-1
-                             66 
-   0046 18 5F         [12]   67         jr      sys_physics_check_keyboard_end
-                             68 
-   0048                      69     sys_physics_D_is_pressed:
-                             70     ;; set movement active
-   0048 3E 01         [ 7]   71         ld a, #1
-   004A 32 01 00      [13]   72         ld (move_active), a
-                             73         ;; set 1 to put the axis x active
-   004D 3E 01         [ 7]   74         ld a, #1
-   004F 32 00 00      [13]   75         ld (choose_axis), a
-                             76         ;; retrieve entity
-   0052 D1            [10]   77         pop de
-                             78         ;;set animation array
-   0053 21 00 00      [10]   79         ld hl, #anim_D
-   0056 E5            [11]   80         push hl
-   0057 21 0D 00      [10]   81         ld hl, #AnimFrame
-   005A 19            [11]   82         add hl, de
-   005B C1            [10]   83         pop bc
-   005C 71            [ 7]   84         ld (hl),c
-   005D 23            [ 6]   85         inc hl
-   005E 70            [ 7]   86         ld (hl),b
-                             87         
-                             88         ;; vx = 1
-   005F 21 06 00      [10]   89         ld      hl, #VX
-   0062 19            [11]   90         add     hl, de
-   0063 36 01         [10]   91         ld      (hl), #1
-                             92 
-   0065 18 40         [12]   93         jr      sys_physics_check_keyboard_end
-   0067                      94     sys_physics_W_is_pressed:
-                             95     ;; set movement active
-   0067 3E 01         [ 7]   96         ld a, #1
-   0069 32 01 00      [13]   97         ld (move_active), a
-                             98     ;; set 0 to put the axis y active
-   006C 3E 00         [ 7]   99         ld a, #0
-   006E 32 00 00      [13]  100         ld (choose_axis), a
-                            101         ;; retrieve entity
-   0071 D1            [10]  102         pop de
-                            103         ;;set animation array
-   0072 21 00 00      [10]  104         ld hl, #anim_W
-   0075 E5            [11]  105         push hl
-   0076 21 0D 00      [10]  106         ld hl, #AnimFrame
-   0079 19            [11]  107         add hl, de
-   007A C1            [10]  108         pop bc
-   007B 71            [ 7]  109         ld (hl),c
-   007C 23            [ 6]  110         inc hl
-   007D 70            [ 7]  111         ld (hl),b
-                            112         
-                            113         ;; vx = 1
-   007E 21 07 00      [10]  114         ld      hl, #VY
-   0081 19            [11]  115         add     hl, de
-   0082 36 FE         [10]  116         ld      (hl), #-2
+   0043 36 01         [10]   62         ld      (hl), #1
+   0045 18 0E         [12]   63         jr setvelocity_end
+   0047                      64     set_velocity_x_W:
+   0047 21 07 00      [10]   65         ld      hl, #VY
+   004A 19            [11]   66         add     hl, de
+   004B 36 02         [10]   67         ld      (hl), #2
+   004D 18 06         [12]   68         jr setvelocity_end
+   004F                      69     set_velocity_x_S:
+   004F 21 07 00      [10]   70         ld      hl, #VY
+   0052 19            [11]   71         add     hl, de
+   0053 36 FE         [10]   72         ld      (hl), #-2
+                             73 
+   0055                      74     setvelocity_end:
+   0055 C9            [10]   75 ret
+                             76 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             77 ;; UPDATE PHYSICS FOR ONE ENTITY 
+                             78 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             79 ;; IN =>  DE -> entity to update                                      
+                             80 ;;pop de
+   0056                      81 sys_physics_update_for_one:
+                             82     ;; if entity have input
+                             83         ; ld      hl, #CMPs
+                             84         ; add     hl, de
+                             85         ; ld      a, (hl)
+                             86 
+                             87         ; and #E_CMP_INPUT
+                             88         ; cp  #E_CMP_INPUT
+                             89         ; jr z, sys_physics_check_kb
+                             90         ;     jr sys_physics_no_check_kb
+                             91         ; sys_physics_check_kb:
+                             92         ;     call sys_physics_check_keyboard
+                             93         ; sys_physics_no_check_kb:
+                             94     ;;x+vx
+                             95     ;; go to entity->x and load in a
+   0056 3A 00 00      [13]   96         ld a, (choose_axis)
+   0059 FE 01         [ 7]   97         cp #1
+   005B 28 02         [12]   98         jr z, move_x_axis
+   005D 18 11         [12]   99             jr move_y_axis
+   005F                     100 move_x_axis:
+   005F 21 02 00      [10]  101         ld      hl, #X
+   0062 19            [11]  102         add     hl, de
+   0063 7E            [ 7]  103         ld      a, (hl)    
+                            104 
+                            105     ;; go to entity-vx 
+   0064 21 06 00      [10]  106         ld      hl, #VX
+   0067 19            [11]  107         add     hl, de
+                            108     ;; a+hl
+   0068 86            [ 7]  109         add     (hl)
+                            110 
+                            111     ;; if in the end
+                            112         ; jr      c, sys_destroy_entity 
+                            113     ;; x > 0        
+                            114         ; jr      sys_save_vx
+                            115     ;; x < 0
+                            116     ; sys_destroy_entity:
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 100.
 Hexadecimal [16-Bits]
 
 
 
-                            117 
-   0084 18 21         [12]  118         jr      sys_physics_check_keyboard_end
-   0086                     119     sys_physics_S_is_pressed:
-                            120      ;; set movement active
-   0086 3E 01         [ 7]  121         ld a, #1
-   0088 32 01 00      [13]  122         ld (move_active), a
-                            123     ;; set 0 to put the axis y active
-   008B 3E 00         [ 7]  124         ld a, #0
-   008D 32 00 00      [13]  125         ld (choose_axis), a
-                            126         ;; retrieve entity
-   0090 D1            [10]  127         pop de
-                            128         ;;set animation array
-   0091 21 00 00      [10]  129         ld hl, #anim_S
-   0094 E5            [11]  130         push hl
-   0095 21 0D 00      [10]  131         ld hl, #AnimFrame
-   0098 19            [11]  132         add hl, de
-   0099 C1            [10]  133         pop bc
-   009A 71            [ 7]  134         ld (hl),c
-   009B 23            [ 6]  135         inc hl
-   009C 70            [ 7]  136         ld (hl),b
-                            137         
-                            138         ;; vx = 1
-   009D 21 07 00      [10]  139         ld      hl, #VY
-   00A0 19            [11]  140         add     hl, de
-   00A1 36 02         [10]  141         ld      (hl), #2
-                            142 
-   00A3 18 02         [12]  143         jr      sys_physics_check_keyboard_end
-   00A5 18 00         [12]  144     jr sys_physics_check_keyboard_end
-                            145 
-   00A7                     146     sys_physics_check_keyboard_end:
-   00A7 C9            [10]  147     ret
-                            148 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            149 ;; UPDATE PHYSICS FOR ONE ENTITY 
-                            150 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            151 ;; IN =>  DE -> entity to update                                      
-                            152 ;;pop de
-   00A8                     153 sys_physics_update_for_one:
-                            154     ;; if entity have input
-   00A8 21 01 00      [10]  155         ld      hl, #CMPs
-   00AB 19            [11]  156         add     hl, de
-   00AC 7E            [ 7]  157         ld      a, (hl)
-                            158 
-   00AD E6 04         [ 7]  159         and #E_CMP_INPUT
-   00AF FE 04         [ 7]  160         cp  #E_CMP_INPUT
-   00B1 28 02         [12]  161         jr z, sys_physics_check_kb
-   00B3 18 03         [12]  162             jr sys_physics_no_check_kb
-   00B5                     163         sys_physics_check_kb:
-   00B5 CD 02 00      [17]  164             call sys_physics_check_keyboard
-   00B8                     165         sys_physics_no_check_kb:
-                            166     ;;x+vx
-                            167     ;; go to entity->x and load in a
-   00B8 3A 00 00      [13]  168         ld a, (choose_axis)
-   00BB FE 01         [ 7]  169         cp #1
-   00BD 28 02         [12]  170         jr z, move_x_axis
-   00BF 18 11         [12]  171             jr move_y_axis
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 101.
-Hexadecimal [16-Bits]
-
-
-
-   00C1                     172 move_x_axis:
-   00C1 21 02 00      [10]  173         ld      hl, #X
-   00C4 19            [11]  174         add     hl, de
-   00C5 7E            [ 7]  175         ld      a, (hl)    
-                            176 
-                            177     ;; go to entity-vx 
-   00C6 21 06 00      [10]  178         ld      hl, #VX
-   00C9 19            [11]  179         add     hl, de
-                            180     ;; a+hl
-   00CA 86            [ 7]  181         add     (hl)
-                            182 
-                            183     ;; if in the end
-                            184         ; jr      c, sys_destroy_entity 
-                            185     ;; x > 0        
-                            186         ; jr      sys_save_vx
-                            187     ;; x < 0
-                            188     ; sys_destroy_entity:
-                            189     ;     call    _man_entity_set_for_destruction
-                            190     ;     jr end_physics
-                            191     ; sys_save_x:    
-   00CB 21 02 00      [10]  192         ld      hl, #X
-   00CE 19            [11]  193         add     hl, de
-   00CF 77            [ 7]  194         ld      (hl), a
-                            195 
-   00D0 18 0B         [12]  196         jr end_physics
-                            197     ;; y+vy
-   00D2                     198     move_y_axis:
-                            199             ;; go to entity->vy
-   00D2 21 07 00      [10]  200                 ld      hl, #VY
-   00D5 19            [11]  201                 add     hl, de
-   00D6 7E            [ 7]  202                 ld      a, (hl)
-                            203             ;; go to entity->y and add it to vy
-   00D7 21 03 00      [10]  204                 ld      hl, #Y
-   00DA 19            [11]  205                 add     hl, de
-                            206 
-   00DB 86            [ 7]  207                 add     (hl)
-                            208             ;; load it in entity->y
-   00DC 77            [ 7]  209                 ld      (hl), a
-   00DD                     210     end_physics:
-   00DD C9            [10]  211     ret
-                            212 
-                            213 
-                            214 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            215 ;; CAll PHYSICS FOR ALL ENTITY :;
-                            216 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   00DE                     217 _sys_physics_update::          
-   00DE 01 A8 00      [10]  218         ld      bc, #sys_physics_update_for_one
-   00E1 21 02 00      [10]  219         ld      hl, #E_CMP_MOVABLE
-   00E4 CD 00 00      [17]  220         call    _man_entity_for_all_matching
-   00E7 C9            [10]  221 ret
+                            117     ;     call    _man_entity_set_for_destruction
+                            118     ;     jr end_physics
+                            119     ; sys_save_x:    
+   0069 21 02 00      [10]  120         ld      hl, #X
+   006C 19            [11]  121         add     hl, de
+   006D 77            [ 7]  122         ld      (hl), a
+                            123 
+   006E 18 0B         [12]  124         jr end_physics
+                            125     ;; y+vy
+   0070                     126     move_y_axis:
+                            127             ;; go to entity->vy
+   0070 21 07 00      [10]  128                 ld      hl, #VY
+   0073 19            [11]  129                 add     hl, de
+   0074 7E            [ 7]  130                 ld      a, (hl)
+                            131             ;; go to entity->y and add it to vy
+   0075 21 03 00      [10]  132                 ld      hl, #Y
+   0078 19            [11]  133                 add     hl, de
+                            134 
+   0079 86            [ 7]  135                 add     (hl)
+                            136             ;; load it in entity->y
+   007A 77            [ 7]  137                 ld      (hl), a
+   007B                     138     end_physics:
+   007B C9            [10]  139     ret
+                            140 
+                            141 
+                            142 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            143 ;; CAll PHYSICS FOR ALL ENTITY :;
+                            144 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   007C                     145 _sys_physics_update::          
+   007C 01 56 00      [10]  146         ld      bc, #sys_physics_update_for_one
+   007F 21 02 00      [10]  147         ld      hl, #E_CMP_MOVABLE
+   0082 CD 00 00      [17]  148         call    _man_entity_for_all_matching
+   0085 C9            [10]  149 ret
