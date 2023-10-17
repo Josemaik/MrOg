@@ -1,27 +1,0 @@
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
-Hexadecimal [16-Bits]
-
-Symbol Table
-
-    .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
-    .__.H$L.=  0000 L   |     AnimCoun=  000F     |     AnimFram=  000D 
-    CMPs    =  0001     |     COLLIDES=  0010     |     E_CMP_AN=  0010 
-    E_CMP_CO=  0020     |     E_CMP_DE=  007F     |     E_CMP_IA=  0008 
-    E_CMP_IN=  0004     |     E_CMP_MO=  0002     |     E_CMP_RE=  0001 
-    E_TYPE_D=  0080     |     E_TYPE_D=  0002     |     E_TYPE_E=  0002 
-    E_TYPE_I=  0000     |     E_TYPE_M=  0004     |     E_TYPE_P=  0001 
-    E_TYPE_S=  0008     |     HEIGHT  =  0005     |     IA_COUNT=  000C 
-    IA_behav=  000A     |     MAN_ANIM=  000C     |     SPACE_4_=  0013 
-    SPRITE  =  0008     |     SPR_SPRI=  0010     |     SPR_SPRI=  0008 
-    TOTAL_EN=  0001     |     TOTAL_SP=  0013     |     TYPE    =  0000 
-    VX      =  0006     |     VY      =  0007     |     WIDTH   =  0004 
-    X       =  0002     |     Y       =  0003     |     cpct_mem   **** GX
-    cpct_mem   **** GX  |     last_dra=  0011 
-
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
-Hexadecimal [16-Bits]
-
-Area Table
-
-   0 _CODE      size    0   flags    0
-
