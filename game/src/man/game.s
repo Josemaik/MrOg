@@ -93,6 +93,8 @@ man_game_play::
          call     _sys_physics_update
       ;; check collisions
          ; call     _sys_collision_update
+      ;; call input
+         call _sys_input_update
       ;; call animations system
          call     _sys_animations_update
       ;; render
@@ -100,9 +102,9 @@ man_game_play::
       ;; update manager
          call     _man_entity_update
       ;; wait ( se mueve cada cinco fotogramas)
-         ld       a, #4
+         ld       a, #3
 		 call     _wait
-         ; call cpct_waitVSYNC_asm
+      ; call cpct_waitVSYNC_asm
       ;; jump to loop
          jr       loop
 ret

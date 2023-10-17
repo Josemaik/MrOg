@@ -15,10 +15,11 @@ playership_template0_e::
 		.db     #SPR_SPRITE1_S_H   ;; height
 		.db     #0x00                 ;; vx = 0
 		.db     #0x00               ;; vy = 0
-		.dw     #_spr_sprite1_S  ;; sprite (2b)
+		.dw     #_spr_spritesheet_00  ;; sprite (2b)
       .dw     #0x0000 ;; behaviour
 	  .db 	#0x00					;; ai_counter
       .dw     #0x0000 ;; anim
-      .db     #0x01            ;;animcounter c = 0
+      .db     #0x00            ;;animcounter c = 0
 	  .db 	#0x00				;;collides_against
 	  .dw   #0x0000				;; last draw
+	  .db   #DIRECT_S			;; direction
