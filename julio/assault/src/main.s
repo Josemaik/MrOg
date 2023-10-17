@@ -48,8 +48,7 @@ loop:
    ;; Render
    ;;
    call entity_man_getArray
-   call render_sys_tilemap
-   ;;call render_sys_update
+   call render_sys_update
 
    ;; waitNVSyncs 2
    call cpct_waitVSYNC_asm

@@ -54,30 +54,28 @@ Symbol Table
     Key_U   =  0405     |     Key_V   =  8006     |     Key_W   =  0807 
     Key_X   =  8007     |     Key_Y   =  0805     |     Key_Z   =  8008 
     PAL_INKR=  0040     |     PAL_PENR=  0000     |     PPI_PORT=  00F5 
-  0 _ent_cou=  006B R   |     _g_palet   **** GX  |   0 _render_   0045 R
-    _sp_play   **** GX  |     _tilemap   **** GX  |     _tiles_0   **** GX
-    cpct_dis   **** GX  |     cpct_dra   **** GX  |     cpct_dra   **** GX
-    cpct_etm   **** GX  |     cpct_etm   **** GX  |     cpct_get   **** GX
+  0 _ent_cou=  0052 R   |     _g_palet   **** GX  |   0 _render_   002C R
+    _sp_play   **** GX  |     cpct_dis   **** GX  |     cpct_dra   **** GX
+    cpct_dra   **** GX  |     cpct_get   **** GX  |     cpct_pag=  0000 
+    cpct_pag=  0010     |     cpct_pag=  0020     |     cpct_pag=  0030 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
-    cpct_pag=  0000     |     cpct_pag=  0010     |     cpct_pag=  0020 
-    cpct_pag=  0030     |     cpct_set   **** GX  |     cpct_set   **** GX
-    cpct_set   **** GX  |     e_h        **** GX  |     e_pspr_h   **** GX
-    e_pspr_l   **** GX  |     e_ptr_h    **** GX  |     e_ptr_l    **** GX
-    e_w        **** GX  |     e_x        **** GX  |     e_y        **** GX
-    entity_s   **** GX  |     firmware=  0038     |     opc_DI  =  00F3 
-    opc_EI  =  00FB     |     opc_JR  =  0018     |     opc_LD_D=  0016 
-  0 render_s   001B GR  |   0 render_s   0000 GR  |   0 render_s   002C GR
-  0 render_s   0042 GR
+    cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_set   **** GX
+    e_h        **** GX  |     e_pspr_h   **** GX  |     e_pspr_l   **** GX
+    e_ptr_h    **** GX  |     e_ptr_l    **** GX  |     e_w        **** GX
+    e_x        **** GX  |     e_y        **** GX  |     entity_s   **** GX
+    firmware=  0038     |     opc_DI  =  00F3     |     opc_EI  =  00FB 
+    opc_JR  =  0018     |     opc_LD_D=  0016     |   0 render_s   0018 GR
+  0 render_s   0000 GR  |   0 render_s   0029 GR
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   78   flags    0
+   0 _CODE      size   5F   flags    0
    1 _DATA      size    0   flags    0
 

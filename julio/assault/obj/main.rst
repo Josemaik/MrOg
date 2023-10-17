@@ -27,41 +27,40 @@ Hexadecimal [16-Bits]
                              22 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              23 ;; MAIN 
                              24 ;;
-   487B                      25 _main::
+   424B                      25 _main::
                              26 
                              27    ;; Init systems
-   487B CD FD 4A      [17]   28    call render_sys_init
-   487E CD BA 4A      [17]   29    call physics_sys_init
-   4881 CD F5 49      [17]   30    call entity_man_init
-   4884 CD 81 4A      [17]   31    call input_sys_init
+   424B CD D3 44      [17]   28    call render_sys_init
+   424E CD 90 44      [17]   29    call physics_sys_init
+   4251 CD C5 43      [17]   30    call entity_man_init
+   4254 CD 57 44      [17]   31    call input_sys_init
                              32 
-   4887                      33 loop:
+   4257                      33 loop:
                              34 
                              35    ;;;;;;;;;;;;;;;;;;;
                              36    ;; Input
                              37    ;;
-   4887 CD 78 4A      [17]   38    call entity_man_getArray
-   488A CD 82 4A      [17]   39    call input_sys_update
+   4257 CD 4E 44      [17]   38    call entity_man_getArray
+   425A CD 58 44      [17]   39    call input_sys_update
                              40 
                              41    ;;;;;;;;;;;;;;;;;;;
                              42    ;; Physics
                              43    ;;
-   488D CD 78 4A      [17]   44    call entity_man_getArray
-   4890 CD BB 4A      [17]   45    call physics_sys_update
+   425D CD 4E 44      [17]   44    call entity_man_getArray
+   4260 CD 91 44      [17]   45    call physics_sys_update
                              46 
                              47    ;;;;;;;;;;;;;;;;;;;
                              48    ;; Render
                              49    ;;
-   4893 CD 78 4A      [17]   50    call entity_man_getArray
-   4896 CD 29 4B      [17]   51    call render_sys_tilemap
-                             52    ;;call render_sys_update
-                             53 
-                             54    ;; waitNVSyncs 2
-   4899 CD 58 4D      [17]   55    call cpct_waitVSYNC_asm
+   4263 CD 4E 44      [17]   50    call entity_man_getArray
+   4266 CD FC 44      [17]   51    call render_sys_update
+                             52 
+                             53    ;; waitNVSyncs 2
+   4269 CD 7C 46      [17]   54    call cpct_waitVSYNC_asm
+                             55 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 
 
-                             56 
-   489C 18 E9         [12]   57    jr   loop
+   426C 18 E9         [12]   56    jr   loop

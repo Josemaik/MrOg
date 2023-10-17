@@ -66,10 +66,10 @@ Symbol Table
     e_pspr_h=  0007 G   |     e_pspr_l=  0006 G   |     e_ptr_h =  0009 G
     e_ptr_l =  0008 G   |     e_vx    =  0002 G   |     e_vy    =  0003 G
     e_w     =  0004 G   |     e_x     =  0000 G   |     e_y     =  0001 G
-  0 end_crea   01B8 R   |   0 entity_m   0191 GR  |   0 entity_m   017A GR
-  0 entity_m   016C GR  |   0 entity_m   0173 GR  |   0 entity_m   0165 GR
-  0 entity_m   01BA GR  |   0 entity_m   01DA GR  |   0 entity_m   0157 GR
-    entity_s=  000A G   |   0 fin        01B9 R   |     firmware=  0038 
+  0 end_crea   01BE R   |   0 entity_m   0197 GR  |   0 entity_m   0180 GR
+  0 entity_m   0172 GR  |   0 entity_m   0179 GR  |   0 entity_m   016B GR
+  0 entity_m   01C0 GR  |   0 entity_m   01E0 GR  |   0 entity_m   0157 GR
+    entity_s=  000A G   |   0 fin        01BF R   |     firmware=  0038 
     max_enti=  001E G   |     opc_DI  =  00F3     |     opc_EI  =  00FB 
     opc_JR  =  0018     |     opc_LD_D=  0016     |   0 plantill   0014 GR
   0 plantill   000A GR  |   0 plantill   001E GR  |   0 plantill   0000 GR
@@ -80,6 +80,6 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size  1E2   flags    0
+   0 _CODE      size  1E8   flags    0
    1 _DATA      size    0   flags    0
 

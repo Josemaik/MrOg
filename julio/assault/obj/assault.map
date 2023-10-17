@@ -7,7 +7,7 @@ Area                                    Addr        Size        Decimal Bytes (A
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00000000  .__.ABS.                           cpct_easytilemaps
+     00000000  .__.ABS.                           cpct_video
      00000000  e_x                                Entity_Manager
      00000000  l__CABS                         
      00000000  l__DABS                         
@@ -30,114 +30,80 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000009  e_ptr_h                            Entity_Manager
      0000000A  entity_size                        Entity_Manager
      0000001E  max_entities                       Entity_Manager
-     00000E52  l__CODE                         
+     0000074A  l__CODE                         
      00004000  s__CODE                         
-     00004E52  s__DATA                         
-     00004E52  s__GSFINAL                      
-     00004E52  s__GSINIT                       
-     00004E52  s__HOME                         
-     00004E52  s__INITIALIZED                  
-     00004E52  s__INITIALIZER                  
+     0000474A  s__DATA                         
+     0000474A  s__GSFINAL                      
+     0000474A  s__GSINIT                       
+     0000474A  s__HOME                         
+     0000474A  s__INITIALIZED                  
+     0000474A  s__INITIALIZER                  
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    00000E52 =        3666. bytes (REL,CON)
+_CODE                               00004000    0000074A =        1866. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00004000  _tiles_00                          tiles
-     00004020  _tiles_01                          tiles
-     00004040  _tiles_02                          tiles
-     00004060  _tiles_03                          tiles
-     00004080  _tiles_04                          tiles
-     000040A0  _tiles_05                          tiles
-     000040C0  _tiles_06                          tiles
-     000040E0  _tiles_07                          tiles
-     00004100  _tiles_08                          tiles
-     00004120  _tiles_09                          tiles
-     00004140  _tiles_10                          tiles
-     00004160  _tiles_11                          tiles
-     00004180  _sp_ammo                           ammo
-     00004188  _sp_minion_ship                    minion_ship
-     000041E3  _sp_enemy_ship                     enemy_ship
-     000042FB  _sp_player_ship                    player_ship
-     000043BB  _g_palette                         g_palette
-     000043CB  _tilemap_01                        
-     0000487B  _main                              Main
-     0000489E  plantilla_minion                   Entity_Manager
-     000048A8  plantilla_enemigo                  Entity_Manager
-     000048B2  plantilla_bala                     Entity_Manager
-     000048BC  plantilla_entidad                  Entity_Manager
-     000048C6  _num_entities                      Entity_Manager
-     000048C7  _last_elem_ptr                     Entity_Manager
-     000048C9  _entity_array                      Entity_Manager
-     000049F5  entity_man_init                    Entity_Manager
-     00004A03  entity_man_create_player           Entity_Manager
-     00004A0A  entity_man_create_enemy            Entity_Manager
-     00004A11  entity_man_create_minion           Entity_Manager
-     00004A18  entity_man_create_ammo             Entity_Manager
-     00004A2F  entity_man_create                  Entity_Manager
-     00004A58  entity_man_destroy                 Entity_Manager
-     00004A78  entity_man_getArray                Entity_Manager
-     00004A81  input_sys_init                     Input_System
-     00004A82  input_sys_update                   Input_System
-     00004ABA  physics_sys_init                   Physics_System
-     00004ABB  physics_sys_update                 Physics_System
-     00004AFD  render_sys_init                    Render_System
-     00004B18  render_sys_erase_previous_instan   Render_System
-     00004B29  render_sys_tilemap                 Render_System
-     00004B3F  render_sys_update                  Render_System
-     00004B75  cpct_setPalette_asm                cpct_video
-     00004B88  _cpct_scanKeyboard_f               cpct_keyboard
-     00004B88  cpct_scanKeyboard_f_asm            cpct_keyboard
-     00004BF2  _cpct_isKeyPressed                 cpct_keyboard
-     00004BF2  cpct_isKeyPressed_asm              cpct_keyboard
-     00004BFE  cpct_setPALColour_asm              cpct_video
-     00004C08  cpct_drawSprite_asm                cpct_sprites
-     00004CA8  cpct_etm_drawTilemap4x8_ag_asm     cpct_easytilemaps
+     00004000  _sp_ammo                           ammo
+     00004008  _sp_minion_ship                    minion_ship
+     00004063  _sp_enemy_ship                     enemy_ship
+     0000417B  _sp_player_ship                    player_ship
+     0000423B  _g_palette                         g_palette
+     0000424B  _main                              Main
+     0000426E  plantilla_minion                   Entity_Manager
+     00004278  plantilla_enemigo                  Entity_Manager
+     00004282  plantilla_bala                     Entity_Manager
+     0000428C  plantilla_entidad                  Entity_Manager
+     00004296  _num_entities                      Entity_Manager
+     00004297  _last_elem_ptr                     Entity_Manager
+     00004299  _entity_array                      Entity_Manager
+     000043C5  entity_man_init                    Entity_Manager
+     000043D9  entity_man_create_player           Entity_Manager
+     000043E0  entity_man_create_enemy            Entity_Manager
+     000043E7  entity_man_create_minion           Entity_Manager
+     000043EE  entity_man_create_ammo             Entity_Manager
+     00004405  entity_man_create                  Entity_Manager
+     0000442E  entity_man_destroy                 Entity_Manager
+     0000444E  entity_man_getArray                Entity_Manager
+     00004457  input_sys_init                     Input_System
+     00004458  input_sys_update                   Input_System
+     00004490  physics_sys_init                   Physics_System
+     00004491  physics_sys_update                 Physics_System
+     000044D3  render_sys_init                    Render_System
+     000044EB  render_sys_erase_previous_instan   Render_System
+     000044FC  render_sys_update                  Render_System
+     00004532  cpct_setPalette_asm                cpct_video
+     00004545  _cpct_scanKeyboard_f               cpct_keyboard
+     00004545  cpct_scanKeyboard_f_asm            cpct_keyboard
+     000045AF  _cpct_isKeyPressed                 cpct_keyboard
+     000045AF  cpct_isKeyPressed_asm              cpct_keyboard
+     000045BB  cpct_setPALColour_asm              cpct_video
+     000045C5  cpct_drawSprite_asm                cpct_sprites
+     00004665  _cpct_keyboardStatusBuffer         cpct_keyboard
+     0000466F  cpct_setVideoMode_asm              cpct_video
+     0000467C  _cpct_waitVSYNC                    cpct_video
+     0000467C  cpct_waitVSYNC_asm                 cpct_video
+     00004684  _cpct_disableFirmware              cpct_firmware
+     00004684  _cpct_removeInterruptHandler       cpct_firmware
+     00004684  cpct_disableFirmware_asm           cpct_firmware
+     00004684  cpct_removeInterruptHandler_asm    cpct_firmware
+     00004694  cpct_drawSolidBox_asm              cpct_sprites
+     00004737  _cpct_mode_rom_status              cpct_firmware
+     00004738  cpct_getScreenPtr_asm              cpct_video
+
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
-Hexadecimal  [32-Bits]
-
-Area                                    Addr        Size        Decimal Bytes (Attributes)
---------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    00000E52 =        3666. bytes (REL,CON)
-
-      Value  Global                              Global Defined In Module
-      -----  --------------------------------   ------------------------
-     00004CAA  cpct_etm_dtm4x8_ag_asm_widthHeig   cpct_easytilemaps
-     00004CC0  cpct_etm_dtm4x8_ag_asm_tilesetPt   cpct_easytilemaps
-     00004D2B  cpct_etm_dtm4x8_ag_asm_restoreI    cpct_easytilemaps
-     00004D31  cpct_etm_dtm4x8_ag_asm_increment   cpct_easytilemaps
-     00004D36  cpct_etm_dtm4x8_ag_asm_restoreWi   cpct_easytilemaps
-     00004D39  cpct_etm_dtm4x8_ag_asm_updateWid   cpct_easytilemaps
-     00004D41  _cpct_keyboardStatusBuffer         cpct_keyboard
-     00004D4B  cpct_setVideoMode_asm              cpct_video
-     00004D58  _cpct_waitVSYNC                    cpct_video
-     00004D58  cpct_waitVSYNC_asm                 cpct_video
-     00004D60  _cpct_disableFirmware              cpct_firmware
-     00004D60  _cpct_removeInterruptHandler       cpct_firmware
-     00004D60  cpct_disableFirmware_asm           cpct_firmware
-     00004D60  cpct_removeInterruptHandler_asm    cpct_firmware
-     00004D70  cpct_drawSolidBox_asm              cpct_sprites
-     00004E13  _cpct_mode_rom_status              cpct_firmware
-     00004E14  cpct_getScreenPtr_asm              cpct_video
-     00004E26  cpct_etm_setDrawTilemap4x8_ag_as   cpct_easytilemaps
-
-ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 
 Files Linked                              [ module(s) ]
 
-obj/sprites/tiles.rel                     [ tiles ]
 obj/sprites/ammo.rel                      [ ammo ]
 obj/sprites/minion_ship.rel               [ minion_ship ]
 obj/sprites/enemy_ship.rel                [ enemy_ship ]
 obj/sprites/player_ship.rel               [ player_ship ]
 obj/sprites/g_palette.rel                 [ g_palette ]
-obj/tilemaps/mapa.h.rel                   [  ]
-obj/tilemaps/mapa.rel                     [  ]
 obj/main.rel                              [ Main ]
 obj/managers/entity_manager.rel           [ Entity_Manager ]
 obj/systems/input_system.rel              [ Input_System ]
@@ -158,8 +124,6 @@ Libraries Linked                          [ object file ]
 /home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_drawSprite_asmbindings.rel ]
 /home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
-                                          [ cpct_etm_drawTilemap4x8_ag_asmbi ]
-/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
                                           [ keyboard.rel ]
 /home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_setVideoMode_asmbindings.re ]
@@ -173,10 +137,8 @@ Libraries Linked                          [ object file ]
                                           [ cpc_mode_rom_status.rel ]
 /home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_getScreenPtr_asmbindings.re ]
-/home/cpc/Escritorio/cpctelera/cpctelera/cpctelera.lib
-                                          [ cpct_etm_setDrawTilemap4x8_ag_as ]
 
-ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
+ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 
 User Base Address Definitions
 

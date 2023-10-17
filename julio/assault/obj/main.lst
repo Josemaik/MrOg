@@ -53,15 +53,14 @@ Hexadecimal [16-Bits]
                              48    ;; Render
                              49    ;;
    0018 CD 00 00      [17]   50    call entity_man_getArray
-   001B CD 00 00      [17]   51    call render_sys_tilemap
-                             52    ;;call render_sys_update
-                             53 
-                             54    ;; waitNVSyncs 2
-   001E CD 00 00      [17]   55    call cpct_waitVSYNC_asm
+   001B CD 00 00      [17]   51    call render_sys_update
+                             52 
+                             53    ;; waitNVSyncs 2
+   001E CD 00 00      [17]   54    call cpct_waitVSYNC_asm
+                             55 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 
 
-                             56 
-   0021 18 E9         [12]   57    jr   loop
+   0021 18 E9         [12]   56    jr   loop

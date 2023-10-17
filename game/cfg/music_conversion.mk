@@ -33,7 +33,7 @@
 #$(eval $(call AKS2DATA, SET_SFXONLY  , no   )) { yes, no       }
 #$(eval $(call AKS2DATA, SET_EXTRAPAR ,      )) 
 # Conversion
-#$(eval $(call AKS2DATA, CONVERT      , music.aks , array , mem_address ))
+#$(eval $(call AKS2DATA, CONVERT, assets/music/prueba.aks , song_prueba , 0x4000 ))
 
 
 
@@ -49,7 +49,7 @@
 ## placed at the 0x42A0 memory address in an absolue way.
 ##
 
-#$(eval $(call AKS2C,music/song.aks,g_mysong,src/music/,0x42A0))
+$(eval $(call AKS2C,assets/music/prueba.aks,_song_prueba,src/music/,0x4000))
 
 ############################################################################
 ##              DETAILED INSTRUCTIONS AND PARAMETERS                      ##
