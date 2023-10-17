@@ -5,25 +5,69 @@
 .include "man/entity.h.s"
 .area _DATA
 
-
+animation_state::
+    .db 0x00
 .area _CODE
 
-
+desactive_animating::
+    ld a, #0
+    ld (animation_state), a
+ret
+active_animation::
+    ld a, #1
+    ld (animation_state), a
+ret
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; CHECK THE ANIMATION ACTIVE AND SET VELOCITY
+;; IN -> bc => direction of entity
+;;       4(ix) and 5(ix) => the array of the animation
+check_animation::
+        ld hl, #direction
+        add hl, de
+        ld a , (hl)
+        and c
+        cp c
+        jr z, set_velocity ;; si la animacion ya estaba en A
+        ;; save duirection
+        push bc
+        ;;set animation array
+        ;; retrieve animation here in hl
+        ld l, 4(ix)
+        ld h, 5(ix)
+        push hl
+        ;; go to entity-> animframe
+        ld hl, #AnimFrame
+        add hl, de
+        ;; retrieve in bc the animation and load in animframe
+        pop bc
+        ld (hl),c
+        inc hl
+        ld (hl),b
+        ;; retrieve direction
+        pop bc
+        ;; set direction
+        ld hl, #direction
+        add hl, de
+        ld (hl), c
+        
+       set_velocity:
+       call setvelocity
+ret
 sys_animations_update_one_entity:
-    ld a , (move_active)
+    ld a , (animation_state)
     cp #1
     jr z, start_animating
         jr sys_animations_update_one_entity_end
     start_animating:
     ;; save in a the entity->animcounter
-    ld hl, #AnimCounter
-    add hl, de
-    ld a, (hl)
-    sub #1
-    ld (hl), a
+    ; ld hl, #AnimCounter
+    ; add hl, de
+    ; ld a, (hl)
+    ; sub #1
+    ; ld (hl), a
     ;; if (a == 0)
-    jr z, change_sprite
-        jr sys_animations_update_one_entity_end
+    ; jr z, change_sprite
+        ; jr sys_animations_update_one_entity_end
     change_sprite:
 
         ;; go to entity->animframe

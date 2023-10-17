@@ -9,142 +9,73 @@
 ;; if the value == 0 => Y axis
 choose_axis::
     .db 0x00
-move_active::
-    .db 0x00
+
 ;;;;;;;;;;;;;;;
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
-sys_physics_check_keyboard:
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; LEFT-RIGHT MOVEMEMENT     ;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; save entity
-    push de
-    ;; scan keyboard
-    call cpct_scanKeyboard_f_asm
-    ;; check letter O
-    ld      hl, #Key_A
-    call cpct_isKeyPressed_asm
-    jr nz, sys_physics_A_is_pressed
-    ;; check letter P
-    ld      hl, #Key_D
-    call cpct_isKeyPressed_asm
-    jr nz, sys_physics_D_is_pressed
-     ld      hl, #Key_W
-    call cpct_isKeyPressed_asm
-    jr nz, sys_physics_W_is_pressed
-     ld      hl, #Key_S
-    call cpct_isKeyPressed_asm
-    jr nz, sys_physics_S_is_pressed
+stop_sprite::
+;;parar sprite
+    ld      hl, #VY
+    add     hl, de
+    ld      (hl),#0
+    ld      hl, #VX
+    add     hl, de
+    ld      (hl),#0
+ret
+choose_axis_x::
+    ld a, #1
+    ld (choose_axis), a
+ret
+choose_axis_y::
+    ld a, #0
+    ld (choose_axis), a
+ret
+setvelocity::
+    ld hl , #direction
+    add hl, de
+    ld a, (hl)
+    ;; check is direction is A
+    and #DIRECT_A
+    cp #DIRECT_A
+    jr z, set_velocity_x_A
+;; check is direction is D
+    ld a, (hl)
+    and #DIRECT_D
+    cp #DIRECT_D
+    jr z, set_velocity_x_D
+;; check is direction is W
+    ld a, (hl)
+    and #DIRECT_W
+    cp #DIRECT_W
+    jr z, set_velocity_x_W
+;; check is direction is S
+    ld a, (hl)
+    and #DIRECT_S
+    cp #DIRECT_S
+     jr z, set_velocity_x_S
 
-    pop de
-    jr sys_physics_check_keyboard_end
-    ;; O is pressed
-    sys_physics_A_is_pressed:
-        ;; set movement active
-        ld a, #1
-        ld (move_active), a
-        ;; set 1 to put the axis x active
-        ld a, #1
-        ld (choose_axis), a
-         ;; retrieve entity
-        pop de
-        ;;set animation array
-        ld hl, #anim_A
-        push hl
-        ld hl, #AnimFrame
-        add hl, de
-        pop bc
-        ld (hl),c
-        inc hl
-        ld (hl),b
-       
-        ;; vx = 1
+    set_velocity_x_A:
         ld      hl, #VX
         add     hl, de
         ld      (hl), #-1
-
-        jr      sys_physics_check_keyboard_end
-
-    sys_physics_D_is_pressed:
-    ;; set movement active
-        ld a, #1
-        ld (move_active), a
-        ;; set 1 to put the axis x active
-        ld a, #1
-        ld (choose_axis), a
-        ;; retrieve entity
-        pop de
-        ;;set animation array
-        ld hl, #anim_D
-        push hl
-        ld hl, #AnimFrame
-        add hl, de
-        pop bc
-        ld (hl),c
-        inc hl
-        ld (hl),b
-        
-        ;; vx = 1
+        jr setvelocity_end
+    set_velocity_x_D:
         ld      hl, #VX
         add     hl, de
         ld      (hl), #1
-
-        jr      sys_physics_check_keyboard_end
-    sys_physics_W_is_pressed:
-    ;; set movement active
-        ld a, #1
-        ld (move_active), a
-    ;; set 0 to put the axis y active
-        ld a, #0
-        ld (choose_axis), a
-        ;; retrieve entity
-        pop de
-        ;;set animation array
-        ld hl, #anim_W
-        push hl
-        ld hl, #AnimFrame
-        add hl, de
-        pop bc
-        ld (hl),c
-        inc hl
-        ld (hl),b
-        
-        ;; vx = 1
+        jr setvelocity_end
+    set_velocity_x_W:
         ld      hl, #VY
         add     hl, de
         ld      (hl), #-2
-
-        jr      sys_physics_check_keyboard_end
-    sys_physics_S_is_pressed:
-     ;; set movement active
-        ld a, #1
-        ld (move_active), a
-    ;; set 0 to put the axis y active
-        ld a, #0
-        ld (choose_axis), a
-        ;; retrieve entity
-        pop de
-        ;;set animation array
-        ld hl, #anim_S
-        push hl
-        ld hl, #AnimFrame
-        add hl, de
-        pop bc
-        ld (hl),c
-        inc hl
-        ld (hl),b
-        
-        ;; vx = 1
+        jr setvelocity_end
+    set_velocity_x_S:
         ld      hl, #VY
         add     hl, de
         ld      (hl), #2
 
-        jr      sys_physics_check_keyboard_end
-    jr sys_physics_check_keyboard_end
-
-    sys_physics_check_keyboard_end:
-    ret
+    setvelocity_end:
+ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UPDATE PHYSICS FOR ONE ENTITY 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -152,17 +83,17 @@ sys_physics_check_keyboard:
 ;;pop de
 sys_physics_update_for_one:
     ;; if entity have input
-        ld      hl, #CMPs
-        add     hl, de
-        ld      a, (hl)
+        ; ld      hl, #CMPs
+        ; add     hl, de
+        ; ld      a, (hl)
 
-        and #E_CMP_INPUT
-        cp  #E_CMP_INPUT
-        jr z, sys_physics_check_kb
-            jr sys_physics_no_check_kb
-        sys_physics_check_kb:
-            call sys_physics_check_keyboard
-        sys_physics_no_check_kb:
+        ; and #E_CMP_INPUT
+        ; cp  #E_CMP_INPUT
+        ; jr z, sys_physics_check_kb
+        ;     jr sys_physics_no_check_kb
+        ; sys_physics_check_kb:
+        ;     call sys_physics_check_keyboard
+        ; sys_physics_no_check_kb:
     ;;x+vx
     ;; go to entity->x and load in a
         ld a, (choose_axis)

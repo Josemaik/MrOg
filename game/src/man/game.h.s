@@ -19,6 +19,7 @@
       .globl _sys_render_update                   
       .globl _sys_render_init
       .globl _sys_animations_update
+      .globl _sys_input_update
    ;; sprites
 
    ;; templates
