@@ -9,21 +9,25 @@ Hexadecimal [16-Bits]
                               4     ;; cpctelera
                               5       .globl cpct_waitVSYNC_asm           
                               6       .globl cpct_waitHalts_asm
-                              7       .globl cpct_memcpy_asm           
-                              8                                           
-                              9    ;; managers                            
-                             10       .globl _man_entity_init             
-                             11       .globl _man_entity_update           
-                             12       .globl _man_entity_create
-                             13       .globl _man_entity_clone
-                             14       .globl _man_entity_set_for_destruction
-                             15       .globl man_entity_destroy                           
-                             16    ;; systems                             
-                             17       .globl _sys_physics_update          
-                             18       .globl _sys_render_update                   
-                             19       .globl _sys_render_init
-                             20       .globl _sys_animations_update
-                             21    ;; sprites
-                             22 
-                             23    ;; templates
-                             24    .globl playership_template0_e
+                              7       .globl cpct_memcpy_asm 
+                              8       .globl cpct_akp_musicInit_asm          
+                              9       .globl cpct_akp_musicPlay_asm           
+                             10    ;; managers                            
+                             11       .globl _man_entity_init             
+                             12       .globl _man_entity_update           
+                             13       .globl _man_entity_create
+                             14       .globl _man_entity_clone
+                             15       .globl _man_entity_set_for_destruction
+                             16       .globl man_entity_destroy                           
+                             17    ;; systems                             
+                             18       .globl _sys_physics_update          
+                             19       .globl _sys_render_update                   
+                             20       .globl _sys_render_init
+                             21       .globl _sys_animations_update
+                             22    ;; sprites
+                             23 
+                             24    ;; templates
+                             25    .globl playership_template0_e
+                             26 
+                             27    ;;music
+                             28    .globl _song_prueba

@@ -4,8 +4,9 @@
     ;; cpctelera
       .globl cpct_waitVSYNC_asm           
       .globl cpct_waitHalts_asm
-      .globl cpct_memcpy_asm           
-                                          
+      .globl cpct_memcpy_asm 
+      .globl cpct_akp_musicInit_asm          
+      .globl cpct_akp_musicPlay_asm           
    ;; managers                            
       .globl _man_entity_init             
       .globl _man_entity_update           
@@ -22,3 +23,6 @@
 
    ;; templates
    .globl playership_template0_e
+
+   ;;music
+   .globl _song_prueba

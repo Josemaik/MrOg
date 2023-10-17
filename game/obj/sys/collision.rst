@@ -5100,35 +5100,35 @@ Hexadecimal [16-Bits]
                              13 ;;  updates the collision of a given entity
                              14 ;; IN -> DE: left entity
                              15 ;;       BC: rght entity
-   4687                      16 sys_collisions_update_entities::
+   4713                      16 sys_collisions_update_entities::
                              17     ; ld a, #0x00
                              18     ; ld (0xC000),a
                              19     ;; check if both entities can collide
                              20     ;; check if entity of right can collid another entity
                              21     ;; e(r)->collides_against
-   4687 21 10 00      [10]   22     ld hl, #COLLIDES_AGAINST
-   468A 09            [11]   23     add hl, bc
-   468B 7E            [ 7]   24     ld a, (hl)
+   4713 21 10 00      [10]   22     ld hl, #COLLIDES_AGAINST
+   4716 09            [11]   23     add hl, bc
+   4717 7E            [ 7]   24     ld a, (hl)
                              25     ;; e(l)->type
-   468C 21 00 00      [10]   26     ld hl, #TYPE
-   468F 19            [11]   27     add hl, de
-   4690 A6            [ 7]   28     and (hl)
+   4718 21 00 00      [10]   26     ld hl, #TYPE
+   471B 19            [11]   27     add hl, de
+   471C A6            [ 7]   28     and (hl)
                              29     ;; check if can collide( e(r)->collides_against && e(l)->type == 0 )
-   4691 BE            [ 7]   30     cp (hl)
-   4692 28 0F         [12]   31     jr z, check_collision_between_entities
+   471D BE            [ 7]   30     cp (hl)
+   471E 28 0F         [12]   31     jr z, check_collision_between_entities
                              32 
-   4694 21 10 00      [10]   33     ld hl, #COLLIDES_AGAINST
-   4697 19            [11]   34     add hl, de
-   4698 7E            [ 7]   35     ld a, (hl)
+   4720 21 10 00      [10]   33     ld hl, #COLLIDES_AGAINST
+   4723 19            [11]   34     add hl, de
+   4724 7E            [ 7]   35     ld a, (hl)
                              36 
-   4699 21 00 00      [10]   37     ld hl, #TYPE
-   469C 09            [11]   38     add hl, bc
-   469D A6            [ 7]   39     and (hl)
+   4725 21 00 00      [10]   37     ld hl, #TYPE
+   4728 09            [11]   38     add hl, bc
+   4729 A6            [ 7]   39     and (hl)
                              40 
-   469E BE            [ 7]   41     cp (hl)
-   469F 28 02         [12]   42     jr z, check_collision_between_entities
-   46A1 18 32         [12]   43         jr dont_have_collision_between_entities
-   46A3                      44     check_collision_between_entities:
+   472A BE            [ 7]   41     cp (hl)
+   472B 28 02         [12]   42     jr z, check_collision_between_entities
+   472D 18 32         [12]   43         jr dont_have_collision_between_entities
+   472F                      44     check_collision_between_entities:
                              45         ;; check bounding boxes
                              46         ;; A < B
                              47         ;; if(x(l) + width(l) < x(r)) no collision
@@ -5176,59 +5176,59 @@ Hexadecimal [16-Bits]
                              84         ;; if(y(l) + height(l) < y(r)) no collision
                              85         ;; if(y(l) + height(l) - y(r) < 0)no collision
                              86         ;; y(l)
-   46A3 21 03 00      [10]   87         ld hl, #Y
-   46A6 19            [11]   88         add hl, de
-   46A7 7E            [ 7]   89         ld a, (hl)
+   472F 21 03 00      [10]   87         ld hl, #Y
+   4732 19            [11]   88         add hl, de
+   4733 7E            [ 7]   89         ld a, (hl)
                              90         ;; height(l)
-   46A8 21 05 00      [10]   91         ld hl,#HEIGHT
-   46AB 19            [11]   92         add hl,de
-   46AC 86            [ 7]   93         add (hl)
+   4734 21 05 00      [10]   91         ld hl,#HEIGHT
+   4737 19            [11]   92         add hl,de
+   4738 86            [ 7]   93         add (hl)
                              94         ;; y(r)
-   46AD 21 03 00      [10]   95         ld hl, #Y
-   46B0 09            [11]   96         add hl, bc
-   46B1 96            [ 7]   97         sub (hl)
+   4739 21 03 00      [10]   95         ld hl, #Y
+   473C 09            [11]   96         add hl, bc
+   473D 96            [ 7]   97         sub (hl)
                              98         ; ;; if carry is 1 -> no collision
-   46B2 38 1C         [12]   99         jr c, no_collision
-   46B4 18 13         [12]  100             jr collision
+   473E 38 1C         [12]   99         jr c, no_collision
+   4740 18 13         [12]  100             jr collision
                             101         ; ;; C < D
                             102         ; ;; if(y(r) + height(r) < y(l)) no collision
                             103         ; ;; if(y(r) + height(r) - y(l) < 0)no collision
                             104         ; ;; y(l)
-   46B6 21 03 00      [10]  105         ld hl, #Y
-   46B9 09            [11]  106         add hl, bc
-   46BA 7E            [ 7]  107         ld a, (hl)
+   4742 21 03 00      [10]  105         ld hl, #Y
+   4745 09            [11]  106         add hl, bc
+   4746 7E            [ 7]  107         ld a, (hl)
                             108         ;; height(l)
-   46BB 21 05 00      [10]  109         ld hl,#HEIGHT
-   46BE 09            [11]  110         add hl,bc
-   46BF 86            [ 7]  111         add (hl)
+   4747 21 05 00      [10]  109         ld hl,#HEIGHT
+   474A 09            [11]  110         add hl,bc
+   474B 86            [ 7]  111         add (hl)
                             112         ;; y(r)
-   46C0 21 03 00      [10]  113         ld hl, #Y
-   46C3 19            [11]  114         add hl, de
-   46C4 96            [ 7]  115         sub (hl)
+   474C 21 03 00      [10]  113         ld hl, #Y
+   474F 19            [11]  114         add hl, de
+   4750 96            [ 7]  115         sub (hl)
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 100.
 Hexadecimal [16-Bits]
 
 
 
                             116         
-   46C5 38 09         [12]  117         jr c, no_collision
-   46C7 18 00         [12]  118             jr collision
+   4751 38 09         [12]  117         jr c, no_collision
+   4753 18 00         [12]  118             jr collision
                             119 
                             120 
                             121         ;; si hay colision
-   46C9                     122         collision:
-   46C9 3E FF         [ 7]  123             ld a, #0xFF
-   46CB 32 00 C0      [13]  124             ld (0xC000), a
-   46CE 18 05         [12]  125             jr dont_have_collision_between_entities
+   4755                     122         collision:
+   4755 3E FF         [ 7]  123             ld a, #0xFF
+   4757 32 00 C0      [13]  124             ld (0xC000), a
+   475A 18 05         [12]  125             jr dont_have_collision_between_entities
                             126             ; call man_game_entity_destroy
                             127         ;; there is collision, check entity types and react
-   46D0                     128         no_collision:
-   46D0 3E 00         [ 7]  129             ld a, #0x00
-   46D2 32 00 C0      [13]  130             ld (0xC000),a
-   46D5                     131     dont_have_collision_between_entities:
-   46D5 C9            [10]  132 ret
-   46D6                     133 _sys_collision_update::
-   46D6 01 87 46      [10]  134     ld bc, #sys_collisions_update_entities
-   46D9 21 20 00      [10]  135     ld hl, #E_CMP_COLLIDER
-   46DC CD 80 49      [17]  136     call _man_entity_for_all_pairs_matching_while1
-   46DF C9            [10]  137 ret
+   475C                     128         no_collision:
+   475C 3E 00         [ 7]  129             ld a, #0x00
+   475E 32 00 C0      [13]  130             ld (0xC000),a
+   4761                     131     dont_have_collision_between_entities:
+   4761 C9            [10]  132 ret
+   4762                     133 _sys_collision_update::
+   4762 01 13 47      [10]  134     ld bc, #sys_collisions_update_entities
+   4765 21 20 00      [10]  135     ld hl, #E_CMP_COLLIDER
+   4768 CD 0C 4A      [17]  136     call _man_entity_for_all_pairs_matching_while1
+   476B C9            [10]  137 ret

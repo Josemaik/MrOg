@@ -5003,24 +5003,28 @@ Hexadecimal [16-Bits]
                               4     ;; cpctelera
                               5       .globl cpct_waitVSYNC_asm           
                               6       .globl cpct_waitHalts_asm
-                              7       .globl cpct_memcpy_asm           
-                              8                                           
-                              9    ;; managers                            
-                             10       .globl _man_entity_init             
-                             11       .globl _man_entity_update           
-                             12       .globl _man_entity_create
-                             13       .globl _man_entity_clone
-                             14       .globl _man_entity_set_for_destruction
-                             15       .globl man_entity_destroy                           
-                             16    ;; systems                             
-                             17       .globl _sys_physics_update          
-                             18       .globl _sys_render_update                   
-                             19       .globl _sys_render_init
-                             20       .globl _sys_animations_update
-                             21    ;; sprites
-                             22 
-                             23    ;; templates
-                             24    .globl playership_template0_e
+                              7       .globl cpct_memcpy_asm 
+                              8       .globl cpct_akp_musicInit_asm          
+                              9       .globl cpct_akp_musicPlay_asm           
+                             10    ;; managers                            
+                             11       .globl _man_entity_init             
+                             12       .globl _man_entity_update           
+                             13       .globl _man_entity_create
+                             14       .globl _man_entity_clone
+                             15       .globl _man_entity_set_for_destruction
+                             16       .globl man_entity_destroy                           
+                             17    ;; systems                             
+                             18       .globl _sys_physics_update          
+                             19       .globl _sys_render_update                   
+                             20       .globl _sys_render_init
+                             21       .globl _sys_animations_update
+                             22    ;; sprites
+                             23 
+                             24    ;; templates
+                             25    .globl playership_template0_e
+                             26 
+                             27    ;;music
+                             28    .globl _song_prueba
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
 Hexadecimal [16-Bits]
 
@@ -5111,28 +5115,28 @@ Hexadecimal [16-Bits]
                              13 ;;;;;;;;;;;;;;;;;;;;
                              14 ;; WAIT
                              15 ;;
-   4A31                      16 _wait:
+   4ABD                      16 _wait:
                              17     ;; loop
-   4A31                      18       wait_init_for:
+   4ABD                      18       wait_init_for:
                              19          ;; compare A with 0 and two halts
-   4A31 FE 00         [ 7]   20             cp       #0                   
-   4A33 28 0E         [12]   21             jr       z, wait_end_for      
-   4A35 06 02         [ 7]   22             ld       b, #2
-   4A37 CD B4 4B      [17]   23             call     cpct_waitHalts_asm
+   4ABD FE 00         [ 7]   20             cp       #0                   
+   4ABF 28 0E         [12]   21             jr       z, wait_end_for      
+   4AC1 06 02         [ 7]   22             ld       b, #2
+   4AC3 CD 4C 4C      [17]   23             call     cpct_waitHalts_asm
                              24 
                              25          ;; save a
-   4A3A F5            [11]   26             push     af
+   4AC6 F5            [11]   26             push     af
                              27          ;; wait sync
-   4A3B CD B8 4B      [17]   28             call     cpct_waitVSYNC_asm
+   4AC7 CD 50 4C      [17]   28             call     cpct_waitVSYNC_asm
                              29          
                              30          ;; a-1
-   4A3E F1            [10]   31             pop      af
-   4A3F D6 01         [ 7]   32             sub      #1
+   4ACA F1            [10]   31             pop      af
+   4ACB D6 01         [ 7]   32             sub      #1
                              33          ;; go loop
-   4A41 18 EE         [12]   34             jr       wait_init_for
+   4ACD 18 EE         [12]   34             jr       wait_init_for
                              35    ;; end for
-   4A43                      36       wait_end_for:
-   4A43 C9            [10]   37    ret
+   4ACF                      36       wait_end_for:
+   4ACF C9            [10]   37    ret
                              38 ;;;;;;;;;;;;;;;;;;;;;
                              39 ;; PUBLIC FUNCTION ;;
                              40 ;;;;;;;;;;;;;;;;;;;;;
@@ -5140,65 +5144,73 @@ Hexadecimal [16-Bits]
                              42 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              43 ;;;CREATE TEMPLATE
                              44 ;;
-   4A44                      45 man_game_create_template_entity::
-   4A44 E5            [11]   46    push hl
+   4AD0                      45 man_game_create_template_entity::
+   4AD0 E5            [11]   46    push hl
                              47    ;; create entity
-   4A45 CD 9D 48      [17]   48         call _man_entity_create
+   4AD1 CD 29 49      [17]   48         call _man_entity_create
                              49     
                              50         ;; load entity from stack
-   4A48 E1            [10]   51         pop hl
-   4A49 D5            [11]   52         push de
-   4A4A 01 13 00      [10]   53         ld bc,#SPACE_4_ONE_ENTITY
-   4A4D CD D5 4B      [17]   54         call cpct_memcpy_asm
-   4A50 D1            [10]   55         pop de
-   4A51 C9            [10]   56    ret
-                             57 
+   4AD4 E1            [10]   51         pop hl
+   4AD5 D5            [11]   52         push de
+   4AD6 01 13 00      [10]   53         ld bc,#SPACE_4_ONE_ENTITY
+   4AD9 CD 6D 4C      [17]   54         call cpct_memcpy_asm
+   4ADC D1            [10]   55         pop de
+                             56 
+   4ADD C9            [10]   57    ret
                              58 
-   4A52                      59 _inicialize_templates:
-   4A52 21 01 4D      [10]   60         ld       hl, #playership_template0_e
+                             59 
+   4ADE                      60 _inicialize_templates:
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
 
 
-   4A55 CD 44 4A      [17]   61         call man_game_create_template_entity
-   4A58 C9            [10]   62 ret
-                             63 ;;;;;;;;;;;;;;;;;;;;
-                             64 ;; INIT
-                             65 ;;
-   4A59                      66 man_game_init::
-                             67     ;; configure videomode, palet y border
-   4A59 CD 6D 48      [17]   68         call     _sys_render_init
-                             69 
-                             70     ;; inicialize manager entity
-   4A5C CD 82 48      [17]   71         call     _man_entity_init
-                             72 
-                             73     ;; Create mothership
-   4A5F CD 52 4A      [17]   74        call    _inicialize_templates
-   4A62 C9            [10]   75 ret
-                             76 ;;;;;;;;;;;;;;;;;;;;;;
-                             77 ;; PLAY
-                             78 ;;
-                             79 
-   4A63                      80 man_game_play::
-                             81    ;; infinite loop
-   4A63                      82    loop:
-                             83       ;; call ai manager
-                             84          ; call      _sys_ai_update
-                             85       ;; update positions
-   4A63 CD E8 47      [17]   86          call     _sys_physics_update
-                             87       ;; check collisions
-                             88          ; call     _sys_collision_update
-                             89       ;; call animations system
-   4A66 CD 7D 46      [17]   90          call     _sys_animations_update
-                             91       ;; render
-   4A69 CD 63 48      [17]   92          call     _sys_render_update
-                             93       ;; update manager
-   4A6C CD 08 4A      [17]   94          call     _man_entity_update
-                             95       ;; wait ( se mueve cada cinco fotogramas)
-   4A6F 3E 04         [ 7]   96          ld       a, #4
-   4A71 CD 31 4A      [17]   97 		 call     _wait
-                             98          ; call cpct_waitVSYNC_asm
-                             99       ;; jump to loop
-   4A74 18 ED         [12]  100          jr       loop
-   4A76 C9            [10]  101 ret
+   4ADE 21 C2 55      [10]   61         ld       hl, #playership_template0_e
+   4AE1 CD D0 4A      [17]   62         call man_game_create_template_entity
+   4AE4 C9            [10]   63 ret
+                             64 ;;;;;;;;;;;;;;;;;;;;
+                             65 ;; INIT
+                             66 ;;
+   4AE5                      67 man_game_init::
+                             68     ;; configure videomode, palet y border
+   4AE5 CD F9 48      [17]   69         call     _sys_render_init
+                             70 
+                             71     ;; inicialize manager entity
+   4AE8 CD 0E 49      [17]   72         call     _man_entity_init
+                             73 
+                             74     ;; Create mothership
+   4AEB CD DE 4A      [17]   75        call    _inicialize_templates
+   4AEE C9            [10]   76 ret
+                             77 ;;;;;;;;;;;;;;;;;;;;;;
+                             78 ;; PLAY
+                             79 ;;
+                             80 
+   4AEF                      81 man_game_play::
+                             82    ;;music init
+   4AEF 11 00 40      [10]   83    ld de, #_song_prueba
+   4AF2 CD 7C 53      [17]   84    call cpct_akp_musicInit_asm
+                             85 
+                             86    ;; infinite loop
+   4AF5                      87    loop:
+                             88       ;; call music player
+   4AF5 CD 50 4C      [17]   89          call     cpct_waitVSYNC_asm
+   4AF8 CD 72 4C      [17]   90          call     cpct_akp_musicPlay_asm
+                             91       ;; call ai manager
+                             92          ; call      _sys_ai_update
+                             93       ;; update positions
+   4AFB CD 74 48      [17]   94          call     _sys_physics_update
+                             95       ;; check collisions
+                             96          ; call     _sys_collision_update
+                             97       ;; call animations system
+   4AFE CD 09 47      [17]   98          call     _sys_animations_update
+                             99       ;; render
+   4B01 CD EF 48      [17]  100          call     _sys_render_update
+                            101       ;; update manager
+   4B04 CD 94 4A      [17]  102          call     _man_entity_update
+                            103       ;; wait ( se mueve cada cinco fotogramas)
+   4B07 3E 04         [ 7]  104          ld       a, #4
+   4B09 CD BD 4A      [17]  105 		 call     _wait
+                            106          ; call cpct_waitVSYNC_asm
+                            107       ;; jump to loop
+   4B0C 18 E7         [12]  108          jr       loop
+   4B0E C9            [10]  109 ret

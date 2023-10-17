@@ -5098,108 +5098,108 @@ Hexadecimal [16-Bits]
                               9 .area _CODE
                              10 
                              11 
-   4619                      12 sys_animations_update_one_entity:
-   4619 3A 0B 47      [13]   13     ld a , (move_active)
-   461C FE 01         [ 7]   14     cp #1
-   461E 28 02         [12]   15     jr z, start_animating
-   4620 18 5A         [12]   16         jr sys_animations_update_one_entity_end
-   4622                      17     start_animating:
+   46A5                      12 sys_animations_update_one_entity:
+   46A5 3A 97 47      [13]   13     ld a , (move_active)
+   46A8 FE 01         [ 7]   14     cp #1
+   46AA 28 02         [12]   15     jr z, start_animating
+   46AC 18 5A         [12]   16         jr sys_animations_update_one_entity_end
+   46AE                      17     start_animating:
                              18     ;; save in a the entity->animcounter
-   4622 21 0F 00      [10]   19     ld hl, #AnimCounter
-   4625 19            [11]   20     add hl, de
-   4626 7E            [ 7]   21     ld a, (hl)
-   4627 D6 01         [ 7]   22     sub #1
-   4629 77            [ 7]   23     ld (hl), a
+   46AE 21 0F 00      [10]   19     ld hl, #AnimCounter
+   46B1 19            [11]   20     add hl, de
+   46B2 7E            [ 7]   21     ld a, (hl)
+   46B3 D6 01         [ 7]   22     sub #1
+   46B5 77            [ 7]   23     ld (hl), a
                              24     ;; if (a == 0)
-   462A 28 02         [12]   25     jr z, change_sprite
-   462C 18 4E         [12]   26         jr sys_animations_update_one_entity_end
-   462E                      27     change_sprite:
+   46B6 28 02         [12]   25     jr z, change_sprite
+   46B8 18 4E         [12]   26         jr sys_animations_update_one_entity_end
+   46BA                      27     change_sprite:
                              28 
                              29         ;; go to entity->animframe
-   462E 21 0D 00      [10]   30         ld hl, #AnimFrame
-   4631 19            [11]   31         add hl, de
+   46BA 21 0D 00      [10]   30         ld hl, #AnimFrame
+   46BD 19            [11]   31         add hl, de
                              32         ;; save memory pointer of frameanimation in bc
-   4632 4E            [ 7]   33         ld c, (hl)
-   4633 23            [ 6]   34         inc hl
-   4634 46            [ 7]   35         ld b, (hl)
+   46BE 4E            [ 7]   33         ld c, (hl)
+   46BF 23            [ 6]   34         inc hl
+   46C0 46            [ 7]   35         ld b, (hl)
                              36         ;; load memory pointer of frameanimation in hl and add space
-   4635 21 03 00      [10]   37         ld hl, #SPACE_OF_AIMATION
-   4638 09            [11]   38         add hl, bc
+   46C1 21 03 00      [10]   37         ld hl, #SPACE_OF_AIMATION
+   46C4 09            [11]   38         add hl, bc
                              39         ;; save new animation in bc
-   4639 4D            [ 4]   40         ld c, l
-   463A 44            [ 4]   41         ld b, h
+   46C5 4D            [ 4]   40         ld c, l
+   46C6 44            [ 4]   41         ld b, h
                              42         ;; put the value of bc in hl
-   463B 21 0D 00      [10]   43         ld hl, #AnimFrame
-   463E 19            [11]   44         add hl, de
-   463F 71            [ 7]   45         ld (hl) , c
-   4640 23            [ 6]   46         inc hl
-   4641 70            [ 7]   47         ld (hl), b
+   46C7 21 0D 00      [10]   43         ld hl, #AnimFrame
+   46CA 19            [11]   44         add hl, de
+   46CB 71            [ 7]   45         ld (hl) , c
+   46CC 23            [ 6]   46         inc hl
+   46CD 70            [ 7]   47         ld (hl), b
                              48 
                              49         ;; save the memory pointer of animframe
                              50         ; push hl
                              51         ;; save in a the time of animation
-   4642 21 00 00      [10]   52         ld		hl, #TIME
-   4645 09            [11]   53 		add		hl, bc
-   4646 7E            [ 7]   54 		ld		a, (hl)
+   46CE 21 00 00      [10]   52         ld		hl, #TIME
+   46D1 09            [11]   53 		add		hl, bc
+   46D2 7E            [ 7]   54 		ld		a, (hl)
                              55         ;; if (time == 0) gotostart else goto_next_sprite
-   4647 FE 00         [ 7]   56         cp #0
-   4649 28 02         [12]   57         jr z, goto_start
-   464B 18 0E         [12]   58             jr goto_next_sprite
-   464D                      59         goto_start:
+   46D3 FE 00         [ 7]   56         cp #0
+   46D5 28 02         [12]   57         jr z, goto_start
+   46D7 18 0E         [12]   58             jr goto_next_sprite
+   46D9                      59         goto_start:
                              60             ;; save in bc the value of next frame
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
 
 
-   464D 21 01 00      [10]   61             ld hl, #VAL_NEXT_FRAME
-   4650 09            [11]   62             add hl, bc
-   4651 4E            [ 7]   63             ld c, (hl)
-   4652 23            [ 6]   64             inc hl
-   4653 46            [ 7]   65             ld b, (hl)
+   46D9 21 01 00      [10]   61             ld hl, #VAL_NEXT_FRAME
+   46DC 09            [11]   62             add hl, bc
+   46DD 4E            [ 7]   63             ld c, (hl)
+   46DE 23            [ 6]   64             inc hl
+   46DF 46            [ 7]   65             ld b, (hl)
                              66             ;; copy in entity->animframe the value of next frame(entity->animation->next)
-   4654 21 0D 00      [10]   67             ld hl, #AnimFrame
-   4657 19            [11]   68             add hl, de
-   4658 71            [ 7]   69             ld (hl), c
-   4659 23            [ 6]   70             inc hl
-   465A 70            [ 7]   71             ld (hl), b
-   465B                      72         goto_next_sprite:
-   465B 21 0D 00      [10]   73             ld hl, #AnimFrame
-   465E 19            [11]   74             add hl, de
+   46E0 21 0D 00      [10]   67             ld hl, #AnimFrame
+   46E3 19            [11]   68             add hl, de
+   46E4 71            [ 7]   69             ld (hl), c
+   46E5 23            [ 6]   70             inc hl
+   46E6 70            [ 7]   71             ld (hl), b
+   46E7                      72         goto_next_sprite:
+   46E7 21 0D 00      [10]   73             ld hl, #AnimFrame
+   46EA 19            [11]   74             add hl, de
                              75 
-   465F 4E            [ 7]   76             ld c, (hl)
-   4660 23            [ 6]   77             inc hl
-   4661 46            [ 7]   78             ld b , (hl)
+   46EB 4E            [ 7]   76             ld c, (hl)
+   46EC 23            [ 6]   77             inc hl
+   46ED 46            [ 7]   78             ld b , (hl)
                              79 
-   4662 C5            [11]   80             push bc
+   46EE C5            [11]   80             push bc
                              81 
-   4663 21 01 00      [10]   82             ld hl, #VAL_NEXT_FRAME
-   4666 09            [11]   83             add hl, bc
+   46EF 21 01 00      [10]   82             ld hl, #VAL_NEXT_FRAME
+   46F2 09            [11]   83             add hl, bc
                              84 
-   4667 4E            [ 7]   85             ld c, (hl)
-   4668 23            [ 6]   86             inc hl
-   4669 46            [ 7]   87             ld b, (hl)
+   46F3 4E            [ 7]   85             ld c, (hl)
+   46F4 23            [ 6]   86             inc hl
+   46F5 46            [ 7]   87             ld b, (hl)
                              88         
                              89             ;;;load next sprite for animation
-   466A 21 08 00      [10]   90             ld hl, #SPRITE
-   466D 19            [11]   91             add hl, de
-   466E 71            [ 7]   92             ld (hl), c
-   466F 23            [ 6]   93             inc hl
-   4670 70            [ 7]   94             ld (hl), b
+   46F6 21 08 00      [10]   90             ld hl, #SPRITE
+   46F9 19            [11]   91             add hl, de
+   46FA 71            [ 7]   92             ld (hl), c
+   46FB 23            [ 6]   93             inc hl
+   46FC 70            [ 7]   94             ld (hl), b
                              95 
-   4671 C1            [10]   96             pop bc
+   46FD C1            [10]   96             pop bc
                              97             ;; put the counter to 12
-   4672 21 00 00      [10]   98             ld hl, #TIME
-   4675 09            [11]   99             add hl, bc
-   4676 7E            [ 7]  100             ld a, (hl)
+   46FE 21 00 00      [10]   98             ld hl, #TIME
+   4701 09            [11]   99             add hl, bc
+   4702 7E            [ 7]  100             ld a, (hl)
                             101 
-   4677 21 0F 00      [10]  102             ld hl, #AnimCounter
-   467A 19            [11]  103             add hl, de
-   467B 77            [ 7]  104             ld (hl), a
-   467C                     105     sys_animations_update_one_entity_end:
-   467C C9            [10]  106 ret
-   467D                     107 _sys_animations_update::
-   467D 01 19 46      [10]  108         ld      bc, #sys_animations_update_one_entity
-   4680 21 10 00      [10]  109         ld      hl, #E_CMP_ANIMATED
-   4683 CD 2F 49      [17]  110         call    _man_entity_for_all_matching
-   4686 C9            [10]  111 ret
+   4703 21 0F 00      [10]  102             ld hl, #AnimCounter
+   4706 19            [11]  103             add hl, de
+   4707 77            [ 7]  104             ld (hl), a
+   4708                     105     sys_animations_update_one_entity_end:
+   4708 C9            [10]  106 ret
+   4709                     107 _sys_animations_update::
+   4709 01 A5 46      [10]  108         ld      bc, #sys_animations_update_one_entity
+   470C 21 10 00      [10]  109         ld      hl, #E_CMP_ANIMATED
+   470F CD BB 49      [17]  110         call    _man_entity_for_all_matching
+   4712 C9            [10]  111 ret

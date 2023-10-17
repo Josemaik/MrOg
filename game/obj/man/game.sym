@@ -72,12 +72,13 @@ Symbol Table
     VY      =  0007     |     WIDTH   =  0004     |     X       =  0002 
     Y       =  0003     |   0 _inicial   0021 R   |     _man_ent   **** GX
     _man_ent   **** GX  |     _man_ent   **** GX  |     _man_ent   **** GX
-    _man_ent   **** GX  |     _sys_ani   **** GX  |     _sys_phy   **** GX
-    _sys_ren   **** GX  |     _sys_ren   **** GX  |   0 _wait      0000 R
+    _man_ent   **** GX  |     _song_pr   **** GX  |     _sys_ani   **** GX
+    _sys_phy   **** GX  |     _sys_ren   **** GX  |     _sys_ren   **** GX
+  0 _wait      0000 R   |     cpct_akp   **** GX  |     cpct_akp   **** GX
     cpct_mem   **** GX  |     cpct_mem   **** GX  |     cpct_pag=  0000 
     cpct_pag=  0010     |     cpct_pag=  0020     |     cpct_pag=  0030 
     cpct_wai   **** GX  |     cpct_wai   **** GX  |     firmware=  0038 
-    last_dra=  0011     |   0 loop       0032 R   |     man_enti   **** GX
+    last_dra=  0011     |   0 loop       0038 R   |     man_enti   **** GX
   0 man_game   0013 GR  |   0 man_game   0028 GR  |   0 man_game   0032 GR
     opc_DI  =  00F3     |     opc_EI  =  00FB     |     opc_JR  =  0018 
     opc_LD_D=  0016     |     playersh   **** GX  |   0 wait_end   0012 R
@@ -88,6 +89,6 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   46   flags    0
+   0 _CODE      size   52   flags    0
    1 _DATA      size    0   flags    0
 

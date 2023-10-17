@@ -15,112 +15,159 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000000  l__HOME                         
      00000000  l__INITIALIZED                  
      00000000  l__INITIALIZER                  
+     00000000  l____song_prueba                
+     00000000  l___song_prueba                 
      00000000  s__CABS                         
      00000000  s__DABS                         
+     00000000  s____song_prueba                
+     00000000  s____song_prueba0               
+     00000000  s___song_prueba                 
+     00000000  s___song_prueba0                
      00000076  l__DATA                         
-     00000C9E  l__CODE                         
-     00004000  s__CODE                         
-     00004C9E  s__DATA                         
-     00004D14  s__GSFINAL                      
-     00004D14  s__GSINIT                       
-     00004D14  s__HOME                         
-     00004D14  s__INITIALIZED                  
-     00004D14  s__INITIALIZER                  
-
+     0000008C  l____song_prueba0               
+     0000008C  l___song_prueba0                
+     000014D3  l__CODE                         
+     0000408C  s__CODE                         
+     0000555F  s__DATA                         
+     000055D5  s__GSFINAL                      
+     000055D5  s__GSINIT                       
+     000055D5  s__HOME                         
+     000055D5  s__INITIALIZED                  
+     000055D5  s__INITIALIZER                  
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    00000C9E =        3230. bytes (REL,CON)
+_CODE                               0000408C    000014D3 =        5331. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00004000  _spr_sprite4_A                     sprite4_A
-     00004080  _spr_sprite3_A                     sprite3_A
-     00004100  _spr_sprite2_A                     sprite2_A
-     00004180  _spr_sprite1_A                     sprite1_A
-     00004200  _spr_sprite4_W                     sprite4_W
-     00004280  _spr_sprite3_W                     sprite3_W
-     00004300  _spr_sprite2_W                     sprite2_W
-     00004380  _spr_sprite1_W                     sprite1_W
-     00004400  _spr_sprite4_S                     sprite4_S
-     00004480  _spr_sprite3_S                     sprite3_S
-     00004500  _spr_sprite2_S                     sprite2_S
-     00004580  _spr_sprite1_S                     sprite1_S
-     00004600  _main_palette                      main_palette
-     00004610  _main                              Main
-     0000467D  _sys_animations_update             System_Animation
-     00004687  sys_collisions_update_entities     System_Collision
-     000046D6  _sys_collision_update              System_Collision
-     00004700  _sys_ai_update                     System_IA
-     0000470A  choose_axis                        System_physics
-     0000470B  move_active                        System_physics
-     000047E8  _sys_physics_update                System_physics
-     00004863  _sys_render_update                 System_Render
-     0000486D  _sys_render_init                   System_Render
-     00004882  _man_entity_init                   Entity_Manager
-     0000489D  _man_entity_create                 Entity_Manager
-     000048BC  _man_entity_clone                  Entity_Manager
-     000048CA  _man_entity_set_for_destruction    Entity_Manager
-     000048D3  man_entity_destroy                 Entity_Manager
-     000048F5  _man_entity_for_all                Entity_Manager
-     0000492F  _man_entity_for_all_matching       Entity_Manager
-     00004980  _man_entity_for_all_pairs_matchi   Entity_Manager
-     00004A08  _man_entity_update                 Entity_Manager
-     00004A28  _man_entity_free_space             Entity_Manager
-     00004A44  man_game_create_template_entity    Game_Manager
-     00004A59  man_game_init                      Game_Manager
-     00004A63  man_game_play                      Game_Manager
-     00004A77  cpct_setPalette_asm                cpct_video
-     00004A8A  _cpct_scanKeyboard_f               cpct_keyboard
-     00004A8A  cpct_scanKeyboard_f_asm            cpct_keyboard
-     00004AF4  _cpct_isKeyPressed                 cpct_keyboard
-     00004AF4  cpct_isKeyPressed_asm              cpct_keyboard
-     00004B00  cpct_setPALColour_asm              cpct_video
-     00004B0A  cpct_drawSprite_asm                cpct_sprites
-     00004BAA  _cpct_keyboardStatusBuffer         cpct_keyboard
-     00004BB4  cpct_waitHalts_asm                 cpct_memutils
-     00004BB8  _cpct_waitVSYNC                    cpct_video
-     00004BB8  cpct_waitVSYNC_asm                 cpct_video
-     00004BC0  cpct_setVideoMode_asm              cpct_video
-     00004BCD  cpct_memset_asm                    cpct_memutils
-     00004BD5  cpct_memcpy_asm                    cpct_memutils
+     0000408C  _spr_sprite4_A                     sprite4_A
+     0000410C  _spr_sprite3_A                     sprite3_A
+     0000418C  _spr_sprite2_A                     sprite2_A
+     0000420C  _spr_sprite1_A                     sprite1_A
+     0000428C  _spr_sprite4_W                     sprite4_W
+     0000430C  _spr_sprite3_W                     sprite3_W
+     0000438C  _spr_sprite2_W                     sprite2_W
+     0000440C  _spr_sprite1_W                     sprite1_W
+     0000448C  _spr_sprite4_S                     sprite4_S
+     0000450C  _spr_sprite3_S                     sprite3_S
+     0000458C  _spr_sprite2_S                     sprite2_S
+     0000460C  _spr_sprite1_S                     sprite1_S
+     0000468C  _main_palette                      main_palette
+     0000469C  _main                              Main
+     00004709  _sys_animations_update             System_Animation
+     00004713  sys_collisions_update_entities     System_Collision
+     00004762  _sys_collision_update              System_Collision
+     0000478C  _sys_ai_update                     System_IA
+     00004796  choose_axis                        System_physics
+     00004797  move_active                        System_physics
+     00004874  _sys_physics_update                System_physics
+     000048EF  _sys_render_update                 System_Render
+     000048F9  _sys_render_init                   System_Render
+     0000490E  _man_entity_init                   Entity_Manager
+     00004929  _man_entity_create                 Entity_Manager
+     00004948  _man_entity_clone                  Entity_Manager
+     00004956  _man_entity_set_for_destruction    Entity_Manager
+     0000495F  man_entity_destroy                 Entity_Manager
+     00004981  _man_entity_for_all                Entity_Manager
+     000049BB  _man_entity_for_all_matching       Entity_Manager
+     00004A0C  _man_entity_for_all_pairs_matchi   Entity_Manager
+     00004A94  _man_entity_update                 Entity_Manager
+     00004AB4  _man_entity_free_space             Entity_Manager
+     00004AD0  man_game_create_template_entity    Game_Manager
+     00004AE5  man_game_init                      Game_Manager
+     00004AEF  man_game_play                      Game_Manager
+     00004B0F  cpct_setPalette_asm                cpct_video
+     00004B22  _cpct_scanKeyboard_f               cpct_keyboard
+     00004B22  cpct_scanKeyboard_f_asm            cpct_keyboard
+     00004B8C  _cpct_isKeyPressed                 cpct_keyboard
+     00004B8C  cpct_isKeyPressed_asm              cpct_keyboard
+     00004B98  cpct_setPALColour_asm              cpct_video
+     00004BA2  cpct_drawSprite_asm                cpct_sprites
+     00004C42  _cpct_keyboardStatusBuffer         cpct_keyboard
+     00004C4C  cpct_waitHalts_asm                 cpct_memutils
+     00004C50  _cpct_waitVSYNC                    cpct_video
+     00004C50  cpct_waitVSYNC_asm                 cpct_video
+     00004C58  cpct_setVideoMode_asm              cpct_video
+     00004C65  cpct_memset_asm                    cpct_memutils
+     00004C6D  cpct_memcpy_asm                    cpct_memutils
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    00000C9E =        3230. bytes (REL,CON)
+_CODE                               0000408C    000014D3 =        5331. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00004BD8  _cpct_disableFirmware              cpct_firmware
-     00004BD8  _cpct_removeInterruptHandler       cpct_firmware
-     00004BD8  cpct_disableFirmware_asm           cpct_firmware
-     00004BD8  cpct_removeInterruptHandler_asm    cpct_firmware
-     00004BE8  cpct_drawSolidBox_asm              cpct_sprites
-     00004C8B  _cpct_mode_rom_status              cpct_firmware
-     00004C8C  cpct_getScreenPtr_asm              cpct_video
+     00004C70  _cpct_akp_digidrumStatus           cpct_audio
+     00004C71  _cpct_akp_songLoopTimes            cpct_audio
+     00004C72  _cpct_akp_musicPlay                cpct_audio
+     00004C72  cpct_akp_musicPlay_asm             cpct_audio
+     00005375  _cpct_akp_musicInit                cpct_audio
+     0000537C  cpct_akp_musicInit_asm             cpct_audio
+     000053D5  _cpct_akp_stop                     cpct_audio
+     000053D5  cpct_akp_stop_asm                  cpct_audio
+     000053E8  _cpct_akp_SFXGetInstrument         cpct_audio
+     000053ED  cpct_akp_SFXGetInstrument_asm      cpct_audio
+     00005401  _cpct_akp_SFXInit                  cpct_audio
+     00005408  cpct_akp_SFXInit_asm               cpct_audio
+     0000540F  _cpct_akp_SFXStopAll               cpct_audio
+     0000540F  cpct_akp_SFXStopAll_asm            cpct_audio
+     0000541C  _cpct_akp_SFXPlay                  cpct_audio
+     0000542E  cpct_akp_SFXPlay_asm               cpct_audio
+     0000547B  _cpct_akp_SFXStop                  cpct_audio
+     00005480  cpct_akp_SFXStop_asm               cpct_audio
+     00005499  _cpct_disableFirmware              cpct_firmware
+     00005499  _cpct_removeInterruptHandler       cpct_firmware
+     00005499  cpct_disableFirmware_asm           cpct_firmware
+     00005499  cpct_removeInterruptHandler_asm    cpct_firmware
+     000054A9  cpct_drawSolidBox_asm              cpct_sprites
+     0000554C  _cpct_mode_rom_status              cpct_firmware
+     0000554D  cpct_getScreenPtr_asm              cpct_video
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_DATA                               00004C9E    00000076 =         118. bytes (REL,CON)
+_DATA                               0000555F    00000076 =         118. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00004C9E  _m_palette                         System_Render
-     00004CAE  anim_W                             Animation_Manager
-     00004CBD  anim_A                             Animation_Manager
-     00004CCC  anim_S                             Animation_Manager
-     00004CDB  anim_D                             Animation_Manager
-     00004CEA  m_entities                         Entity_Manager
-     00004CFE  m_next_free_entity                 Entity_Manager
-     00004D00  m_reserved_entites                 Entity_Manager
-     00004D01  playership_template0_e             Templates_Manager
+     0000555F  _m_palette                         System_Render
+     0000556F  anim_W                             Animation_Manager
+     0000557E  anim_A                             Animation_Manager
+     0000558D  anim_S                             Animation_Manager
+     0000559C  anim_D                             Animation_Manager
+     000055AB  m_entities                         Entity_Manager
+     000055BF  m_next_free_entity                 Entity_Manager
+     000055C1  m_reserved_entites                 Entity_Manager
+     000055C2  playership_template0_e             Templates_Manager
 ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+___song_prueba0                     00000000    0000008C =         140. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00004000  __song_prueba                      
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+__song_prueba0                      00000000    0000008C =         140. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00004000  _song_prueba                       
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
 
 Files Linked                              [ module(s) ]
 
@@ -137,7 +184,9 @@ obj/sprites/sprite3_S.rel                 [ sprite3_S ]
 obj/sprites/sprite2_S.rel                 [ sprite2_S ]
 obj/sprites/sprite1_S.rel                 [ sprite1_S ]
 obj/sprites/main_palette.rel              [ main_palette ]
+obj/music/prueba.rel                      [  ]
 obj/main.rel                              [ Main ]
+obj/prueba.rel                            [  ]
 obj/sys/animations.h.rel                  [  ]
 obj/sys/animations.rel                    [ System_Animation ]
 obj/sys/collision.h.rel                   [  ]
@@ -159,42 +208,44 @@ obj/man/game.rel                          [ Game_Manager ]
 
 Libraries Linked                          [ object file ]
 
-/home/cpc/cpctelera/cpctelera/cpctelera.lib
+/home/sebascadpi/Escritorio/CPCTelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_setPalette_asmbindings.rel ]
-/home/cpc/cpctelera/cpctelera/cpctelera.lib
+/home/sebascadpi/Escritorio/CPCTelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_scanKeyboard_f.rel ]
-/home/cpc/cpctelera/cpctelera/cpctelera.lib
+/home/sebascadpi/Escritorio/CPCTelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_isKeyPressed.rel ]
-/home/cpc/cpctelera/cpctelera/cpctelera.lib
+/home/sebascadpi/Escritorio/CPCTelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_setPALColour_asmbindings.re ]
-/home/cpc/cpctelera/cpctelera/cpctelera.lib
+/home/sebascadpi/Escritorio/CPCTelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_drawSprite_asmbindings.rel ]
-/home/cpc/cpctelera/cpctelera/cpctelera.lib
+/home/sebascadpi/Escritorio/CPCTelera/cpctelera/cpctelera/cpctelera.lib
                                           [ keyboard.rel ]
-/home/cpc/cpctelera/cpctelera/cpctelera.lib
+/home/sebascadpi/Escritorio/CPCTelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_waitHalts_asmbindings.rel ]
-/home/cpc/cpctelera/cpctelera/cpctelera.lib
+/home/sebascadpi/Escritorio/CPCTelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_waitVSYNC.rel ]
-/home/cpc/cpctelera/cpctelera/cpctelera.lib
+/home/sebascadpi/Escritorio/CPCTelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_setVideoMode_asmbindings.re ]
-/home/cpc/cpctelera/cpctelera/cpctelera.lib
+/home/sebascadpi/Escritorio/CPCTelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_memset_asmbinding.rel ]
-/home/cpc/cpctelera/cpctelera/cpctelera.lib
+/home/sebascadpi/Escritorio/CPCTelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_memcpy_asmbindings.rel ]
-/home/cpc/cpctelera/cpctelera/cpctelera.lib
+/home/sebascadpi/Escritorio/CPCTelera/cpctelera/cpctelera/cpctelera.lib
+                                          [ arkostracker.rel ]
+/home/sebascadpi/Escritorio/CPCTelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_removeInterruptHandler.rel ]
-/home/cpc/cpctelera/cpctelera/cpctelera.lib
+/home/sebascadpi/Escritorio/CPCTelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_drawSolidBox_asmbindings.re ]
-/home/cpc/cpctelera/cpctelera/cpctelera.lib
+/home/sebascadpi/Escritorio/CPCTelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpc_mode_rom_status.rel ]
-/home/cpc/cpctelera/cpctelera/cpctelera.lib
+/home/sebascadpi/Escritorio/CPCTelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_getScreenPtr_asmbindings.re ]
 
-ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
+ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
 
 User Base Address Definitions
 
-_CODE = 0x4000
+_CODE = 0x408c
 _DATA = 0x0000
 
 

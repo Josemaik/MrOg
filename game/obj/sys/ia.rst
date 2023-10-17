@@ -5117,50 +5117,50 @@ Hexadecimal [16-Bits]
                              39 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              40 ;; IN =>  DE -> entity to update                                      
                              41 ;;
-   46E0                      42 sys_ai_update_for_one:
+   476C                      42 sys_ai_update_for_one:
                              43     
                              44     ;; guardo un checkpoint
-   46E0 21 FF 46      [10]   45     ld      hl, #_return_hear_ia
-   46E3 E5            [11]   46     push    hl
+   476C 21 8B 47      [10]   45     ld      hl, #_return_hear_ia
+   476F E5            [11]   46     push    hl
                              47 
-   46E4 D5            [11]   48     push de
+   4770 D5            [11]   48     push de
                              49     ;; go to entity-> iabehaviour
-   46E5 21 0A 00      [10]   50     ld      hl, #IA_behaviour
-   46E8 19            [11]   51     add     hl, de
+   4771 21 0A 00      [10]   50     ld      hl, #IA_behaviour
+   4774 19            [11]   51     add     hl, de
                              52     ;; de<=>hl and save first byte in L
-   46E9 5D            [ 4]   53     ld      e, l
-   46EA 54            [ 4]   54     ld      d, h
-   46EB 1A            [ 7]   55     ld      a, (de) 
-   46EC 6F            [ 4]   56     ld      l, a
+   4775 5D            [ 4]   53     ld      e, l
+   4776 54            [ 4]   54     ld      d, h
+   4777 1A            [ 7]   55     ld      a, (de) 
+   4778 6F            [ 4]   56     ld      l, a
                              57     ;; add 1 to de and save second byte in H
-   46ED 13            [ 6]   58     inc     de
-   46EE 1A            [ 7]   59     ld      a, (de)
-   46EF 67            [ 4]   60     ld      h, a
+   4779 13            [ 6]   58     inc     de
+   477A 1A            [ 7]   59     ld      a, (de)
+   477B 67            [ 4]   60     ld      h, a
                              61     ;; save in stack memory pointer to call function
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 99.
 Hexadecimal [16-Bits]
 
 
 
-   46F0 DD 75 04      [19]   62     ld      4(ix), l
-   46F3 DD 74 05      [19]   63     ld      5(ix), h
+   477C DD 75 04      [19]   62     ld      4(ix), l
+   477F DD 74 05      [19]   63     ld      5(ix), h
                              64 
-   46F6 D1            [10]   65     pop de
+   4782 D1            [10]   65     pop de
                              66     ;; call function
-   46F7 DD 4E 04      [19]   67     ld c, 4(ix)
-   46FA DD 46 05      [19]   68     ld b, 5(ix)
-   46FD C5            [11]   69     push bc
-   46FE C9            [10]   70     ret
-   46FF                      71     _return_hear_ia:
-   46FF C9            [10]   72 ret
+   4783 DD 4E 04      [19]   67     ld c, 4(ix)
+   4786 DD 46 05      [19]   68     ld b, 5(ix)
+   4789 C5            [11]   69     push bc
+   478A C9            [10]   70     ret
+   478B                      71     _return_hear_ia:
+   478B C9            [10]   72 ret
                              73 
                              74 
                              75 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              76 ;; CAll PHYSICS FOR ALL ENTITY :;
                              77 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   4700                      78 _sys_ai_update::          
-   4700 01 E0 46      [10]   79         ld      bc, #sys_ai_update_for_one
-   4703 21 0A 00      [10]   80         ld      hl, #E_CMP_IA | #E_CMP_MOVABLE
-   4706 CD 2F 49      [17]   81         call    _man_entity_for_all_matching
-   4709 C9            [10]   82 ret
+   478C                      78 _sys_ai_update::          
+   478C 01 6C 47      [10]   79         ld      bc, #sys_ai_update_for_one
+   478F 21 0A 00      [10]   80         ld      hl, #E_CMP_IA | #E_CMP_MOVABLE
+   4792 CD BB 49      [17]   81         call    _man_entity_for_all_matching
+   4795 C9            [10]   82 ret
                              83 

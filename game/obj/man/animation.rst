@@ -5104,50 +5104,50 @@ Hexadecimal [16-Bits]
                               7 
                               8 
                               9 ;;Array de sprites
-   4CAE                      10 anim_W::
-   4CAE 0C                   11   .db #MAN_ANIM_ENEMY1_TIME
-   4CAF 80 43                12     .dw _spr_sprite1_W
-   4CB1 0C                   13     .db #MAN_ANIM_ENEMY1_TIME
-   4CB2 00 43                14     .dw _spr_sprite2_W
-   4CB4 0C                   15     .db #MAN_ANIM_ENEMY1_TIME
-   4CB5 80 42                16     .dw _spr_sprite3_W
-   4CB7 0C                   17     .db #MAN_ANIM_ENEMY1_TIME
-   4CB8 00 42                18     .dw _spr_sprite4_W
-   4CBA 00                   19     .db #0x00
-   4CBB AE 4C                20     .dw #anim_W
-   4CBD                      21 anim_A::
-   4CBD 0C                   22  .db #MAN_ANIM_ENEMY1_TIME
-   4CBE 80 41                23     .dw _spr_sprite1_A
-   4CC0 0C                   24     .db #MAN_ANIM_ENEMY1_TIME
-   4CC1 00 41                25     .dw _spr_sprite2_A
-   4CC3 0C                   26     .db #MAN_ANIM_ENEMY1_TIME
-   4CC4 80 40                27     .dw _spr_sprite3_A
-   4CC6 0C                   28     .db #MAN_ANIM_ENEMY1_TIME
-   4CC7 00 40                29     .dw _spr_sprite4_A
-   4CC9 00                   30     .db #0x00
-   4CCA BD 4C                31     .dw #anim_A
-   4CCC                      32 anim_S::
-   4CCC 0C                   33  .db #MAN_ANIM_ENEMY1_TIME
-   4CCD 80 45                34     .dw _spr_sprite1_S
-   4CCF 0C                   35     .db #MAN_ANIM_ENEMY1_TIME
-   4CD0 00 45                36     .dw _spr_sprite2_S
-   4CD2 0C                   37     .db #MAN_ANIM_ENEMY1_TIME
-   4CD3 80 44                38     .dw _spr_sprite3_S
-   4CD5 0C                   39     .db #MAN_ANIM_ENEMY1_TIME
-   4CD6 00 44                40     .dw _spr_sprite4_S
-   4CD8 00                   41     .db #0x00
-   4CD9 CC 4C                42     .dw #anim_S
-   4CDB                      43 anim_D::
-   4CDB 0C                   44   .db #MAN_ANIM_ENEMY1_TIME
-   4CDC 80 41                45     .dw _spr_sprite1_A
-   4CDE 0C                   46     .db #MAN_ANIM_ENEMY1_TIME
-   4CDF 00 41                47     .dw _spr_sprite2_A
-   4CE1 0C                   48     .db #MAN_ANIM_ENEMY1_TIME
-   4CE2 80 40                49     .dw _spr_sprite3_A
-   4CE4 0C                   50     .db #MAN_ANIM_ENEMY1_TIME
-   4CE5 00 40                51     .dw _spr_sprite4_A
-   4CE7 00                   52     .db #0x00
-   4CE8 BD 4C                53     .dw #anim_A
+   556F                      10 anim_W::
+   556F 0C                   11   .db #MAN_ANIM_ENEMY1_TIME
+   5570 0C 44                12     .dw _spr_sprite1_W
+   5572 0C                   13     .db #MAN_ANIM_ENEMY1_TIME
+   5573 8C 43                14     .dw _spr_sprite2_W
+   5575 0C                   15     .db #MAN_ANIM_ENEMY1_TIME
+   5576 0C 43                16     .dw _spr_sprite3_W
+   5578 0C                   17     .db #MAN_ANIM_ENEMY1_TIME
+   5579 8C 42                18     .dw _spr_sprite4_W
+   557B 00                   19     .db #0x00
+   557C 6F 55                20     .dw #anim_W
+   557E                      21 anim_A::
+   557E 0C                   22  .db #MAN_ANIM_ENEMY1_TIME
+   557F 0C 42                23     .dw _spr_sprite1_A
+   5581 0C                   24     .db #MAN_ANIM_ENEMY1_TIME
+   5582 8C 41                25     .dw _spr_sprite2_A
+   5584 0C                   26     .db #MAN_ANIM_ENEMY1_TIME
+   5585 0C 41                27     .dw _spr_sprite3_A
+   5587 0C                   28     .db #MAN_ANIM_ENEMY1_TIME
+   5588 8C 40                29     .dw _spr_sprite4_A
+   558A 00                   30     .db #0x00
+   558B 7E 55                31     .dw #anim_A
+   558D                      32 anim_S::
+   558D 0C                   33  .db #MAN_ANIM_ENEMY1_TIME
+   558E 0C 46                34     .dw _spr_sprite1_S
+   5590 0C                   35     .db #MAN_ANIM_ENEMY1_TIME
+   5591 8C 45                36     .dw _spr_sprite2_S
+   5593 0C                   37     .db #MAN_ANIM_ENEMY1_TIME
+   5594 0C 45                38     .dw _spr_sprite3_S
+   5596 0C                   39     .db #MAN_ANIM_ENEMY1_TIME
+   5597 8C 44                40     .dw _spr_sprite4_S
+   5599 00                   41     .db #0x00
+   559A 8D 55                42     .dw #anim_S
+   559C                      43 anim_D::
+   559C 0C                   44   .db #MAN_ANIM_ENEMY1_TIME
+   559D 0C 42                45     .dw _spr_sprite1_A
+   559F 0C                   46     .db #MAN_ANIM_ENEMY1_TIME
+   55A0 8C 41                47     .dw _spr_sprite2_A
+   55A2 0C                   48     .db #MAN_ANIM_ENEMY1_TIME
+   55A3 0C 41                49     .dw _spr_sprite3_A
+   55A5 0C                   50     .db #MAN_ANIM_ENEMY1_TIME
+   55A6 8C 40                51     .dw _spr_sprite4_A
+   55A8 00                   52     .db #0x00
+   55A9 7E 55                53     .dw #anim_A
                              54 
                              55 .area _CODE
                              56 

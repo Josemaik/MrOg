@@ -78,8 +78,15 @@ ret
 ;;
 
 man_game_play::
+   ;;music init
+   ld de, #_song_prueba
+   call cpct_akp_musicInit_asm
+
    ;; infinite loop
    loop:
+      ;; call music player
+         call     cpct_waitVSYNC_asm
+         call     cpct_akp_musicPlay_asm
       ;; call ai manager
          ; call      _sys_ai_update
       ;; update positions

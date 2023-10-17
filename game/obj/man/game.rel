@@ -1,5 +1,5 @@
 XL2
-H 2 areas 13 global symbols
+H 2 areas 16 global symbols
 M Game_Manager
 S _sys_physics_update Ref0000
 S _man_entity_clone Ref0000
@@ -13,11 +13,14 @@ S _sys_render_init Ref0000
 S cpct_waitVSYNC_asm Ref0000
 S _sys_animations_update Ref0000
 S cpct_memset_asm Ref0000
+S _song_prueba Ref0000
 S cpct_memcpy_asm Ref0000
 S _man_entity_update Ref0000
+S cpct_akp_musicInit_asm Ref0000
 S _man_entity_set_for_destruction Ref0000
+S cpct_akp_musicPlay_asm Ref0000
 S _sys_render_update Ref0000
-A _CODE size 46 flags 0 addr 0
+A _CODE size 52 flags 0 addr 0
 S man_game_init Def0028
 S man_game_play Def0032
 S man_game_create_template_entity Def0013
@@ -37,7 +40,7 @@ R 00 00 00 00
 T 13 00
 R 00 00 00 00
 T 13 00 E5 CD 00 00 E1 D5 01 13 00 CD 00 00 D1 C9
-R 00 00 00 00 02 04 05 00 02 0C 0C 00
+R 00 00 00 00 02 04 05 00 02 0C 0D 00
 T 21 00
 R 00 00 00 00
 T 21 00 21 00 00 CD 13 00 C9
@@ -48,9 +51,13 @@ T 28 00 CD 00 00 CD 00 00 CD 21 00 C9
 R 00 00 00 00 02 03 08 00 02 06 06 00 00 09 00 00
 T 32 00
 R 00 00 00 00
-T 32 00
+T 32 00 11 00 00 CD 00 00
+R 00 00 00 00 02 03 0C 00 02 06 0F 00
+T 38 00
 R 00 00 00 00
-T 32 00 CD 00 00 CD 00 00 CD 00 00 CD
-R 00 00 00 00 02 03 00 00 02 06 0A 00 02 09 0F 00
-T 3C 00 00 00 3E 04 CD 00 00 18 ED C9
-R 00 00 00 00 02 02 0D 00 00 07 00 00
+T 38 00 CD 00 00 CD 00 00 CD 00 00 CD
+R 00 00 00 00 02 03 09 00 02 06 11 00 02 09 00 00
+T 42 00 00 00 CD 00 00 CD 00 00 3E 04 CD
+R 00 00 00 00 02 02 0A 00 02 05 12 00 02 08 0E 00
+T 4D 00 00 00 18 E7 C9
+R 00 00 00 00 00 02 00 00
