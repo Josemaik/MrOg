@@ -42,7 +42,7 @@
                                         
     ;; OTHERS
         SPACE_4_ONE_ENTITY     = 20      ;; space for one entity
-        TOTAL_ENTITIES         = 1      ;; number of entities                          
+        TOTAL_ENTITIES         = 2      ;; number of entities                          
         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
         MAN_ANIM_PLAYER_TIME   = 3
         TIME_TO_UPDATE_PHYSICS_X = 3

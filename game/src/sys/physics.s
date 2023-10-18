@@ -7,7 +7,9 @@
 
 ;; if the value == 1 => X axis
 ;; if the value == 0 => Y axis
-choose_axis::
+choose_axis_player::
+    .db 0x00
+choose_axis_enemy::
     .db 0x00
 contador_fisicas_jugador:
     .db #TIME_TO_UPDATE_PHYSICS_X
@@ -23,13 +25,21 @@ stop_sprite::
     add     hl, de
     ld      (hl),#0
 ret
-choose_axis_x::
+choose_axis_x_player::
     ld a, #1
-    ld (choose_axis), a
+    ld (choose_axis_player), a
 ret
-choose_axis_y::
+choose_axis_y_player::
     ld a, #0
-    ld (choose_axis), a
+    ld (choose_axis_player), a
+ret
+choose_axis_x_enemie::
+    ld a, #1
+    ld (choose_axis_enemy), a
+ret
+choose_axis_y_enemie::
+    ld a, #0
+    ld (choose_axis_enemy), a
 ret
 setvelocity::
     ld hl , #direction
@@ -77,23 +87,30 @@ setvelocity::
 
     setvelocity_end:
 ret
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UPDATE PHYSICS FOR ONE ENTITY 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; IN =>  DE -> entity to update                                      
 ;;pop de
 sys_physics_update_for_one:
-
-    ;     ld hl, #contador_fisicas_jugador
-    ;     ld a, (hl)
-    ;     sub #1
-    ;     ld (hl), a
-    ;     jr z, move_entity
-    ; move_entity:
-        ld a, (choose_axis)
+        ld hl, #TYPE
+        add hl, de
+        ld a, (hl)
+        cp #E_TYPE_ENEMY
+        jr z, check_enemy
+        ;; comprobar jugador
+        ld a, (choose_axis_player)
         cp #1
         jr z, move_x_axis
             jr move_y_axis
+        
+check_enemy:
+    ld a, (choose_axis_enemy)
+    cp #1
+    jr z, move_x_axis
+        jr move_y_axis
 move_x_axis:
         ld hl, #contador_fisicas_jugador
         ld a, (hl)
@@ -113,8 +130,6 @@ move_x_axis:
 
         ld (hl), a
 
-        ;  ld hl, #contador_fisicas_jugador
-        ;  ld (hl), #TIME_TO_UPDATE_PHYSICS
     end_movex:
         jr end_physics
     ;; y+vy
@@ -130,8 +145,7 @@ move_x_axis:
                 add     (hl)
             ;; load it in entity->y
                 ld      (hl), a
-                ; ld hl, #contador_fisicas_jugador
-                ; ld (hl), #TIME_TO_UPDATE_PHYSICS
+        
 
     end_physics:
     ret

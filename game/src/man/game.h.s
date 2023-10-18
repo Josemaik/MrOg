@@ -20,10 +20,12 @@
       .globl _sys_render_init
       .globl _sys_animations_update
       .globl _sys_input_update
+      .globl _sys_ai_update
    ;; sprites
 
    ;; templates
    .globl player_entity
+   .globl deflator_Dennis_entity
 
    ;;music
    .globl _song_prueba

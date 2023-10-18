@@ -59,6 +59,8 @@ man_game_create_template_entity::
 _inicialize_templates:
         ld       hl, #player_entity
         call man_game_create_template_entity
+        ld       hl, #deflator_Dennis_entity
+        call man_game_create_template_entity
 ret
 ;;;;;;;;;;;;;;;;;;;;
 ;; INIT
@@ -88,7 +90,7 @@ man_game_play::
          call     cpct_waitVSYNC_asm
          call     cpct_akp_musicPlay_asm
       ;; call ai manager
-         ; call      _sys_ai_update
+         call      _sys_ai_update
       ;; update positions
          call     _sys_physics_update
       ;; check collisions
