@@ -24,6 +24,7 @@
       .globl _sys_collision_update
    ;; sprites
 
+
    ;; templates
    .globl player_entity
    .globl deflator_Dennis_entity
