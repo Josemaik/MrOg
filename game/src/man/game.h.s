@@ -23,7 +23,9 @@
    ;; sprites
 
    ;; templates
-   .globl playership_template0_e
+   .globl player_entity
 
    ;;music
    .globl _song_prueba
+   ;; ia
+   .globl sys_ai_surround_map

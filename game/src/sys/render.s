@@ -177,8 +177,6 @@ ret
 ;; CAll RENDER FOR ALL ENTITY :;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 _sys_render_update::
-        call sys_render_tilemap
-
         ld      bc, #sys_render_update_for_one
         ld      hl, #E_CMP_RENDER
         call    _man_entity_for_all_matching
@@ -206,5 +204,8 @@ _sys_render_init::
         ld       hl, #_main_palette
         ld       de, #16
         call     cpct_setPalette_asm
+
+    ;; cargar mapa
+     call sys_render_tilemap
 
     ret

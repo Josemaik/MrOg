@@ -29,11 +29,12 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; BEHAVIOUR LEFT-RIGHT
+;; BEHAVIOUR SURROUND MAP
 ;;
 ;; IN => DE -> entity to update
 ;;
-
+sys_ai_surround_map::
+ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UPDATE IA FOR ONE ENTITY 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

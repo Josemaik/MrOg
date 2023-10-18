@@ -9,7 +9,8 @@
 ;; if the value == 0 => Y axis
 choose_axis::
     .db 0x00
-
+contador_fisicas_jugador:
+    .db #TIME_TO_UPDATE_PHYSICS_X
 ;;;;;;;;;;;;;;;
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
@@ -67,12 +68,12 @@ setvelocity::
     set_velocity_x_W:
         ld      hl, #VY
         add     hl, de
-        ld      (hl), #-2
+        ld      (hl), #-1
         jr setvelocity_end
     set_velocity_x_S:
         ld      hl, #VY
         add     hl, de
-        ld      (hl), #2
+        ld      (hl), #1
 
     setvelocity_end:
 ret
@@ -82,48 +83,39 @@ ret
 ;; IN =>  DE -> entity to update                                      
 ;;pop de
 sys_physics_update_for_one:
-    ;; if entity have input
-        ; ld      hl, #CMPs
-        ; add     hl, de
-        ; ld      a, (hl)
 
-        ; and #E_CMP_INPUT
-        ; cp  #E_CMP_INPUT
-        ; jr z, sys_physics_check_kb
-        ;     jr sys_physics_no_check_kb
-        ; sys_physics_check_kb:
-        ;     call sys_physics_check_keyboard
-        ; sys_physics_no_check_kb:
-    ;;x+vx
-    ;; go to entity->x and load in a
+    ;     ld hl, #contador_fisicas_jugador
+    ;     ld a, (hl)
+    ;     sub #1
+    ;     ld (hl), a
+    ;     jr z, move_entity
+    ; move_entity:
         ld a, (choose_axis)
         cp #1
         jr z, move_x_axis
             jr move_y_axis
 move_x_axis:
-        ld      hl, #X
+        ld hl, #contador_fisicas_jugador
+        ld a, (hl)
+        sub #1
+        ld (hl), a
+        jr nz, end_movex
+        ld (hl),#TIME_TO_UPDATE_PHYSICS_X
+        ld      hl, #VX
         add     hl, de
         ld      a, (hl)    
 
     ;; go to entity-vx 
-        ld      hl, #VX
+        ld      hl, #X
         add     hl, de
     ;; a+hl
         add     (hl)
 
-    ;; if in the end
-        ; jr      c, sys_destroy_entity 
-    ;; x > 0        
-        ; jr      sys_save_vx
-    ;; x < 0
-    ; sys_destroy_entity:
-    ;     call    _man_entity_set_for_destruction
-    ;     jr end_physics
-    ; sys_save_x:    
-        ld      hl, #X
-        add     hl, de
-        ld      (hl), a
+        ld (hl), a
 
+        ;  ld hl, #contador_fisicas_jugador
+        ;  ld (hl), #TIME_TO_UPDATE_PHYSICS
+    end_movex:
         jr end_physics
     ;; y+vy
     move_y_axis:
@@ -138,6 +130,9 @@ move_x_axis:
                 add     (hl)
             ;; load it in entity->y
                 ld      (hl), a
+                ; ld hl, #contador_fisicas_jugador
+                ; ld (hl), #TIME_TO_UPDATE_PHYSICS
+
     end_physics:
     ret
 

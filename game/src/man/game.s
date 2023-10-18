@@ -57,7 +57,7 @@ man_game_create_template_entity::
 
 
 _inicialize_templates:
-        ld       hl, #playership_template0_e
+        ld       hl, #player_entity
         call man_game_create_template_entity
 ret
 ;;;;;;;;;;;;;;;;;;;;
@@ -70,7 +70,7 @@ man_game_init::
     ;; inicialize manager entity
         call     _man_entity_init
 
-    ;; Create mothership
+    ;; Create player
        call    _inicialize_templates
 ret
 ;;;;;;;;;;;;;;;;;;;;;;
@@ -102,9 +102,9 @@ man_game_play::
       ;; update manager
          call     _man_entity_update
       ;; wait ( se mueve cada cinco fotogramas)
-         ld       a, #3
-		 call     _wait
-      ; call cpct_waitVSYNC_asm
+      ;    ld       a, #3
+		;  call     _wait
+      call cpct_waitVSYNC_asm
       ;; jump to loop
          jr       loop
 ret

@@ -13,10 +13,10 @@
       .globl choose_axis_x
       .globl choose_axis_y
       .globl check_animation
-    .globl anim_W
-   .globl anim_A
-   .globl anim_S
-   .globl anim_D
+    .globl anim_player_W
+   .globl anim_player_A
+   .globl anim_player_S
+   .globl anim_player_D
 sys_input_update_for_one:
     ;; save entity
     push de
@@ -45,7 +45,7 @@ sys_input_update_for_one:
         pop de
         call active_animation
         call choose_axis_x
-        ld bc, #anim_A
+        ld bc, #anim_player_A
         ld 4(ix), c
         ld 5(ix), b
         ld bc, #DIRECT_A
@@ -55,7 +55,7 @@ sys_input_update_for_one:
         pop de
         call active_animation
         call choose_axis_x
-        ld bc, #anim_D
+        ld bc, #anim_player_D
         ld 4(ix), c
         ld 5(ix), b
         ld bc, #DIRECT_D
@@ -65,7 +65,7 @@ sys_input_update_for_one:
         pop de
         call active_animation
         call choose_axis_y
-        ld bc, #anim_W
+        ld bc, #anim_player_W
         ld 4(ix), c
         ld 5(ix), b
         ld bc, #DIRECT_W
@@ -75,7 +75,7 @@ sys_input_update_for_one:
         pop de
         call active_animation
         call choose_axis_y
-        ld bc, #anim_S
+        ld bc, #anim_player_S
         ld 4(ix), c
         ld 5(ix), b
         ld bc, #DIRECT_S
