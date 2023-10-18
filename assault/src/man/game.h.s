@@ -36,5 +36,5 @@
    .globl mothership_template_e
    .globl enemy1_template_e
    .globl playership_template1_e
-   .globl playership_template0_e
+   .globl player_entity
    .globl playershot_template_e

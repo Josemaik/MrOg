@@ -10,8 +10,8 @@
       .globl desactive_animating
       .globl _man_entity_for_all_matching
       .globl active_animation
-      .globl choose_axis_x
-      .globl choose_axis_y
+      .globl choose_axis_x_player
+      .globl choose_axis_y_player
       .globl check_animation
     .globl anim_W
    .globl anim_A
@@ -44,7 +44,7 @@ sys_input_update_for_one:
     sys_physics_A_is_pressed:
         pop de
         call active_animation
-        call choose_axis_x
+        call choose_axis_x_player
         ld bc, #anim_A
         ld 4(ix), c
         ld 5(ix), b
@@ -54,7 +54,7 @@ sys_input_update_for_one:
     sys_physics_D_is_pressed:
         pop de
         call active_animation
-        call choose_axis_x
+        call choose_axis_x_player
         ld bc, #anim_D
         ld 4(ix), c
         ld 5(ix), b
@@ -64,7 +64,7 @@ sys_input_update_for_one:
     sys_physics_W_is_pressed:
         pop de
         call active_animation
-        call choose_axis_y
+        call choose_axis_y_player
         ld bc, #anim_W
         ld 4(ix), c
         ld 5(ix), b
@@ -74,7 +74,7 @@ sys_input_update_for_one:
     sys_physics_S_is_pressed:
         pop de
         call active_animation
-        call choose_axis_y
+        call choose_axis_y_player
         ld bc, #anim_S
         ld 4(ix), c
         ld 5(ix), b

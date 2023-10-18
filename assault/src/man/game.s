@@ -262,7 +262,7 @@ man_game_init::
        ld       hl, #playership_template1_e
       call man_game_create_template_entity
    ;; Creamos player
-   ld       hl, #playership_template0_e
+   ld       hl, #player_entity
    call man_game_create_template_entity
 ret
 ;;;;;;;;;;;;;;;;;;;;;;

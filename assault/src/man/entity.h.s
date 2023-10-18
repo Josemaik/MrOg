@@ -41,7 +41,7 @@
         SPACE_4_ONE_ENTITY     = 17      ;; space for one entity
         TOTAL_ENTITIES         = 12      ;; number of entities                          
         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
-        MAN_ANIM_ENEMY1_TIME   = 12
+        MAN_ANIM_PLAYER_TIME   = 12
     ;; LANES
         LANE_0		= 0											;;
 		LANE_1		= 1											;;

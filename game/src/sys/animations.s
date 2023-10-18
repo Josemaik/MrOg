@@ -60,14 +60,14 @@ sys_animations_update_one_entity:
         jr sys_animations_update_one_entity_end
     start_animating:
     ;; save in a the entity->animcounter
-    ; ld hl, #AnimCounter
-    ; add hl, de
-    ; ld a, (hl)
-    ; sub #1
-    ; ld (hl), a
-    ;; if (a == 0)
-    ; jr z, change_sprite
-        ; jr sys_animations_update_one_entity_end
+    ld hl, #AnimCounter
+    add hl, de
+    ld a, (hl)
+    sub #1
+    ld (hl), a
+    ; if (a == 0)
+    jr z, change_sprite
+        jr sys_animations_update_one_entity_end
     change_sprite:
 
         ;; go to entity->animframe

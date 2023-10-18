@@ -205,6 +205,8 @@ _sys_render_init::
         ld       de, #16
         call     cpct_setPalette_asm
 
-        call sys_render_tilemap
+
+    ;; cargar mapa
+     call sys_render_tilemap
 
     ret

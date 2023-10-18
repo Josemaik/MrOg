@@ -24,7 +24,9 @@ man_game_create_template_entity::
 
 
 _inicialize_templates:
-        ld       hl, #playership_template0_e
+        ld       hl, #player_entity
+        call man_game_create_template_entity
+        ld       hl, #deflator_Dennis_entity
         call man_game_create_template_entity
 ret
 ;;;;;;;;;;;;;;;;;;;;
@@ -37,7 +39,7 @@ man_game_init::
     ;; inicialize manager entity
         call     _man_entity_init
 
-    ;; Create mothership
+    ;; Create player
        call    _inicialize_templates
 ret
 ;;;;;;;;;;;;;;;;;;;;;;
@@ -54,7 +56,7 @@ man_game_play::
       ;; call music player
          call     cpct_akp_musicPlay_asm
       ;; call ai manager
-         ; call      _sys_ai_update
+         call      _sys_ai_update
       ;; update positions
          call     _sys_physics_update
       ;; check collisions
@@ -67,6 +69,7 @@ man_game_play::
          call     _sys_render_update
       ;; update manager
          call     _man_entity_update
+
 
          call cpct_waitVSYNC_asm
 

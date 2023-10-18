@@ -7,9 +7,12 @@
 
 ;; if the value == 1 => X axis
 ;; if the value == 0 => Y axis
-choose_axis::
+choose_axis_player::
     .db 0x00
-
+choose_axis_enemy::
+    .db 0x00
+contador_fisicas_jugador:
+    .db #TIME_TO_UPDATE_PHYSICS_X
 ;;;;;;;;;;;;;;;
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
@@ -22,13 +25,21 @@ stop_sprite::
     add     hl, de
     ld      (hl),#0
 ret
-choose_axis_x::
+choose_axis_x_player::
     ld a, #1
-    ld (choose_axis), a
+    ld (choose_axis_player), a
 ret
-choose_axis_y::
+choose_axis_y_player::
     ld a, #0
-    ld (choose_axis), a
+    ld (choose_axis_player), a
+ret
+choose_axis_x_enemie::
+    ld a, #1
+    ld (choose_axis_enemy), a
+ret
+choose_axis_y_enemie::
+    ld a, #0
+    ld (choose_axis_enemy), a
 ret
 setvelocity::
     ld hl , #direction
@@ -67,63 +78,59 @@ setvelocity::
     set_velocity_x_W:
         ld      hl, #VY
         add     hl, de
-        ld      (hl), #-2
+        ld      (hl), #-1
         jr setvelocity_end
     set_velocity_x_S:
         ld      hl, #VY
         add     hl, de
-        ld      (hl), #2
+        ld      (hl), #1
 
     setvelocity_end:
 ret
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UPDATE PHYSICS FOR ONE ENTITY 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; IN =>  DE -> entity to update                                      
 ;;pop de
 sys_physics_update_for_one:
-    ;; if entity have input
-        ; ld      hl, #CMPs
-        ; add     hl, de
-        ; ld      a, (hl)
-
-        ; and #E_CMP_INPUT
-        ; cp  #E_CMP_INPUT
-        ; jr z, sys_physics_check_kb
-        ;     jr sys_physics_no_check_kb
-        ; sys_physics_check_kb:
-        ;     call sys_physics_check_keyboard
-        ; sys_physics_no_check_kb:
-    ;;x+vx
-    ;; go to entity->x and load in a
-        ld a, (choose_axis)
+        ld hl, #TYPE
+        add hl, de
+        ld a, (hl)
+        cp #E_TYPE_ENEMY
+        jr z, check_enemy
+        ;; comprobar jugador
+        ld a, (choose_axis_player)
         cp #1
         jr z, move_x_axis
             jr move_y_axis
+        
+check_enemy:
+    ld a, (choose_axis_enemy)
+    cp #1
+    jr z, move_x_axis
+        jr move_y_axis
 move_x_axis:
-        ld      hl, #X
+        ld hl, #contador_fisicas_jugador
+        ld a, (hl)
+        sub #1
+        ld (hl), a
+        jr nz, end_movex
+        ld (hl),#TIME_TO_UPDATE_PHYSICS_X
+        ld      hl, #VX
         add     hl, de
         ld      a, (hl)    
 
     ;; go to entity-vx 
-        ld      hl, #VX
+        ld      hl, #X
         add     hl, de
     ;; a+hl
         add     (hl)
 
-    ;; if in the end
-        ; jr      c, sys_destroy_entity 
-    ;; x > 0        
-        ; jr      sys_save_vx
-    ;; x < 0
-    ; sys_destroy_entity:
-    ;     call    _man_entity_set_for_destruction
-    ;     jr end_physics
-    ; sys_save_x:    
-        ld      hl, #X
-        add     hl, de
-        ld      (hl), a
+        ld (hl), a
 
+    end_movex:
         jr end_physics
     ;; y+vy
     move_y_axis:
@@ -138,6 +145,8 @@ move_x_axis:
                 add     (hl)
             ;; load it in entity->y
                 ld      (hl), a
+        
+
     end_physics:
     ret
 
