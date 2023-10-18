@@ -20,6 +20,7 @@
         COLLIDES_AGAINST = 16
         last_draw = 17
         direction = 19
+
                                         
     ;; Entity types                  
         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
@@ -41,9 +42,10 @@
                                         
     ;; OTHERS
         SPACE_4_ONE_ENTITY     = 20      ;; space for one entity
-        TOTAL_ENTITIES         = 1      ;; number of entities                          
+        TOTAL_ENTITIES         = 2      ;; number of entities                          
         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
-        MAN_ANIM_ENEMY1_TIME   = 12
+        MAN_ANIM_PLAYER_TIME   = 3
+        TIME_TO_UPDATE_PHYSICS_X = 3
     ;; DIRECTIONS
     DIRECT_W == 0x01
     DIRECT_A == 0x02

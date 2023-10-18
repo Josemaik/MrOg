@@ -35,7 +35,7 @@ enemy1_template_e::
       .dw     #sys_ai_behaviour_enemy ;; behaviour
 	  .db 	#0x00					;; ai_counter
       .dw     #man_anim_enemy1               ;;anim
-      .db     #MAN_ANIM_ENEMY1_TIME          ;;animcounter c = 12
+      .db     #MAN_ANIM_PLAYER_TIME          ;;animcounter c = 12
 	  .db 	#0x00				;;collides_against
 
 ;; PLAYERSHIP ENTITY
@@ -55,7 +55,7 @@ playership_template1_e::
       .db     #0x00              ;;animcounter c = 0
 	  .db 	#0x00				;;collides_against
 ;; PLAYER
-playership_template0_e:: 
+player_entity:: 
 		.db 	#E_TYPE_PLAYER				;; entity type
       .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_INPUT ;;| #E_CMP_COLLIDER ;; cmps
 		.db     #0x26               ;; x = 38
