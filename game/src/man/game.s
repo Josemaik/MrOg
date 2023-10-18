@@ -4,40 +4,7 @@
 .include "game.h.s"
 .include "entity.h.s"
 .area _DATA
-
 .area _CODE
-;;;;;;;;;;;;;;;;;;;;;
-;; PRIVATE FUNCTION;;
-;;;;;;;;;;;;;;;;;;;;;
-
-;;;;;;;;;;;;;;;;;;;;
-;; WAIT
-;;
-_wait:
-    ;; loop
-      wait_init_for:
-         ;; compare A with 0 and two halts
-            cp       #0                   
-            jr       z, wait_end_for      
-            ld       b, #2
-            call     cpct_waitHalts_asm
-
-         ;; save a
-            push     af
-         ;; wait sync
-            call     cpct_waitVSYNC_asm
-         
-         ;; a-1
-            pop      af
-            sub      #1
-         ;; go loop
-            jr       wait_init_for
-   ;; end for
-      wait_end_for:
-   ret
-;;;;;;;;;;;;;;;;;;;;;
-;; PUBLIC FUNCTION ;;
-;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;CREATE TEMPLATE
@@ -85,7 +52,6 @@ man_game_play::
    ;; infinite loop
    loop:
       ;; call music player
-         call     cpct_waitVSYNC_asm
          call     cpct_akp_musicPlay_asm
       ;; call ai manager
          ; call      _sys_ai_update
@@ -101,10 +67,9 @@ man_game_play::
          call     _sys_render_update
       ;; update manager
          call     _man_entity_update
-      ;; wait ( se mueve cada cinco fotogramas)
-         ld       a, #3
-		 call     _wait
-      ; call cpct_waitVSYNC_asm
+
+         call cpct_waitVSYNC_asm
+
       ;; jump to loop
          jr       loop
 ret
