@@ -8,7 +8,8 @@
                                           
    ;; managers                            
       .globl _man_entity_for_all_matching 
-   ;; systems                          
+   ;; systems   
+      .globl stop_sprite                       
 
    ;; sprites
       .globl cpct_drawSolidBox_asm

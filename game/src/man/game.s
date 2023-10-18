@@ -56,12 +56,12 @@ man_game_play::
          call     cpct_akp_musicPlay_asm
       ;; call ai manager
          ; call      _sys_ai_update
+      ;; check collisions
+         call     _sys_collision_update
       ;; call input
          call     _sys_input_update
       ;; update positions
          call     _sys_physics_update
-      ;; check collisions
-         call     _sys_collision_update
       ;; call animations system
          call     _sys_animations_update
       ;; render

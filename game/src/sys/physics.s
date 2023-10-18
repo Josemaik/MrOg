@@ -31,28 +31,42 @@ choose_axis_y::
     ld (choose_axis), a
 ret
 setvelocity::
+
+    ld   a, (is_colliding_player)
+    cp   #1
+    jr   z, siguiente
+
+    ;; check is direction is W
     ld hl , #direction
     add hl, de
-    ld a, (hl)
-    ;; check is direction is A
-    and #DIRECT_A
-    cp #DIRECT_A
-    jr z, set_velocity_x_A
-;; check is direction is D
-    ld a, (hl)
-    and #DIRECT_D
-    cp #DIRECT_D
-    jr z, set_velocity_x_D
-;; check is direction is W
     ld a, (hl)
     and #DIRECT_W
     cp #DIRECT_W
     jr z, set_velocity_x_W
-;; check is direction is S
+
+    siguiente:
+    
+    ;; check is direction is A
+    ld hl , #direction
+    add hl, de
+    ld a, (hl)
+    and #DIRECT_A
+    cp #DIRECT_A
+    jr z, set_velocity_x_A
+    ;; check is direction is D
+    ld hl , #direction
+    add hl, de
+    ld a, (hl)
+    and #DIRECT_D
+    cp #DIRECT_D
+    jr z, set_velocity_x_D
+    ;; check is direction is S
+    ld hl , #direction
+    add hl, de
     ld a, (hl)
     and #DIRECT_S
     cp #DIRECT_S
-     jr z, set_velocity_x_S
+    jr z, set_velocity_x_S
 
     set_velocity_x_A:
         ld      hl, #VX
