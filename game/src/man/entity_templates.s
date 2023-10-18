@@ -8,7 +8,7 @@
 .area _DATA
 playership_template0_e:: 
 		.db 	#E_TYPE_PLAYER			;; entity type
-      .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_INPUT | #E_CMP_ANIMATED ;; cmps
+      .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_INPUT | #E_CMP_ANIMATED | #E_CMP_COLLIDER;; cmps
 		.db     #0x26               ;; x = 38
 		.db     #65              ;; y = 180
 		.db     #SPR_SPRITE1_S_W   ;; width 
