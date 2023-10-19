@@ -99,6 +99,11 @@ sys_collision_update_one_entity:
     and     #0b11111110
     ret     nz
 
+    ;; inc     hl
+    ;; ld      a, (hl)
+    ;; and     #0b11111110
+    ;; ret     nz
+
     ;; call stop_sprite
 
     ;; 11111110
