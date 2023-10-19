@@ -161,14 +161,14 @@ sys_render_update_for_one:
             pop hl
             and     #E_TYPE_DEAD
             cp      #E_TYPE_DEAD
-            jr      z, sys_render_update_for_one_end 
+            jr      z, sys_render_dont_draw 
         ;; draw entity -> _sys_render_draw_one_entity
         ;; IN =>  DE -> entity to draw
         ;; OUP => HL
         call    sys_render_draw_one_entity
         jr sys_render_update_for_one_end
-    ; sys_render_dont_draw:
-    ;     call    sys_render_draw_solid_box
+    sys_render_dont_draw:
+        call    sys_render_draw_solid_box
     sys_render_update_for_one_end:
 ret
 

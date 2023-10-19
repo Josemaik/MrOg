@@ -185,7 +185,7 @@ man_game_entity_destroy::
    ld hl,#TYPE
    add hl, de
    ld a, (hl)
-   cp #E_TYPE_SHOT
+   cp #E_TYPE_BOMB
    jr z, m_playershot_to0
       jr destroy_entity
    m_playershot_to0:
