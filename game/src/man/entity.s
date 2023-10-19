@@ -464,14 +464,30 @@ _man_entity_update::
             ;; save in a the type and compare with #E_TYPE_INVALID
                 ld      a, (hl)
                 cp      #E_TYPE_INVALID     
-                jr      z, man_update_end_for      
+                jr      z, man_update_end_for   
+                   
             ;;if is set for destruction
                 and      #E_TYPE_DEAD
             
             ;; compare A with E_TYPE_DEAD
                 cp      #E_TYPE_DEAD
-                jr      z, man_update_destroy_entity   
+                jr      z, man_update_destroy_entity  
 
+                 and #E_TYPE_BOMB
+                 cp #E_TYPE_BOMB
+                 jr z, man_decrease_time_to_explode
+                    jr seguir
+                 man_decrease_time_to_explode:
+                    ld hl, #AnimCounter
+                    add hl, de
+                    ld a, (hl)
+                    dec a
+                    ld (hl), a
+                    jr z, destruir
+                        jr seguir
+                    destruir:
+                    call _man_entity_set_for_destruction
+                    seguir:
                 ;; add SPACE_4_ONE_ENTITY De <==> HL
                     ld      hl, #SPACE_4_ONE_ENTITY
                     add     hl, de
@@ -486,7 +502,9 @@ _man_entity_update::
             man_update_destroy_entity:      
                 call    man_entity_destroy        
             man_update_not_destroy_entity:  
-                jr      man_update_init_for       
+                jr      man_update_init_for
+            
+
 
     man_update_end_for:
 

@@ -13,6 +13,10 @@
       .globl choose_axis_x_player
       .globl choose_axis_y_player
       .globl check_animation
+      .globl man_game_create_bomb
+      .globl set_xy_bomb
+      .globl check_bomb_state
+      .globl is_bomb_active
     .globl anim_W
    .globl anim_A
    .globl anim_S
@@ -36,6 +40,9 @@ sys_input_update_for_one:
      ld      hl, #Key_S
     call cpct_isKeyPressed_asm
     jr nz, sys_physics_S_is_pressed
+    ld      hl, #Key_Space
+    call cpct_isKeyPressed_asm
+    jr nz, sys_physics_Space_is_pressed
     pop de
     ;; no se ha pulsado ninguna tecla
     call stop_sprite
@@ -81,188 +88,25 @@ sys_input_update_for_one:
         ld bc, #DIRECT_S
         call check_animation
         jr sys_input_update_for_one_end
+    sys_physics_Space_is_pressed:
+        pop de
+        ;; compruebo si hay bomba activa
+        ld a , (is_bomb_active)
+        cp #1
+        jr z, sys_input_update_for_one_end ;; bomba activa
+        ;; no bomba activa
+        ;; guardo en pila x e y player
+        call check_bomb_state
+        ;; me guardo en pila bc 
+        push bc
+        ;; creo la entidad bomba
+        call man_game_create_bomb
+        ;; recojo bc de la pila
+        pop bc
+        ;; le pongo la x e y de la bomba la x e y del player
+        call set_xy_bomb
     sys_input_update_for_one_end:
 ret
-
-
-    ; ;; save entity
-    ; push de
-    ; ;; scan keyboard
-    ; call cpct_scanKeyboard_f_asm
-    ; ;; check letter O
-    ; ld      hl, #Key_A
-    ; call cpct_isKeyPressed_asm
-    ; jr nz, sys_physics_A_is_pressed
-    ; ;; check letter P
-    ; ld      hl, #Key_D
-    ; call cpct_isKeyPressed_asm
-    ; jr nz, sys_physics_D_is_pressed
-    ;  ld      hl, #Key_W
-    ; call cpct_isKeyPressed_asm
-    ; jr nz, sys_physics_W_is_pressed
-    ;  ld      hl, #Key_S
-    ; call cpct_isKeyPressed_asm
-    ; jr nz, sys_physics_S_is_pressed
-
-    ; pop de
-    ; ;; nothing key is pressed
-    
-    ; ;; parar animacion
-   
-    ; jr sys_physics_check_keyboard_end
-    ; ;; O is pressed
-    ; sys_physics_A_is_pressed:
-    ;     ;; set movement active
-    ;     ld a, #1
-    ;     ld (move_active), a
-    ;     ;; set 1 to put the axis x active
-    ;     ld a, #1
-    ;     ld (choose_axis), a
-    ;      ;; retrieve entity
-    ;     pop de
-    ;     ;;check animations
-    ;     ld hl, #direction
-    ;     add hl, de
-    ;     ld a , (hl)
-    ;     and #DIRECT_A
-    ;     cp #DIRECT_A
-    ;     jr z, goto_velocity1 ;; si la animacion ya estaba en A
-    ;     ;;set animation array
-    ;     ld hl, #anim_A
-    ;     push hl
-    ;     ld hl, #AnimFrame
-    ;     add hl, de
-    ;     pop bc
-    ;     ld (hl),c
-    ;     inc hl
-    ;     ld (hl),b
-    ;     ;; set direction
-    ;     ld hl, #direction
-    ;     add hl, de
-    ;     ld (hl), #DIRECT_A
-        
-    ;    goto_velocity1:
-    ;     ;; vx = 1
-    ;     ld      hl, #VX
-    ;     add     hl, de
-    ;     ld      (hl), #-1
-
-    ;     jr      sys_physics_check_keyboard_end
-
-    ; sys_physics_D_is_pressed:
-    ; ;; set movement active
-    ;     ld a, #1
-    ;     ld (move_active), a
-    ;     ;; set 1 to put the axis x active
-    ;     ld a, #1
-    ;     ld (choose_axis), a
-    ;     ;; retrieve entity
-    ;     pop de
-    ;     ;;check animations
-    ;     ld hl, #direction
-    ;     add hl, de
-    ;     ld a , (hl)
-    ;     and #DIRECT_D
-    ;     cp #DIRECT_D
-    ;     jr z, goto_velocity ;; si la animacion ya estaba en A
-    ;     ; ;;set animation array
-    ;     ld hl, #anim_D
-    ;     push hl
-    ;     ld hl, #AnimFrame
-    ;     add hl, de
-    ;     pop bc
-    ;     ld (hl),c
-    ;     inc hl
-    ;     ld (hl),b
-    ;     ; set direction
-    ;     ld hl, #direction
-    ;     add hl, de
-    ;     ld (hl), #DIRECT_D
-        
-    ;    goto_velocity:
-    ;     ;; vx = 1
-    ;     ld      hl, #VX
-    ;     add     hl, de
-    ;     ld      (hl), #1
-
-    ;     jr      sys_physics_check_keyboard_end
-    ; sys_physics_W_is_pressed:
-    ; ;; set movement active
-    ;     ld a, #1
-    ;     ld (move_active), a
-    ; ;; set 0 to put the axis y active
-    ;     ld a, #0
-    ;     ld (choose_axis), a
-    ;     ;; retrieve entity
-    ;     pop de
-    ;     ; ld hl, #direction
-    ;     ; add hl, de
-    ;     ; ld a , (hl)
-    ;     ; and #DIRECT_D
-    ;     ; cp #DIRECT_D
-    ;     ; jr z, goto_velocity ;; si la animacion ya estaba en A
-    ;     ; ; ;;set animation array
-    ;     ; ld hl, #anim_D
-    ;     ; push hl
-    ;     ; ld hl, #AnimFrame
-    ;     ; add hl, de
-    ;     ; pop bc
-    ;     ; ld (hl),c
-    ;     ; inc hl
-    ;     ; ld (hl),b
-    ;     ; ; set direction
-    ;     ; ld hl, #direction
-    ;     ; add hl, de
-    ;     ; ld (hl), #DIRECT_D
-        
-    ;     ; goto_velocity2:
-        
-        
-    ;     ;; vx = 1
-    ;     ; ld      hl, #VY
-    ;     ; add     hl, de
-    ;     ; ld      (hl), #-2
-
-    ;     ; jr      sys_physics_check_keyboard_end
-    ; sys_physics_S_is_pressed:
-    ;  ;; set movement active
-    ; ;     ld a, #1
-    ; ;     ld (move_active), a
-    ; ; ;; set 0 to put the axis y active
-    ; ;     ld a, #0
-    ; ;     ld (choose_axis), a
-    ; ;     ;; retrieve entity
-    ; ;     pop de
-    ; ;     ;;check animations
-    ;     ; ld hl, #direction
-    ;     ; add hl, de
-    ;     ; ld a , (hl)
-    ;     ; and #DIRECT_S
-    ;     ; cp #DIRECT_S
-    ;     ; jr z, goto_velocity3 ;; si la animacion ya estaba en A
-    ;     ; ;;set animation array
-    ;     ; ld hl, #anim_S
-    ;     ; push hl
-    ;     ; ld hl, #AnimFrame
-    ;     ; add hl, de
-    ;     ; pop bc
-    ;     ; ld (hl),c
-    ;     ; inc hl
-    ;     ; ld (hl),b
-    ;     ; ;; set direction
-    ;     ; ld hl, #direction
-    ;     ; add hl, de
-    ;     ; ld (hl), #DIRECT_S
-        
-    ;     ; goto_velocity3:
-        
-        
-    ;     ;; vx = 1
-    ;     ; ld      hl, #VY
-    ;     ; add     hl, de
-    ;     ; ld      (hl), #2
-
-    ;     ; jr      sys_physics_check_keyboard_end
 _sys_input_update::          
         ld      bc, #sys_input_update_for_one
         ld      hl, #E_CMP_INPUT 
