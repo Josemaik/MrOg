@@ -1,11 +1,11 @@
-        ;;;;;;;;;;;;;;;;;;;;
-        ;; DEFINED VALUES ;;
-        ;;;;;;;;;;;;;;;;;;;;
-          ;; cpctelera
-
-    ;; Animation struct                              		
-
-                                          
+   ;;;;;;;;;;;;;;;;;;;;
+   ;; DEFINED VALUES ;;
+   ;;;;;;;;;;;;;;;;;;;;
+     
+   ;; cpctelera
+      .globl cpct_getScreenPtr_asm
+      .globl cpct_drawSolidBox_asm
+                              
    ;; managers                            
       .globl _man_entity_for_all_matching 
    ;; systems   

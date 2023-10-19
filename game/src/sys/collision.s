@@ -54,12 +54,13 @@ sys_collision_update_one_entity:
     ;; tw = tilemap-width (0x30, 48)
     ;; p  = tilemap + ty * tw + tx
 
-    push de
-
     ;; A = y
     ld   hl, #Y
     add  hl, de
     ld    a, (hl)
+
+    push de
+
     ;; Para calcular el sprite de abajo sumar el height (add #15)
     ;; A = ty (y/8)
     and   #0xF8 ;; #0xb11111000 ;; A = 8*int(ty / 8)
@@ -72,12 +73,17 @@ sys_collision_update_one_entity:
     ld     e, l    ;; |
     add   hl, hl   ;; HL = 32*tx
     add   hl, de   ;; HL = 48*tx
+
+    pop de
+
     ;; A = X
     ld   hl, #X
     add  hl, de
     ld    a, (hl)
     srl    a ;; | A = tx (x/4)
     srl    a ;; |
+
+    push de
 
     add_hl_a  ;; HL = ty * tw + tx
     ld     de, #_tilemap_01
@@ -89,6 +95,14 @@ sys_collision_update_one_entity:
     ld      a, (hl)
     and     #0b11111110
     ret     nz
+
+    ;call stop_sprite
+
+    ;; 11111110
+
+    ;; 00000000
+    ;; 00000001
+    ;; 00000010 no colision
 
     ld hl, #TYPE
     add hl, de

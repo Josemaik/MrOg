@@ -94,8 +94,8 @@ sys_render_draw_one_entity:
 ;; RENDER TILEMAP ;;
 ;;;;;;;;;;;;;;;;;;;;
 sys_render_tilemap:
-    ld   bc, #0x1914      ;; height and width
-    ld   de, #0x30        ;; tilemap width
+    ld   bc, #0x1914      ;; height and width - 25x20 en decimal
+    ld   de, #0x30        ;; tilemap width    -    48 en decimal
     ld   hl, #_tiles_0    ;; pointer to tileset
     call cpct_etm_setDrawTilemap4x8_ag_asm
 
