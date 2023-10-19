@@ -15,6 +15,8 @@
       .globl check_animation
       .globl man_game_create_bomb
       .globl set_xy_bomb
+      .globl check_bomb_state
+      .globl is_bomb_active
     .globl anim_W
    .globl anim_A
    .globl anim_S
@@ -88,20 +90,13 @@ sys_input_update_for_one:
         jr sys_input_update_for_one_end
     sys_physics_Space_is_pressed:
         pop de
+        ;; compruebo si hay bomba activa
+        ld a , (is_bomb_active)
+        cp #1
+        jr z, sys_input_update_for_one_end ;; bomba activa
+        ;; no bomba activa
         ;; guardo en pila x e y player
-        ld hl, #X
-        add hl, de
-        ld a, (hl)
-        ld 4(ix), a
-        ld hl, #Y
-        add hl, de
-        ld a, (hl)
-        ld 5(ix), a
-        ;; guardo en c la dirección
-        ld hl, #direction
-        add hl, de
-        ld a, (hl)
-        ld c, a
+        call check_bomb_state
         ;; me guardo en pila bc 
         push bc
         ;; creo la entidad bomba

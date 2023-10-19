@@ -23,9 +23,26 @@ man_game_create_template_entity::
         call cpct_memcpy_asm
         pop de
    ret
+   check_bomb_state::
+        ld hl, #X
+        add hl, de
+        ld a, (hl)
+        ld 4(ix), a
+        ld hl, #Y
+        add hl, de
+        ld a, (hl)
+        ld 5(ix), a
+        ;; guardo en c la dirección
+        ld hl, #direction
+        add hl, de
+        ld a, (hl)
+        ld c, a
+   ret
 man_game_create_bomb::
    ld hl, #bomba_entity
    call man_game_create_template_entity
+   ld a, #1
+   ld (is_bomb_active) ,a
 ret
 set_xy_bomb::
    ld a , c
