@@ -58,6 +58,7 @@ sys_collision_update_one_entity:
     ld   hl, #Y
     add  hl, de
     ld    a, (hl)
+    dec   a
 
     push de
 
@@ -75,6 +76,7 @@ sys_collision_update_one_entity:
     add   hl, de   ;; HL = 48*tx
 
     pop de
+    push hl
 
     ;; A = X
     ld   hl, #X
@@ -83,6 +85,7 @@ sys_collision_update_one_entity:
     srl    a ;; | A = tx (x/4)
     srl    a ;; |
 
+    pop hl
     push de
 
     add_hl_a  ;; HL = ty * tw + tx
@@ -96,7 +99,7 @@ sys_collision_update_one_entity:
     and     #0b11111110
     ret     nz
 
-    ;call stop_sprite
+    ;; call stop_sprite
 
     ;; 11111110
 
