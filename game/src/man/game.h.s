@@ -21,7 +21,9 @@
       .globl _sys_animations_update
       .globl _sys_input_update
       .globl _sys_ai_update
+      .globl _sys_collision_update
    ;; sprites
+
 
    ;; templates
    .globl player_entity
