@@ -26,7 +26,7 @@
    ;; templates
    .globl player_entity
    .globl deflator_Dennis_entity
-
+   .globl bomba_entity
    ;;music
    .globl _song_prueba
    ;; ia

@@ -40,3 +40,20 @@ deflator_Dennis_entity::
 	  .db 	#0x00				;;collides_against
 	  .dw   #0x0000				;; last draw
 	  .db   #DIRECT_S			;; direction
+bomba_entity:: 
+		.db 	#E_TYPE_BOMB			;; entity type
+      .db     #E_CMP_RENDER ;; | #E_CMP_ANIMATED |#E_CMP_COLLIDER ;; cmps
+		.db     #0X00               ;; x = 38
+		.db     #0X00             ;; y = 180
+		.db     #SPR_BOMBA_W   ;; width 
+		.db     #SPR_BOMBA_H   ;; height
+		.db     #0x00                 ;; vx = -1
+		.db     #0x00               ;; vy = 0
+		.dw     #_spr_bomba  ;; sprite (2b)
+      .dw     #0x0000;; behaviour
+	  .db 	#0x00					;; ai_counter
+      .dw     #0x0000 ;; anim
+      .db     #0x00          ;;animcounter c = 0
+	  .db 	#0x00				;;collides_against
+	  .dw   #0x0000				;; last draw
+	  .db   #0x00			;; direction
