@@ -43,7 +43,6 @@ comprobar_colision:
 
     push de
 
-    ;; Para calcular el sprite de abajo sumar el height (add #15)
     ;; A = ty (y/8)
     and   #0xF8 ;; #0xb11111000 ;; A = 8*int(ty / 8)
     ;; HL = A (HL = 8*ty)
@@ -331,7 +330,14 @@ sys_collision_update_one_entity:
     ld   hl, #Y
     add  hl, de
     ld    a, (hl)
-    add   a, #15
+    add   a, #7
+    ld    (hl), a
+    call comprobar_colision                ;; Mid-left 
+
+    ld   hl, #Y
+    add  hl, de
+    ld    a, (hl)
+    add   a, #8
     ld    (hl), a
     call comprobar_colision                ;; Down-left 
     ld   hl, #Y
