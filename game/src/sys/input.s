@@ -17,6 +17,7 @@
       .globl set_xy_bomb
       .globl check_bomb_state
       .globl is_bomb_active
+      .globl bombs_available
     .globl anim_W
    .globl anim_A
    .globl anim_S
@@ -95,6 +96,10 @@ sys_input_update_for_one:
         cp #1
         jr z, sys_input_update_for_one_end ;; bomba activa
         ;; no bomba activa
+        ld a, (bombs_available)
+        cp #0
+        jr z, sys_input_update_for_one_end ;; no tengo bombas disponibles
+        ;; si tengo bombas disponibles
         ;; guardo en pila x e y player
         call check_bomb_state
         ;; me guardo en pila bc 

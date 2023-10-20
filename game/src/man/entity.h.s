@@ -70,5 +70,6 @@
     ;;cpctelera
     .globl cpct_memset_asm      
     .globl cpct_memcpy_asm
-    ;;animations      
+    ;;sys     
+    .globl is_bomb_active
    

@@ -6,6 +6,8 @@
 .area _DATA
 is_bomb_active:: ;; 0 no activo 1 activo
    .db 0x00
+bombs_available::
+   .db 0x03
 .area _CODE
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -44,6 +46,10 @@ man_game_create_bomb::
    call man_game_create_template_entity
    ld a, #1
    ld (is_bomb_active) ,a
+   ;; resto 1 al numero de bombas disponibles
+   ld a, (bombs_available)
+   dec a
+   ld (bombs_available), a
 ret
 set_xy_bomb::
    ld a , c

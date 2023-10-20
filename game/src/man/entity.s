@@ -488,6 +488,8 @@ _man_entity_update::
                         jr seguir
                     destruir:
                         call _man_entity_set_for_destruction
+                        ld a, #0
+                        ld (is_bomb_active) ,a
                     seguir:
                 ;; add SPACE_4_ONE_ENTITY De <==> HL
                     ld      hl, #SPACE_4_ONE_ENTITY
