@@ -14,7 +14,14 @@ is_colliding_player:: ;; 0 no collision | 1 collision
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; INITIALIZE is_colliding_player
 ;;
-sys_initialize_collision_player_tilemap:
+inicializar_player_colision:
+
+    ld hl, #TYPE
+    add hl, de
+    ld a, (hl)
+    cp #E_TYPE_PLAYER
+    ret  nz
+
     ld      a, #0
     ld      (is_colliding_player), a 
     ld      (is_colliding_player + 1), a 
@@ -53,6 +60,12 @@ sys_collision_player_tilemap_w:
     ld hl, #VY
     add hl, de
     ld (hl), #0
+
+    ld hl, #Y
+    add hl, de
+    ld   a, (hl)
+    inc  a
+    ld   (hl), a
 ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -60,16 +73,7 @@ ret
 ;; 
 sys_collision_update_one_entity:
 
-    ld hl, #TYPE
-    add hl, de
-    ld a, (hl)
-    cp #E_TYPE_PLAYER
-    jr z, iniciar_colision
-    jr comprobar_colision
-    iniciar_colision:
-    call sys_initialize_collision_player_tilemap
-
-    comprobar_colision:
+    call inicializar_player_colision
 
     ;; tx = x/4
     ;; ty = y/8
@@ -80,7 +84,6 @@ sys_collision_update_one_entity:
     ld   hl, #Y
     add  hl, de
     ld    a, (hl)
-    dec   a
 
     push de
 
@@ -119,7 +122,14 @@ sys_collision_update_one_entity:
     ;; HL = tilemap + ty * tw + tx
     ld      a, (hl)
     and     #0b11111110
-    ret     nz
+    jr      z, colision_player_up
+
+    inc     hl
+    ld      a, (hl)
+    and     #0b11111110
+    jr      z, colision_player_up
+
+    jr      final_colision
 
     ;; inc     hl
     ;; ld      a, (hl)
@@ -134,14 +144,19 @@ sys_collision_update_one_entity:
     ;; 00000001
     ;; 00000010 no colision
 
-    ld hl, #TYPE
-    add hl, de
-    ld a, (hl)
-    cp #E_TYPE_PLAYER
-    jr z, setw_as_collided
-    jr final_colision
-    setw_as_collided:
-    call sys_collision_player_tilemap_w
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Colision con la parte de arriba (W) ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    colision_player_up:
+        ld hl, #TYPE
+        add hl, de
+        ld a, (hl)
+        cp #E_TYPE_PLAYER
+        jr z, setw_as_collided
+        jr final_colision
+        setw_as_collided:
+        call sys_collision_player_tilemap_w
+    
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;;;SOLO COMPRUEBAS COLISION CON ARRIBA DE MOMENTO;;
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
