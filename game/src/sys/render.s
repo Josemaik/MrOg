@@ -96,7 +96,7 @@ sys_render_draw_one_entity:
 sys_render_tilemap:
     ld   bc, #0x1914      ;; height and width - 25x20 en decimal
     ld   de, #0x30        ;; tilemap width    -    48 en decimal
-    ld   hl, #_tiles_0    ;; pointer to tileset
+    ld   hl, #_tiles_00   ;; pointer to tileset
     call cpct_etm_setDrawTilemap4x8_ag_asm
 
     ld   hl, #0xC000      ;; pointer memory location

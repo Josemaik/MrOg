@@ -15,7 +15,7 @@
         .globl _main_palette  
 
     ;; tilemap
-        .globl _tiles_0  
+        .globl _tiles_00  
         .globl _tilemap_01
         .globl cpct_etm_setDrawTilemap4x8_ag_asm 
         .globl cpct_etm_drawTilemap4x8_ag_asm

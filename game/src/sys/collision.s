@@ -76,7 +76,8 @@ comprobar_colision:
 
     ;; HL = tilemap + ty * tw + tx
     ld      a, (hl)
-    and     #0b11111110
+    and     #0b11100000    
+
     jr      z, que_colision
 
     ;; 11111110
@@ -133,15 +134,17 @@ comprobar_colision:
 
     ret
 
-sys_collision_player_tilemap_a:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Funciones para poner la velocidad a 0 
+;;
+sys_collision_player_tilemap_w:
     ld      a, #1
-    ld      (is_colliding_player + 3), a 
-    ld hl, #VX
+    ld      (is_colliding_player), a 
+    ld hl, #VY
     add hl, de
     ld (hl), #0
 
     ret
-
 sys_collision_player_tilemap_s:
     ld      a, #1
     ld      (is_colliding_player + 1), a 
@@ -160,10 +163,10 @@ sys_collision_player_tilemap_d:
 
     ret
 
-sys_collision_player_tilemap_w:
+sys_collision_player_tilemap_a:
     ld      a, #1
-    ld      (is_colliding_player), a 
-    ld hl, #VY
+    ld      (is_colliding_player + 3), a 
+    ld hl, #VX
     add hl, de
     ld (hl), #0
 
@@ -283,21 +286,21 @@ sys_collision_update_one_entity:
     add   a, #8
     ld    (hl), a
 
-    call comprobar_colision                ;; Upper-right
+    call comprobar_colision                ;; Right-up
 
     ld   hl, #Y
     add  hl, de
     ld    a, (hl)
     add   a, #7
     ld    (hl), a
-    call comprobar_colision                ;; Mid-right 
+    call comprobar_colision                ;; Right-up
 
     ld   hl, #Y
     add  hl, de
     ld    a, (hl)
     add   a, #8
     ld    (hl), a
-    call comprobar_colision                ;; Down-right 
+    call comprobar_colision                ;; Right-down
     ld   hl, #Y
     add  hl, de
     ld    a, (hl)
@@ -325,21 +328,21 @@ sys_collision_update_one_entity:
     dec   a
     ld    (hl), a
 
-    call comprobar_colision                ;; Upper-left
+    call comprobar_colision                ;; Left-up
 
     ld   hl, #Y
     add  hl, de
     ld    a, (hl)
     add   a, #7
     ld    (hl), a
-    call comprobar_colision                ;; Mid-left 
+    call comprobar_colision                ;; Left-mid
 
     ld   hl, #Y
     add  hl, de
     ld    a, (hl)
     add   a, #8
     ld    (hl), a
-    call comprobar_colision                ;; Down-left 
+    call comprobar_colision                ;; Left-down 
     ld   hl, #Y
     add  hl, de
     ld    a, (hl)

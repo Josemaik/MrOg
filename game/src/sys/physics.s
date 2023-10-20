@@ -66,6 +66,7 @@ setvelocity::
     and #DIRECT_A
     cp #DIRECT_A
     jr z, set_velocity_x_A
+
     check_D:
     ld   a, (is_colliding_player + 2)
     cp   #1
@@ -77,6 +78,7 @@ setvelocity::
     and #DIRECT_D
     cp #DIRECT_D
     jr z, set_velocity_x_D
+
     check_S:
     ld   a, (is_colliding_player + 1)
     cp   #1
@@ -88,6 +90,7 @@ setvelocity::
     and #DIRECT_S
     cp #DIRECT_S
     jr z, set_velocity_x_S
+    
     set_velocity_x_A:
         ld      hl, #VX
         add     hl, de
