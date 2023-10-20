@@ -20,6 +20,7 @@
         COLLIDES_AGAINST = 16
         last_draw = 17
         direction = 19
+        Autodestroy = 20
 
                                         
     ;; Entity types                  
@@ -41,7 +42,7 @@
             
                                         
     ;; OTHERS
-        SPACE_4_ONE_ENTITY     = 20      ;; space for one entity
+        SPACE_4_ONE_ENTITY     = 21      ;; space for one entity
         TOTAL_ENTITIES         = 3      ;; number of entities                          
         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
         MAN_ANIM_PLAYER_TIME   = 3

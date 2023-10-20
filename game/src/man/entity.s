@@ -471,14 +471,15 @@ _man_entity_update::
             
             ;; compare A with E_TYPE_DEAD
                 cp      #E_TYPE_DEAD
-                jr      z, man_update_destroy_entity  
-
+                jr      z, man_update_destroy_entity 
+                 
+                ld      a, (hl)
                  and #E_TYPE_BOMB
                  cp #E_TYPE_BOMB
                  jr z, man_decrease_time_to_explode
                     jr seguir
                  man_decrease_time_to_explode:
-                    ld hl, #AnimCounter
+                    ld hl, #Autodestroy
                     add hl, de
                     ld a, (hl)
                     dec a
@@ -486,7 +487,7 @@ _man_entity_update::
                     jr z, destruir
                         jr seguir
                     destruir:
-                    call _man_entity_set_for_destruction
+                        call _man_entity_set_for_destruction
                     seguir:
                 ;; add SPACE_4_ONE_ENTITY De <==> HL
                     ld      hl, #SPACE_4_ONE_ENTITY
