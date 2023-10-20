@@ -33,48 +33,7 @@ inicializar_player_colision:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Check collisions player with tilemap
 ;;
-sys_collision_player_tilemap_a:
-    ld      a, #1
-    ld      (is_colliding_player + 3), a 
-    ld hl, #VX
-    add hl, de
-    ld (hl), #0
-ret
-retsys_collision_player_tilemap_s:
-    ld      a, #1
-    ld      (is_colliding_player + 1), a 
-    ld hl, #VY
-    add hl, de
-    ld (hl), #0
-ret
-sys_collision_player_tilemap_d:
-    ld      a, #1
-    ld      (is_colliding_player + 2), a 
-    ld hl, #VX
-    add hl, de
-    ld (hl), #0
-ret
-sys_collision_player_tilemap_w:
-    ld      a, #1
-    ld      (is_colliding_player), a 
-    ld hl, #VY
-    add hl, de
-    ld (hl), #0
-
-    ld hl, #Y
-    add hl, de
-    ld   a, (hl)
-    inc  a
-    ld   (hl), a
-ret
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; UPDATE ONE ENTITY WITH THE TILEMAP 
-;; 
-sys_collision_update_one_entity:
-
-    call inicializar_player_colision
-
+comprobar_colision:
     ;; tx = x/4
     ;; ty = y/8
     ;; tw = tilemap-width (0x30, 48)
@@ -124,25 +83,7 @@ sys_collision_update_one_entity:
     and     #0b11111110
     jr      z, colision_player_up
 
-    inc     hl
-    ld      a, (hl)
-    and     #0b11111110
-    jr      z, colision_player_up
-
-    jr      final_colision
-
-    ;; inc     hl
-    ;; ld      a, (hl)
-    ;; and     #0b11111110
-    ;; ret     nz
-
-    ;; call stop_sprite
-
-    ;; 11111110
-
-    ;; 00000000
-    ;; 00000001
-    ;; 00000010 no colision
+    jr final_colision
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Colision con la parte de arriba (W) ;;
@@ -156,6 +97,92 @@ sys_collision_update_one_entity:
         jr final_colision
         setw_as_collided:
         call sys_collision_player_tilemap_w
+
+    final_colision:
+
+    ret
+
+sys_collision_player_tilemap_a:
+    ld      a, #1
+    ld      (is_colliding_player + 3), a 
+    ld hl, #VX
+    add hl, de
+    ld (hl), #0
+ret
+
+retsys_collision_player_tilemap_s:
+    ld      a, #1
+    ld      (is_colliding_player + 1), a 
+    ld hl, #VY
+    add hl, de
+    ld (hl), #0
+
+    ld hl, #Y
+    add hl, de
+    ld   a, (hl)
+    dec  a
+    ld   (hl), a
+ret
+
+sys_collision_player_tilemap_d:
+    ld      a, #1
+    ld      (is_colliding_player + 2), a 
+    ld hl, #VX
+    add hl, de
+    ld (hl), #0
+ret
+
+sys_collision_player_tilemap_w:
+    ld      a, #1
+    ld      (is_colliding_player), a 
+    ld hl, #VY
+    add hl, de
+    ld (hl), #0
+
+    ld hl, #Y
+    add hl, de
+    ld   a, (hl)
+    inc  a
+    ld   (hl), a
+ret
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; UPDATE ONE ENTITY WITH THE TILEMAP 
+;; 
+sys_collision_update_one_entity:
+
+    call inicializar_player_colision
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Colision con la parte de arriba (W) ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    call comprobar_colision                ;; Upper-left
+
+    ld   hl, #X
+    add  hl, de
+    ld    a, (hl)
+    add   a, #7
+    ld    (hl), a
+    call comprobar_colision                ;; Upper-right 
+    ld   hl, #X
+    add  hl, de
+    ld    a, (hl)
+    ld    b, #7
+    sub   a, b
+    ld    (hl), a
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    
+    ;; 11111110
+
+    ;; 00000000
+    ;; 00000001
+    ;; 00000010 no colision
+
+    
+    
     
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;;;SOLO COMPRUEBAS COLISION CON ARRIBA DE MOMENTO;;
@@ -168,7 +195,6 @@ sys_collision_update_one_entity:
     ; call sys_collision_player_tilemap_s
     ; call sys_collision_player_tilemap_d
     ; call sys_collision_player_tilemap_a
-    final_colision:
 
     ;; reposicionar la entidad
     ;;ld   hl, #Y
