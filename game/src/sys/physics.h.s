@@ -8,3 +8,4 @@
       .globl _man_entity_set_for_destruction   
 
    ;; sys
+      .globl is_colliding_player

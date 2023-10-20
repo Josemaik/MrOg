@@ -1,137 +1,142 @@
 .module System_Collision
 
-.include "cpctelera.h.s"
 .include "collision.h.s"
 .include "man/entity.h.s"
-.area _DATA
-;;Array de sprites
+.include "cpctelera.h.s"
 
 
-.area _CODE
+is_colliding_player:: ;; 0 no collision | 1 collision
+    .db 0x00       ;; up
+    .db 0x00       ;; down
+    .db 0x00       ;; right
+    .db 0x00       ;; left
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; INITIALIZE is_colliding_player
+;;
+sys_initialize_collision_player_tilemap:
+    ld      a, #0
+    ld      (is_colliding_player), a 
+    ld      (is_colliding_player + 1), a 
+    ld      (is_colliding_player + 2), a 
+    ld      (is_colliding_player + 3), a 
+
+    ret
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Check collisions player with tilemap
+;;
+sys_collision_player_tilemap:
+
+    ld      a, #1
+    ld      (is_colliding_player), a 
+
+    ret
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; UPDATE PAIR ENTITIES
-;;  updates the collision of a given entity
-;; IN -> DE: left entity
-;;       BC: rght entity
-sys_collisions_update_entities::
-    ; ld a, #0x00
-    ; ld (0xC000),a
-    ;; check if both entities can collide
-    ;; check if entity of right can collid another entity
-    ;; e(r)->collides_against
-    ld hl, #COLLIDES_AGAINST
-    add hl, bc
-    ld a, (hl)
-    ;; e(l)->type
-    ld hl, #TYPE
-    add hl, de
-    and (hl)
-    ;; check if can collide( e(r)->collides_against && e(l)->type == 0 )
-    cp (hl)
-    jr z, check_collision_between_entities
-
-    ld hl, #COLLIDES_AGAINST
-    add hl, de
-    ld a, (hl)
+;; UPDATE ONE ENTITY WITH THE TILEMAP 
+;; 
+sys_collision_update_one_entity:
 
     ld hl, #TYPE
-    add hl, bc
-    and (hl)
+    add hl, de
+    ld a, (hl)
+    cp #E_TYPE_PLAYER
+    jr z, iniciar_colision
+    jr comprobar_colision
+    iniciar_colision:
+    call sys_initialize_collision_player_tilemap
 
-    cp (hl)
-    jr z, check_collision_between_entities
-        jr dont_have_collision_between_entities
-    check_collision_between_entities:
-        ;; check bounding boxes
-        ;; A < B
-        ;; if(x(l) + width(l) < x(r)) no collision
-        ;; if(x(l) + width(l) - x(r) < 0)no collision
-        ;; x(l)
-        ; ld hl, #X
-        ; add hl, de
-        ; ld a, (hl)
-        ; ;; width(l)
-        ; ld hl,#WIDTH
-        ; add hl,de
-        ; add (hl)
-        ; ;; x(r)
-        ; ld hl, #X
-        ; add hl, bc
-        ; sub (hl)
-        ; ; ;; if carry is 1 -> no collision
-        ; jr c, no_collision
-        ;     jr collision
-        ; ;; C < D
-        ; ;; if(x(r) + width(r) < x(l)) no collision
-        ; ;; if(x(r) + width(r) - x(l) < 0)no collision
-        ; ;; x(l)
-        ; ld hl, #X
-        ; add hl, bc
-        ; ld a, (hl)
-        ; ;; width(l)
-        ; ld hl,#WIDTH
-        ; add hl,bc
-        ; add (hl)
-        ; ;; x(r)
-        ; ld hl, #X
-        ; add hl, de
-        ; sub (hl)
-        
-        ; jr c, no_collision
-        ;     jr collision
-        ;; check bounding boxes
-        ;; A < B
-        ;; if(y(l) + height(l) < y(r)) no collision
-        ;; if(y(l) + height(l) - y(r) < 0)no collision
-        ;; y(l)
-        ld hl, #Y
-        add hl, de
-        ld a, (hl)
-        ;; height(l)
-        ld hl,#HEIGHT
-        add hl,de
-        add (hl)
-        ;; y(r)
-        ld hl, #Y
-        add hl, bc
-        sub (hl)
-        ; ;; if carry is 1 -> no collision
-        jr c, no_collision
-            jr collision
-        ; ;; C < D
-        ; ;; if(y(r) + height(r) < y(l)) no collision
-        ; ;; if(y(r) + height(r) - y(l) < 0)no collision
-        ; ;; y(l)
-        ld hl, #Y
-        add hl, bc
-        ld a, (hl)
-        ;; height(l)
-        ld hl,#HEIGHT
-        add hl,bc
-        add (hl)
-        ;; y(r)
-        ld hl, #Y
-        add hl, de
-        sub (hl)
-        
-        jr c, no_collision
-            jr collision
+    comprobar_colision:
 
+    ;; tx = x/4
+    ;; ty = y/8
+    ;; tw = tilemap-width (0x30, 48)
+    ;; p  = tilemap + ty * tw + tx
 
-        ;; si hay colision
-        collision:
-            ld a, #0xFF
-            ld (0xC000), a
-            jr dont_have_collision_between_entities
-            ; call man_game_entity_destroy
-        ;; there is collision, check entity types and react
-        no_collision:
-            ld a, #0x00
-            ld (0xC000),a
-    dont_have_collision_between_entities:
-ret
+    ;; A = y
+    ld   hl, #Y
+    add  hl, de
+    ld    a, (hl)
+    dec   a
+
+    push de
+
+    ;; Para calcular el sprite de abajo sumar el height (add #15)
+    ;; A = ty (y/8)
+    and   #0xF8 ;; #0xb11111000 ;; A = 8*int(ty / 8)
+    ;; HL = A (HL = 8*ty)
+    ld    h, #0
+    ld    l, a
+    ;; HL = 48*HL
+    add   hl, hl   ;; HL = 16*tx
+    ld     d, h    ;; | DE = 16*tx
+    ld     e, l    ;; |
+    add   hl, hl   ;; HL = 32*tx
+    add   hl, de   ;; HL = 48*tx
+
+    pop de
+    push hl
+
+    ;; A = X
+    ld   hl, #X
+    add  hl, de
+    ld    a, (hl)
+    srl    a ;; | A = tx (x/4)
+    srl    a ;; |
+
+    pop hl
+    push de
+
+    add_hl_a  ;; HL = ty * tw + tx
+    ld     de, #_tilemap_01
+    add    hl, de
+
+    pop de
+
+    ;; HL = tilemap + ty * tw + tx
+    ld      a, (hl)
+    and     #0b11111110
+    ret     nz
+
+    ;; inc     hl
+    ;; ld      a, (hl)
+    ;; and     #0b11111110
+    ;; ret     nz
+
+    ;; call stop_sprite
+
+    ;; 11111110
+
+    ;; 00000000
+    ;; 00000001
+    ;; 00000010 no colision
+
+    ld hl, #TYPE
+    add hl, de
+    ld a, (hl)
+    cp #E_TYPE_PLAYER
+    jr z, finalizar_colision
+    jr final_colision
+    finalizar_colision:
+    call sys_collision_player_tilemap
+
+    final_colision:
+
+    ;; reposicionar la entidad
+    ;;ld   hl, #Y
+    ;;add  hl, de
+    ;;ld    a, (hl)
+    ;;inc   a
+    ;;ld  (hl), a
+    ;;
+    ;;;; velocidad a 0
+    ;;call stop_sprite
+
+    ret
 _sys_collision_update::
-    ld bc, #sys_collisions_update_entities
-    ld hl, #E_CMP_COLLIDER
-    call _man_entity_for_all_pairs_matching_while1
-ret
+    ld   bc, #sys_collision_update_one_entity
+    ld   hl, #E_CMP_COLLIDER
+    call _man_entity_for_all_matching
+
+    ret

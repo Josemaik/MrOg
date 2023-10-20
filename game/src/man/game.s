@@ -101,35 +101,37 @@ ret
 ;;
 man_game_init::
     ;; configure videomode, palet y border
-        call     _sys_render_init
+       call     _sys_render_init
 
     ;; inicialize manager entity
-        call     _man_entity_init
+       call     _man_entity_init
 
     ;; Create player
        call    _inicialize_templates
-ret
+
+    ;;music init
+       ld de, #_song_prueba
+       call cpct_akp_musicInit_asm
+   ret
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; PLAY
 ;;
 
 man_game_play::
-   ;;music init
-   ld de, #_song_prueba
-   call cpct_akp_musicInit_asm
-
+   
    ;; infinite loop
    loop:
       ;; call music player
          call     cpct_akp_musicPlay_asm
       ;; call ai manager
          call      _sys_ai_update
+         ; call      _sys_ai_update
+      ;; call input
+         call     _sys_input_update
       ;; update positions
          call     _sys_physics_update
       ;; check collisions
-         ; call     _sys_collision_update
-      ;; call input
-         call _sys_input_update
+         call     _sys_collision_update
       ;; call animations system
          call     _sys_animations_update
       ;; render
