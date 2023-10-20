@@ -15,15 +15,9 @@ colision_actual:
     .db 0x00
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; INITIALIZE is_colliding_player
+;; Inicializar is_colliding_player
 ;;
 inicializar_player_colision:
-
-    ld hl, #TYPE
-    add hl, de
-    ld a, (hl)
-    cp #E_TYPE_PLAYER
-    ret  nz
 
     ld      a, #0
     ld      (is_colliding_player), a 
@@ -86,6 +80,12 @@ comprobar_colision:
     and     #0b11111110
     jr      z, que_colision
 
+    ;; 11111110
+
+    ;; 00000000
+    ;; 00000001
+    ;; 00000010 no colision
+
     jr final_colision
 
     ;; Comprobar con que colision estamos
@@ -96,6 +96,10 @@ comprobar_colision:
     jr      z, colision_player_up
     dec     a
     jr      z, colision_player_down
+    dec     a
+    jr      z, colision_player_right
+    dec     a
+    jr      z, colision_player_left
 
     jr final_colision
 
@@ -103,27 +107,28 @@ comprobar_colision:
     ;; Colision con la parte de arriba (W) ;;
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     colision_player_up:
-        ld hl, #TYPE
-        add hl, de
-        ld a, (hl)
-        cp #E_TYPE_PLAYER
-        jr z, setw_as_collided
-        jr final_colision
-        setw_as_collided:
         call sys_collision_player_tilemap_w
+        jr final_colision
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Colision con la parte de abajo (S) ;;
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     colision_player_down:
-        ld hl, #TYPE
-        add hl, de
-        ld a, (hl)
-        cp #E_TYPE_PLAYER
-        jr z, sets_as_collided
-        jr final_colision
-        sets_as_collided:
         call sys_collision_player_tilemap_s
+        jr final_colision
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Colision con la parte de derecha (D) ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    colision_player_right:
+        call sys_collision_player_tilemap_d
+        jr final_colision
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Colision con la parte de izquierda (A) ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    colision_player_left:
+        call sys_collision_player_tilemap_a
 
     final_colision:
 
@@ -135,7 +140,8 @@ sys_collision_player_tilemap_a:
     ld hl, #VX
     add hl, de
     ld (hl), #0
-ret
+
+    ret
 
 sys_collision_player_tilemap_s:
     ld      a, #1
@@ -144,12 +150,7 @@ sys_collision_player_tilemap_s:
     add hl, de
     ld (hl), #0
 
-    ld hl, #Y
-    add hl, de
-    ld   a, (hl)
-    dec  a
-    ld   (hl), a
-ret
+    ret
 
 sys_collision_player_tilemap_d:
     ld      a, #1
@@ -157,7 +158,8 @@ sys_collision_player_tilemap_d:
     ld hl, #VX
     add hl, de
     ld (hl), #0
-ret
+
+    ret
 
 sys_collision_player_tilemap_w:
     ld      a, #1
@@ -166,17 +168,20 @@ sys_collision_player_tilemap_w:
     add hl, de
     ld (hl), #0
 
-    ld hl, #Y
-    add hl, de
-    ld   a, (hl)
-    inc  a
-    ld   (hl), a
-ret
+    ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UPDATE ONE ENTITY WITH THE TILEMAP 
 ;; 
 sys_collision_update_one_entity:
+
+    ;;;;;;;;;;;;;; Comprobar si es player ;;;;;;;;;;;;;;
+
+    ld hl, #TYPE
+    add hl, de
+    ld a, (hl)
+    cp #E_TYPE_PLAYER
+    ret nz
 
     call inicializar_player_colision
 
@@ -201,7 +206,14 @@ sys_collision_update_one_entity:
     ld   hl, #X
     add  hl, de
     ld    a, (hl)
-    add   a, #7
+    add   a, #3
+    ld    (hl), a
+    call comprobar_colision                ;; Upper-mid 
+
+    ld   hl, #X
+    add  hl, de
+    ld    a, (hl)
+    add   a, #4
     ld    (hl), a
     call comprobar_colision                ;; Upper-right 
     ld   hl, #X
@@ -227,7 +239,7 @@ sys_collision_update_one_entity:
     ld   hl, #Y
     add  hl, de
     ld    a, (hl)
-    add   a, #15
+    add   a, #16
     ld    (hl), a
 
     call comprobar_colision                ;; Down-left
@@ -235,7 +247,14 @@ sys_collision_update_one_entity:
     ld   hl, #X
     add  hl, de
     ld    a, (hl)
-    add   a, #7
+    add   a, #3
+    ld    (hl), a
+    call comprobar_colision                ;; Down-mid 
+
+    ld   hl, #X
+    add  hl, de
+    ld    a, (hl)
+    add   a, #4
     ld    (hl), a
     call comprobar_colision                ;; Down-right 
     ld   hl, #X
@@ -248,43 +267,87 @@ sys_collision_update_one_entity:
     ld   hl, #Y
     add  hl, de
     ld    a, (hl)
+    ld    b, #16
+    sub   a, b
+    ld    (hl), a
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Colision con la parte de derecha (D) ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    ld    hl, #colision_actual
+    ld  (hl), #3
+
+    ld   hl, #X
+    add  hl, de
+    ld    a, (hl)
+    add   a, #8
+    ld    (hl), a
+
+    call comprobar_colision                ;; Upper-right
+
+    ld   hl, #Y
+    add  hl, de
+    ld    a, (hl)
+    add   a, #7
+    ld    (hl), a
+    call comprobar_colision                ;; Mid-right 
+
+    ld   hl, #Y
+    add  hl, de
+    ld    a, (hl)
+    add   a, #8
+    ld    (hl), a
+    call comprobar_colision                ;; Down-right 
+    ld   hl, #Y
+    add  hl, de
+    ld    a, (hl)
     ld    b, #15
     sub   a, b
     ld    (hl), a
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ld   hl, #X
+    add  hl, de
+    ld    a, (hl)
+    ld    b, #8
+    sub   a, b
+    ld    (hl), a
 
-    
-    ;; 11111110
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Colision con la parte de izquierda (A) ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-    ;; 00000000
-    ;; 00000001
-    ;; 00000010 no colision
+    ld    hl, #colision_actual
+    ld  (hl), #4
 
-    
-    
-    
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;;;SOLO COMPRUEBAS COLISION CON ARRIBA DE MOMENTO;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; HACERLO CON LAS DEMAS DIRECCIONES;;;;;;;;;;;;;;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; aqui abajo tienes las funciones que hay que llamar cuando
-    ;; colisiones con esa direccion
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ; call sys_collision_player_tilemap_s
-    ; call sys_collision_player_tilemap_d
-    ; call sys_collision_player_tilemap_a
+    ld   hl, #X
+    add  hl, de
+    ld    a, (hl)
+    dec   a
+    ld    (hl), a
 
-    ;; reposicionar la entidad
-    ;;ld   hl, #Y
-    ;;add  hl, de
-    ;;ld    a, (hl)
-    ;;inc   a
-    ;;ld  (hl), a
-    ;;
-    ;;;; velocidad a 0
-    ;;call stop_sprite
+    call comprobar_colision                ;; Upper-left
+
+    ld   hl, #Y
+    add  hl, de
+    ld    a, (hl)
+    add   a, #15
+    ld    (hl), a
+    call comprobar_colision                ;; Down-left 
+    ld   hl, #Y
+    add  hl, de
+    ld    a, (hl)
+    ld    b, #15
+    sub   a, b
+    ld    (hl), a
+
+    ld   hl, #X
+    add  hl, de
+    ld    a, (hl)
+    inc   a
+    ld    (hl), a
+
+    ;;;;;;;;;;;; Fin Colisiones ;;;;;;;;;;;;
 
     ret
 _sys_collision_update::
