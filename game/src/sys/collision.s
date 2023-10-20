@@ -11,6 +11,9 @@ is_colliding_player:: ;; 0 no collision | 1 collision
     .db 0x00       ;; right
     .db 0x00       ;; left
 
+colision_actual:
+    .db 0x00
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; INITIALIZE is_colliding_player
 ;;
@@ -81,7 +84,18 @@ comprobar_colision:
     ;; HL = tilemap + ty * tw + tx
     ld      a, (hl)
     and     #0b11111110
+    jr      z, que_colision
+
+    jr final_colision
+
+    ;; Comprobar con que colision estamos
+    que_colision:
+
+    ld      a, (colision_actual)
+    dec     a
     jr      z, colision_player_up
+    dec     a
+    jr      z, colision_player_down
 
     jr final_colision
 
@@ -98,6 +112,19 @@ comprobar_colision:
         setw_as_collided:
         call sys_collision_player_tilemap_w
 
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Colision con la parte de abajo (S) ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    colision_player_down:
+        ld hl, #TYPE
+        add hl, de
+        ld a, (hl)
+        cp #E_TYPE_PLAYER
+        jr z, sets_as_collided
+        jr final_colision
+        sets_as_collided:
+        call sys_collision_player_tilemap_s
+
     final_colision:
 
     ret
@@ -110,7 +137,7 @@ sys_collision_player_tilemap_a:
     ld (hl), #0
 ret
 
-retsys_collision_player_tilemap_s:
+sys_collision_player_tilemap_s:
     ld      a, #1
     ld      (is_colliding_player + 1), a 
     ld hl, #VY
@@ -153,9 +180,21 @@ sys_collision_update_one_entity:
 
     call inicializar_player_colision
 
+    ld    hl, #colision_actual
+    ld  (hl), #0
+
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Colision con la parte de arriba (W) ;;
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    ld    hl, #colision_actual
+    ld  (hl), #1
+
+    ld   hl, #Y
+    add  hl, de
+    ld    a, (hl)
+    dec   a
+    ld    (hl), a
 
     call comprobar_colision                ;; Upper-left
 
@@ -169,6 +208,47 @@ sys_collision_update_one_entity:
     add  hl, de
     ld    a, (hl)
     ld    b, #7
+    sub   a, b
+    ld    (hl), a
+
+    ld   hl, #Y
+    add  hl, de
+    ld    a, (hl)
+    inc   a
+    ld    (hl), a
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Colision con la parte de abajo (S) ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    ld    hl, #colision_actual
+    ld  (hl), #2
+
+    ld   hl, #Y
+    add  hl, de
+    ld    a, (hl)
+    add   a, #15
+    ld    (hl), a
+
+    call comprobar_colision                ;; Down-left
+
+    ld   hl, #X
+    add  hl, de
+    ld    a, (hl)
+    add   a, #7
+    ld    (hl), a
+    call comprobar_colision                ;; Down-right 
+    ld   hl, #X
+    add  hl, de
+    ld    a, (hl)
+    ld    b, #7
+    sub   a, b
+    ld    (hl), a
+
+    ld   hl, #Y
+    add  hl, de
+    ld    a, (hl)
+    ld    b, #15
     sub   a, b
     ld    (hl), a
 
