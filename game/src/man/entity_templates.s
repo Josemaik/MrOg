@@ -23,6 +23,7 @@ player_entity::
 	  .db 	#0x00				;;collides_against
 	  .dw   #0x0000				;; last draw
 	  .db   #DIRECT_S			;; direction
+	  .db  #0x00
 deflator_Dennis_entity:: 
 		.db 	#E_TYPE_ENEMY			;; entity type
       .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_IA ;; | #E_CMP_ANIMATED |#E_CMP_COLLIDER ;; cmps
@@ -40,6 +41,7 @@ deflator_Dennis_entity::
 	  .db 	#0x00				;;collides_against
 	  .dw   #0x0000				;; last draw
 	  .db   #DIRECT_S			;; direction
+	  .db  #0x00
 bomba_entity:: 
 		.db 	#E_TYPE_BOMB			;; entity type
       .db     #E_CMP_RENDER ;; | #E_CMP_ANIMATED |#E_CMP_COLLIDER ;; cmps
@@ -53,7 +55,8 @@ bomba_entity::
       .dw     #0x0000;; behaviour
 	  .db 	#0x00					;; ai_counter
       .dw     #0x0000 ;; anim
-      .db     #0x0c          ;;contador para morir c = 0
+      .db     #0x00          ;;contador para morir c = 0
 	  .db 	#0x00				;;collides_against
 	  .dw   #0x0000				;; last draw
 	  .db   #0x00			;; direction
+	  .db  #0x78

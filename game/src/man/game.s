@@ -24,6 +24,7 @@ man_game_create_template_entity::
         pop de
    ret
    check_bomb_state::
+      ;; guardo en pila x e y player
         ld hl, #X
         add hl, de
         ld a, (hl)
@@ -123,8 +124,6 @@ man_game_play::
    loop:
       ;; call music player
          call     cpct_akp_musicPlay_asm
-      ;; call ai manager
-         call      _sys_ai_update
          ; call      _sys_ai_update
       ;; call input
          call     _sys_input_update
@@ -136,6 +135,8 @@ man_game_play::
          call     _sys_animations_update
       ;; render
          call     _sys_render_update
+      ;; call ai manager
+         call      _sys_ai_update
       ;; update manager
          call     _man_entity_update
 
