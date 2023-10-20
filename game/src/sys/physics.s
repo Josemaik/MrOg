@@ -45,8 +45,8 @@ setvelocity::
 
     ld   a, (is_colliding_player)
     cp   #1
-    jr   z, siguiente
-
+    jr   z, check_A  ;; hay colision
+    ;; no colision
     ;; check is direction is W
     ld hl , #direction
     add hl, de
@@ -55,8 +55,10 @@ setvelocity::
     cp #DIRECT_W
     jr z, set_velocity_x_W
 
-    siguiente:
-    
+    check_A:
+    ld   a, (is_colliding_player + 3)
+    cp   #1
+    jr   z, check_D
     ;; check is direction is A
     ld hl , #direction
     add hl, de
@@ -64,6 +66,10 @@ setvelocity::
     and #DIRECT_A
     cp #DIRECT_A
     jr z, set_velocity_x_A
+    check_D:
+    ld   a, (is_colliding_player + 2)
+    cp   #1
+    jr   z, check_S
     ;; check is direction is D
     ld hl , #direction
     add hl, de
@@ -71,6 +77,10 @@ setvelocity::
     and #DIRECT_D
     cp #DIRECT_D
     jr z, set_velocity_x_D
+    check_S:
+    ld   a, (is_colliding_player + 1)
+    cp   #1
+    jr   z, setvelocity_end
     ;; check is direction is S
     ld hl , #direction
     add hl, de
@@ -78,7 +88,6 @@ setvelocity::
     and #DIRECT_S
     cp #DIRECT_S
     jr z, set_velocity_x_S
-
     set_velocity_x_A:
         ld      hl, #VX
         add     hl, de
