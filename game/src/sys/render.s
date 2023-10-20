@@ -104,7 +104,8 @@ sys_render_tilemap:
     call cpct_etm_drawTilemap4x8_ag_asm
 
     ret
-
+sys_render_normal_entity::
+ret
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; RENDER ONE ENTITY ;;
 ;;;;;;;;;;;;;;;;;;;;;;;
