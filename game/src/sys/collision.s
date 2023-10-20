@@ -26,12 +26,34 @@ sys_initialize_collision_player_tilemap:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Check collisions player with tilemap
 ;;
-sys_collision_player_tilemap:
-
+sys_collision_player_tilemap_a:
+    ld      a, #1
+    ld      (is_colliding_player + 3), a 
+    ld hl, #VX
+    add hl, de
+    ld (hl), #0
+ret
+retsys_collision_player_tilemap_s:
+    ld      a, #1
+    ld      (is_colliding_player + 1), a 
+    ld hl, #VY
+    add hl, de
+    ld (hl), #0
+ret
+sys_collision_player_tilemap_d:
+    ld      a, #1
+    ld      (is_colliding_player + 2), a 
+    ld hl, #VX
+    add hl, de
+    ld (hl), #0
+ret
+sys_collision_player_tilemap_w:
     ld      a, #1
     ld      (is_colliding_player), a 
-
-    ret
+    ld hl, #VY
+    add hl, de
+    ld (hl), #0
+ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UPDATE ONE ENTITY WITH THE TILEMAP 
@@ -116,11 +138,21 @@ sys_collision_update_one_entity:
     add hl, de
     ld a, (hl)
     cp #E_TYPE_PLAYER
-    jr z, finalizar_colision
+    jr z, setw_as_collided
     jr final_colision
-    finalizar_colision:
-    call sys_collision_player_tilemap
-
+    setw_as_collided:
+    call sys_collision_player_tilemap_w
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;;;SOLO COMPRUEBAS COLISION CON ARRIBA DE MOMENTO;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; HACERLO CON LAS DEMAS DIRECCIONES;;;;;;;;;;;;;;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; aqui abajo tienes las funciones que hay que llamar cuando
+    ;; colisiones con esa direccion
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ; call sys_collision_player_tilemap_s
+    ; call sys_collision_player_tilemap_d
+    ; call sys_collision_player_tilemap_a
     final_colision:
 
     ;; reposicionar la entidad

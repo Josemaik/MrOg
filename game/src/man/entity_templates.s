@@ -18,7 +18,7 @@ player_entity::
 		.dw     #_spr_spritesheet_00  ;; sprite (2b)
       .dw     #0x0000 ;; behaviour
 	  .db 	#0x00					;; ai_counter   //// HABRA QUE BORRARLO YA QUE NO LO USAREMOS DE MOMENTO
-      .dw     #0x0000 ;; anim
+      .dw     #anim_S ;; anim
       .db     #0x0c            ;;animcounter c = 0
 	  .db 	#0x00				;;collides_against
 	  .dw   #0x0000				;; last draw

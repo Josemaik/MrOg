@@ -7,7 +7,7 @@
    ;; managers                            
                        
    ;; systems                             
-
+.globl anim_S
    ;; sprites
   .globl _spr_spritesheet_00
   .globl _spr_spritesheet_01
