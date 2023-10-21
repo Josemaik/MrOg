@@ -221,8 +221,7 @@ sys_collision_update_one_entity:
     ld   hl, #X
     add  hl, de
     ld    a, (hl)
-    ld    b, #7
-    sub   a, b
+    sub   a, #7
     ld    (hl), a
 
     ld   hl, #Y
@@ -262,15 +261,13 @@ sys_collision_update_one_entity:
     ld   hl, #X
     add  hl, de
     ld    a, (hl)
-    ld    b, #7
-    sub   a, b
+    sub   a, #7
     ld    (hl), a
 
     ld   hl, #Y
     add  hl, de
     ld    a, (hl)
-    ld    b, #16
-    sub   a, b
+    sub   a, #16
     ld    (hl), a
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -304,15 +301,13 @@ sys_collision_update_one_entity:
     ld   hl, #Y
     add  hl, de
     ld    a, (hl)
-    ld    b, #15
-    sub   a, b
+    sub   a, #15
     ld    (hl), a
 
     ld   hl, #X
     add  hl, de
     ld    a, (hl)
-    ld    b, #8
-    sub   a, b
+    sub   a, #8
     ld    (hl), a
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -346,8 +341,7 @@ sys_collision_update_one_entity:
     ld   hl, #Y
     add  hl, de
     ld    a, (hl)
-    ld    b, #15
-    sub   a, b
+    sub   a, #15
     ld    (hl), a
 
     ld   hl, #X
