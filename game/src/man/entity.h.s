@@ -19,6 +19,7 @@
         AnimCounter = 15    ;;u8
         COLLIDES_AGAINST = 16
         last_draw = 17
+        ; last_draw2 = 19
         direction = 19
         Autodestroy = 20
 
