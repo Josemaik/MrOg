@@ -188,77 +188,37 @@ sys_ai_surround_map::
     call check_buttom_left_corner
     call check_buttom_right_corner
 ret
-sys_ai_hunt_player::
-    ;; save entity
-    push de
-    ;; recorremos array de coliding enemy y copiamos en otro array las que son válidas(libres)
-    ld de, #valid_directions       ;;; 2 4
-    ld hl, #is_colliding_enemie    ;;; 1 0 1 0 
-    ld b, #4 ;; longitud array
-    ld c, #0 ;; direcciones libres
-   bucle_dir_collided:
-        ld a, b
-        cp #1
-        jr z, bucle_dir_collided_end
-        ld a, (hl)
-        cp #0
-        jr z, save_direction ;; salvo las direcciones libres
-        inc hl
-        ld a, (indice)
-        inc a
-        ld (indice), a
-        dec b
-       jr bucle_dir_collided
-    save_direction:
-        inc c
-        ld a, (indice)
-        ld (de), a
-        inc de
-        ld a, (indice)
-        inc a
-        ld (indice), a
-        inc hl
-        dec b
-        jr bucle_dir_collided
-    bucle_dir_collided_end:
-    push de
-    ;; hacemos un random entre las que esten lbres
-    call cpct_getRandom_xsp40_u8_asm
-    and c ;; obtengo valor random en a de el numero de direcciones libres
-    ;; save in c random number
-    ld c , a
-    pop de
-    ld b, #4
-    bucle_know_libre:
-            ld a, b
-            cp #1
-            jr z, bucle_know_libre_end
-            ld h, e
-            ld l, d
-            ld a , (hl)
-            cp c
-            jr z, move_enemy
-            inc hl
-            dec b
-            jr bucle_know_libre
-    move_enemy:
-        ld b , a
-        ld a, b
-        cp #1
-        jr z, move_above_e
-        ld a, b
-        cp #2
-        jr z, move_down_e
-        ld a, b
-        cp #3
-        jr z, move_right_e
-        ld a, b
-        cp #4
-        jr z, move_left_e
-    bucle_know_libre_end:
-    ;; retrieve entity
-    pop de
-    ;; nos movemos en esa dirección
+sys_ai_vertical_player::
+   call choose_axis_x_enemie2
+   ;; check colsiion izquieda y muevo derecha
+   ld a, (is_colliding_enemie + 3)
+   cp #1
+   jr nz, check_der
+   call move_right_e
+   jr sys_ai_vertical_player_end
+   ;; cheeck colision derecha y muevo izquierda
+   check_der:
+   ld a, (is_colliding_enemie + 2)
+   cp #1
+   jr nz , sys_ai_vertical_player_end
+   call move_left_e
+   sys_ai_vertical_player_end:
+ret
+sys_ai_horizontal_player::
+ call choose_axis_y_enemie3
+ ;; check colsiion izquieda y muevo derecha
+   ld a, (is_colliding_enemie2)
+   cp #1
+   jr nz, check_down
+   call move_down_e
+   jr sys_ai_horizontal_player_end
+   ;; cheeck colision derecha y muevo izquierda
+   check_down:
+   ld a, (is_colliding_enemie2 + 1)
+   cp #1
+   jr nz , sys_ai_horizontal_player_end
+   call move_above_e
+   sys_ai_horizontal_player_end:
 ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UPDATE IA FOR ONE ENTITY

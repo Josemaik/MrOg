@@ -189,6 +189,12 @@ sys_render_update_for_one:
             ld a, (hl)
             cp #E_TYPE_ENEMY2
             jr z, jump_render_box
+
+            ; ld hl, #TYPE
+            ; add hl, de
+            ; ld a, (hl)
+            ; cp #E_TYPE_ENEMY3
+            ; jr z, jump_render_box
             call sys_render_draw_solid_box
             jump_render_box:
             ;; save entity to update

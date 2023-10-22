@@ -107,6 +107,8 @@ _inicialize_templates:
       ;; FROBLIES
       ld       hl, #flobier_entity
       call man_game_create_template_entity
+      ld       hl, #flobier_entity2
+      call man_game_create_template_entity
 ret
 ret
 ;;;;;;;;;;;;;;;;;;;;

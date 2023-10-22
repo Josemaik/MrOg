@@ -13,6 +13,8 @@ choose_axis_enemy::
     .db 0x00
 choose_axis_enemy_hunter::
     .db 0x00
+choose_axis_enemy_hunter2::
+    .db 0x00
 contador_fisicas_jugador:
     .db #TIME_TO_UPDATE_PHYSICS_X
 ;;;;;;;;;;;;;;;
@@ -50,6 +52,14 @@ ret
 choose_axis_y_enemie2::
     ld a, #0
     ld (choose_axis_enemy_hunter), a
+ret
+choose_axis_x_enemie3::
+    ld a, #1
+    ld (choose_axis_enemy_hunter2), a
+ret
+choose_axis_y_enemie3::
+    ld a, #0
+    ld (choose_axis_enemy_hunter2), a
 ret
 setvelocity::
 
@@ -140,8 +150,16 @@ sys_physics_update_for_one:
         ld a, (hl)
         cp #E_TYPE_PLAYER
         jr z, check_player
-        ;; es enemygo 2
-        jr move_x_axis
+        ;; es enemygo hunter vers
+        ld a, (hl)
+        cp #E_TYPE_ENEMY2
+        jr z, check_enemy_2
+        ;;enemygo horizontal
+        ld a, (choose_axis_enemy_hunter2)
+         cp #1
+         jr z, move_x_axis
+            jr move_y_axis
+         
 check_player:
     ld a, (choose_axis_player)
         cp #1
@@ -152,6 +170,11 @@ check_enemy:
     cp #1
     jr z, move_x_axis
         jr move_y_axis
+check_enemy_2:
+        ld a, (choose_axis_enemy_hunter)
+         cp #1
+         jr z, move_x_axis
+            jr move_y_axis
 move_x_axis:
         ld hl, #contador_fisicas_jugador
         ld a, (hl)
