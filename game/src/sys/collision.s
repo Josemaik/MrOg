@@ -161,6 +161,12 @@ sys_collision_player_tilemap_d:
     add hl, de
     ld (hl), #0
 
+    ld hl, #X
+    add hl, de
+    ld  a, (hl)
+    dec a
+    ld (hl), a
+
     ret
 
 sys_collision_player_tilemap_a:
@@ -169,6 +175,12 @@ sys_collision_player_tilemap_a:
     ld hl, #VX
     add hl, de
     ld (hl), #0
+
+    ld hl, #X
+    add hl, de
+    ld  a, (hl)
+    inc a
+    ld (hl), a
 
     ret
 
@@ -221,8 +233,7 @@ sys_collision_update_one_entity:
     ld   hl, #X
     add  hl, de
     ld    a, (hl)
-    ld    b, #7
-    sub   a, b
+    sub   a, #7
     ld    (hl), a
 
     ld   hl, #Y
@@ -262,15 +273,13 @@ sys_collision_update_one_entity:
     ld   hl, #X
     add  hl, de
     ld    a, (hl)
-    ld    b, #7
-    sub   a, b
+    sub   a, #7
     ld    (hl), a
 
     ld   hl, #Y
     add  hl, de
     ld    a, (hl)
-    ld    b, #16
-    sub   a, b
+    sub   a, #16
     ld    (hl), a
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -283,7 +292,7 @@ sys_collision_update_one_entity:
     ld   hl, #X
     add  hl, de
     ld    a, (hl)
-    add   a, #8
+    add   a, #7
     ld    (hl), a
 
     call comprobar_colision                ;; Right-up
@@ -304,15 +313,13 @@ sys_collision_update_one_entity:
     ld   hl, #Y
     add  hl, de
     ld    a, (hl)
-    ld    b, #15
-    sub   a, b
+    sub   a, #15
     ld    (hl), a
 
     ld   hl, #X
     add  hl, de
     ld    a, (hl)
-    ld    b, #8
-    sub   a, b
+    sub   a, #7
     ld    (hl), a
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -322,11 +329,12 @@ sys_collision_update_one_entity:
     ld    hl, #colision_actual
     ld  (hl), #4
 
-    ; ld   hl, #X
-    ; add  hl, de
-    ; ld    a, (hl)
-    ; dec   a
-    ; ld    (hl), a
+
+    ;ld   hl, #X
+    ;add  hl, de
+    ;ld    a, (hl)
+    ;dec   a
+    ;ld    (hl), a
 
     ; call comprobar_colision                ;; Left-up
 
@@ -346,15 +354,21 @@ sys_collision_update_one_entity:
     ld   hl, #Y
     add  hl, de
     ld    a, (hl)
-    ld    b, #7
-    sub   a, b
+
+    add   a, #8
+    ld    (hl), a
+    call comprobar_colision                ;; Left-down 
+    ld   hl, #Y
+    add  hl, de
+    ld    a, (hl)
+    sub   a, #15
     ld    (hl), a
 
-    ; ld   hl, #X
-    ; add  hl, de
-    ; ld    a, (hl)
-    ; inc   a
-    ; ld    (hl), a
+    ;ld   hl, #X
+    ;add  hl, de
+    ;ld    a, (hl)
+    ;inc   a
+    ;ld    (hl), a
 
     ;;;;;;;;;;;; Fin Colisiones ;;;;;;;;;;;;
 
