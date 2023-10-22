@@ -184,7 +184,13 @@ sys_render_update_for_one:
             jr z, render_blending_enemie ;; si es enemigo que rodea mapa, render con blending
             ;; el resto de entidades
             ;; erase last draw of entity
+            ld hl, #TYPE
+            add hl, de
+            ld a, (hl)
+            cp #E_TYPE_ENEMY2
+            jr z, jump_render_box
             call sys_render_draw_solid_box
+            jump_render_box:
             ;; save entity to update
             push    de
             ;; get screen pointer

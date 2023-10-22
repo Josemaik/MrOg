@@ -11,6 +11,8 @@ choose_axis_player::
     .db 0x00
 choose_axis_enemy::
     .db 0x00
+choose_axis_enemy_hunter::
+    .db 0x00
 contador_fisicas_jugador:
     .db #TIME_TO_UPDATE_PHYSICS_X
 ;;;;;;;;;;;;;;;
@@ -40,6 +42,14 @@ ret
 choose_axis_y_enemie::
     ld a, #0
     ld (choose_axis_enemy), a
+ret
+choose_axis_x_enemie2::
+    ld a, #1
+    ld (choose_axis_enemy_hunter), a
+ret
+choose_axis_y_enemie2::
+    ld a, #0
+    ld (choose_axis_enemy_hunter), a
 ret
 setvelocity::
 
@@ -127,11 +137,16 @@ sys_physics_update_for_one:
         cp #E_TYPE_ENEMY
         jr z, check_enemy
         ;; comprobar jugador
-        ld a, (choose_axis_player)
+        ld a, (hl)
+        cp #E_TYPE_PLAYER
+        jr z, check_player
+        ;; es enemygo 2
+        jr move_x_axis
+check_player:
+    ld a, (choose_axis_player)
         cp #1
         jr z, move_x_axis
             jr move_y_axis
-        
 check_enemy:
     ld a, (choose_axis_enemy)
     cp #1

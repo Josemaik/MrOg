@@ -26,3 +26,4 @@
   .globl _spr_spritesheet_14
   .globl _spr_spritesheet_15
   .globl _spr_bomba
+  .globl _spr_enemigo_flobier_0

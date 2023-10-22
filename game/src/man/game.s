@@ -98,10 +98,16 @@ set_xy_bomb::
    ld (hl), a
 ret
 _inicialize_templates:
+      ;; PLAYER
         ld       hl, #player_entity
         call man_game_create_template_entity
+        ;; DEFLATOR DENNIS
       ;   ld       hl, #deflator_Dennis_entity
       ;   call man_game_create_template_entity
+      ;; FROBLIES
+      ld       hl, #flobier_entity
+      call man_game_create_template_entity
+ret
 ret
 ;;;;;;;;;;;;;;;;;;;;
 ;; INIT

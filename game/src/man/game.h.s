@@ -29,7 +29,9 @@
    .globl player_entity
    .globl deflator_Dennis_entity
    .globl bomba_entity
+   .globl flobier_entity
    ;;music
    .globl _song_prueba
    ;; ia
    .globl sys_ai_surround_map
+   .globl sys_ai_hunt_player

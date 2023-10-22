@@ -28,7 +28,7 @@
         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
         E_TYPE_PLAYER   = 0x01 
         E_TYPE_ENEMY   = 0x02 
-        E_TYPE_MOTHERSHIP   = 0x04 
+        E_TYPE_ENEMY2   = 0x04 
         E_TYPE_BOMB   = 0x08 
         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
         E_TYPE_DEFAULT  = E_TYPE_ENEMY
@@ -61,6 +61,8 @@
        SPR_SPRITE1_S_H = 16
        SPR_BOMBA_W = 8
        SPR_BOMBA_H = 16
+       SPR_ENEMIE_FLOBIER_W = 8
+       SPR_ENEMIE_FLOBIER_H = 16
         
                                         
 
