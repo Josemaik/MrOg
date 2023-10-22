@@ -2,6 +2,7 @@
 ;; GLOBAL SYMBOLS ;;
 ;;;;;;;;;;;;;;;;;;;;
     E_CMP_RENDER    = 0x01
+    CONTADOR_MAPA = 0x02
     ;; cpct                             
         .globl cpct_setVideoMode_asm    
         .globl cpct_getScreenPtr_asm    

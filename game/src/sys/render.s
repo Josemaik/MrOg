@@ -7,6 +7,8 @@
         .ds 16
     spritefromscreen::
         .ds 128
+    contador_draw_map::
+        .db #CONTADOR_MAPA
 .area _CODE
 .include "man/entity.h.s"
 .include "render.h.s"
@@ -133,7 +135,7 @@ ret
 ;;;;;;;;;;;;;;;;;;;;
 ;; RENDER TILEMAP ;;
 ;;;;;;;;;;;;;;;;;;;;
-sys_render_tilemap:
+sys_render_tilemap::
     ld   bc, #0x1914      ;; height and width - 25x20 en decimal
     ld   de, #0x30        ;; tilemap width    -    48 en decimal
     ld   hl, #_tiles_00   ;; pointer to tileset
@@ -221,30 +223,39 @@ sys_render_update_for_one:
         ;  sys_render_dont_draw:
         ;     call    sys_render_draw_solid_box
         render_blending_enemie:
-            ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                ; ld a , (contador_draw_map)
+                ; dec a
+                ; ld (contador_draw_map), a
+                ; jr nz, continue
+                ; call sys_render_tilemap
+                ; ld a, #CONTADOR_MAPA
+                ; ld (contador_draw_map), a
+                ; continue:
+                ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
             ;; dibujar en lastdraw el sprite de pantalla sacado antes de renderizar para borrar estela
             ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                 ; save entity
-                push de
-                ld hl,#WIDTH
-                add hl,de
-                ld c, (hl)
-            ; hl point height, add de, save in b ,hl
-                ld hl,#HEIGHT
-                add hl,de
-                ld b, (hl)
-            ;hl point sprite,add de and hl-> sprite
-                ld hl, #spritefromscreen
-            ; save video memory pointer in DE and in the stack
-                ld hl, #last_draw
-                add hl, de
-                ld d, (hl)
-                inc hl
-                ld e, (hl)
-                call cpct_drawSprite_asm
-                ;;load entity
-                pop de
-                ; save netity
+            ;     push de
+            ;     ld hl,#WIDTH
+            ;     add hl,de
+            ;     ld c, (hl)
+            ; ; hl point height, add de, save in b ,hl
+            ;     ld hl,#HEIGHT
+            ;     add hl,de
+            ;     ld b, (hl)
+            ; ;hl point sprite,add de and hl-> sprite
+            ;     ld hl, #spritefromscreen
+            ; ; save video memory pointer in DE and in the stack
+            ;     ld hl, #last_draw
+            ;     add hl, de
+            ;     ld d, (hl)
+            ;     inc hl
+            ;     ld e, (hl)
+            ;     call cpct_drawSprite_asm
+            ;     pop de
+            ;     ; ;;load entity
+            ;     ; pop de
+            ;     ; save netity
                 push de
                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
                 ;;; OBTENEMOS PUNTERO DE PANTALLA
@@ -261,51 +272,52 @@ sys_render_update_for_one:
                 ld 5(ix), l
                 ; ;; save in stack screen pointer
                 ; push hl
-                ; ;; load in last draw the screen pointer
-                ld hl, #last_draw
-                add hl, de
-                ld a, 4(ix)
-                ld (hl) , a
-                inc hl
-                ld a , 5(ix)
-                ld (hl), a
+                ; ; ;; load in last draw the screen pointer
+                ; ld hl, #last_draw
+                ; add hl, de
+                ; ld a, 4(ix)
+                ; ld (hl) , a
+                ; inc hl
+                ; ld a , 5(ix)
+                ; ld (hl), a
                 ;; retrieve screen pointer
                 ; pop hl
                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                 ;;;; HACEMOS UN SPRITE DE LA POSICION DE PANTALLA ANTES DE RENDERIZAR
                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                ; save entity pointer
-                push de
-                ; push hl
-                ld hl,#WIDTH
-                add hl,de
-                ld c,(hl)
-                ;; hl point height, add de, save in b ,hl
-                ld hl,#HEIGHT
-                add hl,de
-                ld b, (hl)
-                ;; sprite array
-                ld de, #spritefromscreen
-                ;; screen pointer
-                ; pop hl
-                ; push hl
-                ld l , 4(ix)
-                ld h,  5(ix)
-                call cpct_getScreenToSprite_asm
-                ; retrieve screen pointer
-                ; pop hl
-                ;; retrieve entity
-                pop de
+                ;;save entity pointer
+                ; push de
+                ; ; push hl
+                ; ld hl,#WIDTH
+                ; add hl,de
+                ; ld c,(hl)
+                ; ;; hl point height, add de, save in b ,hl
+                ; ld hl,#HEIGHT
+                ; add hl,de
+                ; ld b, (hl)
+                ; ;; sprite array
+                ; ld de, #spritefromscreen
+                ; ;; screen pointer
+                ; ; pop hl
+                ; ; push hl
+                ; ld l , 4(ix)
+                ; ld h,  5(ix)
+                ; call cpct_getScreenToSprite_asm
+                ; ; retrieve screen pointer
+                ; ; pop hl
+                ; ;; retrieve entity
+                ; pop de
                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                 ;;; RENDER WITH BLENDING MODE
                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                 ; set blending mode
-                ; ld l, #0xAE ;; XOR
+                ld l, #0xB6 ;; OR
                 ;; save screen pointer
                 ; push hl
-                ; call cpct_setBlendMode_asm
+                call cpct_setBlendMode_asm
                 ;; render enemie
                 call draw_blending_entity
+            
 
     sys_render_update_for_one_end:
 ret
@@ -337,7 +349,15 @@ _sys_render_update::
         ld      bc, #sys_render_update_for_one
         ld      hl, #E_CMP_RENDER
         call    _man_entity_for_all_matching
-        ; call change_screen
+        ; ld a , (contador_draw_map)
+        ; dec a
+        ; ld (contador_draw_map), a
+        ; jr nz, continue
+        ; call sys_render_tilemap
+        ; ld a, #CONTADOR_MAPA
+        ; ld (contador_draw_map), a
+        ; continue:
+        ;;call change_screen
 ret
 
 

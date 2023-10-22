@@ -109,7 +109,7 @@ check_buttom_right_corner:
     ld hl, #X
     add hl, de
     ld a, (hl)
-    cp #60
+    cp #70
     jr z, checky2
         jr check_buttom_right_corner_end
     checky2:
@@ -127,7 +127,7 @@ check_above_right_corner:
     ld hl, #X
     add hl, de
     ld a, (hl)
-    cp #60
+    cp #70
     jr z, checky3
         jr check_above_right_corner_end
     checky3:
