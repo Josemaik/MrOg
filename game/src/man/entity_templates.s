@@ -34,7 +34,7 @@ deflator_Dennis_entity::
 		.db     #SPR_SPRITE1_S_H   ;; height
 		.db     #0x00                 ;; vx = -1
 		.db     #0x00               ;; vy = 0
-		.dw     #_spr_spritesheet_00  ;; sprite (2b)
+		.dw     #_spr_burro_00  ;; sprite (2b)
       .dw     #sys_ai_surround_map ;; behaviour
 	  .db 	#0x00					;; ai_counter
       .dw     #0x0000 ;; anim
