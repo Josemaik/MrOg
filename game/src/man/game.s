@@ -100,8 +100,8 @@ ret
 _inicialize_templates:
         ld       hl, #player_entity
         call man_game_create_template_entity
-        ld       hl, #deflator_Dennis_entity
-        call man_game_create_template_entity
+      ;   ld       hl, #deflator_Dennis_entity
+      ;   call man_game_create_template_entity
 ret
 ;;;;;;;;;;;;;;;;;;;;
 ;; INIT

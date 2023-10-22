@@ -330,13 +330,13 @@ sys_collision_update_one_entity:
     ld  (hl), #4
 
 
-    ;ld   hl, #X
-    ;add  hl, de
-    ;ld    a, (hl)
-    ;dec   a
-    ;ld    (hl), a
+    ; ld   hl, #X
+    ; add  hl, de
+    ; ld    a, (hl)
+    ; dec   a
+    ; ld    (hl), a
 
-    ; call comprobar_colision                ;; Left-up
+    call comprobar_colision                ;; Left-up
 
     ld   hl, #Y
     add  hl, de
@@ -345,12 +345,6 @@ sys_collision_update_one_entity:
     ld    (hl), a
     call comprobar_colision                ;; Left-mid
 
-    ; ld   hl, #Y
-    ; add  hl, de
-    ; ld    a, (hl)
-    ; add   a, #8
-    ; ld    (hl), a
-    ; call comprobar_colision                ;; Left-down
     ld   hl, #Y
     add  hl, de
     ld    a, (hl)
