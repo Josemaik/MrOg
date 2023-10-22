@@ -20,10 +20,10 @@ colision_actual:
 inicializar_player_colision:
 
     ld      a, #0
-    ld      (is_colliding_player), a 
-    ld      (is_colliding_player + 1), a 
-    ld      (is_colliding_player + 2), a 
-    ld      (is_colliding_player + 3), a 
+    ld      (is_colliding_player), a
+    ld      (is_colliding_player + 1), a
+    ld      (is_colliding_player + 2), a
+    ld      (is_colliding_player + 3), a
 
     ret
 
@@ -76,7 +76,7 @@ comprobar_colision:
 
     ;; HL = tilemap + ty * tw + tx
     ld      a, (hl)
-    and     #0b11100000    
+    and    #0b11100000
 
     jr      z, que_colision
 
@@ -135,11 +135,11 @@ comprobar_colision:
     ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Funciones para poner la velocidad a 0 
+;; Funciones para poner la velocidad a 0
 ;;
 sys_collision_player_tilemap_w:
     ld      a, #1
-    ld      (is_colliding_player), a 
+    ld      (is_colliding_player), a
     ld hl, #VY
     add hl, de
     ld (hl), #0
@@ -147,7 +147,7 @@ sys_collision_player_tilemap_w:
     ret
 sys_collision_player_tilemap_s:
     ld      a, #1
-    ld      (is_colliding_player + 1), a 
+    ld      (is_colliding_player + 1), a
     ld hl, #VY
     add hl, de
     ld (hl), #0
@@ -156,7 +156,7 @@ sys_collision_player_tilemap_s:
 
 sys_collision_player_tilemap_d:
     ld      a, #1
-    ld      (is_colliding_player + 2), a 
+    ld      (is_colliding_player + 2), a
     ld hl, #VX
     add hl, de
     ld (hl), #0
@@ -165,7 +165,7 @@ sys_collision_player_tilemap_d:
 
 sys_collision_player_tilemap_a:
     ld      a, #1
-    ld      (is_colliding_player + 3), a 
+    ld      (is_colliding_player + 3), a
     ld hl, #VX
     add hl, de
     ld (hl), #0
@@ -173,8 +173,8 @@ sys_collision_player_tilemap_a:
     ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; UPDATE ONE ENTITY WITH THE TILEMAP 
-;; 
+;; UPDATE ONE ENTITY WITH THE TILEMAP
+;;
 sys_collision_update_one_entity:
 
     ;;;;;;;;;;;;;; Comprobar si es player ;;;;;;;;;;;;;;
@@ -210,14 +210,14 @@ sys_collision_update_one_entity:
     ld    a, (hl)
     add   a, #3
     ld    (hl), a
-    call comprobar_colision                ;; Upper-mid 
+    call comprobar_colision                ;; Upper-mid
 
     ld   hl, #X
     add  hl, de
     ld    a, (hl)
     add   a, #4
     ld    (hl), a
-    call comprobar_colision                ;; Upper-right 
+    call comprobar_colision                ;; Upper-right
     ld   hl, #X
     add  hl, de
     ld    a, (hl)
@@ -251,14 +251,14 @@ sys_collision_update_one_entity:
     ld    a, (hl)
     add   a, #3
     ld    (hl), a
-    call comprobar_colision                ;; Down-mid 
+    call comprobar_colision                ;; Down-mid
 
     ld   hl, #X
     add  hl, de
     ld    a, (hl)
     add   a, #4
     ld    (hl), a
-    call comprobar_colision                ;; Down-right 
+    call comprobar_colision                ;; Down-right
     ld   hl, #X
     add  hl, de
     ld    a, (hl)
@@ -322,13 +322,13 @@ sys_collision_update_one_entity:
     ld    hl, #colision_actual
     ld  (hl), #4
 
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
-    dec   a
-    ld    (hl), a
+    ; ld   hl, #X
+    ; add  hl, de
+    ; ld    a, (hl)
+    ; dec   a
+    ; ld    (hl), a
 
-    call comprobar_colision                ;; Left-up
+    ; call comprobar_colision                ;; Left-up
 
     ld   hl, #Y
     add  hl, de
@@ -337,24 +337,24 @@ sys_collision_update_one_entity:
     ld    (hl), a
     call comprobar_colision                ;; Left-mid
 
+    ; ld   hl, #Y
+    ; add  hl, de
+    ; ld    a, (hl)
+    ; add   a, #8
+    ; ld    (hl), a
+    ; call comprobar_colision                ;; Left-down
     ld   hl, #Y
     add  hl, de
     ld    a, (hl)
-    add   a, #8
-    ld    (hl), a
-    call comprobar_colision                ;; Left-down 
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-    ld    b, #15
+    ld    b, #7
     sub   a, b
     ld    (hl), a
 
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
-    inc   a
-    ld    (hl), a
+    ; ld   hl, #X
+    ; add  hl, de
+    ; ld    a, (hl)
+    ; inc   a
+    ; ld    (hl), a
 
     ;;;;;;;;;;;; Fin Colisiones ;;;;;;;;;;;;
 
