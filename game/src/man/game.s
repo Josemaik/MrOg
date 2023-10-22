@@ -100,8 +100,8 @@ ret
 _inicialize_templates:
         ld       hl, #player_entity
         call man_game_create_template_entity
-        ;ld       hl, #deflator_Dennis_entity
-        ;call man_game_create_template_entity
+        ld       hl, #deflator_Dennis_entity
+        call man_game_create_template_entity
 ret
 ;;;;;;;;;;;;;;;;;;;;
 ;; INIT
@@ -139,10 +139,10 @@ man_game_play::
          call     _sys_collision_update
       ;; call animations system
          call     _sys_animations_update
+         ;; call ai manager
+         call      _sys_ai_update
       ;; render
          call     _sys_render_update
-      ;; call ai manager
-         call      _sys_ai_update
       ;; update manager
          call     _man_entity_update
 

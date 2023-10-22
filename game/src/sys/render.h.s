@@ -2,13 +2,17 @@
 ;; GLOBAL SYMBOLS ;;
 ;;;;;;;;;;;;;;;;;;;;
     E_CMP_RENDER    = 0x01
+    CONTADOR_MAPA = 0x02
     ;; cpct                             
         .globl cpct_setVideoMode_asm    
         .globl cpct_getScreenPtr_asm    
         .globl cpct_setPalette_asm
         .globl cpct_drawSprite_asm
         .globl cpct_drawSolidBox_asm      
-                                        
+        .globl cpct_drawSpriteBlended_asm  
+        .globl cpct_setBlendMode_asm 
+        .globl cpct_setCRTCReg_asm   
+        .globl cpct_getScreenToSprite_asm   
     ;; managers                          
         .globl _man_entity_for_all
         .globl _man_entity_for_all_matching
