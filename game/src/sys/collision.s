@@ -161,6 +161,12 @@ sys_collision_player_tilemap_d:
     add hl, de
     ld (hl), #0
 
+    ld hl, #X
+    add hl, de
+    ld  a, (hl)
+    dec a
+    ld (hl), a
+
     ret
 
 sys_collision_player_tilemap_a:
@@ -280,7 +286,7 @@ sys_collision_update_one_entity:
     ld   hl, #X
     add  hl, de
     ld    a, (hl)
-    add   a, #8
+    add   a, #7
     ld    (hl), a
 
     call comprobar_colision                ;; Right-up
@@ -307,7 +313,7 @@ sys_collision_update_one_entity:
     ld   hl, #X
     add  hl, de
     ld    a, (hl)
-    sub   a, #8
+    sub   a, #7
     ld    (hl), a
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
