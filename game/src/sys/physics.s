@@ -62,6 +62,14 @@ choose_axis_y_enemie3::
     ld (choose_axis_enemy_hunter2), a
 ret
 move_down_e::
+        call active_animation
+        push bc
+        ld bc, #anim_enemy_down
+        ld 4(ix), c
+        ld 5(ix), b
+        ld bc, #DIRECT_S
+        call check_animation
+        pop bc
         ld hl, #return_hear0
         push hl
         push bc
@@ -75,6 +83,14 @@ move_down_e::
         ld (hl), #1
 ret
 move_above_e::
+        call active_animation
+        push bc
+        ld bc, #anim_enemy_up
+        ld 4(ix), c
+        ld 5(ix), b
+        ld bc, #DIRECT_W
+        call check_animation
+        pop bc
         ld hl, #return_hear1
         push hl
         push bc
@@ -89,6 +105,14 @@ move_above_e::
         ld (hl), #-1
 ret
 move_left_e::
+        call active_animation
+        push bc
+        ld bc, #anim_enemy_left
+        ld 4(ix), c
+        ld 5(ix), b
+        ld bc, #DIRECT_A
+        call check_animation
+        pop bc
         ld hl, #return_hear2
         push hl
         push bc
@@ -103,6 +127,14 @@ move_left_e::
         ld (hl), #-1
 ret
 move_right_e::
+        call active_animation
+        push bc
+        ld bc, #anim_enemy_right
+        ld 4(ix), c
+        ld 5(ix), b
+        ld bc, #DIRECT_D
+        call check_animation
+        pop bc
         ld hl, #return_hear3
         push hl
         push bc
