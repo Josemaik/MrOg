@@ -8,6 +8,7 @@
                               
    ;; managers                            
       .globl _man_entity_for_all_matching 
+      .globl _man_entity_for_all_pairs_matching_while1
    ;; systems   
       .globl stop_sprite                       
 

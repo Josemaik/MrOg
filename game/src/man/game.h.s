@@ -22,6 +22,8 @@
       .globl _sys_input_update
       .globl _sys_ai_update
       .globl _sys_collision_update
+      .globl _sys_collision_update_pair_entities
+
    ;; sprites
 
 

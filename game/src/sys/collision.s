@@ -524,3 +524,20 @@ _sys_collision_update::
     call _man_entity_for_all_matching
 
     ret
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; UPDATE PAIR ENTITIES
+;;  updates the collision of a given entity
+;; IN -> DE:  left entity
+;;       BC: right entity
+sys_collisions_update_entities::  ;; 6275
+    
+    ret
+
+_sys_collision_update_pair_entities::
+    ld bc, #sys_collisions_update_entities
+    ld hl, #E_CMP_COLLIDER
+    call _man_entity_for_all_pairs_matching_while1
+    ret
+
+    

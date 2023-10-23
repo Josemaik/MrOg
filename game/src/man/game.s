@@ -145,6 +145,7 @@ man_game_play::
          call     _sys_physics_update
       ;; check collisions
          call     _sys_collision_update
+         call     _sys_collision_update_pair_entities
       ;; call animations system
          call     _sys_animations_update
          ;; call ai manager
