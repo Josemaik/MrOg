@@ -30,7 +30,7 @@
         E_TYPE_ENEMY   = 0x02 
         E_TYPE_ENEMY2   = 0x04 
         E_TYPE_BOMB   = 0x08
-        E_TYPE_ENEMY3 = 0x0a
+        E_TYPE_ENEMY3 = 0x10
         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
         E_TYPE_DEFAULT  = E_TYPE_ENEMY
     ;; Components    

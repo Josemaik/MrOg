@@ -473,7 +473,7 @@ _man_entity_update::
                 cp      #E_TYPE_DEAD
                 jr      z, man_update_destroy_entity 
                  
-                ld      a, (hl)
+                 ld      a, (hl)
                  and #E_TYPE_BOMB
                  cp #E_TYPE_BOMB
                  jr z, man_decrease_time_to_explode

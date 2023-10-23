@@ -189,7 +189,7 @@ sys_render_update_for_one:
             ld a, (hl)
             cp #E_TYPE_ENEMY2
             jr z, jump_render_box
-
+            ; or a
             ; ld hl, #TYPE
             ; add hl, de
             ; ld a, (hl)

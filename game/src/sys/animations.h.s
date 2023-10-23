@@ -12,5 +12,4 @@
       .globl _man_entity_for_all_matching                  
    ;; systems                             
  
-   .globl setvelocity
    ;; sprites

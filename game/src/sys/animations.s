@@ -27,7 +27,7 @@ check_animation::
         ld a , (hl)
         and c
         cp c
-        jr z, set_velocity ;; si la animacion ya estaba en A
+        jr z, check_animation_end ;; si la animacion ya estaba en A
         ;; save duirection
         push bc
         ;;set animation array
@@ -50,8 +50,7 @@ check_animation::
         add hl, de
         ld (hl), c
         
-       set_velocity:
-       call setvelocity
+       check_animation_end:
 ret
 sys_animations_update_one_entity:
     ld a , (animation_state)

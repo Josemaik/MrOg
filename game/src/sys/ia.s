@@ -14,102 +14,6 @@ indice::
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; BEHAVIOUR ENEMY
-;;
-;; IN => DE -> entity to update
-;;
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; AUTODESTROY
-;;
-;; IN => DE -> entity to autodestroy
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; BEHAVIOUR MOTHERSHIP
-;;
-;; IN => DE -> entity to update
-;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; BEHAVIOUR SURROUND MAP
-;;
-;; IN => DE -> entity to update
-;;
-move_down_e:
-        call choose_axis_y_enemie2
-        ld hl, #VX
-        add hl, de
-        ld (hl), #0
-        ld hl, #VY
-        add hl, de
-        ld (hl), #1
-ret
-move_above_e:
-        call choose_axis_y_enemie2
-        ld hl, #VX
-        add hl, de
-        ld (hl), #0
-        ld hl, #VY
-        add hl, de
-        ld (hl), #-1
-ret
-move_left_e:
-        call choose_axis_x_enemie2
-        ld hl, #VY
-        add hl, de
-        ld (hl), #0
-        ld hl, #VX
-        add hl, de
-        ld (hl), #-1
-ret
-move_right_e:
-        call choose_axis_x_enemie2
-        ld hl, #VY
-        add hl, de
-        ld (hl), #0
-        ld hl, #VX
-        add hl, de
-        ld (hl), #1
-ret
- move_down:
-        call choose_axis_y_enemie
-        ld hl, #VX
-        add hl, de
-        ld (hl), #0
-        ld hl, #VY
-        add hl, de
-        ld (hl), #1
-ret
-move_above:
-        call choose_axis_y_enemie
-        ld hl, #VX
-        add hl, de
-        ld (hl), #0
-        ld hl, #VY
-        add hl, de
-        ld (hl), #-1
-ret
-move_left:
-        call choose_axis_x_enemie
-        ld hl, #VY
-        add hl, de
-        ld (hl), #0
-        ld hl, #VX
-        add hl, de
-        ld (hl), #-1
-ret
-move_right:
-        call choose_axis_x_enemie
-        ld hl, #VY
-        add hl, de
-        ld (hl), #0
-        ld hl, #VX
-        add hl, de
-        ld (hl), #1
-ret
 check_above_left_corner:
     ld hl, #X
     add hl, de
@@ -125,7 +29,8 @@ check_above_left_corner:
         jr z, mover_abajo
             jr check_above_left_corner_end
         mover_abajo:
-        call move_down
+        ld bc, #choose_axis_y_enemie
+        call move_down_e
         check_above_left_corner_end:
 ret
 check_buttom_left_corner:
@@ -143,7 +48,8 @@ check_buttom_left_corner:
         jr z, mover_der
             jr check_buttom_left_corner_end
         mover_der:
-        call move_right
+        ld bc, #choose_axis_x_enemie
+        call move_right_e
         check_buttom_left_corner_end:
 ret
 check_buttom_right_corner:
@@ -161,7 +67,8 @@ check_buttom_right_corner:
         jr z, mover_arriba
             jr check_buttom_right_corner_end
         mover_arriba:
-        call move_above
+        ld bc, #choose_axis_y_enemie
+        call move_above_e
         check_buttom_right_corner_end:
 ret
 check_above_right_corner:
@@ -179,7 +86,8 @@ check_above_right_corner:
         jr z, mover_izq
             jr check_above_right_corner_end
         mover_izq:
-        call move_left
+        ld bc, #choose_axis_x_enemie
+        call move_left_e
     check_above_right_corner_end:
 ret
 sys_ai_surround_map::
@@ -194,6 +102,7 @@ sys_ai_vertical_player::
    ld a, (is_colliding_enemie + 3)
    cp #1
    jr nz, check_der
+   ld bc, #choose_axis_x_enemie2
    call move_right_e
    jr sys_ai_vertical_player_end
    ;; cheeck colision derecha y muevo izquierda
@@ -201,6 +110,7 @@ sys_ai_vertical_player::
    ld a, (is_colliding_enemie + 2)
    cp #1
    jr nz , sys_ai_vertical_player_end
+   ld bc, #choose_axis_x_enemie2
    call move_left_e
    sys_ai_vertical_player_end:
 ret
@@ -210,6 +120,7 @@ sys_ai_horizontal_player::
    ld a, (is_colliding_enemie2)
    cp #1
    jr nz, check_down
+   ld bc, #choose_axis_y_enemie3
    call move_down_e
    jr sys_ai_horizontal_player_end
    ;; cheeck colision derecha y muevo izquierda
@@ -217,6 +128,7 @@ sys_ai_horizontal_player::
    ld a, (is_colliding_enemie2 + 1)
    cp #1
    jr nz , sys_ai_horizontal_player_end
+   ld bc, #choose_axis_y_enemie3
    call move_above_e
    sys_ai_horizontal_player_end:
 ret
