@@ -1,5 +1,10 @@
 .module System_IA
 .area _DATA
+
+valid_directions::
+    .ds 4
+indice::
+    .db 0x01
 .area _CODE
 .include "man/entity.h.s"
 .include "ia.h.s"
@@ -9,66 +14,6 @@
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; BEHAVIOUR ENEMY
-;;
-;; IN => DE -> entity to update
-;;
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; AUTODESTROY
-;;
-;; IN => DE -> entity to autodestroy
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; BEHAVIOUR MOTHERSHIP
-;;
-;; IN => DE -> entity to update
-;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; BEHAVIOUR SURROUND MAP
-;;
-;; IN => DE -> entity to update
-;;
- move_down:
-        call choose_axis_y_enemie
-        ld hl, #VX
-        add hl, de
-        ld (hl), #0
-        ld hl, #VY
-        add hl, de
-        ld (hl), #1
-ret
-move_above:
-        call choose_axis_y_enemie
-        ld hl, #VX
-        add hl, de
-        ld (hl), #0
-        ld hl, #VY
-        add hl, de
-        ld (hl), #-1
-ret
-move_left:
-        call choose_axis_x_enemie
-        ld hl, #VY
-        add hl, de
-        ld (hl), #0
-        ld hl, #VX
-        add hl, de
-        ld (hl), #-1
-ret
-move_right:
-        call choose_axis_x_enemie
-        ld hl, #VY
-        add hl, de
-        ld (hl), #0
-        ld hl, #VX
-        add hl, de
-        ld (hl), #1
-ret
 check_above_left_corner:
     ld hl, #X
     add hl, de
@@ -84,7 +29,8 @@ check_above_left_corner:
         jr z, mover_abajo
             jr check_above_left_corner_end
         mover_abajo:
-        call move_down
+        ld bc, #choose_axis_y_enemie
+        call move_down_e
         check_above_left_corner_end:
 ret
 check_buttom_left_corner:
@@ -102,7 +48,8 @@ check_buttom_left_corner:
         jr z, mover_der
             jr check_buttom_left_corner_end
         mover_der:
-        call move_right
+        ld bc, #choose_axis_x_enemie
+        call move_right_e
         check_buttom_left_corner_end:
 ret
 check_buttom_right_corner:
@@ -120,7 +67,8 @@ check_buttom_right_corner:
         jr z, mover_arriba
             jr check_buttom_right_corner_end
         mover_arriba:
-        call move_above
+        ld bc, #choose_axis_y_enemie
+        call move_above_e
         check_buttom_right_corner_end:
 ret
 check_above_right_corner:
@@ -138,7 +86,8 @@ check_above_right_corner:
         jr z, mover_izq
             jr check_above_right_corner_end
         mover_izq:
-        call move_left
+        ld bc, #choose_axis_x_enemie
+        call move_left_e
     check_above_right_corner_end:
 ret
 sys_ai_surround_map::
@@ -147,13 +96,63 @@ sys_ai_surround_map::
     call check_buttom_left_corner
     call check_buttom_right_corner
 ret
+sys_ai_vertical_enemie::
+   call choose_axis_x_enemie2
+   ;; check colsiion izquieda y muevo derecha
+   ld a, (is_colliding_enemie + 3)
+   cp #1
+   jr nz, check_der
+   ld bc, #choose_axis_x_enemie2
+   call move_right_e
+   jr sys_ai_vertical_player_end
+   ;; cheeck colision derecha y muevo izquierda
+   check_der:
+   ld a, (is_colliding_enemie + 2)
+   cp #1
+   jr nz , sys_ai_vertical_player_end
+   ld bc, #choose_axis_x_enemie2
+   call move_left_e
+   sys_ai_vertical_player_end:
+ret
+sys_ai_horizontal_enemie::
+ call choose_axis_y_enemie3
+ ;; check colsiion izquieda y muevo derecha
+   ld a, (is_colliding_enemie2)
+   cp #1
+   jr nz, check_down
+   ld bc, #choose_axis_y_enemie3
+   call move_down_e
+   jr sys_ai_horizontal_player_end
+   ;; cheeck colision derecha y muevo izquierda
+   check_down:
+   ld a, (is_colliding_enemie2 + 1)
+   cp #1
+   jr nz , sys_ai_horizontal_player_end
+   ld bc, #choose_axis_y_enemie3
+   call move_above_e
+   sys_ai_horizontal_player_end:
+ret
+sys_ai_random_enemie::
+;; sacar un random
+    call cpct_getRandom_xsp40_u8_asm
+    and #3 ;; me saca un 0 , 1 , 2 o 3
+    ;; si saca 0 -> muevo izquierda
+            ;; compruebo si colison sino salto al siguiente
+    ;; si saca 1 -> muevo abajo
+             ;; compruebo si colison sino salto al siguiente
+    ;; si saca 2 -> muevo derecha
+             ;; compruebo si colison sino salto al siguiente
+    ;; si saca 3 -> muevo arriba
+             ;; compruebo si colison sino salto al siguiente
+ret
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; UPDATE IA FOR ONE ENTITY 
+;; UPDATE IA FOR ONE ENTITY
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; IN =>  DE -> entity to update                                      
+;; IN =>  DE -> entity to update
 ;;
 sys_ai_update_for_one:
-    
+
     ;; guardo un checkpoint
     ld      hl, #_return_hear_ia
     push    hl
@@ -165,7 +164,7 @@ sys_ai_update_for_one:
     ;; de<=>hl and save first byte in L
     ld      e, l
     ld      d, h
-    ld      a, (de) 
+    ld      a, (de)
     ld      l, a
     ;; add 1 to de and save second byte in H
     inc     de
@@ -188,7 +187,7 @@ ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; CAll PHYSICS FOR ALL ENTITY :;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-_sys_ai_update::          
+_sys_ai_update::
         ld      bc, #sys_ai_update_for_one
         ld      hl, #E_CMP_IA | #E_CMP_MOVABLE
         call    _man_entity_for_all_matching
