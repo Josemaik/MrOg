@@ -96,7 +96,7 @@ sys_ai_surround_map::
     call check_buttom_left_corner
     call check_buttom_right_corner
 ret
-sys_ai_vertical_player::
+sys_ai_vertical_enemie::
    call choose_axis_x_enemie2
    ;; check colsiion izquieda y muevo derecha
    ld a, (is_colliding_enemie + 3)
@@ -114,7 +114,7 @@ sys_ai_vertical_player::
    call move_left_e
    sys_ai_vertical_player_end:
 ret
-sys_ai_horizontal_player::
+sys_ai_horizontal_enemie::
  call choose_axis_y_enemie3
  ;; check colsiion izquieda y muevo derecha
    ld a, (is_colliding_enemie2)
@@ -132,6 +132,20 @@ sys_ai_horizontal_player::
    call move_above_e
    sys_ai_horizontal_player_end:
 ret
+sys_ai_random_enemie::
+;; sacar un random
+    call cpct_getRandom_xsp40_u8_asm
+    and #3 ;; me saca un 0 , 1 , 2 o 3
+    ;; si saca 0 -> muevo izquierda
+            ;; compruebo si colison sino salto al siguiente
+    ;; si saca 1 -> muevo abajo
+             ;; compruebo si colison sino salto al siguiente
+    ;; si saca 2 -> muevo derecha
+             ;; compruebo si colison sino salto al siguiente
+    ;; si saca 3 -> muevo arriba
+             ;; compruebo si colison sino salto al siguiente
+ret
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UPDATE IA FOR ONE ENTITY
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

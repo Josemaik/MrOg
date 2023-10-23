@@ -35,5 +35,5 @@
    .globl _song_prueba
    ;; ia
    .globl sys_ai_surround_map
-   .globl sys_ai_vertical_player
-   .globl sys_ai_horizontal_player
+   .globl sys_ai_vertical_enemie
+   .globl sys_ai_horizontal_enemie

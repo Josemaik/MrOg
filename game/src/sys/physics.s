@@ -16,7 +16,7 @@ choose_axis_enemy_hunter::
 choose_axis_enemy_hunter2::
     .db 0x00
 contador_fisicas_jugador:
-    .db #TIME_TO_UPDATE_PHYSICS_X
+    .db #TIME_TO_UPDATE_PHYSICS_X_PLAYER
 ;;;;;;;;;;;;;;;
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
@@ -185,6 +185,7 @@ check_enemy:
     jr z, move_x_axis
         jr move_y_axis
 check_enemy_2:
+         
         ld a, (choose_axis_enemy_hunter)
          cp #1
          jr z, move_x_axis
@@ -195,7 +196,7 @@ move_x_axis:
         sub #1
         ld (hl), a
         jr nz, end_movex
-        ld (hl),#TIME_TO_UPDATE_PHYSICS_X
+        ld (hl),#TIME_TO_UPDATE_PHYSICS_X_PLAYER
         ld      hl, #VX
         add     hl, de
         ld      a, (hl)    

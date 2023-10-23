@@ -54,7 +54,7 @@ flobier_entity::
 		.db     #-1                 ;; vx = -1
 		.db     #0x00               ;; vy = 0
 		.dw     #_spr_enemigo_flobier_0  ;; sprite (2b)
-      .dw     #sys_ai_vertical_player ;; behaviour
+      .dw     #sys_ai_vertical_enemie ;; behaviour
 	  .db 	#0x00					;; ai_counter
       .dw     #0x0000 ;; anim
       .db     #MAN_ANIM_PLAYER_TIME            ;;animcounter c = 0
@@ -73,7 +73,7 @@ flobier_entity2::
 		.db     #0x00                 ;; vx = -1
 		.db     #-1               ;; vy = 0
 		.dw     #_spr_enemigo_flobier_0  ;; sprite (2b)
-      .dw     #sys_ai_horizontal_player ;; behaviour
+      .dw     #sys_ai_horizontal_enemie ;; behaviour
 	  .db 	#0x00					;; ai_counter
       .dw     #0x0000 ;; anim
       .db     #MAN_ANIM_PLAYER_TIME            ;;animcounter c = 0
