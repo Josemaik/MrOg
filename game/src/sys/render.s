@@ -49,7 +49,41 @@ sys_render_draw_solid_box:
 
         call cpct_drawSolidBox_asm
         pop de
+    ret
+
+sys_render_draw_solid_box_player::
+        ;; get to entity->x and save to C
+            ld      c, X(ix)
+
+        ;; get to entity->y and save to B
+            ld      b, Y(ix)
+
+        ;; load in DE start of the memory
+            ld      de, #CPCT_VMEM_START_ASM
+
+            call    cpct_getScreenPtr_asm ;; --> hl
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; draw solid box
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;;(2B DE) memory	Video memory pointer to the upper left box corner byte
+    ;;(1B A ) colour_pattern	1-byte colour pattern (in screen pixel format) to fill the box with
+    ;;(1B C ) width	Box width in bytes [1-64] (Beware!  not in pixels!)
+    ;;(1B B ) height	Box height in bytes (>0)
+    ;;
+    ;;
+        ;; de => memory position of entity
+        ;;a->colour pattern
+            ld a, #0
+        
+            ld c, WIDTH(ix)
+            ld b, HEIGHT(ix)
+
+        ;; load last draw in de
+            ex de, hl
+
+        call cpct_drawSolidBox_asm
 ret
+
 sys_render_draw_one_entity:
     ;; save hl in stck
         push hl

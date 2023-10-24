@@ -17,3 +17,6 @@
 
    ;; tilemap
       .globl _tilemap_01
+
+   ;; render
+      .globl sys_render_draw_solid_box_player

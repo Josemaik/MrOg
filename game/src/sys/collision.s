@@ -394,71 +394,82 @@ sys_collision_update_one_entity:
 ;;       DE: right entity
 sys_collisions_update_entities::
 
-    ;;; Comprobar si es player
-    ;ld hl, #TYPE
-    ;add hl, bc
-    ;ld a, (hl)
-    ;cp #E_TYPE_PLAYER
-    ;ret nz
-;
-    ;ld__ix_bc  ;; BC player
-    ;ld__iy_de
-;
-    ;;; Colision jugador con entidad
-    ;ld  a, COLLIDES_AGAINST(ix)
-    ;and TYPE(iy)
-    ;cp  TYPE(iy)
-    ;jr z, check_collision_between_entities
-;
-    ;;; Colision entidad con jugador
-    ;ld  a, COLLIDES_AGAINST(iy)
-    ;and TYPE(ix)
-    ;cp  TYPE(ix)
-    ;jr z, check_collision_between_entities
-;
-    ;jr __no_collision
-;
-    ;check_collision_between_entities:
-    ;;; |-----[DE]a--b[BC]-----|
-    ;;; if ( X(DE) + WIDTH(DE) - X(BC) < 0 )
-    ;ld a, X(ix)
-    ;add WIDTH(ix)
-    ;sub X(iy)
-    ;jr c, __no_collision
-;
-    ;;; |-----[BC]c--d[DE]-----|
-    ;;; if ( X(BC) + WIDTH(BC) - X(DE) < 0 )
-    ;ld a, X(iy)
-    ;add WIDTH(iy)
-    ;sub X(ix)
-    ;jr c, __no_collision
-;
-    ;;; if ( Y(DE) + HEIGHT(DE) - Y(BC) < 0 )
-    ;ld a, Y(ix)
-    ;add HEIGHT(ix)
-    ;sub Y(iy)
-    ;jr c, __no_collision
-;
-    ;;; if ( Y(BC) + HEIGHT(BC) - Y(DE) < 0 )
-    ;ld a, Y(iy)
-    ;add HEIGHT(iy)
-    ;sub Y(ix)
-    ;jr c, __no_collision
-;
+    push ix
+    push iy
+
+    ld__ix_bc  ;; BC player
+    ld__iy_de
+
+    ;; Colision jugador con entidad
+    ld   a, TYPE(ix)
+    and  COLLIDES_AGAINST(iy)
+    cp   COLLIDES_AGAINST(iy)
+    jr z, check_collision_between_entities
+
+    ;; Colision entidad con jugador
+    ld   a, TYPE(iy)
+    and  COLLIDES_AGAINST(ix)
+    cp   COLLIDES_AGAINST(ix)
+    jr nz, __no_collision
+
     ;;;;;;;;;;;;;;;;
-    ;;; Collision ;;
+    ;; Colisiones ;;
     ;;;;;;;;;;;;;;;;
-;
-    ;ld a, #0xFF
-    ;ld (0xC000), a
-;
-    ;;;;;;;;;;;;;;;;;;;
-    ;;; No Collision ;;
-    ;;;;;;;;;;;;;;;;;;;
-;
-    ;__no_collision:
-    ;ld a, #0x00
-    ;ld (0xC000), a
+    check_collision_between_entities:
+    ;; |-----[DE]a--b[BC]-----|
+    ;; if ( X(DE) + WIDTH(DE) - X(BC) < 0 )
+    ld a, X(ix)
+    add WIDTH(ix)
+    sub #2
+    sub X(iy)
+    jr c, __no_collision
+
+    ;; |-----[BC]c--d[DE]-----|
+    ;; if ( X(BC) + WIDTH(BC) - X(DE) < 0 )
+    ld a, X(iy)
+    add WIDTH(iy)
+    sub #2
+    sub X(ix)
+    jr c, __no_collision
+
+    ;; if ( Y(DE) + HEIGHT(DE) - Y(BC) < 0 )
+    ld a, Y(ix)
+    add HEIGHT(ix)
+    sub #2
+    sub Y(iy)
+    jr c, __no_collision
+
+    ;; if ( Y(BC) + HEIGHT(BC) - Y(DE) < 0 )
+    ld a, Y(iy)
+    add HEIGHT(iy)
+    sub #2
+    sub Y(ix)
+    jr c, __no_collision
+
+    ;;;;;;;;;;;;;;;
+    ;; Collision ;;
+    ;;;;;;;;;;;;;;;
+
+    push de
+    call sys_render_draw_solid_box_player
+    pop de
+
+    ld X(ix), #20
+    ld Y(ix), #60
+
+    jr final_colisiones
+
+    ;;;;;;;;;;;;;;;;;;
+    ;; No Collision ;;
+    ;;;;;;;;;;;;;;;;;;
+
+    __no_collision:
+    
+
+    final_colisiones:
+
+    pop ix
+    pop iy
 
     ret
 
