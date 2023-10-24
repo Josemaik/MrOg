@@ -447,13 +447,34 @@ sys_collisions_update_entities::
     jr c, __no_collision
 
     ;;;;;;;;;;;;;;;
-    ;; Collision ;;
+    ;; Collision ;; --- Comprobamos con que colisionamos
     ;;;;;;;;;;;;;;;
 
+    ld a, TYPE(iy)
+    and #E_TYPE_ENEMY
+    cp  #E_TYPE_ENEMY
+    jr  z, colision_con_enemigo
+
+    ld a, TYPE(iy)
+    and #E_TYPE_ENEMY2
+    cp  #E_TYPE_ENEMY2
+    jr  z, colision_con_enemigo
+
+    ld a, TYPE(iy)
+    and #E_TYPE_ENEMY3
+    cp  #E_TYPE_ENEMY3
+    jr  z, colision_con_enemigo
+
+    ld a, TYPE(iy)
+    and #E_TYPE_ENEMY4
+    cp  #E_TYPE_ENEMY4
+    jr  z, colision_con_enemigo
+
+;; Colision con el enemigo
+colision_con_enemigo:
     push de
     call sys_render_draw_solid_box_player
     pop de
-
     ld X(ix), #20
     ld Y(ix), #60
 
