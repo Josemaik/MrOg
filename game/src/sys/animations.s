@@ -58,6 +58,19 @@ sys_animations_update_one_entity:
     ld a, (hl)
     cp #E_TYPE_BOMB
     jr z, change_sprite;; si es bomba, va directamente a pasar al siguiente frame
+
+    ld hl, #TYPE
+    add hl, de
+    ld a, (hl)
+    cp #E_TYPE_ENEMY3
+    jr z, change_sprite;; si es bomba, va directamente a pasar al siguiente frame
+
+    ld hl, #TYPE
+    add hl, de
+    ld a, (hl)
+    cp #E_TYPE_ENEMY2
+    jr z, change_sprite;; si es bomba, va directamente a pasar al siguiente frame
+
     ld a , (animation_state)
     cp #1
     jr z, start_animating

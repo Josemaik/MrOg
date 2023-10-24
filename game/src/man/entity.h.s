@@ -78,4 +78,6 @@
     ;;sys     
     .globl is_bomb_active
     .globl anim_bomba
+    .globl anim_enemy_down
+    .globl anim_enemy_left
    
