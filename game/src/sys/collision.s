@@ -10,16 +10,6 @@ is_colliding_player:: ;; 0 no collision | 1 collision
     .db 0x00       ;; down
     .db 0x00       ;; right
     .db 0x00       ;; left
-is_colliding_enemie:: ;; 0 no collision | 1 collision
-    .db 0x00       ;; up
-    .db 0x00       ;; down
-    .db 0x00       ;; right
-    .db 0x00       ;; left
-is_colliding_enemie2:: ;; 0 no collision | 1 collision
-    .db 0x00       ;; up
-    .db 0x00       ;; down
-    .db 0x00       ;; right
-    .db 0x00       ;; left
 
 colision_actual:
     .db 0x00
@@ -37,20 +27,7 @@ inicializar_player_colision:
     ld      (is_colliding_player + 3), a
 
     ret
-inicializar_enemy_colision:
-    ld      a, #0
-    ld      (is_colliding_enemie), a
-    ld      (is_colliding_enemie + 1), a
-    ld      (is_colliding_enemie + 2), a
-    ld      (is_colliding_enemie + 3), a
-ret
-inicializar_enemy_colision2:
-    ld      a, #0
-    ld      (is_colliding_enemie2), a
-    ld      (is_colliding_enemie2 + 1), a
-    ld      (is_colliding_enemie2 + 2), a
-    ld      (is_colliding_enemie2 + 3), a
-ret
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Check collisions player with tilemap
 ;;
@@ -386,114 +363,7 @@ calcular_colisiones_jugador:
     ;inc   a
     ;ld    (hl), a
 ret
-calcular_colisiones_enemigo_vertical:
-;; centro-izquierda
-    ld    hl, #colision_actual
-    ld  (hl), #4
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-    add   a, #7
-    ld    (hl), a
-    call comprobar_colision
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-    sub   a, #7
-    ld    (hl), a
-    ;;centro-derecha
-    ld    hl, #colision_actual
-    ld  (hl), #3
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
-    add   a, #7
-    ld    (hl), a
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-    add   a, #7
-    ld    (hl), a
-    call comprobar_colision
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-    sub   a, #7
-    ld    (hl), a
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
-    sub   a, #7
-    ld    (hl), a
-    ret
-ret
 
-calcular_colisiones_enemigo_horizontal:
-;; arriba medio
-    ld    hl, #colision_actual
-    ld  (hl), #1
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-    dec   a
-    ld    (hl), a               ;; Upper-mid
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
-    add   a, #3
-    ld    (hl), a
-    call comprobar_colision
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
-    sub   a, #3
-    ld    (hl), a
-
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-    inc   a
-    ld    (hl), a 
-    ;; abajo medio
-    ld    hl, #colision_actual
-    ld  (hl), #2
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-    add   a, #16
-    ld    (hl), a             ;; Down-mid
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
-    add   a, #3
-    ld    (hl), a
-    call comprobar_colision 
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
-    sub   a, #3
-    ld    (hl), a
-
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-    sub   a, #16
-    ld    (hl), a 
-ret
-inicializar_colision_enemigo_hrizontal::
-        call inicializar_enemy_colision2
-        ld hl, #is_colliding_enemie2
-        ld 4(ix), h
-        ld 5(ix), l
-        call calcular_colisiones_enemigo_horizontal
-ret
-inicializar_colision_enemigo_vertical::
-        call inicializar_enemy_colision
-        ld hl, #is_colliding_enemie
-        ld 4(ix), h
-        ld 5(ix), l
-        call calcular_colisiones_enemigo_vertical
-ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UPDATE ONE ENTITY WITH THE TILEMAP
 ;;
@@ -506,12 +376,6 @@ sys_collision_update_one_entity:
     ld a, (hl)
     cp #E_TYPE_PLAYER
     jr z, ini_jugador
-    ; ld a, (hl)
-    ; cp #E_TYPE_ENEMY2
-    ; jr z, ini_enemy
-    ; ld a, (hl)
-    ; cp #E_TYPE_ENEMY3
-    ; jr z, ini_enemy2
     ret
     ini_jugador:
         call inicializar_player_colision
@@ -519,18 +383,6 @@ sys_collision_update_one_entity:
         ld 4(ix), h
         ld 5(ix), l
         call calcular_colisiones_jugador
-    ; ini_enemy:
-    ;     call inicializar_enemy_colision
-    ;     ld hl, #is_colliding_enemie
-    ;     ld 4(ix), h
-    ;     ld 5(ix), l
-    ;     call calcular_colisiones_enemigo_vertical
-    ; ini_enemy2:
-    ;     call inicializar_enemy_colision2
-    ;     ld hl, #is_colliding_enemie2
-    ;     ld 4(ix), h
-    ;     ld 5(ix), l
-    ;     call calcular_colisiones_enemigo_horizontal
 
     ;;;;;;;;;;;; Fin Colisiones ;;;;;;;;;;;;
     ret

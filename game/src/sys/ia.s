@@ -98,43 +98,63 @@ sys_ai_surround_map::
     call check_buttom_left_corner
     call check_buttom_right_corner
 ret
-sys_ai_vertical_enemie::
-   call inicializar_colision_enemigo_vertical
-   call choose_axis_x_enemie2
-   ;; check colsiion izquieda y muevo derecha
-   ld a, (is_colliding_enemie + 3)
-   cp #1
-   jr nz, check_der
-   ld bc, #choose_axis_x_enemie2
-   call move_right_e
-   jr sys_ai_vertical_player_end
-   ;; cheeck colision derecha y muevo izquierda
-   check_der:
-   ld a, (is_colliding_enemie + 2)
-   cp #1
-   jr nz , sys_ai_vertical_player_end
-   ld bc, #choose_axis_x_enemie2
-   call move_left_e
-   sys_ai_vertical_player_end:
-ret
 sys_ai_horizontal_enemie::
-call inicializar_colision_enemigo_hrizontal
- call choose_axis_y_enemie3
- ;; check colsiion izquieda y muevo derecha
-   ld a, (is_colliding_enemie2)
-   cp #1
-   jr nz, check_down
-   ld bc, #choose_axis_y_enemie3
-   call move_down_e
-   jr sys_ai_horizontal_player_end
-   ;; cheeck colision derecha y muevo izquierda
-   check_down:
-   ld a, (is_colliding_enemie2 + 1)
-   cp #1
-   jr nz , sys_ai_horizontal_player_end
-   ld bc, #choose_axis_y_enemie3
-   call move_above_e
-   sys_ai_horizontal_player_end:
+     ld hl, #X
+     add hl, de
+     ld a, (hl)
+     cp #32
+     jr z, check_axis_y
+        jr sys_ai_horizontal_enemie_end
+    check_axis_y:
+        ld hl, #Y
+        add hl, de
+        ld a, (hl)
+        cp #167
+        jr z, mover_arriba2
+        ;;mover abajo
+        ld hl, #Y
+        add hl, de
+        ld a, (hl)
+        cp #57
+        jr z, mover_abajo2
+        jr sys_ai_horizontal_enemie_end
+        mover_abajo2:
+        ld bc, #choose_axis_y_enemie3
+        call move_down_e
+        jr sys_ai_horizontal_enemie_end
+        mover_arriba2:
+        ld bc, #choose_axis_y_enemie3
+        call move_above_e
+        sys_ai_horizontal_enemie_end:
+ret
+sys_ai_vertical_enemie::
+    ld hl, #Y
+     add hl, de
+     ld a, (hl)
+     cp #33
+     jr z, check_axis_x
+        jr sys_ai_vertical_enemie_end
+    check_axis_x:
+        ld hl, #X
+        add hl, de
+        ld a, (hl)
+        cp #64
+        jr z, mover_izquierda2
+        ;;mover abajo
+        ld hl, #X
+        add hl, de
+        ld a, (hl)
+        cp #20
+        jr z, mover_derecha2
+        jr sys_ai_vertical_enemie_end
+        mover_izquierda2:
+        ld bc, #choose_axis_x_enemie2
+        call move_left_e
+        jr sys_ai_vertical_enemie_end
+        mover_derecha2:
+        ld bc, #choose_axis_x_enemie2
+        call move_right_e
+        sys_ai_vertical_enemie_end:
 ret
 sys_ai_patron_enemie_mapa1::
      ld hl, #X
