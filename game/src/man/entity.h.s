@@ -77,4 +77,5 @@
     .globl cpct_memcpy_asm
     ;;sys     
     .globl is_bomb_active
+    .globl anim_bomba
    
