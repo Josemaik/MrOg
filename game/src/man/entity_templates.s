@@ -55,8 +55,8 @@ flobier_entity::
 		.db     #0x00               ;; vy = 0
 		.dw     #_spr_enemigo_flobier_0  ;; sprite (2b)
       .dw     #sys_ai_vertical_enemie ;; behaviour
-	  .db 	#0x00					;; ai_counter
-      .dw     #0x0000 ;; anim
+	  .db 	#0x0c					;; ai_counter
+      .dw     #anim_enemy_left ;; anim
       .db     #MAN_ANIM_PLAYER_TIME            ;;animcounter c = 0
 	  .db 	#0x00				;;collides_against
 	  .dw   #0x0000				;; last draw
@@ -65,7 +65,7 @@ flobier_entity::
 	  .db  #0x00
 flobier_entity2:: 
 		.db 	#E_TYPE_ENEMY3			;; entity type
-      .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_IA | #E_CMP_COLLIDER;; | #E_CMP_ANIMATED |#E_CMP_COLLIDER ;; cmps
+      .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_IA | #E_CMP_COLLIDER | #E_CMP_ANIMATED ;;|#E_CMP_COLLIDER ;; cmps
 		.db     #32               ;; x = 38
 		.db     #160              ;; y = 180
 		.db     #SPR_ENEMIE_FLOBIER_W   ;; width 
@@ -74,8 +74,8 @@ flobier_entity2::
 		.db     #-1               ;; vy = 0
 		.dw     #_spr_enemigo_flobier_0  ;; sprite (2b)
       .dw     #sys_ai_horizontal_enemie ;; behaviour
-	  .db 	#0x00					;; ai_counter
-      .dw     #0x0000 ;; anim
+	  .db 	#0x0c					;; ai_counter
+      .dw     #anim_enemy_down ;; anim
       .db     #MAN_ANIM_PLAYER_TIME            ;;animcounter c = 0
 	  .db 	#0x00				;;collides_against
 	  .dw   #0x0000				;; last draw
@@ -103,17 +103,17 @@ flobier_entity_patron_mapa1::
 	  .db  #0x00
 bomba_entity:: 
 		.db 	#E_TYPE_BOMB			;; entity type
-      .db     #E_CMP_RENDER ;; | #E_CMP_ANIMATED |#E_CMP_COLLIDER ;; cmps
+      .db     #E_CMP_RENDER | #E_CMP_ANIMATED ;; |#E_CMP_COLLIDER ;; cmps
 		.db     #0X00               ;; x = 38
 		.db     #0X00             ;; y = 180
 		.db     #SPR_BOMBA_W   ;; width 
 		.db     #SPR_BOMBA_H   ;; height
 		.db     #0x00                 ;; vx = -1
 		.db     #0x00               ;; vy = 0
-		.dw     #_spr_bomba  ;; sprite (2b)
+		.dw     #_spr_bomba_0  ;; sprite (2b)
       .dw     #0x0000;; behaviour
-	  .db 	#0x00					;; ai_counter
-      .dw     #0x0000 ;; anim
+	  .db 	#0x0c					;; ai_counter
+      .dw     #anim_bomba ;; anim
       .db     #0x00          ;;contador para morir c = 0
 	  .db 	#0x00				;;collides_against
 	  .dw   #0x0000				;; last draw
