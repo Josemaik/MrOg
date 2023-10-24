@@ -15,6 +15,8 @@ choose_axis_enemy_hunter::
     .db 0x00
 choose_axis_enemy_hunter2::
     .db 0x00
+choose_axis_enemy_patron_mapa1::
+    .db 0x00
 contador_fisicas_jugador:
     .db #TIME_TO_UPDATE_PHYSICS_X_PLAYER
 ;;;;;;;;;;;;;;;
@@ -61,7 +63,23 @@ choose_axis_y_enemie3::
     ld a, #0
     ld (choose_axis_enemy_hunter2), a
 ret
+choose_axis_x_enemie_patron_mapa1::
+    ld a, #1
+    ld (choose_axis_enemy_patron_mapa1), a
+ret
+choose_axis_y_enemie_patron_mapa1::
+    ld a, #0
+    ld (choose_axis_enemy_patron_mapa1), a
+ret
 move_down_e::
+        call active_animation
+        push bc
+        ld bc, #anim_enemy_down
+        ld 4(ix), c
+        ld 5(ix), b
+        ld bc, #DIRECT_S
+        call check_animation
+        pop bc
         ld hl, #return_hear0
         push hl
         push bc
@@ -75,6 +93,14 @@ move_down_e::
         ld (hl), #1
 ret
 move_above_e::
+        call active_animation
+        push bc
+        ld bc, #anim_enemy_up
+        ld 4(ix), c
+        ld 5(ix), b
+        ld bc, #DIRECT_W
+        call check_animation
+        pop bc
         ld hl, #return_hear1
         push hl
         push bc
@@ -89,6 +115,14 @@ move_above_e::
         ld (hl), #-1
 ret
 move_left_e::
+        call active_animation
+        push bc
+        ld bc, #anim_enemy_left
+        ld 4(ix), c
+        ld 5(ix), b
+        ld bc, #DIRECT_A
+        call check_animation
+        pop bc
         ld hl, #return_hear2
         push hl
         push bc
@@ -103,6 +137,14 @@ move_left_e::
         ld (hl), #-1
 ret
 move_right_e::
+        call active_animation
+        push bc
+        ld bc, #anim_enemy_right
+        ld 4(ix), c
+        ld 5(ix), b
+        ld bc, #DIRECT_D
+        call check_animation
+        pop bc
         ld hl, #return_hear3
         push hl
         push bc
@@ -168,8 +210,12 @@ sys_physics_update_for_one:
         ld a, (hl)
         cp #E_TYPE_ENEMY2
         jr z, check_enemy_2
-        ;;enemygo horizontal
-        ld a, (choose_axis_enemy_hunter2)
+        ;; es enemigo hunter hor
+        ld a, (hl)
+        cp #E_TYPE_ENEMY3
+        jr z, check_enemy_3
+        ;;enemygo patron mapa 1
+        ld a, (choose_axis_enemy_patron_mapa1)
          cp #1
          jr z, move_x_axis
             jr move_y_axis
@@ -187,6 +233,11 @@ check_enemy:
 check_enemy_2:
          
         ld a, (choose_axis_enemy_hunter)
+         cp #1
+         jr z, move_x_axis
+            jr move_y_axis
+check_enemy_3:
+ld a, (choose_axis_enemy_hunter2)
          cp #1
          jr z, move_x_axis
             jr move_y_axis

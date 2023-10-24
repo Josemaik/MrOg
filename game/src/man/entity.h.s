@@ -31,6 +31,7 @@
         E_TYPE_ENEMY2   = 0x04 
         E_TYPE_BOMB   = 0x08
         E_TYPE_ENEMY3 = 0x10
+        E_TYPE_ENEMY4 = 0x12
         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
         E_TYPE_DEFAULT  = E_TYPE_ENEMY
     ;; Components    
@@ -45,7 +46,7 @@
                                         
     ;; OTHERS
         SPACE_4_ONE_ENTITY     = 21      ;; space for one entity
-        TOTAL_ENTITIES         = 5     ;; number of entities                          
+        TOTAL_ENTITIES         = 6     ;; number of entities                          
         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
         MAN_ANIM_PLAYER_TIME   = 3
         TIME_TO_UPDATE_PHYSICS_X_PLAYER = 3
@@ -77,4 +78,7 @@
     .globl cpct_memcpy_asm
     ;;sys     
     .globl is_bomb_active
+    .globl anim_bomba
+    .globl anim_enemy_down
+    .globl anim_enemy_left
    
