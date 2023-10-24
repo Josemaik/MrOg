@@ -6,6 +6,8 @@
 .globl choose_axis_y_enemie
 .globl choose_axis_x_enemie2
 .globl choose_axis_y_enemie2
+.globl choose_axis_x_enemie_patron_mapa1
+.globl choose_axis_y_enemie_patron_mapa1
 .globl is_colliding_enemie
 .globl is_colliding_enemie2
 .globl choose_axis_y_enemie3

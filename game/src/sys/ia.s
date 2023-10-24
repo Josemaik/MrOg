@@ -5,6 +5,8 @@ valid_directions::
     .ds 4
 indice::
     .db 0x01
+indicador_patron:: ;; 0 -> viene de izq // 1 -> viene de abajo
+    .db 0x00
 .area _CODE
 .include "man/entity.h.s"
 .include "ia.h.s"
@@ -132,18 +134,76 @@ sys_ai_horizontal_enemie::
    call move_above_e
    sys_ai_horizontal_player_end:
 ret
-sys_ai_random_enemie::
-;; sacar un random
-    call cpct_getRandom_xsp40_u8_asm
-    and #3 ;; me saca un 0 , 1 , 2 o 3
-    ;; si saca 0 -> muevo izquierda
-            ;; compruebo si colison sino salto al siguiente
-    ;; si saca 1 -> muevo abajo
-             ;; compruebo si colison sino salto al siguiente
-    ;; si saca 2 -> muevo derecha
-             ;; compruebo si colison sino salto al siguiente
-    ;; si saca 3 -> muevo arriba
-             ;; compruebo si colison sino salto al siguiente
+sys_ai_patron_enemie_mapa1::
+     ld hl, #X
+    add hl, de
+    ld a, (hl)
+    cp #56
+    jr z, checky4
+        jr check_above_next_corner1
+    checky4:
+        ld hl, #Y
+        add hl, de
+        ld a, (hl)
+        cp #72
+        jr z, mover_derecha1
+            jr check_above_next_corner1
+        mover_derecha1:
+        ld a, #0
+         ld (indicador_patron) , a
+        ld bc, #choose_axis_x_enemie_patron_mapa1
+        call move_right_e
+        jp sys_ai_patron_enemie_mapa1_end
+    check_above_next_corner1:
+      ld hl, #X
+    add hl, de
+    ld a, (hl)
+    cp #64
+    jr z, checky5
+        jr check_above_next_corner2
+    checky5:
+        ld hl, #Y
+        add hl, de
+        ld a, (hl)
+        cp #72
+        jr z, check_when
+            jr check_above_next_corner2
+        check_when:
+            ld a, (indicador_patron)
+            cp #1
+            jr z, mover_izquierda1
+                jr mover_abajo1
+        mover_izquierda1:
+        ld bc, #choose_axis_x_enemie_patron_mapa1
+        call move_left_e
+        jp sys_ai_patron_enemie_mapa1_end
+        mover_abajo1:
+        ld bc, #choose_axis_y_enemie_patron_mapa1
+        call move_down_e
+        jp sys_ai_patron_enemie_mapa1_end
+    check_above_next_corner2:
+      ld hl, #X
+    add hl, de
+    ld a, (hl)
+    cp #64
+    jr z, checky6
+        jr sys_ai_patron_enemie_mapa1_end
+    checky6:
+        ld hl, #Y
+        add hl, de
+        ld a, (hl)
+        cp #115
+        jr z, mover_arriba1
+            jr sys_ai_patron_enemie_mapa1_end
+        mover_arriba1:
+        ld a, #1
+         ld (indicador_patron) , a
+        ld bc, #choose_axis_y_enemie_patron_mapa1
+        call move_above_e
+;; 56 72
+;; 64 72
+;; 64 101
+sys_ai_patron_enemie_mapa1_end:
 ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

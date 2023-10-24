@@ -82,6 +82,25 @@ flobier_entity2::
 	;   .dw   #0x00C4				;; last draw2
 	  .db   #DIRECT_S			;; direction
 	  .db  #0x00
+flobier_entity_patron_mapa1:: 
+		.db 	#E_TYPE_ENEMY4			;; entity type
+      .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_IA ;;| #E_CMP_COLLIDER;; | #E_CMP_ANIMATED |#E_CMP_COLLIDER ;; cmps
+		.db     #56               ;; x = 38
+		.db     #72              ;; y = 180
+		.db     #SPR_ENEMIE_FLOBIER_W   ;; width 
+		.db     #SPR_ENEMIE_FLOBIER_H   ;; height
+		.db     #1                ;; vx = -1
+		.db     #0x00               ;; vy = 0
+		.dw     #_spr_enemigo_flobier_0  ;; sprite (2b)
+      .dw     #sys_ai_patron_enemie_mapa1 ;; behaviour
+	  .db 	#0x00					;; ai_counter
+      .dw     #0x0000 ;; anim
+      .db     #MAN_ANIM_PLAYER_TIME            ;;animcounter c = 0
+	  .db 	#0x00				;;collides_against
+	  .dw   #0x0000				;; last draw
+	;   .dw   #0x00C4				;; last draw2
+	  .db   #DIRECT_S			;; direction
+	  .db  #0x00
 bomba_entity:: 
 		.db 	#E_TYPE_BOMB			;; entity type
       .db     #E_CMP_RENDER ;; | #E_CMP_ANIMATED |#E_CMP_COLLIDER ;; cmps
