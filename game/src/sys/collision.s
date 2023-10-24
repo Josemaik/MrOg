@@ -221,47 +221,8 @@ sys_collision_player_tilemap_a:
     ld (hl), a
 
     ret
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; UPDATE ONE ENTITY WITH THE TILEMAP
-;;
-sys_collision_update_one_entity:
-
-    ;;;;;;;;;;;;;; Comprobar si es player ;;;;;;;;;;;;;;
-
-    ld hl, #TYPE
-    add hl, de
-    ld a, (hl)
-    cp #E_TYPE_PLAYER
-    jr z, ini_jugador
-    ld a, (hl)
-    cp #E_TYPE_ENEMY2
-    jr z, ini_enemy
-    ld a, (hl)
-    cp #E_TYPE_ENEMY3
-    jr z, ini_enemy2
-    ret
-    ini_jugador:
-        call inicializar_player_colision
-        ld hl, #is_colliding_player
-        ld 4(ix), h
-        ld 5(ix), l
-        jr calcular_colisiones
-    ini_enemy:
-        call inicializar_enemy_colision
-        ld hl, #is_colliding_enemie
-        ld 4(ix), h
-        ld 5(ix), l
-        jp calcular_colisiones_enemy
-    ini_enemy2:
-        call inicializar_enemy_colision2
-        ld hl, #is_colliding_enemie2
-        ld 4(ix), h
-        ld 5(ix), l
-        jp calcular_colisiones_enemy2
-
-    calcular_colisiones:
-    ld    hl, #colision_actual
+calcular_colisiones_jugador:
+ ld    hl, #colision_actual
     ld  (hl), #0
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Colision con la parte de arriba (W) ;;
@@ -424,9 +385,9 @@ sys_collision_update_one_entity:
     ;ld    a, (hl)
     ;inc   a
     ;ld    (hl), a
-    ret
-calcular_colisiones_enemy:
-    ;; centro-izquierda
+ret
+calcular_colisiones_enemigo_vertical:
+;; centro-izquierda
     ld    hl, #colision_actual
     ld  (hl), #4
     ld   hl, #Y
@@ -465,7 +426,9 @@ calcular_colisiones_enemy:
     sub   a, #7
     ld    (hl), a
     ret
-calcular_colisiones_enemy2:
+ret
+
+calcular_colisiones_enemigo_horizontal:
 ;; arriba medio
     ld    hl, #colision_actual
     ld  (hl), #1
@@ -516,6 +479,59 @@ calcular_colisiones_enemy2:
     ld    a, (hl)
     sub   a, #16
     ld    (hl), a 
+ret
+inicializar_colision_enemigo_hrizontal::
+        call inicializar_enemy_colision2
+        ld hl, #is_colliding_enemie2
+        ld 4(ix), h
+        ld 5(ix), l
+        call calcular_colisiones_enemigo_horizontal
+ret
+inicializar_colision_enemigo_vertical::
+        call inicializar_enemy_colision
+        ld hl, #is_colliding_enemie
+        ld 4(ix), h
+        ld 5(ix), l
+        call calcular_colisiones_enemigo_vertical
+ret
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; UPDATE ONE ENTITY WITH THE TILEMAP
+;;
+sys_collision_update_one_entity:
+
+    ;;;;;;;;;;;;;; Comprobar si es player ;;;;;;;;;;;;;;
+
+    ld hl, #TYPE
+    add hl, de
+    ld a, (hl)
+    cp #E_TYPE_PLAYER
+    jr z, ini_jugador
+    ; ld a, (hl)
+    ; cp #E_TYPE_ENEMY2
+    ; jr z, ini_enemy
+    ; ld a, (hl)
+    ; cp #E_TYPE_ENEMY3
+    ; jr z, ini_enemy2
+    ret
+    ini_jugador:
+        call inicializar_player_colision
+        ld hl, #is_colliding_player
+        ld 4(ix), h
+        ld 5(ix), l
+        call calcular_colisiones_jugador
+    ; ini_enemy:
+    ;     call inicializar_enemy_colision
+    ;     ld hl, #is_colliding_enemie
+    ;     ld 4(ix), h
+    ;     ld 5(ix), l
+    ;     call calcular_colisiones_enemigo_vertical
+    ; ini_enemy2:
+    ;     call inicializar_enemy_colision2
+    ;     ld hl, #is_colliding_enemie2
+    ;     ld 4(ix), h
+    ;     ld 5(ix), l
+    ;     call calcular_colisiones_enemigo_horizontal
+
     ;;;;;;;;;;;; Fin Colisiones ;;;;;;;;;;;;
     ret
 _sys_collision_update::

@@ -31,9 +31,11 @@
    .globl bomba_entity
    .globl flobier_entity
    .globl flobier_entity2
+   .globl flobier_entity_patron_mapa1
    ;;music
    .globl _song_prueba
    ;; ia
    .globl sys_ai_surround_map
    .globl sys_ai_vertical_enemie
    .globl sys_ai_horizontal_enemie
+   .globl sys_ai_patron_enemie_mapa1
