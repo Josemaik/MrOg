@@ -394,71 +394,71 @@ sys_collision_update_one_entity:
 ;;       DE: right entity
 sys_collisions_update_entities::
 
-    ;; Comprobar si es player
-    ld hl, #TYPE
-    add hl, bc
-    ld a, (hl)
-    cp #E_TYPE_PLAYER
-    ret nz
-
-    ld__ix_bc  ;; BC player
-    ld__iy_de
-
-    ;; Colision jugador con entidad
-    ld  a, COLLIDES_AGAINST(ix)
-    and TYPE(iy)
-    cp  TYPE(iy)
-    jr z, check_collision_between_entities
-
-    ;; Colision entidad con jugador
-    ld  a, COLLIDES_AGAINST(iy)
-    and TYPE(ix)
-    cp  TYPE(ix)
-    jr z, check_collision_between_entities
-
-    jr __no_collision
-
-    check_collision_between_entities:
-    ;; |-----[DE]a--b[BC]-----|
-    ;; if ( X(DE) + WIDTH(DE) - X(BC) < 0 )
-    ld a, X(ix)
-    add WIDTH(ix)
-    sub X(iy)
-    jr c, __no_collision
-
-    ;; |-----[BC]c--d[DE]-----|
-    ;; if ( X(BC) + WIDTH(BC) - X(DE) < 0 )
-    ld a, X(iy)
-    add WIDTH(iy)
-    sub X(ix)
-    jr c, __no_collision
-
-    ;; if ( Y(DE) + HEIGHT(DE) - Y(BC) < 0 )
-    ld a, Y(ix)
-    add HEIGHT(ix)
-    sub Y(iy)
-    jr c, __no_collision
-
-    ;; if ( Y(BC) + HEIGHT(BC) - Y(DE) < 0 )
-    ld a, Y(iy)
-    add HEIGHT(iy)
-    sub Y(ix)
-    jr c, __no_collision
-
-    ;;;;;;;;;;;;;;;
-    ;; Collision ;;
-    ;;;;;;;;;;;;;;;
-
-    ld a, #0xFF
-    ld (0xC000), a
-
-    ;;;;;;;;;;;;;;;;;;
-    ;; No Collision ;;
-    ;;;;;;;;;;;;;;;;;;
-
-    __no_collision:
-    ld a, #0x00
-    ld (0xC000), a
+    ;;; Comprobar si es player
+    ;ld hl, #TYPE
+    ;add hl, bc
+    ;ld a, (hl)
+    ;cp #E_TYPE_PLAYER
+    ;ret nz
+;
+    ;ld__ix_bc  ;; BC player
+    ;ld__iy_de
+;
+    ;;; Colision jugador con entidad
+    ;ld  a, COLLIDES_AGAINST(ix)
+    ;and TYPE(iy)
+    ;cp  TYPE(iy)
+    ;jr z, check_collision_between_entities
+;
+    ;;; Colision entidad con jugador
+    ;ld  a, COLLIDES_AGAINST(iy)
+    ;and TYPE(ix)
+    ;cp  TYPE(ix)
+    ;jr z, check_collision_between_entities
+;
+    ;jr __no_collision
+;
+    ;check_collision_between_entities:
+    ;;; |-----[DE]a--b[BC]-----|
+    ;;; if ( X(DE) + WIDTH(DE) - X(BC) < 0 )
+    ;ld a, X(ix)
+    ;add WIDTH(ix)
+    ;sub X(iy)
+    ;jr c, __no_collision
+;
+    ;;; |-----[BC]c--d[DE]-----|
+    ;;; if ( X(BC) + WIDTH(BC) - X(DE) < 0 )
+    ;ld a, X(iy)
+    ;add WIDTH(iy)
+    ;sub X(ix)
+    ;jr c, __no_collision
+;
+    ;;; if ( Y(DE) + HEIGHT(DE) - Y(BC) < 0 )
+    ;ld a, Y(ix)
+    ;add HEIGHT(ix)
+    ;sub Y(iy)
+    ;jr c, __no_collision
+;
+    ;;; if ( Y(BC) + HEIGHT(BC) - Y(DE) < 0 )
+    ;ld a, Y(iy)
+    ;add HEIGHT(iy)
+    ;sub Y(ix)
+    ;jr c, __no_collision
+;
+    ;;;;;;;;;;;;;;;;
+    ;;; Collision ;;
+    ;;;;;;;;;;;;;;;;
+;
+    ;ld a, #0xFF
+    ;ld (0xC000), a
+;
+    ;;;;;;;;;;;;;;;;;;;
+    ;;; No Collision ;;
+    ;;;;;;;;;;;;;;;;;;;
+;
+    ;__no_collision:
+    ;ld a, #0x00
+    ;ld (0xC000), a
 
     ret
 

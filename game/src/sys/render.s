@@ -182,45 +182,15 @@ sys_render_update_for_one:
             ld a, (hl)
             cp #E_TYPE_ENEMY
             jr z, render_blending_enemie ;; si es enemigo que rodea mapa, render con blending
-            ;; el resto de entidades
-            ;; erase last draw of entity
-            ; ld hl, #TYPE
-            ; add hl, de
-            ; ld a, (hl)
-            ; cp #E_TYPE_ENEMY2
-            ; jr z, jump_render_box
-            ;  ld hl, #TYPE
-            ; add hl, de
-            ; ld a, (hl)
-            ; cp #E_TYPE_ENEMY3
-            ; jr z, jump_render_box
-            ; or a
-            ; ld hl, #TYPE
-            ; add hl, de
-            ; ld a, (hl)
-            ; cp #E_TYPE_ENEMY3
-            ; jr z, jump_render_box
-            call sys_render_draw_solid_box
-            jump_render_box:
+            
             ;; save entity to update
             push    de
             ;; get screen pointer
             call sys_get_screen_ptr
-            ;; save last draw
-            ld 4(ix), h
-            ld 5(ix), l
-        ;; retrieve entity of the stack
+            ;; retrieve entity of the stack
             pop     de
             ;; load in the stack screen pointer
             push hl
-            ;; set entity->last draw and load screen pointer
-            ld hl, #last_draw
-            add hl, de
-            ld a, 4(ix)
-            ld (hl) , a
-            inc hl
-            ld a , 5(ix)
-            ld (hl), a
 
         ;; go to entity->type
             ld      hl, #TYPE
