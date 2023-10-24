@@ -99,6 +99,7 @@ sys_ai_surround_map::
     call check_buttom_right_corner
 ret
 sys_ai_vertical_enemie::
+   call inicializar_colision_enemigo_vertical
    call choose_axis_x_enemie2
    ;; check colsiion izquieda y muevo derecha
    ld a, (is_colliding_enemie + 3)
@@ -117,6 +118,7 @@ sys_ai_vertical_enemie::
    sys_ai_vertical_player_end:
 ret
 sys_ai_horizontal_enemie::
+call inicializar_colision_enemigo_hrizontal
  call choose_axis_y_enemie3
  ;; check colsiion izquieda y muevo derecha
    ld a, (is_colliding_enemie2)

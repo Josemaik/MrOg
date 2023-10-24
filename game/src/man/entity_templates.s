@@ -46,7 +46,7 @@ deflator_Dennis_entity::
 	  .db  #0x00
 flobier_entity:: 
 		.db 	#E_TYPE_ENEMY2			;; entity type
-      .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_IA | #E_CMP_COLLIDER;; | #E_CMP_ANIMATED |#E_CMP_COLLIDER ;; cmps
+      .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_IA ;;| #E_CMP_COLLIDER;; | #E_CMP_ANIMATED |#E_CMP_COLLIDER ;; cmps
 		.db     #60               ;; x = 38
 		.db     #33              ;; y = 180
 		.db     #SPR_ENEMIE_FLOBIER_W   ;; width 
