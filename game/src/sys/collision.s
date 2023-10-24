@@ -542,6 +542,13 @@ sys_collision_update_one_entity:
 ;;       DE: right entity
 sys_collisions_update_entities::
 
+    ;; Comprobar si es player
+    ld hl, #TYPE
+    add hl, bc
+    ld a, (hl)
+    cp #E_TYPE_PLAYER
+    ret nz
+
     ld__ix_bc  ;; BC player
     ld__iy_de
 
