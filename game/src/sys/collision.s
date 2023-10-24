@@ -531,7 +531,58 @@ _sys_collision_update::
 ;; IN -> DE:  left entity
 ;;       BC: right entity
 sys_collisions_update_entities::  ;; 6275
-    
+
+    ;; Comprobar si es player
+    ld hl, #TYPE
+    add hl, de
+    ld a, (hl)
+    cp #E_TYPE_PLAYER
+    ret nz
+
+    ld__ix_de
+    ld__iy_bc
+
+    ;; |-----[DE]a--b[BC]-----|
+    ;; if ( X(DE) + WIDTH(DE) - X(BC) < 0 )
+    ld a, X(ix)
+    add WIDTH(ix)
+    sub X(iy)
+    jr c, __no_collision
+
+    ;; |-----[BC]c--d[DE]-----|
+    ;; if ( X(BC) + WIDTH(BC) - X(DE) < 0 )
+    ld a, X(iy)
+    add WIDTH(iy)
+    sub X(ix)
+    jr c, __no_collision
+
+    ;; if ( Y(DE) + HEIGHT(DE) - Y(BC) < 0 )
+    ld a, Y(ix)
+    add HEIGHT(ix)
+    sub Y(iy)
+    jr c, __no_collision
+
+    ;; if ( Y(BC) + HEIGHT(BC) - Y(DE) < 0 )
+    ld a, Y(iy)
+    add HEIGHT(iy)
+    sub Y(ix)
+    jr c, __no_collision
+
+    ;;;;;;;;;;;;;;;
+    ;; Collision ;;
+    ;;;;;;;;;;;;;;;
+
+    ld a, #0xFF
+    ld (0xC000), a
+
+    ;;;;;;;;;;;;;;;;;;
+    ;; No Collision ;;
+    ;;;;;;;;;;;;;;;;;;
+
+    __no_collision:
+    ld a, #0x00
+    ld (0xC000), a
+
     ret
 
 _sys_collision_update_pair_entities::
