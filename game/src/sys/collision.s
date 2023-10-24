@@ -534,30 +534,32 @@ sys_collision_update_one_entity:
 
     ;;;;;;;;;;;; Fin Colisiones ;;;;;;;;;;;;
     ret
-_sys_collision_update::
-    ld   bc, #sys_collision_update_one_entity
-    ld   hl, #E_CMP_COLLIDER
-    call _man_entity_for_all_matching
-
-    ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UPDATE PAIR ENTITIES
 ;;  updates the collision of a given entity
-;; IN -> DE:  left entity
-;;       BC: right entity
-sys_collisions_update_entities::  ;; 6275
+;; IN -> BC:  left entity
+;;       DE: right entity
+sys_collisions_update_entities::
 
-    ;; Comprobar si es player
-    ld hl, #TYPE
-    add hl, de
-    ld a, (hl)
-    cp #E_TYPE_PLAYER
-    ret nz
+    ld__ix_bc  ;; BC player
+    ld__iy_de
 
-    ld__ix_de
-    ld__iy_bc
+    ;; Colision jugador con entidad
+    ld  a, COLLIDES_AGAINST(ix)
+    and TYPE(iy)
+    cp  TYPE(iy)
+    jr z, check_collision_between_entities
 
+    ;; Colision entidad con jugador
+    ld  a, COLLIDES_AGAINST(iy)
+    and TYPE(ix)
+    cp  TYPE(ix)
+    jr z, check_collision_between_entities
+
+    jr __no_collision
+
+    check_collision_between_entities:
     ;; |-----[DE]a--b[BC]-----|
     ;; if ( X(DE) + WIDTH(DE) - X(BC) < 0 )
     ld a, X(ix)
@@ -601,10 +603,13 @@ sys_collisions_update_entities::  ;; 6275
 
     ret
 
-_sys_collision_update_pair_entities::
+_sys_collision_update::
+    ld   bc, #sys_collision_update_one_entity
+    ld   hl, #E_CMP_COLLIDER
+    call _man_entity_for_all_matching
+
     ld bc, #sys_collisions_update_entities
     ld hl, #E_CMP_COLLIDER
     call _man_entity_for_all_pairs_matching_while1
-    ret
 
-    
+    ret

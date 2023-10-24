@@ -46,7 +46,7 @@ deflator_Dennis_entity::
 	  .db  #0x00
 flobier_entity:: 
 		.db 	#E_TYPE_ENEMY2			;; entity type
-      .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_IA | #E_CMP_ANIMATED;;| #E_CMP_COLLIDER;; | #E_CMP_ANIMATED |#E_CMP_COLLIDER ;; cmps
+      .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_IA | #E_CMP_ANIMATED | #E_CMP_COLLIDER;; | #E_CMP_ANIMATED |#E_CMP_COLLIDER ;; cmps
 		.db     #60               ;; x = 38
 		.db     #33              ;; y = 180
 		.db     #SPR_ENEMIE_FLOBIER_W   ;; width 
@@ -58,7 +58,7 @@ flobier_entity::
 	  .db 	#0x0c					;; ai_counter
       .dw     #anim_enemy_left ;; anim
       .db     #MAN_ANIM_PLAYER_TIME            ;;animcounter c = 0
-	  .db 	#0x00				;;collides_against
+	  .db 	#E_TYPE_PLAYER				;;collides_against
 	  .dw   #0x0000				;; last draw
 	;   .dw   #0x00C4				;; last draw2
 	  .db   #DIRECT_S			;; direction
@@ -77,7 +77,7 @@ flobier_entity2::
 	  .db 	#0x0c					;; ai_counter
       .dw     #anim_enemy_down ;; anim
       .db     #MAN_ANIM_PLAYER_TIME            ;;animcounter c = 0
-	  .db 	#0x00				;;collides_against
+	  .db 	#E_TYPE_PLAYER				;;collides_against
 	  .dw   #0x0000				;; last draw
 	;   .dw   #0x00C4				;; last draw2
 	  .db   #DIRECT_S			;; direction
