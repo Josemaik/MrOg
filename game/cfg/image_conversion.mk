@@ -39,6 +39,11 @@ $(eval $(call IMG2SP, CONVERT, assets/bombahud.png , 8, 8, spr_bombahud))
 $(eval $(call IMG2SP, SET_IMG_FORMAT  , zgtiles            ))
 $(eval $(call IMG2SP, CONVERT         , assets/tiles.png , 8, 8, tiles))
 
+$(eval $(call IMG2SP, SET_FOLDER, assets/screens/))
+$(eval $(call IMG2SP, SET_IMG_FORMAT, screen))
+$(eval $(call IMG2SP, SET_OUTPUT, bin))
+$(eval $(call IMG2SP, CONVERT, assets/menu_screen.png , 0, 0, menu_screen))	
+
 ##
 ## OLD MACROS (For compatibility)
 ##

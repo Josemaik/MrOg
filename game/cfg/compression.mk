@@ -35,8 +35,8 @@
 ##
 #$(eval $(call ADD2PACK,mygraphics,gfx/enemy.bin))
 #$(eval $(call ADD2PACK,mygraphics,gfx/hero.bin))
-#$(eval $(call ADD2PACK,mygraphics,gfx/background.bin))
-#$(eval $(call PACKZX7B,mygraphics,src/))
+$(eval $(call ADD2PACK,menu_screen_z, assets/screens/menu_screen.bin))
+$(eval $(call PACKZX7B,menu_screen_z, assets/screens))
 
 
 
