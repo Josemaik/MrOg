@@ -122,10 +122,10 @@ bomba_entity::
 	  .db  #0x78
 
 helado_entity::
-		 .db 	#E_TYPE_HELADO			;; entity type
+		 .db 	#E_TYPE_FOOD			;; entity type
       .db     #E_CMP_RENDER | #E_CMP_COLLIDER ;; cmps
-		.db     #8               ;; x = 38
-		.db     #32             ;; y = 180
+		.db     #0x00               ;; x = 38
+		.db     #0x00             ;; y = 180
 		.db     #SPR_HELADO_W   ;; width 
 		.db     #SPR_HELADO_H   ;; height
 		.db     #0x00                 ;; vx = -1
@@ -135,7 +135,7 @@ helado_entity::
 	  .db 	#0x00					;; ai_counter
       .dw     #0x00 ;; anim
       .db     #0x00          ;;contador para morir c = 0
-	  .db 	#0x00				;;collides_against
+	  .db 	#E_TYPE_PLAYER				;;collides_against
 	  .dw   #0x0000				;; last draw
 	;   .dw   #0x00C4				;; last draw2
 	  .db   #0x00			;; direction

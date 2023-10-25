@@ -75,9 +75,32 @@ _inicialize_templates:
       call man_game_create_template_entity
       ; ld       hl, #flobier_entity_patron_mapa1
       ; call man_game_create_template_entity
-      ld       hl, #helado_entity
-      call man_game_create_template_entity
+
+      call crear_helados_mapa_prueba
+      
 ret
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Creacion de los helados
+;;
+crear_helados_mapa_prueba:
+
+   ld       ix, #helado_entity
+
+   ld    X(ix), #8
+   ld    Y(ix), #32
+   ld       hl, #helado_entity
+   call man_game_create_template_entity
+
+   ld    Y(ix), #48
+   ld       hl, #helado_entity
+   call man_game_create_template_entity
+
+   ld    Y(ix), #64
+   ld       hl, #helado_entity
+   call man_game_create_template_entity
+
+   ret
 ;;;;;;;;;;;;;;;;;;;;
 ;; INIT
 ;;

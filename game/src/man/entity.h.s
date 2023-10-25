@@ -32,7 +32,7 @@
         E_TYPE_BOMB   = 0x08
         E_TYPE_ENEMY3 = 0x10
         E_TYPE_ENEMY4 = 0x12
-        E_TYPE_HELADO = 0x14
+        E_TYPE_FOOD   = 0x16
         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
         E_TYPE_DEFAULT  = E_TYPE_ENEMY
     ;; Components    

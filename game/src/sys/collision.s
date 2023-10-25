@@ -470,6 +470,11 @@ sys_collisions_update_entities::
     cp  #E_TYPE_ENEMY4
     jr  z, colision_con_enemigo
 
+    ld a, TYPE(iy)
+    and #E_TYPE_FOOD
+    cp  #E_TYPE_FOOD
+    jr  z, colision_con_comida
+
 ;; Colision con el enemigo
 colision_con_enemigo:
     push de
@@ -480,12 +485,17 @@ colision_con_enemigo:
 
     jr final_colisiones
 
+;; Colision con la comida
+colision_con_comida:
+    ld TYPE(iy), #E_TYPE_DEAD
+
+    jr final_colisiones
+
     ;;;;;;;;;;;;;;;;;;
     ;; No Collision ;;
     ;;;;;;;;;;;;;;;;;;
 
     __no_collision:
-    
 
     final_colisiones:
 
