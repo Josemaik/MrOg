@@ -76,14 +76,18 @@ _inicialize_templates:
       ; ld       hl, #flobier_entity_patron_mapa1
       ; call man_game_create_template_entity
 
-      call crear_helados_mapa_prueba
+      call crear_objetos_mapa_prueba
       
 ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Creacion de los helados
+;; Creacion de los objetos
 ;;
-crear_helados_mapa_prueba:
+crear_objetos_mapa_prueba:
+
+   ;;;;;;;;;;;;;
+   ;; Helados ;;
+   ;;;;;;;;;;;;;
 
    ld       ix, #helado_entity
 
@@ -98,6 +102,17 @@ crear_helados_mapa_prueba:
 
    ld    Y(ix), #64
    ld       hl, #helado_entity
+   call man_game_create_template_entity
+
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;
+   ;; Puertas Horizontales ;;
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+   ld       ix, #puerta_horizontal_entity
+
+   ld    X(ix), #8
+   ld    Y(ix), #80
+   ld       hl, #puerta_horizontal_entity
    call man_game_create_template_entity
 
    ret

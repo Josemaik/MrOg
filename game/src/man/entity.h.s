@@ -33,6 +33,8 @@
         E_TYPE_ENEMY3 = 0x10
         E_TYPE_ENEMY4 = 0x12
         E_TYPE_FOOD   = 0x16
+        E_TYPE_DOOR   = 0x18
+        E_TYPE_KEY   = 0x20
         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
         E_TYPE_DEFAULT  = E_TYPE_ENEMY
     ;; Components    
@@ -69,6 +71,9 @@
        SPR_ENEMIE_FLOBIER_H = 16
        SPR_HELADO_W = 8
        SPR_HELADO_H = 16
+	   SPR_PUERTA_HORIZONTAL_W = 8 
+	   SPR_PUERTA_HORIZONTAL_H = 8 
+
                                         
 
     ;;;;;;;;;;;;;;;;;;;;

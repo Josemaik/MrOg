@@ -450,46 +450,9 @@ sys_collisions_update_entities::
     ;; Collision ;; --- Comprobamos con que colisionamos
     ;;;;;;;;;;;;;;;
 
-    ld a, TYPE(iy)
-    and #E_TYPE_FOOD
-    cp  #E_TYPE_FOOD
-    jr  z, colision_con_comida
-
-    ld a, TYPE(iy)
-    and #E_TYPE_ENEMY
-    cp  #E_TYPE_ENEMY
-    jr  z, colision_con_enemigo
-
-    ld a, TYPE(iy)
-    and #E_TYPE_ENEMY2
-    cp  #E_TYPE_ENEMY2
-    jr  z, colision_con_enemigo
-
-    ld a, TYPE(iy)
-    and #E_TYPE_ENEMY3
-    cp  #E_TYPE_ENEMY3
-    jr  z, colision_con_enemigo
-
-    ld a, TYPE(iy)
-    and #E_TYPE_ENEMY4
-    cp  #E_TYPE_ENEMY4
-    jr  z, colision_con_enemigo
-
-    jr final_colisiones
-
-;; Colision con el enemigo
-colision_con_enemigo:
-    push de
-    call sys_render_draw_solid_box_player
-    pop de
-    ld X(ix), #20
-    ld Y(ix), #60
-
-    jr final_colisiones
-
-;; Colision con la comida
-colision_con_comida:
-    ld TYPE(iy), #E_TYPE_DEAD
+    call check_food
+    ;call check_door
+    call check_enemy
 
     jr final_colisiones
 
@@ -506,6 +469,64 @@ colision_con_comida:
 
     ret
 
+;; Colision con la comida
+check_food:
+    ld a, TYPE(iy)
+    and #E_TYPE_FOOD
+    cp  #E_TYPE_FOOD
+    ret nz
+
+    ld TYPE(iy), #E_TYPE_DEAD
+
+    ret
+
+;; Colision con los enemigos
+check_enemy:
+    ld a, TYPE(iy)
+    and #E_TYPE_ENEMY
+    cp  #E_TYPE_ENEMY
+    jr   z, inicio_check_enemy
+
+    ld a, TYPE(iy)
+    and #E_TYPE_ENEMY2
+    cp  #E_TYPE_ENEMY2
+    jr   z, inicio_check_enemy
+
+    ld a, TYPE(iy)
+    and #E_TYPE_ENEMY3
+    cp  #E_TYPE_ENEMY3
+    jr   z, inicio_check_enemy
+
+    ld a, TYPE(iy)
+    and #E_TYPE_ENEMY4
+    cp  #E_TYPE_ENEMY4
+    jr   z, inicio_check_enemy
+
+    ret
+
+    inicio_check_enemy:
+
+    push de
+    call sys_render_draw_solid_box_player
+    pop de
+    ld X(ix), #20 ;; | 
+    ld Y(ix), #60 ;; | Reposicionar al player a la posicion inicial
+
+    ret
+
+;; Colision con la puerta
+check_door:
+
+    ld a, TYPE(iy)
+    and #E_TYPE_DOOR
+    cp  #E_TYPE_DOOR
+    ret nz
+
+    ret
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Sys Collision Update ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;
 _sys_collision_update::
     ld   bc, #sys_collision_update_one_entity
     ld   hl, #E_CMP_COLLIDER
