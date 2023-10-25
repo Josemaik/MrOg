@@ -117,6 +117,8 @@ man_game_init::
     ;;music init
        ld de, #_song_prueba
        call cpct_akp_musicInit_asm
+   ;; crear hud
+      call create_HUD
    ret
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; PLAY

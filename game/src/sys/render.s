@@ -17,6 +17,50 @@
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
 
+sys_render_vida::
+            ;; load in c the width
+            ld c, #4
+            ;; load in b the height
+            ld b, #8
+            ;; load in hl the sprite
+            ld hl, #sprite_vida
+            add hl,de
+            ;; save array vidas
+            push de
+        ;; save first byte in L
+            ld      e, l
+            ld      d, h
+            ld      a, (de)
+            ld      l, a
+        ;; add 1 to de and save second byte in H
+            inc     de
+            ld      a, (de)
+            ld      h, a
+        ;; retrieve array de vidas
+            pop de
+            push de
+        ;; obtener posicion de memoria in hl
+            call sys_get_screen_ptr_vida
+        ;; load memory pointer in de
+            ld e , l
+            ld d, h
+            call cpct_drawSprite_asm
+            pop de
+ret
+sys_get_screen_ptr_vida:
+            ld      hl, #x_vida
+            add     hl, de
+            ld      c, (hl)
+        ;; get to entity->y and save to B
+            ld      hl, #y_vida
+            add     hl, de
+            ld      b, (hl)
+        ;; load in DE start of the memory
+            ld      de, #CPCT_VMEM_START_ASM
+
+            call    cpct_getScreenPtr_asm
+ret
+
 sys_render_draw_solid_box:
     push hl
     ;;;;;;;;;;;;;;;;;;;;;;;;;;

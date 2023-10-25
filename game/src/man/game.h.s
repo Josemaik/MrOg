@@ -13,7 +13,8 @@
       .globl _man_entity_create
       .globl _man_entity_clone
       .globl _man_entity_set_for_destruction
-      .globl man_entity_destroy                           
+      .globl man_entity_destroy    
+      .globl create_HUD                       
    ;; systems                             
       .globl _sys_physics_update          
       .globl _sys_render_update                   
