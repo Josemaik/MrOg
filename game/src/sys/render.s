@@ -17,6 +17,60 @@
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
 
+sys_render_life_or_bomb::
+            ;; load in c the width
+            ld c, #0x04
+            ;; load in b the height
+            ld b, #0x08
+            ;; load in hl the sprite
+            ld hl, #sprite_vida
+            add hl,de
+            ;; save array vidas
+            push de
+        ;; save first byte in L
+            ld      e, l
+            ld      d, h
+            ld      a, (de)
+            ld      l, a
+        ;; add 1 to de and save second byte in H
+            inc     de
+            ld      a, (de)
+            ld      h, a
+             ;; retrieve array de vidas
+            pop de
+            ;; save array de vidas
+            push de
+            ;; save sprite
+            push hl
+        ;; save all register that are eliminated in fuction
+            ; push de
+            push bc
+        ;; obtener posicion de memoria in hl
+            call sys_get_screen_ptr_life_or_bomb
+        ;; load memory pointer in de
+            ld e , l
+            ld d, h
+            ;; retrieve with and height
+            pop bc
+            ;; retrive sprite
+            pop hl
+            call cpct_drawSprite_asm
+            pop de
+ret
+sys_get_screen_ptr_life_or_bomb:
+            ld      hl, #x_vida
+            add     hl, de
+            ld      c, (hl)
+        ;; get to entity->y and save to B
+            ld      hl, #y_vida
+            add     hl, de
+            ld      b, (hl)
+        ;; load in DE start of the memory
+            ld      de, #CPCT_VMEM_START_ASM
+
+            call    cpct_getScreenPtr_asm
+ret
+
 sys_render_draw_solid_box:
     push hl
     ;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -484,7 +484,7 @@ colision_con_enemigo:
     pop de
     ld X(ix), #20
     ld Y(ix), #60
-
+    call quitar_vida
     jr final_colisiones
 
 ;; Colision con la comida

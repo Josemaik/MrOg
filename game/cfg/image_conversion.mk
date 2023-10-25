@@ -34,6 +34,8 @@ $(eval $(call IMG2SP, CONVERT, assets/helado.png , 16, 16, spr_helado))
 # $(eval $(call IMG2SP, CONVERT, assets/sprite4_A.png , 16, 16, spr_sprite4_A))
 $(eval $(call IMG2SP, CONVERT, assets/bomba.png , 16, 16, spr_bomba))
 $(eval $(call IMG2SP, CONVERT, assets/enemigos.png , 16, 16, spr_enemigo_flobier))
+$(eval $(call IMG2SP, CONVERT, assets/vidas.png , 8, 8, spr_vidas))
+$(eval $(call IMG2SP, CONVERT, assets/bombahud.png , 8, 8, spr_bombahud))
 $(eval $(call IMG2SP, SET_IMG_FORMAT  , zgtiles            ))
 $(eval $(call IMG2SP, CONVERT         , assets/tiles.png , 8, 8, tiles))
 
