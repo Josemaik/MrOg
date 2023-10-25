@@ -10,4 +10,4 @@
     Y = 1
     sprite = 2
 
-DISTANCE_BETWEEN_VIDAS = 3
+DISTANCE_BETWEEN_VIDAS = 4

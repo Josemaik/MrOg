@@ -19,9 +19,9 @@
 
 sys_render_vida::
             ;; load in c the width
-            ld c, #4
+            ld c, #0x04
             ;; load in b the height
-            ld b, #8
+            ld b, #0x08
             ;; load in hl the sprite
             ld hl, #sprite_vida
             add hl,de
@@ -36,14 +36,24 @@ sys_render_vida::
             inc     de
             ld      a, (de)
             ld      h, a
-        ;; retrieve array de vidas
+             ;; retrieve array de vidas
             pop de
+            ;; save array de vidas
             push de
+            ;; save sprite
+            push hl
+        ;; save all register that are eliminated in fuction
+            ; push de
+            push bc
         ;; obtener posicion de memoria in hl
             call sys_get_screen_ptr_vida
         ;; load memory pointer in de
             ld e , l
             ld d, h
+            ;; retrieve with and height
+            pop bc
+            ;; retrive sprite
+            pop hl
             call cpct_drawSprite_asm
             pop de
 ret
