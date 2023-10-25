@@ -17,7 +17,7 @@
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
 
-sys_render_vida::
+sys_render_life_or_bomb::
             ;; load in c the width
             ld c, #0x04
             ;; load in b the height
@@ -46,7 +46,7 @@ sys_render_vida::
             ; push de
             push bc
         ;; obtener posicion de memoria in hl
-            call sys_get_screen_ptr_vida
+            call sys_get_screen_ptr_life_or_bomb
         ;; load memory pointer in de
             ld e , l
             ld d, h
@@ -57,7 +57,7 @@ sys_render_vida::
             call cpct_drawSprite_asm
             pop de
 ret
-sys_get_screen_ptr_vida:
+sys_get_screen_ptr_life_or_bomb:
             ld      hl, #x_vida
             add     hl, de
             ld      c, (hl)

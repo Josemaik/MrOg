@@ -2,7 +2,7 @@
 .globl _spr_vidas
 .globl _spr_bombahud
 ;; sys
-.globl sys_render_vida
+.globl sys_render_life_or_bomb
 
 
 ;;array_vidas

@@ -118,7 +118,7 @@ man_game_init::
        ld de, #_song_prueba
        call cpct_akp_musicInit_asm
    ;; crear hud
-      call create_HUD
+      ; call create_HUD
    ret
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; PLAY
@@ -143,6 +143,9 @@ man_game_play::
          call      _sys_ai_update
       ;; render
          call     _sys_render_update
+
+         ;; crear hud
+      call create_HUD
       ;; update manager
          call     _man_entity_update
 
