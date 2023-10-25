@@ -435,20 +435,25 @@ sys_collisions_update_entities::
     ;; if ( Y(DE) + HEIGHT(DE) - Y(BC) < 0 )
     ld a, Y(ix)
     add HEIGHT(ix)
-    sub #2
+    sub #4
     sub Y(iy)
     jr c, __no_collision
 
     ;; if ( Y(BC) + HEIGHT(BC) - Y(DE) < 0 )
     ld a, Y(iy)
     add HEIGHT(iy)
-    sub #2
+    sub #4
     sub Y(ix)
     jr c, __no_collision
 
     ;;;;;;;;;;;;;;;
     ;; Collision ;; --- Comprobamos con que colisionamos
     ;;;;;;;;;;;;;;;
+
+    ld a, TYPE(iy)
+    and #E_TYPE_FOOD
+    cp  #E_TYPE_FOOD
+    jr  z, colision_con_comida
 
     ld a, TYPE(iy)
     and #E_TYPE_ENEMY
@@ -470,10 +475,7 @@ sys_collisions_update_entities::
     cp  #E_TYPE_ENEMY4
     jr  z, colision_con_enemigo
 
-    ld a, TYPE(iy)
-    and #E_TYPE_FOOD
-    cp  #E_TYPE_FOOD
-    jr  z, colision_con_comida
+    jr final_colisiones
 
 ;; Colision con el enemigo
 colision_con_enemigo:

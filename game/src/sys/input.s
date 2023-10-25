@@ -39,10 +39,12 @@ sys_input_update_for_one:
     ld      hl, #Key_D
     call cpct_isKeyPressed_asm
     jr nz, sys_physics_D_is_pressed
-     ld      hl, #Key_W
+    ;; check letter Q
+    ld      hl, #Key_W
     call cpct_isKeyPressed_asm
     jr nz, sys_physics_W_is_pressed
-     ld      hl, #Key_S
+    ;; check letter A
+    ld      hl, #Key_S
     call cpct_isKeyPressed_asm
     jr nz, sys_physics_S_is_pressed
     ld      hl, #Key_Space
