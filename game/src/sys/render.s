@@ -18,6 +18,7 @@
 ;;;;;;;;;;;;;;;
 
 sys_render_draw_solid_box:
+    push hl
     ;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; draw solid box
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -38,14 +39,16 @@ sys_render_draw_solid_box:
             ld hl,#HEIGHT
             add hl,de
             ld b, (hl)
-
+            pop hl
             push de
         ;; load last draw in de
-            ld hl, #last_draw
-            add hl, de
-            ld d, (hl)
-            inc hl
-            ld e, (hl)
+            ; ld hl, #last_draw
+            ; add hl, de
+            ; ld d, (hl)
+            ; inc hl
+            ; ld e, (hl)
+            ld e , l
+            ld d, h
 
         call cpct_drawSolidBox_asm
         pop de
@@ -235,14 +238,15 @@ sys_render_update_for_one:
             pop hl
             and     #E_TYPE_DEAD
             cp      #E_TYPE_DEAD
-            jr      z, sys_render_update_for_one_end
+            jr      z, sys_render_dont_draw
             ;; draw entity -> _sys_render_draw_one_entity
             ;; IN =>  DE -> entity to draw
             ;; OUP => HL
             call    sys_render_draw_one_entity
             jr sys_render_update_for_one_end
-        ;  sys_render_dont_draw:
-        ;     call    sys_render_draw_solid_box
+         sys_render_dont_draw:
+            call    sys_render_draw_solid_box
+            jr sys_render_update_for_one_end
         render_blending_enemie:
                 ; ld a , (contador_draw_map)
                 ; dec a
