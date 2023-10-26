@@ -400,17 +400,43 @@ sys_collisions_update_entities::
     ld__ix_bc  ;; BC player
     ld__iy_de
 
+    ld  b, #0 ;; Inicializar bounding box
+
     ;; Colision jugador con entidad
     ld   a, TYPE(ix)
     and  COLLIDES_AGAINST(iy)
     cp   COLLIDES_AGAINST(iy)
-    jr z, check_collision_between_entities
+    jr z, comprobar_si_es_enemigo
 
     ;; Colision entidad con jugador
     ld   a, TYPE(iy)
     and  COLLIDES_AGAINST(ix)
     cp   COLLIDES_AGAINST(ix)
     jr nz, __no_collision
+
+    ;; Hacer la bounding box mas pequeña si la entidad es un enemigo
+    comprobar_si_es_enemigo:
+
+    ld a, TYPE(iy)
+    cp  #E_TYPE_ENEMY
+    jr   z, bounding_box_mas_pequeña
+
+    ld a, TYPE(iy)
+    cp  #E_TYPE_ENEMY2
+    jr   z, bounding_box_mas_pequeña
+
+    ld a, TYPE(iy)
+    cp  #E_TYPE_ENEMY3
+    jr   z, bounding_box_mas_pequeña
+
+    ld a, TYPE(iy)
+    cp  #E_TYPE_ENEMY4
+    jr   z, bounding_box_mas_pequeña
+
+    jr check_collision_between_entities
+
+    bounding_box_mas_pequeña:
+    ld  b, #2
 
     ;;;;;;;;;;;;;;;;
     ;; Colisiones ;;
@@ -420,7 +446,7 @@ sys_collisions_update_entities::
     ;; if ( X(DE) + WIDTH(DE) - X(BC) < 0 )
     ld a, X(ix)
     add WIDTH(ix)
-    sub #2
+    sub b
     sub X(iy)
     jr c, __no_collision
 
@@ -428,21 +454,23 @@ sys_collisions_update_entities::
     ;; if ( X(BC) + WIDTH(BC) - X(DE) < 0 )
     ld a, X(iy)
     add WIDTH(iy)
-    sub #2
+    sub b
     sub X(ix)
     jr c, __no_collision
 
     ;; if ( Y(DE) + HEIGHT(DE) - Y(BC) < 0 )
     ld a, Y(ix)
     add HEIGHT(ix)
-    sub #4
+    sub b
+    sub b
     sub Y(iy)
     jr c, __no_collision
 
     ;; if ( Y(BC) + HEIGHT(BC) - Y(DE) < 0 )
     ld a, Y(iy)
     add HEIGHT(iy)
-    sub #4
+    sub b
+    sub b
     sub Y(ix)
     jr c, __no_collision
 
@@ -451,7 +479,7 @@ sys_collisions_update_entities::
     ;;;;;;;;;;;;;;;
 
     call check_food
-    ;call check_door
+    call check_door
     call check_enemy
 
     jr final_colisiones
@@ -472,7 +500,6 @@ sys_collisions_update_entities::
 ;; Colision con la comida
 check_food:
     ld a, TYPE(iy)
-    and #E_TYPE_FOOD
     cp  #E_TYPE_FOOD
     ret nz
 
@@ -483,22 +510,18 @@ check_food:
 ;; Colision con los enemigos
 check_enemy:
     ld a, TYPE(iy)
-    and #E_TYPE_ENEMY
     cp  #E_TYPE_ENEMY
     jr   z, inicio_check_enemy
 
     ld a, TYPE(iy)
-    and #E_TYPE_ENEMY2
     cp  #E_TYPE_ENEMY2
     jr   z, inicio_check_enemy
 
     ld a, TYPE(iy)
-    and #E_TYPE_ENEMY3
     cp  #E_TYPE_ENEMY3
     jr   z, inicio_check_enemy
 
     ld a, TYPE(iy)
-    and #E_TYPE_ENEMY4
     cp  #E_TYPE_ENEMY4
     jr   z, inicio_check_enemy
 
@@ -518,9 +541,17 @@ check_enemy:
 check_door:
 
     ld a, TYPE(iy)
-    and #E_TYPE_DOOR
     cp  #E_TYPE_DOOR
-    ret nz
+    jr  z, inicio_check_door
+
+    ret
+
+    inicio_check_door:
+
+    ld   hl, #is_colliding_player
+    ld (hl),  #1
+
+    ld VY(ix), #0
 
     ret
 
