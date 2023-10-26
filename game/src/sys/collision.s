@@ -548,10 +548,40 @@ check_door:
 
     inicio_check_door:
 
+    ld  a, direction(ix)
+    cp  #DIRECT_W
+    jr  z, colision_arriba_puerta
+
+    ld  a, direction(ix)
+    cp  #DIRECT_S
+    jr  z, colision_abajo_puerta
+
+    ;ld  a, direction(ix)
+    ;cp  #DIRECT_A
+    ;jr  z, colision_izquierda_puerta
+
+    ;;ret
+
+    colision_arriba_puerta:
     ld   hl, #is_colliding_player
     ld (hl),  #1
-
     ld VY(ix), #0
+    jr final_check_door
+
+    colision_abajo_puerta:
+    ld   hl, #is_colliding_player + 1
+    ld (hl),  #1
+    ld VY(ix), #0
+    jr final_check_door
+
+    ;colision_izquierda_puerta:
+    ;ld   hl, #is_colliding_player + 3
+    ;ld (hl),  #1
+    ;ld VX(ix), #0
+
+    jr final_check_door
+
+    final_check_door:
 
     ret
 

@@ -55,3 +55,4 @@
   .globl _spr_enemigo_flobier_7
   .globl _spr_helado
   .globl _spr_puerta_horizontal
+  .globl _spr_puerta_vertical

@@ -73,6 +73,8 @@
        SPR_HELADO_H = 16
 	   SPR_PUERTA_HORIZONTAL_W = 8 
 	   SPR_PUERTA_HORIZONTAL_H = 8 
+       SPR_PUERTA_VERTICAL_W = 4
+       SPR_PUERTA_VERTICAL_H = 16
 
                                         
 
