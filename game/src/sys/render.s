@@ -272,9 +272,8 @@ sys_render_update_for_one:
             ld hl, #TYPE
             add hl, de
             ld a, (hl)
-            cp #E_TYPE_ENEMY
+            cp #E_TYPE_BOMB
             jr z, render_blending_enemie ;; si es enemigo que rodea mapa, render con blending
-            
             ;; save entity to update
             push    de
             ;; get screen pointer
