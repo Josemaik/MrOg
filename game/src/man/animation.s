@@ -106,26 +106,6 @@ anim_enemy_up::
     .db #MAN_ANIM_PLAYER_TIME
     .dw _spr_enemigo_flobier_6
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_6
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_6
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_6
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_6
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_6
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_7
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_7
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_7
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_7
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_7
-    .db #MAN_ANIM_PLAYER_TIME
     .dw _spr_enemigo_flobier_7
     .db #0x00
     .dw #anim_enemy_up
@@ -133,26 +113,6 @@ anim_enemy_up::
 anim_enemy_left::
     .db #MAN_ANIM_PLAYER_TIME
     .dw _spr_enemigo_flobier_4
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_4
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_4
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_4
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_4
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_4
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_5
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_5
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_5
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_5
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_5
     .db #MAN_ANIM_PLAYER_TIME
     .dw _spr_enemigo_flobier_5
     .db #0x00
@@ -162,26 +122,6 @@ anim_enemy_down::
     .db #MAN_ANIM_PLAYER_TIME
     .dw _spr_enemigo_flobier_0
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_1
-    .db #MAN_ANIM_PLAYER_TIME
     .dw _spr_enemigo_flobier_1
     .db #0x00
     .dw #anim_enemy_down
@@ -190,287 +130,27 @@ anim_enemy_right::
     .db #MAN_ANIM_PLAYER_TIME
     .dw _spr_enemigo_flobier_2
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_enemigo_flobier_3
-    .db #MAN_ANIM_PLAYER_TIME
     .dw _spr_enemigo_flobier_3
     .db #0x00
     .dw #anim_enemy_right
 
 
 anim_bomba::
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_BOMB
     .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_BOMB
+    .dw _spr_bomba_1
+    .db #MAN_ANIM_PLAYER_BOMB
     .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_BOMB
+    .dw _spr_bomba_1
+    .db #MAN_ANIM_PLAYER_BOMB
     .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_BOMB
     .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_BOMB
     .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_bomba_3
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_BOMB
     .dw _spr_bomba_3
     .db #0x00
     .dw #anim_bomba

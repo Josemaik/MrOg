@@ -13,7 +13,9 @@
       .globl _man_entity_create
       .globl _man_entity_clone
       .globl _man_entity_set_for_destruction
-      .globl man_entity_destroy                           
+      .globl man_entity_destroy    
+      .globl create_HUD    
+      .globl quitar_bomba                   
    ;; systems                             
       .globl _sys_physics_update          
       .globl _sys_render_update                   
@@ -28,7 +30,6 @@
 
    ;; templates
    .globl player_entity
-   .globl deflator_Dennis_entity
    .globl bomba_entity
    .globl flobier_entity
    .globl flobier_entity2
@@ -40,7 +41,6 @@
    ;;music
    .globl _song_prueba
    ;; ia
-   .globl sys_ai_surround_map
    .globl sys_ai_vertical_enemie
    .globl sys_ai_horizontal_enemie
    .globl sys_ai_patron_enemie_mapa1

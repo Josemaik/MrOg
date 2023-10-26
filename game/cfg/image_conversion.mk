@@ -37,5 +37,12 @@ $(eval $(call IMG2SP, CONVERT, assets/puerta_vertical.png , 8, 16, spr_puerta_ve
 # $(eval $(call IMG2SP, CONVERT, assets/sprite4_A.png , 16, 16, spr_sprite4_A))
 $(eval $(call IMG2SP, CONVERT, assets/bomba.png , 16, 16, spr_bomba))
 $(eval $(call IMG2SP, CONVERT, assets/enemigos.png , 16, 16, spr_enemigo_flobier))
+$(eval $(call IMG2SP, CONVERT, assets/vidas.png , 8, 8, spr_vidas))
+$(eval $(call IMG2SP, CONVERT, assets/bombahud.png , 8, 8, spr_bombahud))
 $(eval $(call IMG2SP, SET_IMG_FORMAT  , zgtiles            ))
+
 $(eval $(call IMG2SP, CONVERT         , assets/tiles.png , 8, 8, tiles))
+$(eval $(call IMG2SP, SET_FOLDER, assets/screens/))
+$(eval $(call IMG2SP, SET_IMG_FORMAT, screen))
+$(eval $(call IMG2SP, SET_OUTPUT, bin))
+$(eval $(call IMG2SP, CONVERT, assets/menu_screen.png , 0, 0, menu_screen))	

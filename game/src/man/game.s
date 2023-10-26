@@ -8,6 +8,8 @@ is_bomb_active:: ;; 0 no activo 1 activo
    .db 0x00
 bombs_available::
    .db 0x03
+lifes_available::
+   .db 0x03
 .area _CODE
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -42,6 +44,7 @@ man_game_create_template_entity::
         ld c, a
    ret
 man_game_create_bomb::
+   call quitar_bomba
    ld hl, #bomba_entity
    call man_game_create_template_entity
    ld a, #1
@@ -52,6 +55,42 @@ man_game_create_bomb::
    ld (bombs_available), a
 ret
 set_xy_bomb::
+   ld a , c
+   and #DIRECT_W
+   cp #DIRECT_W
+   jr z, set_w
+   ld a , c
+   and #DIRECT_S
+   cp #DIRECT_S
+   jr z, set_s
+   ld a , c
+   and #DIRECT_A
+   cp #DIRECT_A
+   jr z, set_a
+   ld a , c
+   and #DIRECT_D
+   cp #DIRECT_D
+   jr z, set_d
+   set_w:
+      ld a , 5(ix)
+      add #8
+      ld 5(ix), a
+      jr setxybomb
+   set_a:
+      ld a , 4(ix)
+      add #8
+      ld 4(ix), a
+      jr setxybomb
+   set_s:
+      ld a , 5(ix)
+      sub #8
+      ld 5(ix), a
+      jr setxybomb
+   set_d:
+      ld a , 4(ix)
+      sub #8
+      ld 4(ix), a
+      setxybomb:
    ld hl, #X
    add hl, de
    ld a, 4(ix)
@@ -155,6 +194,8 @@ man_game_init::
     ;;music init
        ld de, #_song_prueba
        call cpct_akp_musicInit_asm
+   ;; crear hud
+      ; call create_HUD
    ret
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; PLAY
@@ -179,6 +220,9 @@ man_game_play::
          call      _sys_ai_update
       ;; render
          call     _sys_render_update
+
+         ;; crear hud
+      call create_HUD
       ;; update manager
          call     _man_entity_update
 

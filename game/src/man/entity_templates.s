@@ -25,25 +25,25 @@ player_entity::
 	;   .dw   #0x00C4			;; last draw2
 	  .db   #DIRECT_S			;; direction
 	  .db  #0x00
-deflator_Dennis_entity:: 
-		.db 	#E_TYPE_ENEMY			;; entity type
-      .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_IA ;; | #E_CMP_ANIMATED |#E_CMP_COLLIDER ;; cmps
-		.db     #70               ;; x = 38
-		.db     #20              ;; y = 180
-		.db     #SPR_SPRITE1_S_W   ;; width 
-		.db     #SPR_SPRITE1_S_H   ;; height
-		.db     #0x00                 ;; vx = -1
-		.db     #0x00               ;; vy = 0
-		.dw     #_spr_burro_00  ;; sprite (2b)
-      .dw     #sys_ai_surround_map ;; behaviour
-	  .db 	#0x00					;; ai_counter
-      .dw     #0x0000 ;; anim
-      .db     #MAN_ANIM_PLAYER_TIME            ;;animcounter c = 0
-	  .db 	#0x00				;;collides_against
-	  .dw   #0x0000				;; last draw
-	;   .dw   #0x00C4				;; last draw2
-	  .db   #DIRECT_S			;; direction
-	  .db  #0x00
+; deflator_Dennis_entity:: 
+; 		.db 	#E_TYPE_ENEMY			;; entity type
+;       .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_IA ;; | #E_CMP_ANIMATED |#E_CMP_COLLIDER ;; cmps
+; 		.db     #70               ;; x = 38
+; 		.db     #20              ;; y = 180
+; 		.db     #SPR_SPRITE1_S_W   ;; width 
+; 		.db     #SPR_SPRITE1_S_H   ;; height
+; 		.db     #0x00                 ;; vx = -1
+; 		.db     #0x00               ;; vy = 0
+; 		.dw     #_spr_burro_00  ;; sprite (2b)
+;       .dw     #sys_ai_surround_map ;; behaviour
+; 	  .db 	#0x00					;; ai_counter
+;       .dw     #0x0000 ;; anim
+;       .db     #MAN_ANIM_PLAYER_TIME            ;;animcounter c = 0
+; 	  .db 	#0x00				;;collides_against
+; 	  .dw   #0x0000				;; last draw
+; 	;   .dw   #0x00C4				;; last draw2
+; 	  .db   #DIRECT_S			;; direction
+; 	  .db  #0x00
 flobier_entity:: 
 		.db 	#E_TYPE_ENEMY2			;; entity type
       .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_IA | #E_CMP_ANIMATED | #E_CMP_COLLIDER;; | #E_CMP_ANIMATED |#E_CMP_COLLIDER ;; cmps
@@ -57,7 +57,7 @@ flobier_entity::
       .dw     #sys_ai_vertical_enemie ;; behaviour
 	  .db 	#0x0c					;; ai_counter
       .dw     #anim_enemy_left ;; anim
-      .db     #MAN_ANIM_PLAYER_TIME            ;;animcounter c = 0
+      .db     #MAN_ANIM_PLAYER_ENEMY            ;;animcounter c = 0
 	  .db 	#E_TYPE_PLAYER				;;collides_against
 	  .dw   #0x0000				;; last draw
 	;   .dw   #0x00C4				;; last draw2
@@ -76,7 +76,7 @@ flobier_entity2::
       .dw     #sys_ai_horizontal_enemie ;; behaviour
 	  .db 	#0x0c					;; ai_counter
       .dw     #anim_enemy_down ;; anim
-      .db     #MAN_ANIM_PLAYER_TIME            ;;animcounter c = 0
+      .db     #MAN_ANIM_PLAYER_ENEMY            ;;animcounter c = 0
 	  .db 	#E_TYPE_PLAYER				;;collides_against
 	  .dw   #0x0000				;; last draw
 	;   .dw   #0x00C4				;; last draw2
@@ -95,7 +95,7 @@ flobier_entity_patron_mapa1::
       .dw     #sys_ai_patron_enemie_mapa1 ;; behaviour
 	  .db 	#0x00					;; ai_counter
       .dw     #0x0000 ;; anim
-      .db     #MAN_ANIM_PLAYER_TIME            ;;animcounter c = 0
+      .db     #MAN_ANIM_PLAYER_ENEMY            ;;animcounter c = 0
 	  .db 	#0x00				;;collides_against
 	  .dw   #0x0000				;; last draw
 	;   .dw   #0x00C4				;; last draw2
@@ -112,14 +112,14 @@ bomba_entity::
 		.db     #0x00               ;; vy = 0
 		.dw     #_spr_bomba_0  ;; sprite (2b)
       .dw     #0x0000;; behaviour
-	  .db 	#0x0c					;; ai_counter
+	  .db 	#0x00					;; ai_counter
       .dw     #anim_bomba ;; anim
-      .db     #0x00          ;;contador para morir c = 0
+      .db     #MAN_ANIM_PLAYER_BOMB          ;;contador para morir c = 0
 	  .db 	#0x00				;;collides_against
 	  .dw   #0x0000				;; last draw
 	;   .dw   #0x00C4				;; last draw2
 	  .db   #0x00			;; direction
-	  .db  #0x78
+	  .db  #0x50
 
 helado_entity::
 		 .db 	#E_TYPE_FOOD			;; entity type

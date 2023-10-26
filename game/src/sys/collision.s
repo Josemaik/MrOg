@@ -496,8 +496,13 @@ check_enemy:
     push de
     call sys_render_draw_solid_box_player
     pop de
+
     ld X(ix), #20 ;; | 
     ld Y(ix), #60 ;; | Reposicionar al player a la posicion inicial
+    
+    push de
+    call quitar_vida
+    pop de
 
     ret
 
