@@ -50,6 +50,8 @@
         TOTAL_ENTITIES         = 12     ;; number of entities                          
         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
         MAN_ANIM_PLAYER_TIME   = 3
+        MAN_ANIM_PLAYER_BOMB  = 3
+        MAN_ANIM_PLAYER_ENEMY = 5
         TIME_TO_UPDATE_PHYSICS_X_PLAYER = 3
         TIME_TO_UPDATE_PHYSICS_X_ENEMIE = 6
     ;; DIRECTIONS
