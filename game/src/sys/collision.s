@@ -124,7 +124,7 @@ comprobar_colision:
 
     ret
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Funciones para poner la velocidad y la posicion a 0
 ;;
 sys_collision_player_tilemap_w:
@@ -165,18 +165,18 @@ sys_collision_player_tilemap_a:
     ld  X(ix), a
 
     ret
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; COLISIONES DEL PLAYER CON EL TILEMAP ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-sys_collision_update_player_tilemap:
-    ;; Inicializamos los valores
-    call inicializar_player_colision
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Colisiones en las direcciones
+;;
+sys_collision_up:
 
-    ld   ix, #m_entities
-    
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; Colision con la parte de arriba (W) 
-    ;;
+    ld  a, direction(ix)
+    cp  #DIRECT_W
+    jr  z, colision_parte_arriba
+
+    ret
+
+    colision_parte_arriba:
 
     ld    hl, #colision_actual
     ld  (hl), #1
@@ -204,9 +204,17 @@ sys_collision_update_player_tilemap:
     inc   a
     ld    Y(ix), a
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; Colision con la parte de abajo (S) ;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ret
+
+sys_collision_down:
+
+    ld  a, direction(ix)
+    cp  #DIRECT_S
+    jr  z, colision_parte_abajo
+
+    ret
+
+    colision_parte_abajo:
 
     ld    hl, #colision_actual
     ld  (hl), #2
@@ -234,9 +242,17 @@ sys_collision_update_player_tilemap:
     sub   a, #16
     ld    Y(ix), a
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; Colision con la parte de derecha (D) ;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ret
+
+sys_collision_right:
+
+    ld  a, direction(ix)
+    cp  #DIRECT_D
+    jr  z, colision_parte_derecha
+
+    ret
+
+    colision_parte_derecha:
 
     ld    hl, #colision_actual
     ld  (hl), #3
@@ -264,9 +280,17 @@ sys_collision_update_player_tilemap:
     sub   a, #7
     ld    X(ix), a
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; Colision con la parte de izquierda (A) ;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ret
+
+sys_collision_left:
+
+    ld  a, direction(ix)
+    cp  #DIRECT_A
+    jr  z, colision_parte_izquierda
+
+    ret
+
+    colision_parte_izquierda:
 
     ld    hl, #colision_actual
     ld  (hl), #4
@@ -285,6 +309,32 @@ sys_collision_update_player_tilemap:
     ld    a, Y(ix)
     sub   a, #15
     ld    Y(ix), a
+
+    ret
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; COLISIONES DEL PLAYER CON EL TILEMAP ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+sys_collision_update_player_tilemap:
+    ;; Inicializamos los valores
+    call inicializar_player_colision
+
+    ld   ix, #m_entities
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Colision con la parte de arriba (W) 
+    call sys_collision_up
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Colision con la parte de abajo (S)
+    call sys_collision_down
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Colision con la parte de derecha (D)
+    call sys_collision_right
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Colision con la parte de izquierda (A)
+    call sys_collision_left
 
 ret
 
