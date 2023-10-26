@@ -26,6 +26,9 @@ inicializar_player_colision:
     ld      (is_colliding_player + 2), a
     ld      (is_colliding_player + 3), a
 
+    ld    hl, #colision_actual
+    ld  (hl), #0
+
     ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -136,11 +139,10 @@ comprobar_colision:
     ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Funciones para poner la velocidad a 0
+;; Funciones para poner la velocidad y la posicion a 0
 ;;
 sys_collision_player_tilemap_w:
-    ld h , 4(ix)
-    ld l,  5(ix)
+    ld  hl, #is_colliding_player
     ld      a, #1
     ld      (hl), a
     ld hl, #VY
@@ -149,9 +151,7 @@ sys_collision_player_tilemap_w:
 
     ret
 sys_collision_player_tilemap_s:
-    ld h , 4(ix)
-    ld l,  5(ix)
-    inc hl
+    ld  hl, #is_colliding_player + 1
     ld      a, #1
     ld      (hl), a
     ld hl, #VY
@@ -161,10 +161,7 @@ sys_collision_player_tilemap_s:
     ret
 
 sys_collision_player_tilemap_d:
-    ld h , 4(ix)
-    ld l,  5(ix)
-    inc hl
-    inc hl
+    ld  hl, #is_colliding_player + 2
     ld      a, #1
     ld      (hl), a
     ld hl, #VX
@@ -180,11 +177,7 @@ sys_collision_player_tilemap_d:
     ret
 
 sys_collision_player_tilemap_a:
-    ld h , 4(ix)
-    ld l,  5(ix)
-    inc hl
-    inc hl
-    inc hl
+    ld  hl, #is_colliding_player + 3
     ld      a, #1
     ld      (hl), a
     ld hl, #VX
@@ -198,12 +191,18 @@ sys_collision_player_tilemap_a:
     ld (hl), a
 
     ret
-calcular_colisiones_jugador:
- ld    hl, #colision_actual
-    ld  (hl), #0
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; COLISIONES DEL PLAYER CON EL TILEMAP ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+sys_collision_update_player_tilemap:
+    ;; Inicializamos los valores
+    call inicializar_player_colision
+
+    ld   de, #m_entities
+    
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; Colision con la parte de arriba (W) ;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Colision con la parte de arriba (W) 
+    ;;
 
     ld    hl, #colision_actual
     ld  (hl), #1
@@ -328,13 +327,6 @@ calcular_colisiones_jugador:
     ld    hl, #colision_actual
     ld  (hl), #4
 
-
-    ; ld   hl, #X
-    ; add  hl, de
-    ; ld    a, (hl)
-    ; dec   a
-    ; ld    (hl), a
-
     call comprobar_colision                ;; Left-up
 
     ld   hl, #Y
@@ -357,35 +349,7 @@ calcular_colisiones_jugador:
     sub   a, #15
     ld    (hl), a
 
-    ;ld   hl, #X
-    ;add  hl, de
-    ;ld    a, (hl)
-    ;inc   a
-    ;ld    (hl), a
 ret
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; UPDATE ONE ENTITY WITH THE TILEMAP
-;;
-sys_collision_update_one_entity:
-
-    ;;;;;;;;;;;;;; Comprobar si es player ;;;;;;;;;;;;;;
-
-    ld hl, #TYPE
-    add hl, de
-    ld a, (hl)
-    cp #E_TYPE_PLAYER
-    jr z, ini_jugador
-    ret
-    ini_jugador:
-        call inicializar_player_colision
-        ld hl, #is_colliding_player
-        ld 4(ix), h
-        ld 5(ix), l
-        call calcular_colisiones_jugador
-
-    ;;;;;;;;;;;; Fin Colisiones ;;;;;;;;;;;;
-    ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UPDATE PAIR ENTITIES
@@ -589,9 +553,10 @@ check_door:
 ;; Sys Collision Update ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 _sys_collision_update::
-    ld   bc, #sys_collision_update_one_entity
-    ld   hl, #E_CMP_COLLIDER
-    call _man_entity_for_all_matching
+    ;ld   bc, #sys_collision_update_one_entity
+    ;ld   hl, #E_CMP_COLLIDER
+    ;call _man_entity_for_all_matching
+    call sys_collision_update_player_tilemap
 
     ld bc, #sys_collisions_update_entities
     ld hl, #E_CMP_COLLIDER
