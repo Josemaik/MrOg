@@ -65,6 +65,19 @@ renderizar_life_and_bombs:
     bucle_vidas_end:
     ld a,#3
     ld (hl), a
+render_score:
+
+    ;  pvmem = cpctm_screenPtr(CPCT_VMEM_START, 16, 88);  // Calculate video memory address
+    ; call sys_render_score
+    ; ; (1B L ) fg_pen	Foreground palette colour index (Similar to BASIC’s PEN, 0-15)
+    ; ; (1B H ) bg_pen	Background palette colour index (PEN, 0-15)
+    ; ; cpct_setDrawCharM0(3, 5);
+    ; call cpct_setDrawCharM0_asm         
+    ; ; (2B IY) string	Pointer to the null terminated string being drawn
+    ; ; (2B HL) video_memory	Video memory location where the string will be drawn                // Red over black
+    ; ; cpct_drawStringM0("Hello there!", pvmem);    
+    ; call cpct_drawStringM0_asm
+ret
 ret
    quitar_vida::
     
@@ -141,4 +154,6 @@ create_HUD::
     ld hl, #contador_bombas
     ;; render
     call renderizar_life_and_bombs ;; creamos bombas
+    ;;render score
+    ;;call render_score
 ret
