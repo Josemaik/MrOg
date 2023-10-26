@@ -354,14 +354,11 @@ _man_entity_for_all::
                     jr      z, man_end_while_l     
 
                     push de
-                    ld hl, #CMPs
+                    ld hl, #TYPE
                     add hl,de
                     ld a, (hl)
-                    ld l, 2(ix)
-                    ld h, 3(ix)
-                    and l
-                    cp  l
-                    jr z, man_goto_while_r
+                    cp  #E_TYPE_PLAYER
+                    jr z, man_goto_while_r                 
                         jr man_continues_while_l
               
                 ;; if entity is not movable continue here
@@ -474,7 +471,6 @@ _man_entity_update::
                 jr      z, man_update_destroy_entity 
                  
                  ld      a, (hl)
-                 and #E_TYPE_BOMB
                  cp #E_TYPE_BOMB
                  jr z, man_decrease_time_to_explode
                     jr seguir

@@ -1,5 +1,4 @@
 ;;
-;; File assets/mapa.tmx converted to csv using cpct_tmx2data [Thu Oct 26 18:17:33 2023]
 ;;   * Visible Layers:  1
 ;;   * Layer Width:     48
 ;;   * Layer Height:    25

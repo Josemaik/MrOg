@@ -21,3 +21,6 @@
 
    ;; render
       .globl sys_render_draw_solid_box_player
+
+   ;; entity
+      .globl m_entities

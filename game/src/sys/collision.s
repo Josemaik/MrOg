@@ -26,6 +26,9 @@ inicializar_player_colision:
     ld      (is_colliding_player + 2), a
     ld      (is_colliding_player + 3), a
 
+    ld    hl, #colision_actual
+    ld  (hl), #0
+
     ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -136,11 +139,10 @@ comprobar_colision:
     ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Funciones para poner la velocidad a 0
+;; Funciones para poner la velocidad y la posicion a 0
 ;;
 sys_collision_player_tilemap_w:
-    ld h , 4(ix)
-    ld l,  5(ix)
+    ld  hl, #is_colliding_player
     ld      a, #1
     ld      (hl), a
     ld hl, #VY
@@ -149,9 +151,7 @@ sys_collision_player_tilemap_w:
 
     ret
 sys_collision_player_tilemap_s:
-    ld h , 4(ix)
-    ld l,  5(ix)
-    inc hl
+    ld  hl, #is_colliding_player + 1
     ld      a, #1
     ld      (hl), a
     ld hl, #VY
@@ -161,10 +161,7 @@ sys_collision_player_tilemap_s:
     ret
 
 sys_collision_player_tilemap_d:
-    ld h , 4(ix)
-    ld l,  5(ix)
-    inc hl
-    inc hl
+    ld  hl, #is_colliding_player + 2
     ld      a, #1
     ld      (hl), a
     ld hl, #VX
@@ -180,11 +177,7 @@ sys_collision_player_tilemap_d:
     ret
 
 sys_collision_player_tilemap_a:
-    ld h , 4(ix)
-    ld l,  5(ix)
-    inc hl
-    inc hl
-    inc hl
+    ld  hl, #is_colliding_player + 3
     ld      a, #1
     ld      (hl), a
     ld hl, #VX
@@ -198,12 +191,18 @@ sys_collision_player_tilemap_a:
     ld (hl), a
 
     ret
-calcular_colisiones_jugador:
- ld    hl, #colision_actual
-    ld  (hl), #0
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; COLISIONES DEL PLAYER CON EL TILEMAP ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+sys_collision_update_player_tilemap:
+    ;; Inicializamos los valores
+    call inicializar_player_colision
+
+    ld   de, #m_entities
+    
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; Colision con la parte de arriba (W) ;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Colision con la parte de arriba (W) 
+    ;;
 
     ld    hl, #colision_actual
     ld  (hl), #1
@@ -328,13 +327,6 @@ calcular_colisiones_jugador:
     ld    hl, #colision_actual
     ld  (hl), #4
 
-
-    ; ld   hl, #X
-    ; add  hl, de
-    ; ld    a, (hl)
-    ; dec   a
-    ; ld    (hl), a
-
     call comprobar_colision                ;; Left-up
 
     ld   hl, #Y
@@ -357,35 +349,7 @@ calcular_colisiones_jugador:
     sub   a, #15
     ld    (hl), a
 
-    ;ld   hl, #X
-    ;add  hl, de
-    ;ld    a, (hl)
-    ;inc   a
-    ;ld    (hl), a
 ret
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; UPDATE ONE ENTITY WITH THE TILEMAP
-;;
-sys_collision_update_one_entity:
-
-    ;;;;;;;;;;;;;; Comprobar si es player ;;;;;;;;;;;;;;
-
-    ld hl, #TYPE
-    add hl, de
-    ld a, (hl)
-    cp #E_TYPE_PLAYER
-    jr z, ini_jugador
-    ret
-    ini_jugador:
-        call inicializar_player_colision
-        ld hl, #is_colliding_player
-        ld 4(ix), h
-        ld 5(ix), l
-        call calcular_colisiones_jugador
-
-    ;;;;;;;;;;;; Fin Colisiones ;;;;;;;;;;;;
-    ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UPDATE PAIR ENTITIES
@@ -400,17 +364,43 @@ sys_collisions_update_entities::
     ld__ix_bc  ;; BC player
     ld__iy_de
 
+    ld  b, #0 ;; Inicializar bounding box
+
     ;; Colision jugador con entidad
     ld   a, TYPE(ix)
     and  COLLIDES_AGAINST(iy)
     cp   COLLIDES_AGAINST(iy)
-    jr z, check_collision_between_entities
+    jr z, comprobar_si_es_enemigo
 
     ;; Colision entidad con jugador
     ld   a, TYPE(iy)
     and  COLLIDES_AGAINST(ix)
     cp   COLLIDES_AGAINST(ix)
     jr nz, __no_collision
+
+    ;; Hacer la bounding box mas pequeña si la entidad es un enemigo
+    comprobar_si_es_enemigo:
+
+    ld a, TYPE(iy)
+    cp  #E_TYPE_ENEMY
+    jr   z, bounding_box_mas_pequeña
+
+    ld a, TYPE(iy)
+    cp  #E_TYPE_ENEMY2
+    jr   z, bounding_box_mas_pequeña
+
+    ld a, TYPE(iy)
+    cp  #E_TYPE_ENEMY3
+    jr   z, bounding_box_mas_pequeña
+
+    ld a, TYPE(iy)
+    cp  #E_TYPE_ENEMY4
+    jr   z, bounding_box_mas_pequeña
+
+    jr check_collision_between_entities
+
+    bounding_box_mas_pequeña:
+    ld  b, #2
 
     ;;;;;;;;;;;;;;;;
     ;; Colisiones ;;
@@ -420,7 +410,7 @@ sys_collisions_update_entities::
     ;; if ( X(DE) + WIDTH(DE) - X(BC) < 0 )
     ld a, X(ix)
     add WIDTH(ix)
-    sub #2
+    sub b
     sub X(iy)
     jr c, __no_collision
 
@@ -428,21 +418,23 @@ sys_collisions_update_entities::
     ;; if ( X(BC) + WIDTH(BC) - X(DE) < 0 )
     ld a, X(iy)
     add WIDTH(iy)
-    sub #2
+    sub b
     sub X(ix)
     jr c, __no_collision
 
     ;; if ( Y(DE) + HEIGHT(DE) - Y(BC) < 0 )
     ld a, Y(ix)
     add HEIGHT(ix)
-    sub #4
+    sub b
+    sub b
     sub Y(iy)
     jr c, __no_collision
 
     ;; if ( Y(BC) + HEIGHT(BC) - Y(DE) < 0 )
     ld a, Y(iy)
     add HEIGHT(iy)
-    sub #4
+    sub b
+    sub b
     sub Y(ix)
     jr c, __no_collision
 
@@ -450,48 +442,9 @@ sys_collisions_update_entities::
     ;; Collision ;; --- Comprobamos con que colisionamos
     ;;;;;;;;;;;;;;;
 
-    ld a, TYPE(iy)
-    and #E_TYPE_FOOD
-    cp  #E_TYPE_FOOD
-    jr  z, colision_con_comida
-
-    ld a, TYPE(iy)
-    and #E_TYPE_ENEMY
-    cp  #E_TYPE_ENEMY
-    jr  z, colision_con_enemigo
-
-    ld a, TYPE(iy)
-    and #E_TYPE_ENEMY2
-    cp  #E_TYPE_ENEMY2
-    jr  z, colision_con_enemigo
-
-    ld a, TYPE(iy)
-    and #E_TYPE_ENEMY3
-    cp  #E_TYPE_ENEMY3
-    jr  z, colision_con_enemigo
-
-    ld a, TYPE(iy)
-    and #E_TYPE_ENEMY4
-    cp  #E_TYPE_ENEMY4
-    jr  z, colision_con_enemigo
-
-    jr final_colisiones
-
-;; Colision con el enemigo
-colision_con_enemigo:
-    push de
-    call sys_render_draw_solid_box_player
-    pop de
-    ld X(ix), #20
-    ld Y(ix), #60
-    push de
-    call quitar_vida
-    pop de
-    jr final_colisiones
-
-;; Colision con la comida
-colision_con_comida:
-    ld TYPE(iy), #E_TYPE_DEAD
+    call check_food
+    call check_door
+    call check_enemy
 
     jr final_colisiones
 
@@ -508,10 +461,107 @@ colision_con_comida:
 
     ret
 
+;; Colision con la comida
+check_food:
+    ld a, TYPE(iy)
+    cp  #E_TYPE_FOOD
+    ret nz
+
+    ld TYPE(iy), #E_TYPE_DEAD
+
+    ret
+
+;; Colision con los enemigos
+check_enemy:
+    ld a, TYPE(iy)
+    cp  #E_TYPE_ENEMY
+    jr   z, inicio_check_enemy
+
+    ld a, TYPE(iy)
+    cp  #E_TYPE_ENEMY2
+    jr   z, inicio_check_enemy
+
+    ld a, TYPE(iy)
+    cp  #E_TYPE_ENEMY3
+    jr   z, inicio_check_enemy
+
+    ld a, TYPE(iy)
+    cp  #E_TYPE_ENEMY4
+    jr   z, inicio_check_enemy
+
+    ret
+
+    inicio_check_enemy:
+
+    push de
+    call sys_render_draw_solid_box_player
+    pop de
+
+    ld X(ix), #20 ;; | 
+    ld Y(ix), #60 ;; | Reposicionar al player a la posicion inicial
+    
+    push de
+    call quitar_vida
+    pop de
+
+    ret
+
+;; Colision con la puerta
+check_door:
+
+    ld a, TYPE(iy)
+    cp  #E_TYPE_DOOR
+    jr  z, inicio_check_door
+
+    ret
+
+    inicio_check_door:
+
+    ld  a, direction(ix)
+    cp  #DIRECT_W
+    jr  z, colision_arriba_puerta
+
+    ld  a, direction(ix)
+    cp  #DIRECT_S
+    jr  z, colision_abajo_puerta
+
+    ;ld  a, direction(ix)
+    ;cp  #DIRECT_A
+    ;jr  z, colision_izquierda_puerta
+
+    ;;ret
+
+    colision_arriba_puerta:
+    ld   hl, #is_colliding_player
+    ld (hl),  #1
+    ld VY(ix), #0
+    jr final_check_door
+
+    colision_abajo_puerta:
+    ld   hl, #is_colliding_player + 1
+    ld (hl),  #1
+    ld VY(ix), #0
+    jr final_check_door
+
+    ;colision_izquierda_puerta:
+    ;ld   hl, #is_colliding_player + 3
+    ;ld (hl),  #1
+    ;ld VX(ix), #0
+
+    jr final_check_door
+
+    final_check_door:
+
+    ret
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Sys Collision Update ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;
 _sys_collision_update::
-    ld   bc, #sys_collision_update_one_entity
-    ld   hl, #E_CMP_COLLIDER
-    call _man_entity_for_all_matching
+    ;ld   bc, #sys_collision_update_one_entity
+    ;ld   hl, #E_CMP_COLLIDER
+    ;call _man_entity_for_all_matching
+    call sys_collision_update_player_tilemap
 
     ld bc, #sys_collisions_update_entities
     ld hl, #E_CMP_COLLIDER
