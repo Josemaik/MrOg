@@ -15,20 +15,23 @@ sprite_borrar_vida:
 	.db 0x00, 0x00, 0x00, 0x00
 	.db 0x00, 0x00, 0x00, 0x00
 array_vidas::
-    ; .db 0x00        ;; 0 indica vivo y 1 es muerto
+    .db 0x00        ;; 0 indica vivo y 1 es muerto
     .db 0x05, 0x0a ;; posición x e y
     .dw  _spr_vidas;; sprite
-    ; .db 0x00
+    .db 0x00
     .db 0x0a, 0x0a ;; posición
     .dw  _spr_vidas;; sprite
-    ; .db 0x00
+    .db 0x00
     .db 0x0f, 0x0a ;; posición
     .dw  _spr_vidas;; sprite
 array_bombas::
+    .db 0x00
     .db 0x39, 0x0a ;; posición
     .dw  _spr_bombahud;; sprite
+    .db 0x00
     .db 0x3e, 0x0a ;; posición
     .dw  _spr_bombahud;; sprite
+    .db 0x00
     .db 0x43, 0x0a ;; posición
     .dw  _spr_bombahud;; sprite
 contador_vidas::
@@ -60,18 +63,39 @@ renderizar_life_and_bombs:
             pop hl
             jr bucle_vidas
     bucle_vidas_end:
+    ld a,#3
+    ld (hl), a
 ret
-quitar_vida::
-    ;; coger ultima posicion array, empezar a contar desde la ultima posicion
-    ;; draw solid box
-    ;; reducir contador vidas
-    ; ld de, #array_vidas + 11
-    ; bucle:
-    ;     ld hl, #
+   quitar_vida::
+    
+    ;; start in the last element
+    ld de, #array_vidas + 10
+    look_last_alive:
+        ld a, (de)  ; Carga el valor actual (vivo o muerto)
+        cp #0       ; Compara con 0 (vivo)
+        jr z, found_last_alive  ; Si está vivo, salta a la etiqueta found_last_alive
+        ;; sub distance between elements 
+        dec de
+        dec de
+        dec de
+        dec de
+        dec de
+        jp look_last_alive  ; Salta de nuevo a look_last_alive
 
-    ; ld a, (contador_vidas)
-    ; dec a
-    ; ld (contador_vidas), a
+    found_last_alive:
+        ;; Ahora de apunta al último elemento vivo
+        ;; Cambiar el sprite a sprite_borrar_vida
+        ;; put the byte as died
+        ld a, #1
+        ld (de) , a
+        ;; save in bc died sprite
+        ld bc, #sprite_borrar_vida
+        ;; go to arrayvidas->sprite an load bc in this position
+        ld hl, #sprite
+        add hl, de
+        ld (hl), b
+        inc hl
+        ld (hl), c
 ret
 create_HUD::
     ;; array de vidas en de

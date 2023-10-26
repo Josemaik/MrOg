@@ -6,8 +6,9 @@
 
 
 ;;array_vidas
-    X = 0
-    Y = 1
-    sprite = 2
+    DIE_OR_ALIVE = 0
+    X = 1
+    Y = 2
+    sprite = 3
 
-DISTANCE_BETWEEN_VIDAS = 4
+DISTANCE_BETWEEN_VIDAS = 5
