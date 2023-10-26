@@ -16,7 +16,8 @@
 ;;;;;;;;;;;;;;;
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
-
+sys_render_score::
+ret
 sys_render_life_or_bomb::
             ;; load in c the width
             ld c, #0x04

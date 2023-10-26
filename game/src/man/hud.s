@@ -15,20 +15,23 @@ sprite_borrar_vida:
 	.db 0x00, 0x00, 0x00, 0x00
 	.db 0x00, 0x00, 0x00, 0x00
 array_vidas::
-    ; .db 0x00        ;; 0 indica vivo y 1 es muerto
+    .db 0x00        ;; 0 indica vivo y 1 es muerto
     .db 0x05, 0x0a ;; posición x e y
     .dw  _spr_vidas;; sprite
-    ; .db 0x00
+    .db 0x00
     .db 0x0a, 0x0a ;; posición
     .dw  _spr_vidas;; sprite
-    ; .db 0x00
+    .db 0x00
     .db 0x0f, 0x0a ;; posición
     .dw  _spr_vidas;; sprite
 array_bombas::
+    .db 0x00
     .db 0x39, 0x0a ;; posición
     .dw  _spr_bombahud;; sprite
+    .db 0x00
     .db 0x3e, 0x0a ;; posición
     .dw  _spr_bombahud;; sprite
+    .db 0x00
     .db 0x43, 0x0a ;; posición
     .dw  _spr_bombahud;; sprite
 contador_vidas::
@@ -60,18 +63,83 @@ renderizar_life_and_bombs:
             pop hl
             jr bucle_vidas
     bucle_vidas_end:
-ret
-quitar_vida::
-    ;; coger ultima posicion array, empezar a contar desde la ultima posicion
-    ;; draw solid box
-    ;; reducir contador vidas
-    ; ld de, #array_vidas + 11
-    ; bucle:
-    ;     ld hl, #
+    ld a,#3
+    ld (hl), a
+render_score:
 
-    ; ld a, (contador_vidas)
-    ; dec a
-    ; ld (contador_vidas), a
+    ;  pvmem = cpctm_screenPtr(CPCT_VMEM_START, 16, 88);  // Calculate video memory address
+    ; call sys_render_score
+    ; ; (1B L ) fg_pen	Foreground palette colour index (Similar to BASIC’s PEN, 0-15)
+    ; ; (1B H ) bg_pen	Background palette colour index (PEN, 0-15)
+    ; ; cpct_setDrawCharM0(3, 5);
+    ; call cpct_setDrawCharM0_asm         
+    ; ; (2B IY) string	Pointer to the null terminated string being drawn
+    ; ; (2B HL) video_memory	Video memory location where the string will be drawn                // Red over black
+    ; ; cpct_drawStringM0("Hello there!", pvmem);    
+    ; call cpct_drawStringM0_asm
+ret
+ret
+   quitar_vida::
+    
+    ;; start in the last element
+    ld de, #array_vidas + 10
+    look_last_alive:
+        ld a, (de)  ; Carga el valor actual (vivo o muerto)
+        cp #0       ; Compara con 0 (vivo)
+        jr z, found_last_alive  ; Si está vivo, salta a la etiqueta found_last_alive
+        ;; sub distance between elements 
+        dec de
+        dec de
+        dec de
+        dec de
+        dec de
+        jp look_last_alive  ; Salta de nuevo a look_last_alive
+
+    found_last_alive:
+        ;; Ahora de apunta al último elemento vivo
+        ;; Cambiar el sprite a sprite_borrar_vida
+        ;; put the byte as died
+        ld a, #1
+        ld (de) , a
+        ;; save in bc died sprite
+        ld bc, #sprite_borrar_vida
+        ;; go to arrayvidas->sprite an load bc in this position
+        ld hl, #sprite
+        add hl, de
+        ld (hl), b
+        inc hl
+        ld (hl), c
+ret
+quitar_bomba::
+    
+    ;; start in the last element
+    ld de, #array_bombas + 10
+    look_last_alive1:
+        ld a, (de)  ; Carga el valor actual (vivo o muerto)
+        cp #0       ; Compara con 0 (vivo)
+        jr z, found_last_alive1  ; Si está vivo, salta a la etiqueta found_last_alive
+        ;; sub distance between elements 
+        dec de
+        dec de
+        dec de
+        dec de
+        dec de
+        jp look_last_alive1  ; Salta de nuevo a look_last_alive
+
+    found_last_alive1:
+        ;; Ahora de apunta al último elemento vivo
+        ;; Cambiar el sprite a sprite_borrar_vida
+        ;; put the byte as died
+        ld a, #1
+        ld (de) , a
+        ;; save in bc died sprite
+        ld bc, #sprite_borrar_vida
+        ;; go to arrayvidas->sprite an load bc in this position
+        ld hl, #sprite
+        add hl, de
+        ld (hl), b
+        inc hl
+        ld (hl), c
 ret
 create_HUD::
     ;; array de vidas en de
@@ -86,4 +154,6 @@ create_HUD::
     ld hl, #contador_bombas
     ;; render
     call renderizar_life_and_bombs ;; creamos bombas
+    ;;render score
+    ;;call render_score
 ret
