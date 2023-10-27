@@ -44,7 +44,9 @@ man_game_create_template_entity::
         ld c, a
    ret
 man_game_create_bomb::
-   call quitar_bomba
+   push de
+      call quitar_bomba
+   pop de
    ld hl, #bomba_entity
    call man_game_create_template_entity
    ld a, #1
@@ -55,42 +57,42 @@ man_game_create_bomb::
    ld (bombs_available), a
 ret
 set_xy_bomb::
-   ld a , c
-   and #DIRECT_W
-   cp #DIRECT_W
-   jr z, set_w
-   ld a , c
-   and #DIRECT_S
-   cp #DIRECT_S
-   jr z, set_s
-   ld a , c
-   and #DIRECT_A
-   cp #DIRECT_A
-   jr z, set_a
-   ld a , c
-   and #DIRECT_D
-   cp #DIRECT_D
-   jr z, set_d
-   set_w:
-      ld a , 5(ix)
-      add #8
-      ld 5(ix), a
-      jr setxybomb
-   set_a:
-      ld a , 4(ix)
-      add #8
-      ld 4(ix), a
-      jr setxybomb
-   set_s:
-      ld a , 5(ix)
-      sub #8
-      ld 5(ix), a
-      jr setxybomb
-   set_d:
-      ld a , 4(ix)
-      sub #8
-      ld 4(ix), a
-      setxybomb:
+   ; ld a , c
+   ; and #DIRECT_W
+   ; cp #DIRECT_W
+   ; jr z, set_w
+   ; ld a , c
+   ; and #DIRECT_S
+   ; cp #DIRECT_S
+   ; jr z, set_s
+   ; ld a , c
+   ; and #DIRECT_A
+   ; cp #DIRECT_A
+   ; jr z, set_a
+   ; ld a , c
+   ; and #DIRECT_D
+   ; cp #DIRECT_D
+   ; jr z, set_d
+   ; set_w:
+   ;    ld a , 5(ix)
+   ;    add #8
+   ;    ld 5(ix), a
+   ;    jr setxybomb
+   ; set_a:
+   ;    ld a , 4(ix)
+   ;    add #8
+   ;    ld 4(ix), a
+   ;    jr setxybomb
+   ; set_s:
+   ;    ld a , 5(ix)
+   ;    sub #8
+   ;    ld 5(ix), a
+   ;    jr setxybomb
+   ; set_d:
+   ;    ld a , 4(ix)
+   ;    sub #8
+   ;    ld 4(ix), a
+   ;    setxybomb:
    ld hl, #X
    add hl, de
    ld a, 4(ix)

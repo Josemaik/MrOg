@@ -480,15 +480,14 @@ sys_collisions_update_entities::
 ;; Colision con el enemigo
 colision_con_enemigo:
     push de
-    call sys_render_draw_solid_box_player
+        call sys_render_draw_solid_box_player
     pop de
     ld X(ix), #20
     ld Y(ix), #60
     push de
-    call quitar_vida
+        call quitar_vida
     pop de
     jr final_colisiones
-
 ;; Colision con la comida
 colision_con_comida:
     ld TYPE(iy), #E_TYPE_DEAD

@@ -78,11 +78,18 @@ render_score:
     ; ; cpct_drawStringM0("Hello there!", pvmem);    
     ; call cpct_drawStringM0_asm
 ret
+quitar_vida::
+    ld de, #array_vidas + 10
+    call quitar_vida_or_bomb
 ret
-   quitar_vida::
+quitar_bomba::
+    ld de, #array_bombas + 10
+    call quitar_vida_or_bomb
+ret
+   quitar_vida_or_bomb::
     
     ;; start in the last element
-    ld de, #array_vidas + 10
+    ; ld de, #array_vidas + 10
     look_last_alive:
         ld a, (de)  ; Carga el valor actual (vivo o muerto)
         cp #0       ; Compara con 0 (vivo)
@@ -106,40 +113,9 @@ ret
         ;; go to arrayvidas->sprite an load bc in this position
         ld hl, #sprite
         add hl, de
-        ld (hl), b
-        inc hl
         ld (hl), c
-ret
-quitar_bomba::
-    
-    ;; start in the last element
-    ld de, #array_bombas + 10
-    look_last_alive1:
-        ld a, (de)  ; Carga el valor actual (vivo o muerto)
-        cp #0       ; Compara con 0 (vivo)
-        jr z, found_last_alive1  ; Si está vivo, salta a la etiqueta found_last_alive
-        ;; sub distance between elements 
-        dec de
-        dec de
-        dec de
-        dec de
-        dec de
-        jp look_last_alive1  ; Salta de nuevo a look_last_alive
-
-    found_last_alive1:
-        ;; Ahora de apunta al último elemento vivo
-        ;; Cambiar el sprite a sprite_borrar_vida
-        ;; put the byte as died
-        ld a, #1
-        ld (de) , a
-        ;; save in bc died sprite
-        ld bc, #sprite_borrar_vida
-        ;; go to arrayvidas->sprite an load bc in this position
-        ld hl, #sprite
-        add hl, de
-        ld (hl), b
         inc hl
-        ld (hl), c
+        ld (hl), b
 ret
 create_HUD::
     ;; array de vidas en de

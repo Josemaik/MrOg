@@ -119,7 +119,7 @@ bomba_entity::
 	  .dw   #0x0000				;; last draw
 	;   .dw   #0x00C4				;; last draw2
 	  .db   #0x00			;; direction
-	  .db  #0x50
+	  .db  #0x58
 
 helado_entity::
 		 .db 	#E_TYPE_FOOD			;; entity type
