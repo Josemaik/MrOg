@@ -122,74 +122,25 @@ setVelocity:
    cp #DIRECT_D
         jr z, set_velocity_x_D
 ret
+sys_move_entity_y:
+;; go to entity->vy
+                ld      hl, #VY
+                add     hl, de
+                ld      a, (hl)
+            ;; go to entity->y and add it to vy
+                ld      hl, #Y
+                add     hl, de
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; UPDATE PHYSICS FOR ONE ENTITY 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; IN =>  DE -> entity to update                                      
-;;pop de
-sys_physics_update_for_one:
-        ld hl, #TYPE
-        add hl, de
-        ld a, (hl)
-        cp #E_TYPE_ENEMY
-        jr z, check_enemy
-        ;; comprobar jugador
-        ld a, (hl)
-        cp #E_TYPE_PLAYER
-        jr z, check_player
-        ;; es enemygo hunter vers
-        ld a, (hl)
-        cp #E_TYPE_ENEMY2
-        jr z, check_enemy_2
-        ;; es enemigo hunter hor
-        ld a, (hl)
-        cp #E_TYPE_ENEMY3
-        jr z, check_enemy_3
-        ;;enemygo patron mapa 1
-        ld a, (choose_axis_enemy_patron_mapa1)
-         cp #1
-         jr z, move_x_axis
-            jr move_y_axis
-         
-check_player:
-    ld a , (animation_state_player)
-    cp #1
-    jr z, goto_setvelocity
-    ret
-    goto_setvelocity:
-    ld  hl, #direction
-    add hl, de
-    ld a, (hl)
-    ld c, a
-    call setVelocity
-    ld a, (choose_axis_player)
-        cp #1
-        jr z, move_x_axis
-            jr move_y_axis
-check_enemy:
-    ld a, (choose_axis_enemy)
-    cp #1
-    jr z, move_x_axis
-        jr move_y_axis
-check_enemy_2:
-         
-        ld a, (choose_axis_enemy_hunter)
-         cp #1
-         jr z, move_x_axis
-            jr move_y_axis
-check_enemy_3:
-ld a, (choose_axis_enemy_hunter2)
-         cp #1
-         jr z, move_x_axis
-            jr move_y_axis
-move_x_axis:
+                add     (hl)
+            ;; load it in entity->y
+                ld      (hl), a
+ret
+sys_move_entity_x:
         ld hl, #contador_fisicas_jugador
         ld a, (hl)
         sub #1
         ld (hl), a
-        jr nz, end_movex
+        jr nz, sys_move_entity_x_end
         ld (hl),#TIME_TO_UPDATE_PHYSICS_X_PLAYER
         ld      hl, #VX
         add     hl, de
@@ -202,24 +153,69 @@ move_x_axis:
         add     (hl)
 
         ld (hl), a
-
-    end_movex:
-        jr end_physics
-    ;; y+vy
-    move_y_axis:
-            ;; go to entity->vy
-                ld      hl, #VY
-                add     hl, de
-                ld      a, (hl)
-            ;; go to entity->y and add it to vy
-                ld      hl, #Y
-                add     hl, de
-
-                add     (hl)
-            ;; load it in entity->y
-                ld      (hl), a
-        
-
+    sys_move_entity_x_end:
+ret
+check_player:
+ ld a , (animation_state_player)
+    cp #1
+    jr z, goto_setvelocity
+    ret
+    goto_setvelocity:
+    ld  hl, #direction
+    add hl, de
+    ld a, (hl)
+    ld c, a
+    call setVelocity
+    ld a, (choose_axis_player)
+        cp #1
+        jr z, move_x_axis
+            call sys_move_entity_y
+            ret
+        move_x_axis:
+            call sys_move_entity_x
+ret
+check_enemy:
+ ld a, (hl)
+    cp #1
+    jr z, move_x_axis1
+        call sys_move_entity_y
+        ret
+    move_x_axis1:
+        call sys_move_entity_x
+ret
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; UPDATE PHYSICS FOR ONE ENTITY 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; IN =>  DE -> entity to update                                      
+;;pop de
+sys_physics_update_for_one:
+        ld hl, #TYPE
+        add hl, de
+        ld a, (hl)
+        cp #E_TYPE_PLAYER
+        jr z, call_check_player
+        ;; es enemygo hunter vers
+        ld a, (hl)
+        cp #E_TYPE_ENEMY2
+        jr z, call_check_enemie2
+        ;; es enemigo hunter hor
+        ld a, (hl)
+        cp #E_TYPE_ENEMY3
+        jr z, call_check_enemie3
+        ;;enemygo patron mapa 1
+        ld hl, #choose_axis_enemy_patron_mapa1
+         call check_enemy
+         call_check_player:
+            call check_player
+            jr end_physics
+         call_check_enemie2:
+            ld hl, #choose_axis_enemy_hunter
+            call check_enemy
+            jr end_physics
+        call_check_enemie3:
+            ld hl, #choose_axis_enemy_hunter2
+            call check_enemy
+            jr end_physics
     end_physics:
     ret
 
