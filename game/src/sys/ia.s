@@ -42,7 +42,7 @@ sys_ai_horizontal_enemie::
             ld 5(ix), b
             ld bc, #DIRECT_S
             call check_animation
-            ld bc, #choose_axis_y_enemie3
+            ld hl, #choose_axis_enemy_hunter2
             call move_down_e
         jr sys_ai_horizontal_enemie_end
         mover_arriba2:
@@ -51,7 +51,7 @@ sys_ai_horizontal_enemie::
             ld 5(ix), b
             ld bc, #DIRECT_W
             call check_animation
-            ld bc, #choose_axis_y_enemie3
+            ld hl, #choose_axis_enemy_hunter2
             call move_above_e
         sys_ai_horizontal_enemie_end:
 ret
@@ -81,7 +81,7 @@ sys_ai_vertical_enemie::
             ld 5(ix), b
             ld bc, #DIRECT_A
             call check_animation
-            ld bc, #choose_axis_x_enemie2
+            ld hl, #choose_axis_enemy_hunter
             call move_left_e
         jr sys_ai_vertical_enemie_end
         mover_derecha2:
@@ -90,7 +90,7 @@ sys_ai_vertical_enemie::
             ld 5(ix), b
             ld bc, #DIRECT_D
             call check_animation
-            ld bc, #choose_axis_x_enemie2
+            ld hl, #choose_axis_enemy_hunter
             call move_right_e
         sys_ai_vertical_enemie_end:
 ret
@@ -111,7 +111,7 @@ sys_ai_patron_enemie_mapa1::
         mover_derecha1:
         ld a, #0
          ld (indicador_patron) , a
-        ld bc, #choose_axis_x_enemie_patron_mapa1
+        ld hl, #choose_axis_enemy_patron_mapa1
         call move_right_e
         jp sys_ai_patron_enemie_mapa1_end
     check_above_next_corner1:
@@ -134,11 +134,11 @@ sys_ai_patron_enemie_mapa1::
             jr z, mover_izquierda1
                 jr mover_abajo1
         mover_izquierda1:
-        ld bc, #choose_axis_x_enemie_patron_mapa1
+        ld hl, #choose_axis_enemy_patron_mapa1
         call move_left_e
         jp sys_ai_patron_enemie_mapa1_end
         mover_abajo1:
-        ld bc, #choose_axis_y_enemie_patron_mapa1
+        ld hl, #choose_axis_enemy_patron_mapa1
         call move_down_e
         jp sys_ai_patron_enemie_mapa1_end
     check_above_next_corner2:
@@ -158,7 +158,7 @@ sys_ai_patron_enemie_mapa1::
         mover_arriba1:
         ld a, #1
          ld (indicador_patron) , a
-        ld bc, #choose_axis_y_enemie_patron_mapa1
+        ld hl, #choose_axis_enemy_patron_mapa1
         call move_above_e
 ;; 56 72
 ;; 64 72
