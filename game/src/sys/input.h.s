@@ -1,0 +1,23 @@
+;; cpct
+      .globl cpct_scanKeyboard_f_asm
+      .globl cpct_isKeyPressed_asm
+      .globl stop_sprite
+      .globl desactive_animating
+      .globl _man_entity_for_all_matching
+      .globl active_animation_player
+      .globl check_animation
+      .globl man_game_create_bomb
+      .globl set_xy_bomb
+      .globl check_bomb_state
+      .globl is_bomb_active
+      .globl bombs_available
+    .globl anim_W
+   .globl anim_A
+   .globl anim_S
+   .globl anim_D
+   .globl set_velocity_x_A
+   .globl set_velocity_x_W
+   .globl set_velocity_x_S
+   .globl set_velocity_x_D
+
+   .globl m_entities
