@@ -9,9 +9,6 @@
 
    ;; sys
       .globl is_colliding_player
-      .globl active_animation
-      .globl anim_enemy_right
-      .globl anim_enemy_left
-      .globl anim_enemy_down
-      .globl anim_enemy_up
+      .globl active_animation_player
       .globl check_animation
+      .globl animation_state_player

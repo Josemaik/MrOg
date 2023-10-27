@@ -23,7 +23,7 @@ player_entity::
 	  .db 	#0x00				;;collides_against
 	  .dw   #0x0000				;; last draw
 	;   .dw   #0x00C4			;; last draw2
-	  .db   #DIRECT_S			;; direction
+	  .db   0x00			;; direction
 	  .db  #0x00
 ; deflator_Dennis_entity:: 
 ; 		.db 	#E_TYPE_ENEMY			;; entity type

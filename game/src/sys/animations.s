@@ -5,17 +5,17 @@
 .include "man/entity.h.s"
 .area _DATA
 
-animation_state::
+animation_state_player::
     .db 0x00
 .area _CODE
 
 desactive_animating::
     ld a, #0
-    ld (animation_state), a
+    ld (animation_state_player), a
 ret
-active_animation::
+active_animation_player::
     ld a, #1
-    ld (animation_state), a
+    ld (animation_state_player), a
 ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; CHECK THE ANIMATION ACTIVE AND SET VELOCITY
@@ -71,7 +71,7 @@ sys_animations_update_one_entity:
     cp #E_TYPE_ENEMY2
     jr z, start_animating;; si es bomba, va directamente a pasar al siguiente frame
 
-    ld a , (animation_state)
+    ld a , (animation_state_player)
     cp #1
     jr z, start_animating
         jr sys_animations_update_one_entity_end

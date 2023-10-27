@@ -15,6 +15,7 @@ indicador_patron:: ;; 0 -> viene de izq // 1 -> viene de abajo
 ;;;;;;;;;;;;;;;
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
+
 sys_ai_horizontal_enemie::
      ld hl, #X
      add hl, de
@@ -36,12 +37,22 @@ sys_ai_horizontal_enemie::
         jr z, mover_abajo2
         jr sys_ai_horizontal_enemie_end
         mover_abajo2:
-        ld bc, #choose_axis_y_enemie3
-        call move_down_e
+            ld bc, #anim_enemy_up
+            ld 4(ix), c
+            ld 5(ix), b
+            ld bc, #DIRECT_W
+            call check_animation
+            ld bc, #choose_axis_y_enemie3
+            call move_down_e
         jr sys_ai_horizontal_enemie_end
         mover_arriba2:
-        ld bc, #choose_axis_y_enemie3
-        call move_above_e
+            ld bc, #anim_enemy_down
+            ld 4(ix), c
+            ld 5(ix), b
+            ld bc, #DIRECT_S
+            call check_animation
+            ld bc, #choose_axis_y_enemie3
+            call move_above_e
         sys_ai_horizontal_enemie_end:
 ret
 sys_ai_vertical_enemie::
@@ -65,12 +76,22 @@ sys_ai_vertical_enemie::
         jr z, mover_derecha2
         jr sys_ai_vertical_enemie_end
         mover_izquierda2:
-        ld bc, #choose_axis_x_enemie2
-        call move_left_e
+            ld bc, #anim_enemy_left
+            ld 4(ix), c
+            ld 5(ix), b
+            ld bc, #DIRECT_A
+            call check_animation
+            ld bc, #choose_axis_x_enemie2
+            call move_left_e
         jr sys_ai_vertical_enemie_end
         mover_derecha2:
-        ld bc, #choose_axis_x_enemie2
-        call move_right_e
+            ld bc, #anim_enemy_right
+            ld 4(ix), c
+            ld 5(ix), b
+            ld bc, #DIRECT_D
+            call check_animation
+            ld bc, #choose_axis_x_enemie2
+            call move_right_e
         sys_ai_vertical_enemie_end:
 ret
 sys_ai_patron_enemie_mapa1::

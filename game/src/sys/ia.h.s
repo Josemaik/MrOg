@@ -13,6 +13,11 @@
 .globl move_above_e
 .globl move_left_e
 .globl move_right_e
+.globl check_animation
+.globl anim_enemy_right
+.globl anim_enemy_left
+.globl anim_enemy_down
+.globl anim_enemy_up
 
 ;;random
 .globl cpct_getRandom_xsp40_u8_asm
