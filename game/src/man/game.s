@@ -159,23 +159,23 @@ crear_objetos_mapa_prueba:
    ;; Puertas Horizontales ;;
    ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-   ld       ix, #puerta_horizontal_entity
-
-   ld    X(ix), #8
-   ld    Y(ix), #80
-   ld       hl, #puerta_horizontal_entity
-   call man_game_create_template_entity
+   ;ld       ix, #puerta_horizontal_entity
+;
+   ;ld    X(ix), #8
+   ;ld    Y(ix), #80
+   ;ld       hl, #puerta_horizontal_entity
+   ;call man_game_create_template_entity
 
    ;;;;;;;;;;;;;;;;;;;;;;;;
    ;; Puertas Verticales ;;
    ;;;;;;;;;;;;;;;;;;;;;;;;
 
-   ;ld       ix, #puerta_vertical_entity
-;
-   ;ld    X(ix), #16
-   ;ld    Y(ix), #88
-   ;ld       hl, #puerta_vertical_entity
-   ;call man_game_create_template_entity
+   ld       ix, #puerta_vertical_entity
+
+   ld    X(ix), #16
+   ld    Y(ix), #88
+   ld       hl, #puerta_vertical_entity
+   call man_game_create_template_entity
 
    ;;;;;;;;;;;;
    ;; Llaves ;;

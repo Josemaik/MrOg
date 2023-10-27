@@ -369,7 +369,7 @@ sys_collisions_update_entities::
     ld__ix_bc  ;; BC player
     ld__iy_de
 
-    ld  b, #0 ;; Inicializar bounding box
+    ld  b, #1 ;; Inicializar bounding box
 
     ;; Colision jugador con entidad
     ld   a, TYPE(ix)
@@ -524,13 +524,13 @@ check_door:
     cp  #DIRECT_S
     jr  z, colision_abajo_puerta
 
-    ;ld  a, direction(ix)
-    ;cp  #DIRECT_A
-    ;jr  z, colision_izquierda_puerta
+    ld  a, direction(ix)
+    cp  #DIRECT_A
+    jr  z, colision_izquierda_puerta
 
-    ;ld  a, direction(ix)
-    ;cp  #DIRECT_D
-    ;jr  z, colision_derecha_puerta
+    ld  a, direction(ix)
+    cp  #DIRECT_D
+    jr  z, colision_derecha_puerta
 
     ;;ret
 
@@ -554,25 +554,25 @@ check_door:
     ld VY(ix), #0
     jr final_check_door
 
-    ;colision_izquierda_puerta:
-    ;ld  a, (tengo_llave)
-    ;cp  #1
-    ;jr  z, abrir_puerta
-    ;
-    ;ld   hl, #is_colliding_player + 3
-    ;ld (hl),  #1
-    ;ld VX(ix), #0
-    ;jr final_check_door
+    colision_izquierda_puerta:
+    ld  a, (tengo_llave)
+    cp  #1
+    jr  z, abrir_puerta
+    
+    ld   hl, #is_colliding_player + 3
+    ld (hl),  #1
+    ld VX(ix), #0
+    jr final_check_door
 
-    ;colision_derecha_puerta:
-    ;ld  a, (tengo_llave)
-    ;cp  #1
-    ;jr  z, abrir_puerta
-    ;
-    ;ld   hl, #is_colliding_player + 3
-    ;ld (hl),  #1
-    ;ld VX(ix), #0
-    ;jr final_check_door
+    colision_derecha_puerta:
+    ld  a, (tengo_llave)
+    cp  #1
+    jr  z, abrir_puerta
+    
+    ld   hl, #is_colliding_player + 3
+    ld (hl),  #1
+    ld VX(ix), #0
+    jr final_check_door
 
     jr final_check_door
 
