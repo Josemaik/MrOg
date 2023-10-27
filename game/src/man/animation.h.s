@@ -56,3 +56,4 @@
   .globl _spr_helado
   .globl _spr_puerta_horizontal
   .globl _spr_puerta_vertical
+  .globl _spr_llave

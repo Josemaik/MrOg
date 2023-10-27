@@ -14,6 +14,8 @@ is_colliding_player:: ;; 0 no collision | 1 collision
 colision_actual:
     .db 0x00
 
+tengo_llave:
+    .db 0x00
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Inicializar is_colliding_player
@@ -385,10 +387,6 @@ sys_collisions_update_entities::
     comprobar_si_es_enemigo:
 
     ld a, TYPE(iy)
-    cp  #E_TYPE_ENEMY
-    jr   z, bounding_box_mas_pequeña
-
-    ld a, TYPE(iy)
     cp  #E_TYPE_ENEMY2
     jr   z, bounding_box_mas_pequeña
 
@@ -448,6 +446,7 @@ sys_collisions_update_entities::
     call check_food
     call check_door
     call check_enemy
+    call check_key 
 
     jr final_colisiones
 
@@ -476,9 +475,6 @@ check_food:
 
 ;; Colision con los enemigos
 check_enemy:
-    ld a, TYPE(iy)
-    cp  #E_TYPE_ENEMY
-    jr   z, inicio_check_enemy
 
     ld a, TYPE(iy)
     cp  #E_TYPE_ENEMY2
@@ -509,7 +505,7 @@ check_enemy:
 
     ret
 
-;; Colision con la puerta
+;; Colision con la puerta     ;; TODO --> colision en el eje X
 check_door:
 
     ld a, TYPE(iy)
@@ -532,28 +528,78 @@ check_door:
     ;cp  #DIRECT_A
     ;jr  z, colision_izquierda_puerta
 
+    ;ld  a, direction(ix)
+    ;cp  #DIRECT_D
+    ;jr  z, colision_derecha_puerta
+
     ;;ret
 
     colision_arriba_puerta:
+    ld  a, (tengo_llave)
+    cp  #1
+    jr  z, abrir_puerta
+
     ld   hl, #is_colliding_player
     ld (hl),  #1
     ld VY(ix), #0
     jr final_check_door
 
     colision_abajo_puerta:
+    ld  a, (tengo_llave)
+    cp  #1
+    jr  z, abrir_puerta
+
     ld   hl, #is_colliding_player + 1
     ld (hl),  #1
     ld VY(ix), #0
     jr final_check_door
 
     ;colision_izquierda_puerta:
+    ;ld  a, (tengo_llave)
+    ;cp  #1
+    ;jr  z, abrir_puerta
+    ;
     ;ld   hl, #is_colliding_player + 3
     ;ld (hl),  #1
     ;ld VX(ix), #0
+    ;jr final_check_door
+
+    ;colision_derecha_puerta:
+    ;ld  a, (tengo_llave)
+    ;cp  #1
+    ;jr  z, abrir_puerta
+    ;
+    ;ld   hl, #is_colliding_player + 3
+    ;ld (hl),  #1
+    ;ld VX(ix), #0
+    ;jr final_check_door
 
     jr final_check_door
 
+    abrir_puerta:
+
+    ld  a, #0
+    ld  (tengo_llave), a
+    ld  TYPE(iy), #E_TYPE_DEAD
+
     final_check_door:
+
+    ret
+
+;; Colision con la llave
+check_key:
+    ld a, TYPE(iy)
+    cp  #E_TYPE_KEY
+    ret nz
+
+    ld  a, (tengo_llave)
+    cp  #1
+    ret  z
+
+    ld  a, #1
+    ld  (tengo_llave), a
+
+    ld TYPE(iy), #E_TYPE_DEAD
 
     ret
 
