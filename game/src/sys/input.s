@@ -9,7 +9,7 @@
       .globl stop_sprite
       .globl desactive_animating
       .globl _man_entity_for_all_matching
-      .globl active_animation
+      .globl active_animation_player
       .globl choose_axis_x_player
       .globl choose_axis_y_player
       .globl check_animation
@@ -57,47 +57,43 @@ sys_input_update_for_one:
     jp sys_input_update_for_one_end
     sys_physics_A_is_pressed:
         pop de
-        call active_animation
+        call active_animation_player
         ; call choose_axis_x_player
         ld bc, #anim_A
         ld 4(ix), c
         ld 5(ix), b
         ld bc, #DIRECT_A
         call check_animation
-        call set_velocity_x_A
         jr sys_input_update_for_one_end
     sys_physics_D_is_pressed:
         pop de
-        call active_animation
+        call active_animation_player
         ; call choose_axis_x_player
         ld bc, #anim_D
         ld 4(ix), c
         ld 5(ix), b
         ld bc, #DIRECT_D
         call check_animation
-        call set_velocity_x_D
         jr sys_input_update_for_one_end
     sys_physics_W_is_pressed:
         pop de
-        call active_animation
+        call active_animation_player
         ; call choose_axis_y_player
         ld bc, #anim_W
         ld 4(ix), c
         ld 5(ix), b
         ld bc, #DIRECT_W
         call check_animation
-        call set_velocity_x_W
         jr sys_input_update_for_one_end
     sys_physics_S_is_pressed:
         pop de
-        call active_animation
+        call active_animation_player
         ; call choose_axis_y_player
         ld bc, #anim_S
         ld 4(ix), c
         ld 5(ix), b
         ld bc, #DIRECT_S
         call check_animation
-        call set_velocity_x_S
         jr sys_input_update_for_one_end
     sys_physics_Space_is_pressed:
         pop de

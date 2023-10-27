@@ -41,11 +41,7 @@ comprobar_colision:
     ;; p  = tilemap + ty * tw + tx
 
     ;; A = y
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-
-    push de
+    ld    a, Y(ix)
 
     ;; A = ty (y/8)
     and   #0xF8 ;; #0xb11111000 ;; A = 8*int(ty / 8)
@@ -59,24 +55,14 @@ comprobar_colision:
     add   hl, hl   ;; HL = 32*tx
     add   hl, de   ;; HL = 48*tx
 
-    pop de
-    push hl
-
     ;; A = X
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
+    ld    a, X(ix)
     srl    a ;; | A = tx (x/4)
     srl    a ;; |
-
-    pop hl
-    push de
 
     add_hl_a  ;; HL = ty * tw + tx
     ld     de, #_tilemap_01
     add    hl, de
-
-    pop de
 
     ;; HL = tilemap + ty * tw + tx
     ld      a, (hl)
@@ -138,57 +124,207 @@ comprobar_colision:
 
     ret
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Funciones para poner la velocidad y la posicion a 0
 ;;
 sys_collision_player_tilemap_w:
-    ld  hl, #is_colliding_player
-    ld      a, #1
-    ld      (hl), a
-    ld hl, #VY
-    add hl, de
-    ld (hl), #0
+    ld    hl, #is_colliding_player
+    ld  (hl), #1
+
+    ld VY(ix), #0
 
     ret
 sys_collision_player_tilemap_s:
-    ld  hl, #is_colliding_player + 1
-    ld      a, #1
-    ld      (hl), a
-    ld hl, #VY
-    add hl, de
-    ld (hl), #0
+    ld    hl, #is_colliding_player + 1
+    ld  (hl), #1
+
+    ld VY(ix), #0
 
     ret
 
 sys_collision_player_tilemap_d:
-    ld  hl, #is_colliding_player + 2
-    ld      a, #1
-    ld      (hl), a
-    ld hl, #VX
-    add hl, de
-    ld (hl), #0
+    ld    hl, #is_colliding_player + 2
+    ld  (hl), #1
 
-    ld hl, #X
-    add hl, de
-    ld  a, (hl)
-    dec a
-    ld (hl), a
+    ld VX(ix), #0
+
+    ; ld  a, X(ix)
+    ; dec a
+    ; ld  X(ix), a
 
     ret
 
 sys_collision_player_tilemap_a:
-    ld  hl, #is_colliding_player + 3
-    ld      a, #1
-    ld      (hl), a
-    ld hl, #VX
-    add hl, de
-    ld (hl), #0
+    ld    hl, #is_colliding_player + 3
+    ld  (hl), #1
+    
+    ld VX(ix), #0
 
-    ld hl, #X
-    add hl, de
-    ld  a, (hl)
-    inc a
-    ld (hl), a
+    ; ld  a, X(ix)
+    ; inc a
+    ; ld  X(ix), a
+
+    ret
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Colisiones en las direcciones
+;;
+sys_collision_up:
+
+    ld  a, direction(ix)
+    cp  #DIRECT_W
+    jr  z, colision_parte_arriba
+
+    ret
+
+    colision_parte_arriba:
+
+    ld    hl, #colision_actual
+    ld  (hl), #1
+
+    ld    a, Y(ix)
+    dec   a
+    ld    Y(ix), a
+
+    call comprobar_colision                ;; Upper-left
+
+    ld    a, X(ix)
+    add   a, #3
+    ld    X(ix), a
+    call comprobar_colision                ;; Upper-mid
+
+    ld    a, X(ix)
+    add   a, #4
+    ld    X(ix), a
+    call comprobar_colision                ;; Upper-right
+    ld    a, X(ix)
+    sub   a, #7
+    ld    X(ix), a
+
+    ld    a, Y(ix)
+    inc   a
+    ld    Y(ix), a
+
+    ret
+
+sys_collision_down:
+
+    ld  a, direction(ix)
+    cp  #DIRECT_S
+    jr  z, colision_parte_abajo
+
+    ret
+
+    colision_parte_abajo:
+
+    ld    hl, #colision_actual
+    ld  (hl), #2
+
+    ld    a, Y(ix)
+    add   a, #16
+    ld    Y(ix), a
+
+    call comprobar_colision                ;; Down-left
+
+    ld    a, X(ix)
+    add   a, #3
+    ld    X(ix), a
+    call comprobar_colision                ;; Down-mid
+
+    ld    a, X(ix)
+    add   a, #4
+    ld    X(ix), a
+    call comprobar_colision                ;; Down-right
+    ld    a, X(ix)
+    sub   a, #7
+    ld    X(ix), a
+
+    ld    a, Y(ix)
+    sub   a, #16
+    ld    Y(ix), a
+
+    ret
+
+sys_collision_right:
+
+    ld  a, direction(ix)
+    cp  #DIRECT_D
+    jr  z, colision_parte_derecha
+
+    ret
+
+    colision_parte_derecha:
+
+    ld    a, X(ix)
+    inc   a
+    ld    X(ix), a
+
+    ld    hl, #colision_actual
+    ld  (hl), #3
+
+    ld    a, X(ix)
+    add   a, #7
+    ld    X(ix), a
+
+    call comprobar_colision                ;; Right-up
+
+    ld    a, Y(ix)
+    add   a, #7
+    ld    Y(ix), a
+    call comprobar_colision                ;; Right-up
+
+    ld    a, Y(ix)
+    add   a, #8
+    ld    Y(ix), a
+    call comprobar_colision                ;; Right-down
+    ld    a, Y(ix)
+    sub   a, #15
+    ld    Y(ix), a
+
+    ld    a, X(ix)
+    sub   a, #7
+    ld    X(ix), a
+
+    ld    a, X(ix)
+    dec   a
+    ld    X(ix), a
+
+    ret
+
+sys_collision_left:
+
+    ld  a, direction(ix)
+    cp  #DIRECT_A
+    jr  z, colision_parte_izquierda
+
+    ret
+
+    colision_parte_izquierda:
+
+    ld    a, X(ix)
+    dec   a
+    ld    X(ix), a
+
+    ld    hl, #colision_actual
+    ld  (hl), #4
+
+    call comprobar_colision                ;; Left-up
+
+    ld    a, Y(ix)
+    add   a, #7
+    ld    Y(ix), a
+    call comprobar_colision                ;; Left-mid
+
+    ld    a, Y(ix)
+    add   a, #8
+    ld    Y(ix), a
+    call comprobar_colision                ;; Left-down
+    ld    a, Y(ix)
+    sub   a, #15
+    ld    Y(ix), a
+
+    ld    a, X(ix)
+    inc   a
+    ld    X(ix), a
 
     ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -198,156 +334,23 @@ sys_collision_update_player_tilemap:
     ;; Inicializamos los valores
     call inicializar_player_colision
 
-    ld   de, #m_entities
-    
+    ld   ix, #m_entities
+
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Colision con la parte de arriba (W) 
-    ;;
-
-    ld    hl, #colision_actual
-    ld  (hl), #1
-
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-    dec   a
-    ld    (hl), a
-
-    call comprobar_colision                ;; Upper-left
-
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
-    add   a, #3
-    ld    (hl), a
-    call comprobar_colision                ;; Upper-mid
-
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
-    add   a, #4
-    ld    (hl), a
-    call comprobar_colision                ;; Upper-right
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
-    sub   a, #7
-    ld    (hl), a
-
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-    inc   a
-    ld    (hl), a
+    call sys_collision_up
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; Colision con la parte de abajo (S) ;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-    ld    hl, #colision_actual
-    ld  (hl), #2
-
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-    add   a, #16
-    ld    (hl), a
-
-    call comprobar_colision                ;; Down-left
-
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
-    add   a, #3
-    ld    (hl), a
-    call comprobar_colision                ;; Down-mid
-
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
-    add   a, #4
-    ld    (hl), a
-    call comprobar_colision                ;; Down-right
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
-    sub   a, #7
-    ld    (hl), a
-
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-    sub   a, #16
-    ld    (hl), a
+    ;; Colision con la parte de abajo (S)
+    call sys_collision_down
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; Colision con la parte de derecha (D) ;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-    ld    hl, #colision_actual
-    ld  (hl), #3
-
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
-    add   a, #7
-    ld    (hl), a
-
-    call comprobar_colision                ;; Right-up
-
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-    add   a, #7
-    ld    (hl), a
-    call comprobar_colision                ;; Right-up
-
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-    add   a, #8
-    ld    (hl), a
-    call comprobar_colision                ;; Right-down
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-    sub   a, #15
-    ld    (hl), a
-
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
-    sub   a, #7
-    ld    (hl), a
+    ;; Colision con la parte de derecha (D)
+    call sys_collision_right
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; Colision con la parte de izquierda (A) ;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-    ld    hl, #colision_actual
-    ld  (hl), #4
-
-    call comprobar_colision                ;; Left-up
-
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-    add   a, #7
-    ld    (hl), a
-    call comprobar_colision                ;; Left-mid
-
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-
-    add   a, #8
-    ld    (hl), a
-    call comprobar_colision                ;; Left-down
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-    sub   a, #15
-    ld    (hl), a
+    ;; Colision con la parte de izquierda (A)
+    call sys_collision_left
 
 ret
 

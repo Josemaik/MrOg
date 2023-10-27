@@ -72,14 +72,14 @@ choose_axis_y_enemie_patron_mapa1::
     ld (choose_axis_enemy_patron_mapa1), a
 ret
 move_down_e::
-        call active_animation
-        push bc
-        ld bc, #anim_enemy_down
-        ld 4(ix), c
-        ld 5(ix), b
-        ld bc, #DIRECT_S
-        call check_animation
-        pop bc
+        ; call active_animation_player
+        ; push bc
+        ; ld bc, #anim_enemy_down
+        ; ld 4(ix), c
+        ; ld 5(ix), b
+        ; ld bc, #DIRECT_S
+        ; call check_animation
+        ; pop bc
         ld hl, #return_hear0
         push hl
         push bc
@@ -93,14 +93,14 @@ move_down_e::
         ld (hl), #1
 ret
 move_above_e::
-        call active_animation
-        push bc
-        ld bc, #anim_enemy_up
-        ld 4(ix), c
-        ld 5(ix), b
-        ld bc, #DIRECT_W
-        call check_animation
-        pop bc
+        ; call active_animation_player
+        ; push bc
+        ; ld bc, #anim_enemy_up
+        ; ld 4(ix), c
+        ; ld 5(ix), b
+        ; ld bc, #DIRECT_W
+        ; call check_animation
+        ; pop bc
         ld hl, #return_hear1
         push hl
         push bc
@@ -115,14 +115,14 @@ move_above_e::
         ld (hl), #-1
 ret
 move_left_e::
-        call active_animation
-        push bc
-        ld bc, #anim_enemy_left
-        ld 4(ix), c
-        ld 5(ix), b
-        ld bc, #DIRECT_A
-        call check_animation
-        pop bc
+        ; call active_animation_player
+        ; push bc
+        ; ld bc, #anim_enemy_left
+        ; ld 4(ix), c
+        ; ld 5(ix), b
+        ; ld bc, #DIRECT_A
+        ; call check_animation
+        ; pop bc
         ld hl, #return_hear2
         push hl
         push bc
@@ -137,14 +137,14 @@ move_left_e::
         ld (hl), #-1
 ret
 move_right_e::
-        call active_animation
-        push bc
-        ld bc, #anim_enemy_right
-        ld 4(ix), c
-        ld 5(ix), b
-        ld bc, #DIRECT_D
-        call check_animation
-        pop bc
+        ; call active_animation_player
+        ; push bc
+        ; ld bc, #anim_enemy_right
+        ; ld 4(ix), c
+        ; ld 5(ix), b
+        ; ld bc, #DIRECT_D
+        ; call check_animation
+        ; pop bc
         ld hl, #return_hear3
         push hl
         push bc
@@ -190,6 +190,21 @@ set_velocity_x_D::
     call move_right_e
     set_velocity_x_D_end:
 ret
+setVelocity:
+    ld a, c
+    cp #DIRECT_W
+        jr z, set_velocity_x_W
+   ld a, c
+   cp #DIRECT_S
+        jr z, set_velocity_x_S
+   ld a , c
+   cp #DIRECT_A
+        jr z, set_velocity_x_A
+   ld a , c
+   cp #DIRECT_D
+        jr z, set_velocity_x_D
+ret
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UPDATE PHYSICS FOR ONE ENTITY 
@@ -221,6 +236,16 @@ sys_physics_update_for_one:
             jr move_y_axis
          
 check_player:
+    ld a , (animation_state_player)
+    cp #1
+    jr z, goto_setvelocity
+    ret
+    goto_setvelocity:
+    ld  hl, #direction
+    add hl, de
+    ld a, (hl)
+    ld c, a
+    call setVelocity
     ld a, (choose_axis_player)
         cp #1
         jr z, move_x_axis

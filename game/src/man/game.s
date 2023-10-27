@@ -143,9 +143,9 @@ crear_objetos_mapa_prueba:
    ld       hl, #helado_entity
    call man_game_create_template_entity
 
-   ;ld    Y(ix), #136
-   ;ld       hl, #helado_entity
-   ;call man_game_create_template_entity
+   ld    Y(ix), #136
+   ld       hl, #helado_entity
+   call man_game_create_template_entity
 
    ;ld    Y(ix), #152
    ;ld       hl, #helado_entity
@@ -207,18 +207,17 @@ man_game_play::
    loop:
       ;; call music player
          call     cpct_akp_musicPlay_asm
-         ; call      _sys_ai_update
       ;; call input
          call     _sys_input_update
-      ;; update positions
-         call     _sys_physics_update
-      ;; check collisions
+      ;; call collisions
          call     _sys_collision_update
+      ;; call physics
+         call     _sys_physics_update
       ;; call animations system
          call     _sys_animations_update
-         ;; call ai manager
-         call      _sys_ai_update
-      ;; render
+      ;; call ai manager
+         call     _sys_ai_update
+      ;; call render
          call     _sys_render_update
 
          ;; crear hud
