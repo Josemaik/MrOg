@@ -10,8 +10,6 @@
       .globl desactive_animating
       .globl _man_entity_for_all_matching
       .globl active_animation_player
-      .globl choose_axis_x_player
-      .globl choose_axis_y_player
       .globl check_animation
       .globl man_game_create_bomb
       .globl set_xy_bomb

@@ -71,7 +71,15 @@ sys_get_screen_ptr_life_or_bomb:
 
             call    cpct_getScreenPtr_asm
 ret
-
+borrar_vida_or_bomb::
+    call sys_get_screen_ptr_life_or_bomb
+    ld e, l
+    ld d, h
+    ld a, #0
+    ld c, #4
+    ld b, #8
+    call cpct_drawSolidBox_asm
+ret
 sys_render_draw_solid_box:
     push hl
     ;;;;;;;;;;;;;;;;;;;;;;;;;;

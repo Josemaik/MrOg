@@ -4,6 +4,7 @@
 ;; sys
 .globl sys_render_life_or_bomb
 .globl sys_render_score
+.globl borrar_vida_or_bomb
 ;;cpct
 .globl cpct_setDrawCharM0_asm
 .globl cpct_drawStringM0_asm
