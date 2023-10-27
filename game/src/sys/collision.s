@@ -254,6 +254,10 @@ sys_collision_right:
 
     colision_parte_derecha:
 
+    ld    a, X(ix)
+    inc   a
+    ld    X(ix), a
+
     ld    hl, #colision_actual
     ld  (hl), #3
 
@@ -280,6 +284,10 @@ sys_collision_right:
     sub   a, #7
     ld    X(ix), a
 
+    ld    a, X(ix)
+    dec   a
+    ld    X(ix), a
+
     ret
 
 sys_collision_left:
@@ -291,6 +299,10 @@ sys_collision_left:
     ret
 
     colision_parte_izquierda:
+
+    ld    a, X(ix)
+    dec   a
+    ld    X(ix), a
 
     ld    hl, #colision_actual
     ld  (hl), #4
@@ -309,6 +321,10 @@ sys_collision_left:
     ld    a, Y(ix)
     sub   a, #15
     ld    Y(ix), a
+
+    ld    a, X(ix)
+    inc   a
+    ld    X(ix), a
 
     ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
