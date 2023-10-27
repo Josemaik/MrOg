@@ -369,7 +369,7 @@ sys_collisions_update_entities::
     ld__ix_bc  ;; BC player
     ld__iy_de
 
-    ld  b, #1 ;; Inicializar bounding box
+    ld  b, #0 ;; Inicializar bounding box
 
     ;; Colision jugador con entidad
     ld   a, TYPE(ix)
@@ -401,7 +401,7 @@ sys_collisions_update_entities::
     jr check_collision_between_entities
 
     bounding_box_mas_pequeña:
-    ld  b, #2
+    ld  b, #3
 
     ;;;;;;;;;;;;;;;;
     ;; Colisiones ;;
@@ -434,7 +434,6 @@ sys_collisions_update_entities::
     ;; if ( Y(BC) + HEIGHT(BC) - Y(DE) < 0 )
     ld a, Y(iy)
     add HEIGHT(iy)
-    sub b
     sub b
     sub Y(ix)
     jr c, __no_collision
@@ -532,7 +531,7 @@ check_door:
     cp  #DIRECT_D
     jr  z, colision_derecha_puerta
 
-    ;;ret
+    ret
 
     colision_arriba_puerta:
     ld  a, (tengo_llave)
@@ -559,7 +558,7 @@ check_door:
     cp  #1
     jr  z, abrir_puerta
     
-    ld   hl, #is_colliding_player + 3
+    ld   hl, #is_colliding_player + 2
     ld (hl),  #1
     ld VX(ix), #0
     jr final_check_door
@@ -572,7 +571,6 @@ check_door:
     ld   hl, #is_colliding_player + 3
     ld (hl),  #1
     ld VX(ix), #0
-    jr final_check_door
 
     jr final_check_door
 
