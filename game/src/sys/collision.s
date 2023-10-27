@@ -148,9 +148,9 @@ sys_collision_player_tilemap_d:
 
     ld VX(ix), #0
 
-    ld  a, X(ix)
-    dec a
-    ld  X(ix), a
+    ; ld  a, X(ix)
+    ; dec a
+    ; ld  X(ix), a
 
     ret
 
@@ -160,9 +160,9 @@ sys_collision_player_tilemap_a:
     
     ld VX(ix), #0
 
-    ld  a, X(ix)
-    inc a
-    ld  X(ix), a
+    ; ld  a, X(ix)
+    ; inc a
+    ; ld  X(ix), a
 
     ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

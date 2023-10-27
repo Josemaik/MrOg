@@ -37,19 +37,19 @@ sys_ai_horizontal_enemie::
         jr z, mover_abajo2
         jr sys_ai_horizontal_enemie_end
         mover_abajo2:
-            ld bc, #anim_enemy_up
+            ld bc, #anim_enemy_down
             ld 4(ix), c
             ld 5(ix), b
-            ld bc, #DIRECT_W
+            ld bc, #DIRECT_S
             call check_animation
             ld bc, #choose_axis_y_enemie3
             call move_down_e
         jr sys_ai_horizontal_enemie_end
         mover_arriba2:
-            ld bc, #anim_enemy_down
+            ld bc, #anim_enemy_up
             ld 4(ix), c
             ld 5(ix), b
-            ld bc, #DIRECT_S
+            ld bc, #DIRECT_W
             call check_animation
             ld bc, #choose_axis_y_enemie3
             call move_above_e
