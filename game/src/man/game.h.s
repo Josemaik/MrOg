@@ -37,6 +37,7 @@
    .globl helado_entity
    .globl puerta_horizontal_entity
    .globl puerta_vertical_entity
+   .globl llave_entity
 
    ;;music
    .globl _song_prueba

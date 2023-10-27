@@ -135,25 +135,25 @@ crear_objetos_mapa_prueba:
    ld       hl, #helado_entity
    call man_game_create_template_entity
 
-   ld    Y(ix), #48
-   ld       hl, #helado_entity
-   call man_game_create_template_entity
+   ;ld    Y(ix), #48
+   ;ld       hl, #helado_entity
+   ;call man_game_create_template_entity
+;
+   ;ld    Y(ix), #64
+   ;ld       hl, #helado_entity
+   ;call man_game_create_template_entity
 
-   ld    Y(ix), #64
-   ld       hl, #helado_entity
-   call man_game_create_template_entity
-
-   ld    Y(ix), #136
-   ld       hl, #helado_entity
-   call man_game_create_template_entity
+   ;ld    Y(ix), #136
+   ;ld       hl, #helado_entity
+   ;call man_game_create_template_entity
 
    ;ld    Y(ix), #152
    ;ld       hl, #helado_entity
    ;call man_game_create_template_entity
 
-   ;ld    Y(ix), #168
-   ;ld       hl, #helado_entity
-   ;call man_game_create_template_entity
+   ld    Y(ix), #168
+   ld       hl, #helado_entity
+   call man_game_create_template_entity
 
    ;;;;;;;;;;;;;;;;;;;;;;;;;;
    ;; Puertas Horizontales ;;
@@ -170,12 +170,28 @@ crear_objetos_mapa_prueba:
    ;; Puertas Verticales ;;
    ;;;;;;;;;;;;;;;;;;;;;;;;
 
-   ;ld       ix, #puerta_vertical_entity
-;
-   ;ld    X(ix), #16
-   ;ld    Y(ix), #88
-   ;ld       hl, #puerta_vertical_entity
-   ;call man_game_create_template_entity
+   ld       ix, #puerta_vertical_entity
+
+   ld    X(ix), #16
+   ld    Y(ix), #112
+   ld       hl, #puerta_vertical_entity
+   call man_game_create_template_entity
+
+   ;;;;;;;;;;;;
+   ;; Llaves ;;
+   ;;;;;;;;;;;;
+
+   ld       ix, #llave_entity
+
+   ld    X(ix), #56
+   ld    Y(ix), #112
+   ld       hl, #llave_entity
+   call man_game_create_template_entity
+
+   ld    X(ix), #20
+   ld    Y(ix), #32
+   ld       hl, #llave_entity
+   call man_game_create_template_entity
 
    ret
 ;;;;;;;;;;;;;;;;;;;;
