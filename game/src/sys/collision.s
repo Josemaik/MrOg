@@ -366,7 +366,7 @@ sys_collisions_update_entities::
     push ix
     push iy
 
-    ld__ix_bc  ;; BC player
+    ld  ix, #m_entities  ;; Player
     ld__iy_de
 
     ld  b, #0 ;; Inicializar bounding box
@@ -605,13 +605,10 @@ check_key:
 ;; Sys Collision Update ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 _sys_collision_update::
-    ;ld   bc, #sys_collision_update_one_entity
-    ;ld   hl, #E_CMP_COLLIDER
-    ;call _man_entity_for_all_matching
     call sys_collision_update_player_tilemap
 
     ld bc, #sys_collisions_update_entities
     ld hl, #E_CMP_COLLIDER
-    call _man_entity_for_all_pairs_matching_while1
+    call _man_entity_for_all_matching
 
     ret

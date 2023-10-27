@@ -138,7 +138,7 @@ crear_objetos_mapa_prueba:
    ;ld    Y(ix), #48
    ;ld       hl, #helado_entity
    ;call man_game_create_template_entity
-;
+
    ;ld    Y(ix), #64
    ;ld       hl, #helado_entity
    ;call man_game_create_template_entity
