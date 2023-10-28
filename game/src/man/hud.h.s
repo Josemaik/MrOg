@@ -3,14 +3,9 @@
 .globl _spr_bombahud
 ;; sys
 .globl sys_render_life_or_bomb
-.globl sys_render_score
 .globl cpct_getScreenPtr_asm
+.globl sys_render_char
 ;;cpct
-.globl cpct_setDrawCharM0_asm
-.globl cpct_drawStringM0_asm
-.globl cpct_drawCharM0_asm
-.globl cpct_drawCharM2_asm
-.globl cpct_setDrawCharM2_asm
 ;;array_vidas
     DIE_OR_ALIVE = 0
     X = 1

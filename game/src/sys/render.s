@@ -16,8 +16,6 @@
 ;;;;;;;;;;;;;;;
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
-sys_render_score::
-ret
 sys_render_life_or_bomb::
             ;; load in c the width
             ld c, #0x04
@@ -72,6 +70,25 @@ sys_get_screen_ptr_life_or_bomb:
             call    cpct_getScreenPtr_asm
 ret
 
+sys_render_char::
+                ;; save value of char
+                push de
+                ;; save  x y position
+                push bc
+                ;; l -> foreground
+                ;; h -> background
+                ld l, #4
+                ld h, #0
+                call cpct_setDrawCharM0_asm         
+              ;; HL -> video memory
+                ld      de, #0xC000
+            ;; retrieve x y position
+                pop bc
+                call    cpct_getScreenPtr_asm
+            ;; retrieve value of char
+                pop de 
+                call    cpct_drawCharM0_asm  
+ret
 sys_render_draw_solid_box:
     push hl
     ;;;;;;;;;;;;;;;;;;;;;;;;;;

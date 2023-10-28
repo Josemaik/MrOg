@@ -38,6 +38,17 @@ contador_vidas::
     .db 0x03
 contador_bombas::
     .db 0x03
+contador_score::
+    .db 0x1e ;; 60 segundos ;; ajustarlo
+id_second_digit::
+    .db 0x09
+dec_to_acii_second_digit::
+    .db '9', '8', '7', '6', '5', '4', '3', '2', '1', '0'
+
+dec_to_acii_first_digit::
+    .db '6', '5', '4', '3', '2', '1', '0'
+id_first_digit::
+    .db 0x00
 .area _CODE
 
 renderizar_life_and_bombs:
@@ -66,35 +77,48 @@ renderizar_life_and_bombs:
     ld a,#3
     ld (hl), a
 ret
-render_score:
-    ;  pvmem = cpctm_screenPtr(CPCT_VMEM_START, 16, 88);  // Calculate video memory address
-    ; call sys_render_score
-    ; ; (1B L ) fg_pen	Foreground palette colour index (Similar to BASIC’s PEN, 0-15)
-    ; ; (1B H ) bg_pen	Background palette colour index (PEN, 0-15)
-    ld l, #4
-    ld h, #0
-    call cpct_setDrawCharM0_asm         
-    ; ; (2B IY) string	Pointer to the null terminated string being drawn
-    ; ; (2B HL) video_memory	Video memory location where the string will be drawn                // Red over black
-    ; ; cpct_drawStringM0("Hello there!", pvmem);  
-              ;; HL -> video memory
-            ld      de, #0xC000
-            ;; add C to SCORE_INIT_X and save in c
-                ld      c, #0x22
-            ;; add b to SCORE_INIT_Y and save in b
-                ld      b, #0x0a
-            call    cpct_getScreenPtr_asm
-        ;; draw char -> cpct_drawCharM0_asm
-            ;; INPUTS
-                ;; HL -> video memory
-                ;; E -> ascii           
-                ;; retrieve ascii and save back
-                    ld e, #"3"
-                ;; call function
-                    call    cpct_drawCharM0_asm  
-    ; ld  e, #"H"
-    ; ld hl, #0xC400
-    ; call cpct_drawStringM0_asm
+render_score::
+;; renderizar firs digit
+    ld de, #dec_to_acii_first_digit
+    ld hl, (id_first_digit)
+    ld h, #0x00
+    add hl , de
+    ld a, (hl)
+    ld e, a
+    ld b, #0x0a
+    ld c, #0x22
+    call sys_render_char
+    ;; renderizar second digit
+    ld bc, #dec_to_acii_second_digit
+    ld hl, (id_second_digit)
+    ld h, #0x00
+    add hl, bc
+    ld a, (hl)
+    ld e, a
+    ld b, #0x0a
+    ld c, #0x27
+    call sys_render_char
+    ;; renderizar tercer digito
+    ld de, #"0"
+    ld b, #0x0a
+    ld c, #0x2c
+    call sys_render_char
+    ;; aumento digito 2
+    ld a , (id_second_digit)
+    inc a
+    ld (id_second_digit), a
+    ;; cuando segundo digito sea 10, me he pasado incremento digito 1
+    cp #0x0a
+    jr z, inc_dig_1
+    ret
+    inc_dig_1:
+    ;; incremento digio 1
+    ld a , (id_first_digit)
+    inc a
+    ld (id_first_digit), a
+    ;; vuelvo el segundo digito a 0
+    ld a, #0
+    ld (id_second_digit), a
 ret
 quitar_vida::
     ld de, #array_vidas + 10
@@ -149,5 +173,14 @@ create_HUD::
     ;; render
     call renderizar_life_and_bombs ;; creamos bombas
     ;render score
+    ld a, (contador_score)
+    dec a
+    ld (contador_score), a
+    cp #0
+    jr z , go_to_render_score
+    ret
+    go_to_render_score:
     call render_score
+    ld a , #0x02
+    ld (contador_score), a
 ret
