@@ -241,14 +241,14 @@ _man_entity_for_all::
             add     ix, sp
             ld      sp, ix
     
-ret
-
+    ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FOR ALL MATCHING ENTITIES ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; IN =>   BC -> the function to call                       
+;; IN =>   BC -> the function to call   
+;;         HL -> the condition to call function                    
 ;;
-    _man_entity_for_all_matching::
+_man_entity_for_all_matching::
 
     ;; stack opened
         ld      ix, #-6
@@ -318,6 +318,47 @@ ret
             ld      sp, ix
     
     ret
+
+;; Intento de optimizacion
+;
+;_man_entity_for_all_matching::
+;
+;    ;; load first position of an entity
+;    ld   ix, #m_entities
+;
+;    ;; while
+;    man_init_for_match:
+;        ;; if
+;            ;; save in a the type and compare with #E_TYPE_INVALID
+;            ld      a, TYPE(ix)
+;            cp      #E_TYPE_INVALID    
+;            jr      z, man_end_for_match     
+;
+;            ;; compare the condition
+;            ld  a, CMPs(ix)
+;            and l
+;            cp  l
+;            jr nz, _return_hear_match       
+;
+;            ;; save returning point
+;            ld      hl, #_return_hear_match
+;            push    hl
+;
+;            ;; call the function
+;            push    bc                  
+;            ret  
+;
+;            ;; if entity is not movable continue here
+;            _return_hear_match:
+;
+;                ld    de, #SPACE_4_ONE_ENTITY
+;                add   ix, de
+;
+;                jr      man_init_for_match       
+;
+;    man_end_for_match:
+;    
+;    ret
 
 ;;;;;;;;;;;;;;;;;;;;
 ;; MANAGER UPDATE ;;
