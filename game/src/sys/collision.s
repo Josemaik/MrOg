@@ -491,6 +491,7 @@ check_enemy:
 
     inicio_check_enemy:
     ;; play anim
+    ld AnimCounter(ix), #MAN_ANIM_PLAYER_HIT_ENEMY
     ld bc, #anim_player_died
     ld AnimFrame(ix), c
     inc ix

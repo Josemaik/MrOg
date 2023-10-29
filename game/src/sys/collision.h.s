@@ -13,6 +13,7 @@
       .globl lifes_available
       .globl set_llave
       .globl player_state
+      .globl MAN_ANIM_PLAYER_HIT_ENEMY
    ;; systems   
       .globl stop_sprite                       
       .globl anim_player_died

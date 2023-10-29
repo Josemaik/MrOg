@@ -9,7 +9,8 @@
         VAL_NEXT_FRAME  = 1  ;; u8 (2b)  
                                           
    ;; managers                            
-      .globl _man_entity_for_all_matching                  
+      .globl _man_entity_for_all_matching        
+      .globl player_state          
    ;; systems                             
 
    ;; sprites
