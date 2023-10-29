@@ -6,6 +6,14 @@
 .area _DATA
 lifes_available::
    .db 0x04 ;; 3 vidas
+player_state:: ;; 0 -> vivo 1 -> muerto
+   .db 0x00
+time_anim_died:: ;; tiempo animacion muerte
+   .db 0xaa
+food_state:: ;;0-> viva 1-> muerta
+   .db 0x00
+time_anim_eat:: ;; tiempo animacion comer
+   .db 0x64
 .area _CODE
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -30,6 +38,28 @@ _inicialize_templates:
       
       call cargar_mapa_2
       
+ret
+player_reaparition::
+    push ix
+    ld__ix_de
+    ;; dibujamos solidbox donde muere personaje
+    call sys_render_draw_solid_box_player
+    ;; ponemos sprite abajo
+    ld bc, #_spr_spritesheet_00
+    ld SPRITE(ix), c
+    ld 1+SPRITE(ix), b
+    ;; ponemos animacion abajo
+    ld AnimCounter(ix), #0x0c
+    ld bc, #anim_S
+    ld AnimFrame(ix), c
+    ld 1+AnimFrame(ix), b
+    ;; reposicionamos
+    ld X(ix), #20 ;; | 
+    ld Y(ix), #60 ;; | Reposicionar al player a la posicion inicial
+    pop ix
+    ;; vuelvo a poner contador a su tiempo original
+    ld a, #0xaa
+    ld (time_anim_died), a
 ret
 
 ;;;;;;;;;;;;;;;;;;;;

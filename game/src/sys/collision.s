@@ -473,13 +473,23 @@ sys_collisions_update_entities::
 
 ;; Colision con la comida
 check_food:
+    ld a , (food_state)
+    cp #0
+    jr z, goto_eat
+    ret
+    goto_eat:
     ld a, TYPE(iy)
     cp  #E_TYPE_FOOD
     ret nz
-
-    ld TYPE(iy), #E_TYPE_DEAD
-
-    ret
+    ;; poner food como que ha sido comida
+    ld a, #1
+    ld (food_state) , a
+    ;; poner animacion de comer
+    ld AnimCounter(iy), #MAN_ANIM_PLAYER_EAT
+    ld bc, #anim_eat
+    ld AnimFrame(iy), c
+    ld 1+AnimFrame(iy), b
+ret
 
 ;; Colision con los enemigos
 check_enemy:
@@ -499,15 +509,19 @@ check_enemy:
     ret
 
     inicio_check_enemy:
-
-    push de
-        call sys_render_draw_solid_box_player
-    pop de
-
-    ld     a, (position_initial_player)         ;; |
-    ld X(ix), a                                 ;; | Reposicionar al player 
-    ld     a, (position_initial_player + 1)     ;; | a la posicion inicial
-    ld Y(ix), a                                 ;; | 
+    ld a , (player_state)
+    cp #0
+    jr z, goto_dead_player
+    ret
+    goto_dead_player:
+    ;; play anim
+    ld AnimCounter(ix), #MAN_ANIM_PLAYER_HIT_ENEMY
+    ld bc, #anim_player_died
+    ld AnimFrame(ix), c
+    ld 1+AnimFrame(ix), b
+    ;; mark player as died
+    ld a, #1
+    ld (player_state) , a
     
     push de
         ld a , (lifes_available)
@@ -596,9 +610,9 @@ check_door:
 
     ld  a, #0
     ld  (tengo_llave), a
-    push de
-    call borrar_llave
-    pop de
+    ; push de
+    ; call borrar_llave
+    ; pop de
     ld  TYPE(iy), #E_TYPE_DEAD
 
     final_check_door:
@@ -617,9 +631,9 @@ check_key:
 
     ld  a, #1
     ld  (tengo_llave), a
-    push de
-        call set_llave
-    pop de
+    ; push de
+    ;     call set_llave
+    ; pop de
 
     ld TYPE(iy), #E_TYPE_DEAD
 

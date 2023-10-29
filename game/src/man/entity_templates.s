@@ -52,7 +52,6 @@ flobier_entity::
 	  .dw   #0x0000				;; last draw
 	;   .dw   #0x00C4				;; last draw2
 	  .db   #DIRECT_S			;; direction
-	  .db  #0x00
 flobier_entity2:: 
 		.db 	#E_TYPE_ENEMY3			;; entity type
       .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_IA | #E_CMP_COLLIDER | #E_CMP_ANIMATED ;;|#E_CMP_COLLIDER ;; cmps
@@ -71,7 +70,6 @@ flobier_entity2::
 	  .dw   #0x0000				;; last draw
 	;   .dw   #0x00C4				;; last draw2
 	  .db   #DIRECT_S			;; direction
-	  .db  #0x00
 flobier_entity_patron_mapa1:: 
 		.db 	#E_TYPE_ENEMY4			;; entity type
       .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_IA ;;| #E_CMP_COLLIDER;; | #E_CMP_ANIMATED |#E_CMP_COLLIDER ;; cmps
@@ -90,7 +88,6 @@ flobier_entity_patron_mapa1::
 	  .dw   #0x0000				;; last draw
 	;   .dw   #0x00C4				;; last draw2
 	  .db   #DIRECT_S			;; direction
-	  .db  #0x00
 
 
 ;;;;;;;;;;;;;
@@ -100,7 +97,7 @@ flobier_entity_patron_mapa1::
 
 helado_entity::
 		 .db 	#E_TYPE_FOOD			;; entity type
-      .db     #E_CMP_RENDER | #E_CMP_COLLIDER ;; cmps
+      .db     #E_CMP_RENDER | #E_CMP_COLLIDER | E_CMP_ANIMATED;; cmps
 		.db     #0x00               ;; x = 38
 		.db     #0x00             ;; y = 180
 		.db     #SPR_HELADO_W   ;; width 
@@ -116,7 +113,6 @@ helado_entity::
 	  .dw   #0x0000				;; last draw
 	;   .dw   #0x00C4				;; last draw2
 	  .db   #0x00			;; direction
-	  .db  #0x00
 
 puerta_horizontal_entity::
 		 .db 	#E_TYPE_DOOR			;; entity type
@@ -136,7 +132,6 @@ puerta_horizontal_entity::
 	  .dw   #0x0000				;; last draw
 	;   .dw   #0x00C4				;; last draw2
 	  .db   #0x00			;; direction
-	  .db  #0x00	
 
 puerta_vertical_entity::
 		 .db 	#E_TYPE_DOOR			;; entity type
@@ -156,11 +151,10 @@ puerta_vertical_entity::
 	  .dw   #0x0000				;; last draw
 	;   .dw   #0x00C4				;; last draw2
 	  .db   #0x00			;; direction
-	  .db  #0x00	
 
 llave_entity::
 		 .db 	#E_TYPE_KEY			;; entity type
-      .db     #E_CMP_RENDER | #E_CMP_COLLIDER ;; cmps
+      .db     #E_CMP_RENDER | #E_CMP_COLLIDER | E_CMP_ANIMATED;; cmps
 		.db     #0x00               ;; x = 38
 		.db     #0x00             ;; y = 180
 		.db     #SPR_LLAVE_W   ;; width 
@@ -170,10 +164,9 @@ llave_entity::
 		.dw     #_spr_llave_0  ;; sprite (2b)
       .dw     #0x0000;; behaviour
 	  .db 	#0x00					;; ai_counter
-      .dw     #0x00 ;; anim
-      .db     #0x00          ;;contador para morir c = 0
+      .dw     #anim_llave ;; anim
+      .db     #MAN_ANIM_PLAYER_KEY         ;;contador para morir c = 0
 	  .db 	#E_TYPE_PLAYER				;;collides_against
 	  .dw   #0x0000				;; last draw
 	;   .dw   #0x00C4				;; last draw2
 	  .db   #0x00			;; direction
-	  .db  #0x00

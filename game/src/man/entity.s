@@ -384,7 +384,55 @@ _man_entity_update::
             ;; compare A with E_TYPE_DEAD
                 cp      #E_TYPE_DEAD
                 jr      z, man_update_destroy_entity 
-                 
+
+                ld      a, (hl)
+                cp #E_TYPE_PLAYER
+                jr nz, continuar
+                ;; compruebo si esta muerto
+                ld a, (player_state)
+                cp #1
+                jr nz, continuar ;; si esta vivo sigo
+                ;; jugador esta muerto
+                ;;iniciar contador
+                ld a, (time_anim_died)
+                cp #0
+                jr z, died_anim_end ;; animacion termina
+                ;; decremento tiempo
+                ld a, (time_anim_died)
+                dec a
+                ld (time_anim_died) , a
+                jr continuar
+                died_anim_end:
+                    ld a, #0
+                    ld (player_state) , a
+                    call player_reaparition
+                continuar:
+
+                ld      hl, #TYPE
+                add     hl, de   
+                ld a, (hl)
+                cp #E_TYPE_FOOD
+                jr nz , continuar2
+                ld a, (food_state)
+                cp #1
+                jr nz, continuar2
+                ld a, (time_anim_eat)
+                cp #0
+                jr z, eat_anim_end
+                ;; decremento tiempo
+                ld a, (time_anim_eat)
+                dec a
+                ld (time_anim_eat) , a
+                jr continuar2
+                eat_anim_end:
+                    ld a, #0
+                    ld (food_state) , a
+                    ld hl,#TYPE
+                    add hl, de
+                    ld (hl), #E_TYPE_DEAD
+                    ld a, #0x64
+                    ld (time_anim_eat), a
+                continuar2:
 
                 ;; add SPACE_4_ONE_ENTITY De <==> HL
                     ld      hl, #SPACE_4_ONE_ENTITY

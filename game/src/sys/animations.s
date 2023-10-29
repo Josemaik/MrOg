@@ -53,6 +53,17 @@ check_animation::
        check_animation_end:
 ret
 sys_animations_update_one_entity:
+    ld hl, #TYPE
+    add hl, de
+    ld a, (hl)
+    cp #E_TYPE_FOOD
+    jr z, check_state_food
+    
+    ld hl, #TYPE
+    add hl, de
+    ld a, (hl)
+    cp #E_TYPE_KEY
+    jr z, start_animating
 
     ld hl, #TYPE
     add hl, de
@@ -65,11 +76,21 @@ sys_animations_update_one_entity:
     ld a, (hl)
     cp #E_TYPE_ENEMY2
     jr z, start_animating;; si es bomba, va directamente a pasar al siguiente frame
-
+    ;; PLAYER
     ld a , (animation_state_player)
     cp #1
     jr z, start_animating
-        jr sys_animations_update_one_entity_end
+        jr check_state_player
+        check_state_player:
+        ld a, (player_state)
+        cp #1
+        jr z, start_animating ;; animacion muerte
+        ret
+    check_state_food:
+        ld a, (food_state)
+        cp #1
+        jr z, start_animating
+        ret
     start_animating:
     ;; save in a the entity->animcounter
     ld hl, #AnimCounter
