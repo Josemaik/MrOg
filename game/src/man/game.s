@@ -5,7 +5,7 @@
 .include "entity.h.s"
 .area _DATA
 lifes_available::
-   .db 0x03
+   .db 0x04 ;; 3 vidas
 .area _CODE
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

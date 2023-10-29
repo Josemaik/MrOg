@@ -499,7 +499,13 @@ check_enemy:
     ld Y(ix), #60 ;; | Reposicionar al player a la posicion inicial
     
     push de
+        ld a , (lifes_available)
+        cp #0
+        jr z, no_decrease
+        dec a
+        ld (lifes_available) , a
         call quitar_vida
+        no_decrease:
     pop de
 
 

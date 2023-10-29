@@ -3,7 +3,8 @@
 ;; sys
 .globl sys_render_life
 .globl sys_render_char
-;;cpct
+;;man
+.globl lifes_available
 ;;array_vidas
     DIE_OR_ALIVE = 0
     X = 1

@@ -6,9 +6,9 @@
 .include "hud.h.s"
 .area _DATA
 sprite_borrar_vida:
+   .db 0x00, 0x00, 0x00, 0x00
     .db 0x00, 0x00, 0x00, 0x00
-    .db 0x00, 0x00, 0x00, 0x00
-	.db 0x00, 0x00, 0x00, 0x00
+	.db  0x00, 0x00, 0x00, 0x00
 	.db 0x00, 0x00, 0x00, 0x00
 	.db 0x00, 0x00, 0x00, 0x00
 	.db 0x00, 0x00, 0x00, 0x00
@@ -47,34 +47,20 @@ renderizar_life:
             ld a, (hl)
             cp #0
             jr z, bucle_vidas_end
-            ;; save contador_vidas
-            push hl
-            ;;check is alive or no
-            ld hl, #DIE_OR_ALIVE
-            add hl, de
-            ld a, (hl)
-            cp #1
-            jr z, gotonext_sprite ;; no render
-            ;; si render
             push hl
             ;; render one life
             call sys_render_life
             ;;decrease lifes counter
             pop hl
-            gotonext_sprite:
-            ;; retrieve contador_vidas and decrease
-            pop hl
             ld a, (hl)
             dec a
             ld (hl), a
-            ;;save contador_vidas
             push hl
             ;; go to next sprite
             ld hl, #DISTANCE_BETWEEN_VIDAS
             add hl, de
-            ld      e, l
+            ld      e, l              
             ld      d, h
-            ;; retrieve contador_vidas
             pop hl
             jr bucle_vidas
     bucle_vidas_end:
@@ -150,14 +136,15 @@ render_score::
     ld (id_second_digit), a
 ret
 
-quitar_vida::
+   quitar_vida::
+    
     ;; start in the last element
     ld de, #array_vidas + 10
     look_last_alive:
         ld a, (de)  ; Carga el valor actual (vivo o muerto)
         cp #0       ; Compara con 0 (vivo)
         jr z, found_last_alive  ; Si está vivo, salta a la etiqueta found_last_alive
-        ;; sub distance between elements
+        ;; sub distance between elements 
         dec de
         dec de
         dec de
@@ -185,8 +172,14 @@ create_HUD::
     ld de, #array_vidas
     ;; contador de vidas
     ld hl, #contador_vidas
+    ;; compruebo vidas disponibles
+    ld a, (lifes_available)
+    cp #0
+    jr z, no_render_lifes
     ;; render
     call renderizar_life ;; creamos las vidas
+    
+    no_render_lifes:
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; RENDER SCORE
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
