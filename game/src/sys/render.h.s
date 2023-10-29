@@ -7,6 +7,9 @@
     x_vida = 1
     y_vida = 2
     sprite_vida = 3
+    x_key = 0
+    y_key = 1
+    sprite_key = 2
     ;; cpct                             
         .globl cpct_setVideoMode_asm    
         .globl cpct_getScreenPtr_asm    

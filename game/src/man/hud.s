@@ -24,6 +24,9 @@ array_vidas::
     .db 0x00
     .db 0x0f, 0x0a ;; posición
     .dw  _spr_vidas;; sprite
+array_key::
+    .db 0x43, 0x0a ;; posicion x e y
+    .dw _spr_llave_hud
 contador_vidas::
     .db 0x03
 contador_score::
@@ -167,7 +170,34 @@ ret
         inc hl
         ld (hl), b
 ret
+render_key:
+    call sys_render_key
+ret
+borrar_llave::
+    ld de, #array_key
+    ld bc, #sprite_borrar_vida
+    ;; go to arraykey->sprite an load bc in this position
+    ld hl, #sprite_key
+    add hl, de
+    ld (hl), c
+    inc hl
+    ld (hl), b
+    call render_key
+ret
+set_llave::
+    ld de, #array_key
+    ld bc, #_spr_llave_hud
+    ;; go to arraykey->sprite an load bc in this position
+    ld hl, #sprite_key
+    add hl, de
+    ld (hl), c
+    inc hl
+    ld (hl), b
+ret
 create_HUD::
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; RENDER LIFES
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; array de vidas en de
     ld de, #array_vidas
     ;; contador de vidas
@@ -178,7 +208,7 @@ create_HUD::
     jr z, no_render_lifes
     ;; render
     call renderizar_life ;; creamos las vidas
-    
+
     no_render_lifes:
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; RENDER SCORE
@@ -198,4 +228,13 @@ create_HUD::
     no_render_score:
     ld a , #TIME_UPDATE_SCORE
     ld (contador_score), a
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; RENDER KEY
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ld de, #array_key
+    ld a, (tengo_llave)
+    cp #1
+    jr nz, no_tengo_llave
+    call render_key
+    no_tengo_llave:
 ret

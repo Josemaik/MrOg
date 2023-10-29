@@ -14,7 +14,7 @@ is_colliding_player:: ;; 0 no collision | 1 collision
 colision_actual:
     .db 0x00
 
-tengo_llave:
+tengo_llave::
     .db 0x00
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -585,6 +585,9 @@ check_door:
 
     ld  a, #0
     ld  (tengo_llave), a
+    push de
+    call borrar_llave
+    pop de
     ld  TYPE(iy), #E_TYPE_DEAD
 
     final_check_door:
@@ -603,6 +606,9 @@ check_key:
 
     ld  a, #1
     ld  (tengo_llave), a
+    push de
+        call set_llave
+    pop de
 
     ld TYPE(iy), #E_TYPE_DEAD
 
