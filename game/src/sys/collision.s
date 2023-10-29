@@ -585,9 +585,9 @@ check_door:
 
     ld  a, #0
     ld  (tengo_llave), a
-    push de
-    call borrar_llave
-    pop de
+    ; push de
+    ; call borrar_llave
+    ; pop de
     ld  TYPE(iy), #E_TYPE_DEAD
 
     final_check_door:
@@ -606,9 +606,9 @@ check_key:
 
     ld  a, #1
     ld  (tengo_llave), a
-    push de
-        call set_llave
-    pop de
+    ; push de
+    ;     call set_llave
+    ; pop de
 
     ld TYPE(iy), #E_TYPE_DEAD
 

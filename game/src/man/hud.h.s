@@ -1,6 +1,7 @@
 ;; sprites
 .globl _spr_vidas
 .globl _spr_llave_hud
+.globl _spr_llave_hud_gris
 ;; sys
 .globl sys_render_life
 .globl sys_render_char
