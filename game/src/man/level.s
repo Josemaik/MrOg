@@ -104,9 +104,6 @@ ret
 
 crear_enemigos_mapa_2:
 
-    ld       hl, #flobier_entity
-    call man_game_create_template_entity
-
 ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -241,5 +238,58 @@ crear_objetos_mapa_1:
 ret
 
 crear_objetos_mapa_2:
+
+;;;;;;;;;;;;;
+   ;; Helados ;;
+   ;;;;;;;;;;;;;
+
+   ld       ix, #helado_entity
+
+   ld    X(ix), #20
+   ld    Y(ix), #32
+   ld       hl, #helado_entity
+   call man_game_create_template_entity
+
+   ld    X(ix), #36
+   ld    Y(ix), #176
+   ld       hl, #helado_entity
+   call man_game_create_template_entity
+
+   ld    X(ix), #52
+   ld    Y(ix), #80
+   ld       hl, #helado_entity
+   call man_game_create_template_entity
+
+   ;;;;;;;;;;;;
+   ;; Llaves ;;
+   ;;;;;;;;;;;;
+
+   ld       ix, #llave_entity
+
+   ld    X(ix), #52
+   ld    Y(ix), #56
+   ld       hl, #llave_entity
+   call man_game_create_template_entity
+
+   ld    X(ix), #68
+   ld    Y(ix), #152
+   ld       hl, #llave_entity
+   call man_game_create_template_entity
+
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;
+   ;; Puertas Horizontales ;;
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+   ld       ix, #puerta_horizontal_entity
+
+   ld    X(ix), #20
+   ld    Y(ix), #120
+   ld       hl, #puerta_horizontal_entity
+   call man_game_create_template_entity
+
+   ld    X(ix), #68
+   ld    Y(ix), #96
+   ld       hl, #puerta_horizontal_entity
+   call man_game_create_template_entity
 
 ret
