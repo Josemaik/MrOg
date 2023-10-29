@@ -97,7 +97,7 @@ flobier_entity_patron_mapa1::
 
 helado_entity::
 		 .db 	#E_TYPE_FOOD			;; entity type
-      .db     #E_CMP_RENDER | #E_CMP_COLLIDER ;; cmps
+      .db     #E_CMP_RENDER | #E_CMP_COLLIDER | E_CMP_ANIMATED;; cmps
 		.db     #0x00               ;; x = 38
 		.db     #0x00             ;; y = 180
 		.db     #SPR_HELADO_W   ;; width 

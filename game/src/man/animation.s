@@ -64,6 +64,15 @@ anim_player_died::
     .dw _spr_muelte_4
     .db #0x00
     .dw #anim_player_died
+anim_eat::
+    .db #MAN_ANIM_PLAYER_EAT
+    .dw _spr_comer_0
+    .db #MAN_ANIM_PLAYER_EAT
+    .dw _spr_comer_1
+    .db #MAN_ANIM_PLAYER_EAT
+    .dw _spr_comer_2
+    .db #0x00
+    .dw #anim_eat
 
 anim_burro_up::
     .db #MAN_ANIM_PLAYER_TIME
@@ -146,33 +155,6 @@ anim_enemy_right::
     .dw _spr_enemigo_flobier_3
     .db #0x00
     .dw #anim_enemy_right
-
-
-
-
-anim_muelte::
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_muelte_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_muelte_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_muelte_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_muelte_1
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_muelte_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_muelte_2
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_muelte_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_muelte_3
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_muelte_4
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_muelte_4
-    .db #0x00
-    .dw #anim_muelte
 
     
 anim_llave::

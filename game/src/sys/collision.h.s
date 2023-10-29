@@ -17,6 +17,9 @@
    ;; systems   
       .globl stop_sprite                       
       .globl anim_player_died
+      .globl anim_eat
+      .globl time_anim_eat
+      .globl food_state
    ;; sprites
       .globl cpct_drawSolidBox_asm
 

@@ -32,9 +32,9 @@ sys_input_update_for_one:
     ld      hl, #Key_S
     call cpct_isKeyPressed_asm
     jr nz, sys_physics_S_is_pressed
-    pop de
     ;; no se ha pulsado ninguna tecla
     stop_sprite_player:
+    pop de
     call stop_sprite
     call desactive_animating
     jp sys_input_update_for_one_end

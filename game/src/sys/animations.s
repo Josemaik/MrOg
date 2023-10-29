@@ -56,6 +56,12 @@ sys_animations_update_one_entity:
     ld hl, #TYPE
     add hl, de
     ld a, (hl)
+    cp #E_TYPE_FOOD
+    jr z, check_state_food
+    
+    ld hl, #TYPE
+    add hl, de
+    ld a, (hl)
     cp #E_TYPE_KEY
     jr z, start_animating
 
@@ -79,6 +85,11 @@ sys_animations_update_one_entity:
         ld a, (player_state)
         cp #1
         jr z, start_animating ;; animacion muerte
+        ret
+    check_state_food:
+        ld a, (food_state)
+        cp #1
+        jr z, start_animating
         ret
     start_animating:
     ;; save in a the entity->animcounter

@@ -54,8 +54,9 @@
         MAN_ANIM_PLAYER_TIME   = 3
         MAN_ANIM_PLAYER_ENEMY = 5
         MAN_ANIM_PLAYER_KEY = 10
-        MAN_ANIM_PLAYER_HIT_ENEMY == 4
+        MAN_ANIM_PLAYER_HIT_ENEMY == 35
         MAN_ANIM_PLAYER_HIT_ENEMY_TIME = 20
+        MAN_ANIM_PLAYER_EAT == 5
     ;; DIRECTIONS
     DIRECT_W == 0x01
     DIRECT_A == 0x02
@@ -93,4 +94,6 @@
     .globl player_state
     .globl time_anim_died
     .globl player_reaparition
+    .globl food_state
+    .globl time_anim_eat
    

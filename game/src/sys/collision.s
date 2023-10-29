@@ -464,13 +464,23 @@ sys_collisions_update_entities::
 
 ;; Colision con la comida
 check_food:
+    ld a , (food_state)
+    cp #0
+    jr z, goto_eat
+    ret
+    goto_eat:
     ld a, TYPE(iy)
     cp  #E_TYPE_FOOD
     ret nz
-
-    ld TYPE(iy), #E_TYPE_DEAD
-
-    ret
+    ;; poner food como que ha sido comida
+    ld a, #1
+    ld (food_state) , a
+    ;; poner animacion de comer
+    ld AnimCounter(iy), #MAN_ANIM_PLAYER_EAT
+    ld bc, #anim_eat
+    ld AnimFrame(iy), c
+    ld 1+AnimFrame(iy), b
+ret
 
 ;; Colision con los enemigos
 check_enemy:
@@ -490,12 +500,16 @@ check_enemy:
     ret
 
     inicio_check_enemy:
+    ld a , (player_state)
+    cp #0
+    jr z, goto_dead_player
+    ret
+    goto_dead_player:
     ;; play anim
     ld AnimCounter(ix), #MAN_ANIM_PLAYER_HIT_ENEMY
     ld bc, #anim_player_died
     ld AnimFrame(ix), c
-    inc ix
-    ld (ix), b
+    ld 1+AnimFrame(ix), b
     ;; mark player as died
     ld a, #1
     ld (player_state) , a
