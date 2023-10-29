@@ -41,10 +41,6 @@
   .globl _spr_burro_13
   .globl _spr_burro_14
   .globl _spr_burro_15
-  .globl _spr_bomba_0
-  .globl _spr_bomba_1
-  .globl _spr_bomba_2
-  .globl _spr_bomba_3
   .globl _spr_enemigo_flobier_0
   .globl _spr_enemigo_flobier_1
   .globl _spr_enemigo_flobier_2

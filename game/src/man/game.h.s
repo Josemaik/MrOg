@@ -14,8 +14,7 @@
       .globl _man_entity_clone
       .globl _man_entity_set_for_destruction
       .globl man_entity_destroy    
-      .globl create_HUD    
-      .globl quitar_bomba                   
+      .globl create_HUD                  
    ;; systems                             
       .globl _sys_physics_update          
       .globl _sys_render_update                   
@@ -30,7 +29,6 @@
 
    ;; templates
    .globl player_entity
-   .globl bomba_entity
    .globl flobier_entity
    .globl flobier_entity2
    .globl flobier_entity_patron_mapa1

@@ -4,10 +4,6 @@
 .include "game.h.s"
 .include "entity.h.s"
 .area _DATA
-is_bomb_active:: ;; 0 no activo 1 activo
-   .db 0x00
-bombs_available::
-   .db 0x03
 lifes_available::
    .db 0x03
 .area _CODE
@@ -26,79 +22,6 @@ man_game_create_template_entity::
         ld bc,#SPACE_4_ONE_ENTITY
         call cpct_memcpy_asm
         pop de
-   ret
-   check_bomb_state::
-      ;; guardo en pila x e y player
-        ld hl, #X
-        add hl, de
-        ld a, (hl)
-        ld 4(ix), a
-        ld hl, #Y
-        add hl, de
-        ld a, (hl)
-        ld 5(ix), a
-        ;; guardo en c la dirección
-        ld hl, #direction
-        add hl, de
-        ld a, (hl)
-        ld c, a
-   ret
-man_game_create_bomb::
-   call quitar_bomba
-   ld hl, #bomba_entity
-   call man_game_create_template_entity
-   ld a, #1
-   ld (is_bomb_active) ,a
-   ;; resto 1 al numero de bombas disponibles
-   ld a, (bombs_available)
-   dec a
-   ld (bombs_available), a
-ret
-set_xy_bomb::
-   ld a , c
-   and #DIRECT_W
-   cp #DIRECT_W
-   jr z, set_w
-   ld a , c
-   and #DIRECT_S
-   cp #DIRECT_S
-   jr z, set_s
-   ld a , c
-   and #DIRECT_A
-   cp #DIRECT_A
-   jr z, set_a
-   ld a , c
-   and #DIRECT_D
-   cp #DIRECT_D
-   jr z, set_d
-   set_w:
-      ld a , 5(ix)
-      add #8
-      ld 5(ix), a
-      jr setxybomb
-   set_a:
-      ld a , 4(ix)
-      add #8
-      ld 4(ix), a
-      jr setxybomb
-   set_s:
-      ld a , 5(ix)
-      sub #8
-      ld 5(ix), a
-      jr setxybomb
-   set_d:
-      ld a , 4(ix)
-      sub #8
-      ld 4(ix), a
-      setxybomb:
-   ld hl, #X
-   add hl, de
-   ld a, 4(ix)
-   ld (hl), a
-   ld hl, #Y
-   add hl, de
-   ld a, 5(ix)
-   ld (hl), a
 ret
 _inicialize_templates:
       ;; PLAYER
