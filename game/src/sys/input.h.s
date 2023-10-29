@@ -6,11 +6,6 @@
       .globl _man_entity_for_all_matching
       .globl active_animation_player
       .globl check_animation
-      .globl man_game_create_bomb
-      .globl set_xy_bomb
-      .globl check_bomb_state
-      .globl is_bomb_active
-      .globl bombs_available
     .globl anim_W
    .globl anim_A
    .globl anim_S

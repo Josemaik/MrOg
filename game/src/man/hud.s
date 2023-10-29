@@ -151,7 +151,6 @@ render_score::
 ret
 
 quitar_vida::
-
     ;; start in the last element
     ld de, #array_vidas + 10
     look_last_alive:
