@@ -135,25 +135,6 @@ anim_enemy_right::
     .dw #anim_enemy_right
 
 
-anim_bomba::
-    .db #MAN_ANIM_PLAYER_BOMB
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_BOMB
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_BOMB
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_BOMB
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_BOMB
-    .dw _spr_bomba_0
-    .db #MAN_ANIM_PLAYER_BOMB
-    .dw _spr_bomba_1
-    .db #MAN_ANIM_PLAYER_BOMB
-    .dw _spr_bomba_2
-    .db #MAN_ANIM_PLAYER_BOMB
-    .dw _spr_bomba_3
-    .db #0x00
-    .dw #anim_bomba
 
 .area _CODE
 

@@ -16,7 +16,7 @@
 ;;;;;;;;;;;;;;;
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
-sys_render_life_or_bomb::
+sys_render_life::
             ;; load in c the width
             ld c, #0x04
             ;; load in b the height
@@ -45,7 +45,7 @@ sys_render_life_or_bomb::
             ; push de
             push bc
         ;; obtener posicion de memoria in hl
-            call sys_get_screen_ptr_life_or_bomb
+            call sys_get_screen_ptr_life
         ;; load memory pointer in de
             ld e , l
             ld d, h
@@ -56,7 +56,7 @@ sys_render_life_or_bomb::
             call cpct_drawSprite_asm
             pop de
 ret
-sys_get_screen_ptr_life_or_bomb:
+sys_get_screen_ptr_life:
             ld      hl, #x_vida
             add     hl, de
             ld      c, (hl)
@@ -286,11 +286,6 @@ ret
 ;;
 sys_render_update_for_one:
 
-            ld hl, #TYPE
-            add hl, de
-            ld a, (hl)
-            cp #E_TYPE_BOMB
-            jr z, render_blending_enemie ;; si es enemigo que rodea mapa, render con blending
             ;; save entity to update
             push    de
             ;; get screen pointer
@@ -318,101 +313,6 @@ sys_render_update_for_one:
          sys_render_dont_draw:
             call    sys_render_draw_solid_box
             jr sys_render_update_for_one_end
-        render_blending_enemie:
-                ; ld a , (contador_draw_map)
-                ; dec a
-                ; ld (contador_draw_map), a
-                ; jr nz, continue
-                ; call sys_render_tilemap
-                ; ld a, #CONTADOR_MAPA
-                ; ld (contador_draw_map), a
-                ; continue:
-                ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-            ;; dibujar en lastdraw el sprite de pantalla sacado antes de renderizar para borrar estela
-            ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                ; save entity
-            ;     push de
-            ;     ld hl,#WIDTH
-            ;     add hl,de
-            ;     ld c, (hl)
-            ; ; hl point height, add de, save in b ,hl
-            ;     ld hl,#HEIGHT
-            ;     add hl,de
-            ;     ld b, (hl)
-            ; ;hl point sprite,add de and hl-> sprite
-            ;     ld hl, #spritefromscreen
-            ; ; save video memory pointer in DE and in the stack
-            ;     ld hl, #last_draw
-            ;     add hl, de
-            ;     ld d, (hl)
-            ;     inc hl
-            ;     ld e, (hl)
-            ;     call cpct_drawSprite_asm
-            ;     pop de
-            ;     ; ;;load entity
-            ;     ; pop de
-            ;     ; save netity
-                push de
-                ;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                ;;; OBTENEMOS PUNTERO DE PANTALLA
-                ;;;;;;;;;;;;;;;;;;;;;;;;;;,
-                ;; get screen pointer
-                call sys_get_screen_ptr
-                ;; retrieve entity
-                pop de
-                ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                ;;; CARGAMOS EN LASTDRAW EL PUNTERO DE PANTALLA
-                ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                ;;  save in stack screen pointer
-                ld 4(ix), h
-                ld 5(ix), l
-                ; ;; save in stack screen pointer
-                ; push hl
-                ; ; ;; load in last draw the screen pointer
-                ; ld hl, #last_draw
-                ; add hl, de
-                ; ld a, 4(ix)
-                ; ld (hl) , a
-                ; inc hl
-                ; ld a , 5(ix)
-                ; ld (hl), a
-                ;; retrieve screen pointer
-                ; pop hl
-                ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                ;;;; HACEMOS UN SPRITE DE LA POSICION DE PANTALLA ANTES DE RENDERIZAR
-                ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                ;;save entity pointer
-                ; push de
-                ; ; push hl
-                ; ld hl,#WIDTH
-                ; add hl,de
-                ; ld c,(hl)
-                ; ;; hl point height, add de, save in b ,hl
-                ; ld hl,#HEIGHT
-                ; add hl,de
-                ; ld b, (hl)
-                ; ;; sprite array
-                ; ld de, #spritefromscreen
-                ; ;; screen pointer
-                ; ; pop hl
-                ; ; push hl
-                ; ld l , 4(ix)
-                ; ld h,  5(ix)
-                ; call cpct_getScreenToSprite_asm
-                ; ; retrieve screen pointer
-                ; ; pop hl
-                ; ;; retrieve entity
-                ; pop de
-                ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                ;;; RENDER WITH BLENDING MODE
-                ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                ; set blending mode
-                ld l, #0xB6 ;; OR
-                ;; save screen pointer
-                ; push hl
-                call cpct_setBlendMode_asm
-                ;; render enemie
-                call draw_blending_entity
             
 
     sys_render_update_for_one_end:

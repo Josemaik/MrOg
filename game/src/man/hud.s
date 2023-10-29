@@ -24,22 +24,12 @@ array_vidas::
     .db 0x00
     .db 0x0f, 0x0a ;; posición
     .dw  _spr_vidas;; sprite
-array_bombas::
-    .db 0x00
-    .db 0x39, 0x0a ;; posición
-    .dw  _spr_bombahud;; sprite
-    .db 0x00
-    .db 0x3e, 0x0a ;; posición
-    .dw  _spr_bombahud;; sprite
-    .db 0x00
-    .db 0x43, 0x0a ;; posición
-    .dw  _spr_bombahud;; sprite
 contador_vidas::
     .db 0x03
-contador_bombas::
-    .db 0x03
 contador_score::
-    .db 0x1e ;; 60 segundos ;; ajustarlo
+    .db #TIME_UPDATE_SCORE;;0x3c ;; Cada cuanto tiempo se decrementa contador (60=1seg)
+stop_score::
+    .db 0x00
 id_second_digit::
     .db 0x09
 dec_to_acii_second_digit::
@@ -51,7 +41,7 @@ id_first_digit::
     .db 0x00
 .area _CODE
 
-renderizar_life_and_bombs:
+renderizar_life:
     bucle_vidas:
             ;; check is i render all lifes
             ld a, (hl)
@@ -59,7 +49,7 @@ renderizar_life_and_bombs:
             jr z, bucle_vidas_end
             push hl
             ;; render one life
-            call sys_render_life_or_bomb
+            call sys_render_life
             ;;decrease lifes counter
             pop hl
             ld a, (hl)
@@ -77,7 +67,7 @@ renderizar_life_and_bombs:
     ld a,#3
     ld (hl), a
 ret
-render_score::
+render_first_digit:
 ;; renderizar firs digit
     ld de, #dec_to_acii_first_digit
     ld hl, (id_first_digit)
@@ -88,7 +78,9 @@ render_score::
     ld b, #0x0a
     ld c, #0x22
     call sys_render_char
-    ;; renderizar second digit
+ret
+render_second_digit:
+;; renderizar second digit
     ld bc, #dec_to_acii_second_digit
     ld hl, (id_second_digit)
     ld h, #0x00
@@ -98,11 +90,34 @@ render_score::
     ld b, #0x0a
     ld c, #0x27
     call sys_render_char
-    ;; renderizar tercer digito
+ret
+render_third_digit:
+;; renderizar tercer digito
     ld de, #"0"
     ld b, #0x0a
     ld c, #0x2c
     call sys_render_char
+ret
+render_score::
+    call render_first_digit
+    call render_second_digit
+    call render_third_digit
+    ;; compruebo si digito 1 y 2 estan a 0 => paro contador
+    ld a, (id_first_digit)
+    cp #6
+    jr z, check_dig2
+    jr update
+    check_dig2:
+    ld a, (id_second_digit)
+    cp #9
+    jr z, stop_counter
+    jr update
+    stop_counter:
+    ld a, #1
+    ld (stop_score), a
+    ret
+    ;; actualizo valores de los digitos
+    update:
     ;; aumento digito 2
     ld a , (id_second_digit)
     inc a
@@ -120,18 +135,11 @@ render_score::
     ld a, #0
     ld (id_second_digit), a
 ret
-quitar_vida::
-    ld de, #array_vidas + 10
-    call quitar_vida_or_bomb
-ret
-quitar_bomba::
-    ld de, #array_bombas + 10
-    call quitar_vida_or_bomb
-ret
-   quitar_vida_or_bomb::
+
+   quitar_vida::
     
     ;; start in the last element
-    ; ld de, #array_vidas + 10
+    ld de, #array_vidas + 10
     look_last_alive:
         ld a, (de)  ; Carga el valor actual (vivo o muerto)
         cp #0       ; Compara con 0 (vivo)
@@ -165,14 +173,11 @@ create_HUD::
     ;; contador de vidas
     ld hl, #contador_vidas
     ;; render
-    call renderizar_life_and_bombs ;; creamos las vidas
-    ;; array de bombas en de
-    ld de, #array_bombas
-    ;; contador de bombas
-    ld hl, #contador_bombas
-    ;; render
-    call renderizar_life_and_bombs ;; creamos bombas
-    ;render score
+    call renderizar_life ;; creamos las vidas
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; RENDER SCORE
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;;; 600 => 1 minuto
     ld a, (contador_score)
     dec a
     ld (contador_score), a
@@ -180,7 +185,11 @@ create_HUD::
     jr z , go_to_render_score
     ret
     go_to_render_score:
+    ld a, (stop_score)
+    cp #1
+    jr z, no_render_score
     call render_score
-    ld a , #0x02
+    no_render_score:
+    ld a , #TIME_UPDATE_SCORE
     ld (contador_score), a
 ret

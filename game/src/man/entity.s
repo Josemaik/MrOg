@@ -473,24 +473,6 @@ _man_entity_update::
                 cp      #E_TYPE_DEAD
                 jr      z, man_update_destroy_entity 
                  
-                 ld      a, (hl)
-                 and #E_TYPE_BOMB
-                 cp #E_TYPE_BOMB
-                 jr z, man_decrease_time_to_explode
-                    jr seguir
-                 man_decrease_time_to_explode:
-                    ld hl, #Autodestroy
-                    add hl, de
-                    ld a, (hl)
-                    dec a
-                    ld (hl), a
-                    jr z, destruir
-                        jr seguir
-                    destruir:
-                        call _man_entity_set_for_destruction
-                        ld a, #0
-                        ld (is_bomb_active) ,a
-                    seguir:
                 ;; add SPACE_4_ONE_ENTITY De <==> HL
                     ld      hl, #SPACE_4_ONE_ENTITY
                     add     hl, de

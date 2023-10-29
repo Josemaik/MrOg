@@ -53,11 +53,6 @@ check_animation::
        check_animation_end:
 ret
 sys_animations_update_one_entity:
-    ld hl, #TYPE
-    add hl, de
-    ld a, (hl)
-    cp #E_TYPE_BOMB
-    jr z, start_animating;; si es bomba, va directamente a pasar al siguiente frame
 
     ld hl, #TYPE
     add hl, de

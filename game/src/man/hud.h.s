@@ -1,8 +1,7 @@
 ;; sprites
 .globl _spr_vidas
-.globl _spr_bombahud
 ;; sys
-.globl sys_render_life_or_bomb
+.globl sys_render_life
 .globl cpct_getScreenPtr_asm
 .globl sys_render_char
 ;;cpct
@@ -13,3 +12,4 @@
     sprite = 3
 
 DISTANCE_BETWEEN_VIDAS = 5
+TIME_UPDATE_SCORE = 60

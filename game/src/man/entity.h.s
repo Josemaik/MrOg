@@ -21,7 +21,6 @@
         last_draw = 17
         ; last_draw2 = 19
         direction = 19
-        Autodestroy = 20
 
                                         
     ;; Entity types                  
@@ -29,7 +28,6 @@
         E_TYPE_PLAYER   = 0x01 
         E_TYPE_ENEMY   = 0x02 
         E_TYPE_ENEMY2   = 0x04 
-        E_TYPE_BOMB   = 0x08
         E_TYPE_ENEMY3 = 0x10
         E_TYPE_ENEMY4 = 0x12
         E_TYPE_FOOD   = 0x16
@@ -46,11 +44,10 @@
             
                                         
     ;; OTHERS
-        SPACE_4_ONE_ENTITY     = 21      ;; space for one entity
-        TOTAL_ENTITIES         = 12     ;; number of entities                          
+        SPACE_4_ONE_ENTITY     = 20    ;; space for one entity
+        TOTAL_ENTITIES         = 11     ;; number of entities                          
         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
         MAN_ANIM_PLAYER_TIME   = 3
-        MAN_ANIM_PLAYER_BOMB  = 30
         MAN_ANIM_PLAYER_ENEMY = 5
         TIME_TO_UPDATE_PHYSICS_X_PLAYER = 3
         TIME_TO_UPDATE_PHYSICS_X_ENEMIE = 6
@@ -65,8 +62,6 @@
     ;;   SPRITE PROPERTIES
        SPR_SPRITE1_S_W = 8
        SPR_SPRITE1_S_H = 16
-       SPR_BOMBA_W = 8
-       SPR_BOMBA_H = 16
        SPR_ENEMIE_FLOBIER_W = 8
        SPR_ENEMIE_FLOBIER_H = 16
        SPR_HELADO_W = 8
@@ -80,8 +75,6 @@
     .globl cpct_memset_asm      
     .globl cpct_memcpy_asm
     ;;sys     
-    .globl is_bomb_active
-    .globl anim_bomba
     .globl anim_enemy_down
     .globl anim_enemy_left
    
