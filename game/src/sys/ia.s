@@ -1,5 +1,12 @@
 .module System_IA
 .area _DATA
+
+valid_directions::
+    .ds 4
+indice::
+    .db 0x01
+indicador_patron:: ;; 0 -> viene de izq // 1 -> viene de abajo
+    .db 0x00
 .area _CODE
 .include "man/entity.h.s"
 .include "ia.h.s"
@@ -9,200 +16,163 @@
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; BEHAVIOUR ENEMY
-;;
-;; IN => DE -> entity to update
-;;
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; AUTODESTROY
-;;
-;; IN => DE -> entity to autodestroy
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; BEHAVIOUR MOTHERSHIP
-;;
-;; IN => DE -> entity to update
-;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; BEHAVIOUR SURROUND MAP
-;;
-;; IN => DE -> entity to update
-;;
-; call move_down
-;         call choose_axis_y_enemie
-;         ld hl, #VX
-;         add hl, de
-;         ld (hl), #0
-;         ld hl, #VY
-;         add hl, de
-;         ld (hl), #1
-; ret
-; call move_above
-;         call choose_axis_y_enemie
-;         ld hl, #VX
-;         add hl, de
-;         ld (hl), #0
-;         ld hl, #VY
-;         add hl, de
-;         ld (hl), #-1
-; ret
-; call move_left
-;         call choose_axis_x_enemie
-;         ld hl, #VY
-;         add hl, de
-;         ld (hl), #0
-;         ld hl, #VY
-;         add hl, de
-;         ld (hl), #-1
-; ret
-; call move_right
-;         call choose_axis_x_enemie
-;         ld hl, #VY
-;         add hl, de
-;         ld (hl), #0
-;         ld hl, #VY
-;         add hl, de
-;         ld (hl), #1
-; ret
-; check_above_left_corner:
-;     ld hl, #X
-;     add hl, de
-;     ld a, (hl)
-;     cp #70
-;     jr z, checky
-;     checky:
-;         ld hl, #Y
-;         add hl, de
-;         ld a, (hl)
-;         cp #20
-;         jr z, mover_abajo
-;         mover_abajo:
-;         call move_down
-; ret
-; check_buttom_left_corner:
-; ld hl, #X
-;     add hl, de
-;     ld a, (hl)
-;     cp #20
-;     jr z, checky
-;     checky:
-;         ld hl, #Y
-;         add hl, de
-;         ld a, (hl)
-;         cp #20
-;         jr z, mover_abajo
-;         mover_abajo:
-;         call move_down
-; ret
-; check_buttom_right_corner:
-; ld hl, #X
-;     add hl, de
-;     ld a, (hl)
-;     cp #20
-;     jr z, checky
-;     checky:
-;         ld hl, #Y
-;         add hl, de
-;         ld a, (hl)
-;         cp #150
-;         jr z, mover_abajo
-;         mover_abajo:
-;         call move_down
-; ret
-; check_above_right_corner:
-;     ld hl, #X
-;     add hl, de
-;     ld a, (hl)
-;     cp #20
-;     jr z, checky
-;     checky:
-;         ld hl, #Y
-;         add hl, de
-;         ld a, (hl)
-;         cp #20
-;         jr z, mover_abajo
-;         mover_abajo:
-;         call move_down
-; ret
-sys_ai_surround_map::
-; call check_above_left_corner
-;     call choose_axis_x_enemie
-;     ld hl, #X
-;     add hl, de
-;     ld a, (hl)
-;     cp #20
-;     jr z, comprobary ;; si x === 20
-;         jr comprobarx ;; si x != 20
-;     ;; compruebo mover derecha
-;   comprobary:
-;     ld hl, #Y
-;     add hl, de
-;     ld a, (hl)
-;     cp #150
-;     jr z, mover_derecha ;; si x == 20 e y == 150
-;         jr mover_abajo ;; si x == 20 e y != 150
-; comprobarx:
-;     ld hl, #X
-;     add hl, de
-;     ld a, (hl)
-;     cp #70
-;     jr z, comprobary2 ;; si x == 70
-; comprobary2:
-;     ld hl, #Y
-;     add hl, de
-;     ld a, (hl)
-;     cp #20
-;     jr z, mover_arriba ;; y === 150 x == 70
-;         ; jr mover_izquierda
-;     mover_abajo:
-;         call choose_axis_y_enemie
-;         ld hl, #VX
-;         add hl, de
-;         ld (hl), #0
-;         ld hl, #VY
-;         add hl, de
-;         ld (hl), #1
-;         jr sys_ai_surround_map_end
-;     mover_derecha:
-;         call choose_axis_x_enemie
-;         ld hl, #VY
-;         add hl, de
-;         ld (hl), #0
-;         ld hl, #VX
-;         add hl, de
-;         ld (hl), #1
-;         jr sys_ai_surround_map_end
-;     mover_arriba:
-;         call choose_axis_y_enemie
-;         ld hl, #VX
-;         add hl, de
-;         ld (hl), #0
-;         ld hl, #VY
-;         add hl, de
-;         ld (hl), #-1
-;         jr sys_ai_surround_map_end
-;     mover_izquierda:
-;         call choose_axis_x_enemie
-;         ld hl, #VY
-;         add hl, de
-;         ld (hl), #0
-;         ld hl, #VX
-;         add hl, de
-;         ld (hl), #-1
-;         sys_ai_surround_map_end:
+sys_ai_horizontal_enemie::
+     ld hl, #X
+     add hl, de
+     ld a, (hl)
+     cp #32
+     jr z, check_axis_y
+        jr sys_ai_horizontal_enemie_end
+    check_axis_y:
+        ld hl, #Y
+        add hl, de
+        ld a, (hl)
+        cp #167
+        jr z, mover_arriba2
+        ;;mover abajo
+        ld hl, #Y
+        add hl, de
+        ld a, (hl)
+        cp #57
+        jr z, mover_abajo2
+        jr sys_ai_horizontal_enemie_end
+        mover_abajo2:
+            ld bc, #anim_enemy_down
+            ld 4(ix), c
+            ld 5(ix), b
+            ld bc, #DIRECT_S
+            call check_animation
+            ld hl, #choose_axis_enemy_hunter2
+            call move_down_e
+        jr sys_ai_horizontal_enemie_end
+        mover_arriba2:
+            ld bc, #anim_enemy_up
+            ld 4(ix), c
+            ld 5(ix), b
+            ld bc, #DIRECT_W
+            call check_animation
+            ld hl, #choose_axis_enemy_hunter2
+            call move_above_e
+        sys_ai_horizontal_enemie_end:
 ret
+sys_ai_vertical_enemie::
+    ld hl, #Y
+     add hl, de
+     ld a, (hl)
+     cp #33
+     jr z, check_axis_x
+        jr sys_ai_vertical_enemie_end
+    check_axis_x:
+        ld hl, #X
+        add hl, de
+        ld a, (hl)
+        cp #64
+        jr z, mover_izquierda2
+        ;;mover abajo
+        ld hl, #X
+        add hl, de
+        ld a, (hl)
+        cp #20
+        jr z, mover_derecha2
+        jr sys_ai_vertical_enemie_end
+        mover_izquierda2:
+            ld bc, #anim_enemy_left
+            ld 4(ix), c
+            ld 5(ix), b
+            ld bc, #DIRECT_A
+            call check_animation
+            ld hl, #choose_axis_enemy_hunter
+            call move_left_e
+        jr sys_ai_vertical_enemie_end
+        mover_derecha2:
+            ld bc, #anim_enemy_right
+            ld 4(ix), c
+            ld 5(ix), b
+            ld bc, #DIRECT_D
+            call check_animation
+            ld hl, #choose_axis_enemy_hunter
+            call move_right_e
+        sys_ai_vertical_enemie_end:
+ret
+sys_ai_patron_enemie_mapa1::
+     ld hl, #X
+    add hl, de
+    ld a, (hl)
+    cp #56
+    jr z, checky4
+        jr check_above_next_corner1
+    checky4:
+        ld hl, #Y
+        add hl, de
+        ld a, (hl)
+        cp #72
+        jr z, mover_derecha1
+            jr check_above_next_corner1
+        mover_derecha1:
+        ld a, #0
+         ld (indicador_patron) , a
+        ld hl, #choose_axis_enemy_patron_mapa1
+        call move_right_e
+        jp sys_ai_patron_enemie_mapa1_end
+    check_above_next_corner1:
+      ld hl, #X
+    add hl, de
+    ld a, (hl)
+    cp #64
+    jr z, checky5
+        jr check_above_next_corner2
+    checky5:
+        ld hl, #Y
+        add hl, de
+        ld a, (hl)
+        cp #72
+        jr z, check_when
+            jr check_above_next_corner2
+        check_when:
+            ld a, (indicador_patron)
+            cp #1
+            jr z, mover_izquierda1
+                jr mover_abajo1
+        mover_izquierda1:
+        ld hl, #choose_axis_enemy_patron_mapa1
+        call move_left_e
+        jp sys_ai_patron_enemie_mapa1_end
+        mover_abajo1:
+        ld hl, #choose_axis_enemy_patron_mapa1
+        call move_down_e
+        jp sys_ai_patron_enemie_mapa1_end
+    check_above_next_corner2:
+      ld hl, #X
+    add hl, de
+    ld a, (hl)
+    cp #64
+    jr z, checky6
+        jr sys_ai_patron_enemie_mapa1_end
+    checky6:
+        ld hl, #Y
+        add hl, de
+        ld a, (hl)
+        cp #115
+        jr z, mover_arriba1
+            jr sys_ai_patron_enemie_mapa1_end
+        mover_arriba1:
+        ld a, #1
+         ld (indicador_patron) , a
+        ld hl, #choose_axis_enemy_patron_mapa1
+        call move_above_e
+;; 56 72
+;; 64 72
+;; 64 101
+sys_ai_patron_enemie_mapa1_end:
+ret
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; UPDATE IA FOR ONE ENTITY 
+;; UPDATE IA FOR ONE ENTITY
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; IN =>  DE -> entity to update                                      
+;; IN =>  DE -> entity to update
 ;;
 sys_ai_update_for_one:
-    
+
     ;; guardo un checkpoint
     ld      hl, #_return_hear_ia
     push    hl
@@ -214,7 +184,7 @@ sys_ai_update_for_one:
     ;; de<=>hl and save first byte in L
     ld      e, l
     ld      d, h
-    ld      a, (de) 
+    ld      a, (de)
     ld      l, a
     ;; add 1 to de and save second byte in H
     inc     de
@@ -237,7 +207,7 @@ ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; CAll PHYSICS FOR ALL ENTITY :;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-_sys_ai_update::          
+_sys_ai_update::
         ld      bc, #sys_ai_update_for_one
         ld      hl, #E_CMP_IA | #E_CMP_MOVABLE
         call    _man_entity_for_all_matching

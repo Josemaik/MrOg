@@ -8,3 +8,7 @@
       .globl _man_entity_set_for_destruction   
 
    ;; sys
+      .globl is_colliding_player
+      .globl active_animation_player
+      .globl check_animation
+      .globl animation_state_player

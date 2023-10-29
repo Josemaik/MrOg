@@ -24,7 +24,7 @@
         E_TYPE_PLAYER   = 0x01 
         E_TYPE_ENEMY   = 0x02 
         E_TYPE_MOTHERSHIP   = 0x04 
-        E_TYPE_SHOT   = 0x08 
+        E_TYPE_BOMB   = 0x08 
         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
         E_TYPE_DEFAULT  = E_TYPE_ENEMY
     ;; Components    

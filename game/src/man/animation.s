@@ -52,5 +52,89 @@ anim_D::
     .db #0x00
     .dw #anim_D
 
+anim_burro_up::
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_burro_08
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_burro_09
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_burro_10
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_burro_11
+    .db #0x00
+    .dw #anim_W
+
+anim_burro_left::
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_burro_04
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_burro_05
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_burro_06
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_burro_07
+    .db #0x00
+    .dw #anim_A
+
+anim_burro_down::
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_burro_00
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_burro_01
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_burro_02
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_burro_03
+    .db #0x00
+    .dw #anim_S
+
+anim_burro_right::
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_burro_12
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_burro_13
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_burro_14
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_burro_15
+    .db #0x00
+    .dw #anim_D
+
+
+
+anim_enemy_up::
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_enemigo_flobier_6
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_enemigo_flobier_7
+    .db #0x00
+    .dw #anim_enemy_up
+
+anim_enemy_left::
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_enemigo_flobier_4
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_enemigo_flobier_5
+    .db #0x00
+    .dw #anim_enemy_left
+
+anim_enemy_down::
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_enemigo_flobier_0
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_enemigo_flobier_1
+    .db #0x00
+    .dw #anim_enemy_down
+
+anim_enemy_right::
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_enemigo_flobier_2
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_enemigo_flobier_3
+    .db #0x00
+    .dw #anim_enemy_right
+
+
+
 .area _CODE
 

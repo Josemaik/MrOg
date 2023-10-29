@@ -11,8 +11,14 @@ choose_axis_player::
     .db 0x00
 choose_axis_enemy::
     .db 0x00
+choose_axis_enemy_hunter::
+    .db 0x00
+choose_axis_enemy_hunter2::
+    .db 0x00
+choose_axis_enemy_patron_mapa1::
+    .db 0x00
 contador_fisicas_jugador:
-    .db #TIME_TO_UPDATE_PHYSICS_X
+    .db #TIME_TO_UPDATE_PHYSICS_X_PLAYER
 ;;;;;;;;;;;;;;;
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
@@ -25,99 +31,117 @@ stop_sprite::
     add     hl, de
     ld      (hl),#0
 ret
-choose_axis_x_player::
+choose_axis_x::
     ld a, #1
-    ld (choose_axis_player), a
+    ld (hl), a
 ret
-choose_axis_y_player::
+choose_axis_y::
     ld a, #0
-    ld (choose_axis_player), a
+    ld (hl), a
 ret
-choose_axis_x_enemie::
-    ld a, #1
-    ld (choose_axis_enemy), a
-ret
-choose_axis_y_enemie::
-    ld a, #0
-    ld (choose_axis_enemy), a
-ret
-setvelocity::
-    ld hl , #direction
-    add hl, de
-    ld a, (hl)
-    ;; check is direction is A
-    and #DIRECT_A
-    cp #DIRECT_A
-    jr z, set_velocity_x_A
-;; check is direction is D
-    ld a, (hl)
-    and #DIRECT_D
-    cp #DIRECT_D
-    jr z, set_velocity_x_D
-;; check is direction is W
-    ld a, (hl)
-    and #DIRECT_W
-    cp #DIRECT_W
-    jr z, set_velocity_x_W
-;; check is direction is S
-    ld a, (hl)
-    and #DIRECT_S
-    cp #DIRECT_S
-     jr z, set_velocity_x_S
-
-    set_velocity_x_A:
-        ld      hl, #VX
-        add     hl, de
-        ld      (hl), #-1
-        jr setvelocity_end
-    set_velocity_x_D:
-        ld      hl, #VX
-        add     hl, de
-        ld      (hl), #1
-        jr setvelocity_end
-    set_velocity_x_W:
-        ld      hl, #VY
-        add     hl, de
-        ld      (hl), #-1
-        jr setvelocity_end
-    set_velocity_x_S:
-        ld      hl, #VY
-        add     hl, de
-        ld      (hl), #1
-
-    setvelocity_end:
-ret
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; UPDATE PHYSICS FOR ONE ENTITY 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; IN =>  DE -> entity to update                                      
-;;pop de
-sys_physics_update_for_one:
-        ld hl, #TYPE
+move_down_e::
+        call choose_axis_y
+        ; return_hear0:
+        ld hl, #VX
         add hl, de
-        ld a, (hl)
-        cp #E_TYPE_ENEMY
-        jr z, check_enemy
-        ;; comprobar jugador
-        ld a, (choose_axis_player)
-        cp #1
-        jr z, move_x_axis
-            jr move_y_axis
-        
-check_enemy:
-    ld a, (choose_axis_enemy)
-    cp #1
-    jr z, move_x_axis
-        jr move_y_axis
-move_x_axis:
+        ld (hl), #0
+        ld hl, #VY
+        add hl, de
+        ld (hl), #1
+ret
+move_above_e::
+        call choose_axis_y
+        ld hl, #VX
+        add hl, de
+        ld (hl), #0
+        ld hl, #VY
+        add hl, de
+        ld (hl), #-1
+ret
+move_left_e::
+        call choose_axis_x
+        ld hl, #VY
+        add hl, de
+        ld (hl), #0
+        ld hl, #VX
+        add hl, de
+        ld (hl), #-1
+ret
+move_right_e::
+        call choose_axis_x
+        ld hl, #VY
+        add hl, de
+        ld (hl), #0
+        ld hl, #VX
+        add hl, de
+        ld (hl), #1
+ret
+set_velocity_x_W::
+    ld   a, (is_colliding_player)
+    cp   #1
+    jr   z, set_velocity_x_W_end
+    ld hl, #choose_axis_player
+    call move_above_e
+    set_velocity_x_W_end:
+ret
+set_velocity_x_A::
+    ld   a, (is_colliding_player + 3)
+    cp   #1
+    jr   z, set_velocity_x_A_end
+    ld hl, #choose_axis_player
+    call move_left_e
+    set_velocity_x_A_end: 
+ret
+set_velocity_x_S::
+    ld   a, (is_colliding_player + 1)
+    cp   #1
+    jr   z, set_velocity_x_S_end
+    ld hl, #choose_axis_player
+    call move_down_e
+    set_velocity_x_S_end: 
+ret
+set_velocity_x_D::
+    ld   a, (is_colliding_player + 2)
+    cp   #1
+    jr   z, set_velocity_x_D_end 
+    ld hl, #choose_axis_player
+    call move_right_e
+    set_velocity_x_D_end:
+ret
+setVelocity:
+    ld a, c
+    cp #DIRECT_W
+        jr z, set_velocity_x_W
+   ld a, c
+   cp #DIRECT_S
+        jr z, set_velocity_x_S
+   ld a , c
+   cp #DIRECT_A
+        jr z, set_velocity_x_A
+   ld a , c
+   cp #DIRECT_D
+        jr z, set_velocity_x_D
+ret
+sys_move_entity_y:
+;; go to entity->vy
+                ld      hl, #VY
+                add     hl, de
+                ld      a, (hl)
+            ;; go to entity->y and add it to vy
+                ld      hl, #Y
+                add     hl, de
+
+                add     (hl)
+            ;; load it in entity->y
+                ld      (hl), a
+ret
+sys_move_entity_x:
         ld hl, #contador_fisicas_jugador
         ld a, (hl)
         sub #1
         ld (hl), a
-        jr nz, end_movex
-        ld (hl),#TIME_TO_UPDATE_PHYSICS_X
+        jr nz, sys_move_entity_x_end
+        ld (hl),#TIME_TO_UPDATE_PHYSICS_X_PLAYER
         ld      hl, #VX
         add     hl, de
         ld      a, (hl)    
@@ -129,24 +153,69 @@ move_x_axis:
         add     (hl)
 
         ld (hl), a
-
-    end_movex:
-        jr end_physics
-    ;; y+vy
-    move_y_axis:
-            ;; go to entity->vy
-                ld      hl, #VY
-                add     hl, de
-                ld      a, (hl)
-            ;; go to entity->y and add it to vy
-                ld      hl, #Y
-                add     hl, de
-
-                add     (hl)
-            ;; load it in entity->y
-                ld      (hl), a
-        
-
+    sys_move_entity_x_end:
+ret
+check_player:
+ ld a , (animation_state_player)
+    cp #1
+    jr z, goto_setvelocity
+    ret
+    goto_setvelocity:
+    ld  hl, #direction
+    add hl, de
+    ld a, (hl)
+    ld c, a
+    call setVelocity
+    ld a, (choose_axis_player)
+        cp #1
+        jr z, move_x_axis
+            call sys_move_entity_y
+            ret
+        move_x_axis:
+            call sys_move_entity_x
+ret
+check_enemy:
+ ld a, (hl)
+    cp #1
+    jr z, move_x_axis1
+        call sys_move_entity_y
+        ret
+    move_x_axis1:
+        call sys_move_entity_x
+ret
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; UPDATE PHYSICS FOR ONE ENTITY 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; IN =>  DE -> entity to update                                      
+;;pop de
+sys_physics_update_for_one:
+        ld hl, #TYPE
+        add hl, de
+        ld a, (hl)
+        cp #E_TYPE_PLAYER
+        jr z, call_check_player
+        ;; es enemygo hunter vers
+        ld a, (hl)
+        cp #E_TYPE_ENEMY2
+        jr z, call_check_enemie2
+        ;; es enemigo hunter hor
+        ld a, (hl)
+        cp #E_TYPE_ENEMY3
+        jr z, call_check_enemie3
+        ;;enemygo patron mapa 1
+        ld hl, #choose_axis_enemy_patron_mapa1
+         call check_enemy
+         call_check_player:
+            call check_player
+            jr end_physics
+         call_check_enemie2:
+            ld hl, #choose_axis_enemy_hunter
+            call check_enemy
+            jr end_physics
+        call_check_enemie3:
+            ld hl, #choose_axis_enemy_hunter2
+            call check_enemy
+            jr end_physics
     end_physics:
     ret
 

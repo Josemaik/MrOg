@@ -19,6 +19,7 @@
         AnimCounter = 15    ;;u8
         COLLIDES_AGAINST = 16
         last_draw = 17
+        ; last_draw2 = 19
         direction = 19
 
                                         
@@ -26,8 +27,12 @@
         E_TYPE_INVALID  = 0x00   ;; zero-byte to signal invalid entities
         E_TYPE_PLAYER   = 0x01 
         E_TYPE_ENEMY   = 0x02 
-        E_TYPE_MOTHERSHIP   = 0x04 
-        E_TYPE_SHOT   = 0x08 
+        E_TYPE_ENEMY2   = 0x04 
+        E_TYPE_ENEMY3 = 0x10
+        E_TYPE_ENEMY4 = 0x12
+        E_TYPE_FOOD   = 0x16
+        E_TYPE_DOOR   = 0x24
+        E_TYPE_KEY   = 0x28
         E_TYPE_DEAD     = 0x80   ;; upper bit signal dead entity
         E_TYPE_DEFAULT  = E_TYPE_ENEMY
     ;; Components    
@@ -41,11 +46,13 @@
             
                                         
     ;; OTHERS
-        SPACE_4_ONE_ENTITY     = 20      ;; space for one entity
-        TOTAL_ENTITIES         = 2      ;; number of entities                          
+        SPACE_4_ONE_ENTITY     = 20    ;; space for one entity
+        TOTAL_ENTITIES         = 11     ;; number of entities                          
         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
         MAN_ANIM_PLAYER_TIME   = 3
-        TIME_TO_UPDATE_PHYSICS_X = 3
+        MAN_ANIM_PLAYER_ENEMY = 5
+        TIME_TO_UPDATE_PHYSICS_X_PLAYER = 3
+        TIME_TO_UPDATE_PHYSICS_X_ENEMIE = 6
     ;; DIRECTIONS
     DIRECT_W == 0x01
     DIRECT_A == 0x02
@@ -57,9 +64,17 @@
     ;;   SPRITE PROPERTIES
        SPR_SPRITE1_S_W = 8
        SPR_SPRITE1_S_H = 16
-        
+       SPR_ENEMIE_FLOBIER_W = 8
+       SPR_ENEMIE_FLOBIER_H = 16
+       SPR_HELADO_W = 8
+       SPR_HELADO_H = 16
+	   SPR_PUERTA_HORIZONTAL_W = 8 
+	   SPR_PUERTA_HORIZONTAL_H = 8 
+       SPR_PUERTA_VERTICAL_W = 4
+       SPR_PUERTA_VERTICAL_H = 16
+       SPR_LLAVE_W = 8
+       SPR_LLAVE_H = 16
                                         
-
 
     ;;;;;;;;;;;;;;;;;;;;
     ;; GLOBAL SYMBOLS ;;
@@ -67,5 +82,7 @@
     ;;cpctelera
     .globl cpct_memset_asm      
     .globl cpct_memcpy_asm
-    ;;animations      
+    ;;sys     
+    .globl anim_enemy_down
+    .globl anim_enemy_left
    

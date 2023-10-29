@@ -72,7 +72,7 @@ player_entity::
 	  .db 	#0x00				;;collides_against
 ;; PLAYER SHOT
 playershot_template_e:: 
-	.db 	#E_TYPE_SHOT				;; entity type
+	.db 	#E_TYPE_BOMB				;; entity type
       .db     #E_CMP_MOVABLE | #E_CMP_RENDER | #E_CMP_IA | #E_CMP_COLLIDER;; cmps
 		.db     #0x00               ;; x = 0
 		.db     #PLAYERSHOT_Y               ;; y = 188
