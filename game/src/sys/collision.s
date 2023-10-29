@@ -17,6 +17,13 @@ colision_actual:
 tengo_llave::
     .db 0x00
 
+tilemap_position::
+    .db 0x00
+
+position_initial_player::
+    .db 0x00
+    .db 0x00
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Inicializar is_colliding_player
 ;;
@@ -64,6 +71,8 @@ comprobar_colision:
 
     add_hl_a  ;; HL = ty * tw + tx
     ld     de, #_tilemap_01
+    ld      a, (tilemap_position)
+    add_de_a
     add    hl, de
 
     ;; HL = tilemap + ty * tw + tx
@@ -513,12 +522,6 @@ check_enemy:
     ;; mark player as died
     ld a, #1
     ld (player_state) , a
-    ; push de
-    ;     call sys_render_draw_solid_box_player
-    ; pop de
-
-    ; ld X(ix), #20 ;; | 
-    ; ld Y(ix), #60 ;; | Reposicionar al player a la posicion inicial
     
     push de
         ld a , (lifes_available)

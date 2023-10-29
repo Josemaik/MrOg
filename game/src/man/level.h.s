@@ -1,0 +1,26 @@
+;;;;;;;;;;;;;;;;;;;;
+;; GLOBAL SYMBOLS ;;
+;;;;;;;;;;;;;;;;;;;;
+
+   ;; Templates
+   .globl flobier_entity
+   .globl flobier_entity2
+   .globl flobier_entity_patron_mapa1
+   .globl helado_entity
+   .globl puerta_horizontal_entity
+   .globl puerta_vertical_entity
+   .globl llave_entity
+
+   ;; Manager
+   .globl man_game_create_template_entity
+
+   ;; Render
+   .globl sys_render_tilemap
+
+   ;; Tilemap
+   .globl _tilemap_01
+   .globl tilemap_position
+   .globl position_initial_player
+
+   ;; Player
+   .globl m_entities

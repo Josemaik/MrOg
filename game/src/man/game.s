@@ -33,20 +33,10 @@ man_game_create_template_entity::
 ret
 _inicialize_templates:
       ;; PLAYER
-        ld       hl, #player_entity
-        call man_game_create_template_entity
-        ;; DEFLATOR DENNIS
-      ;   ld       hl, #deflator_Dennis_entity
-      ;   call man_game_create_template_entity
-      ;; FROBLIES
-      ld       hl, #flobier_entity
+      ld       hl, #player_entity
       call man_game_create_template_entity
-      ld       hl, #flobier_entity2
-      call man_game_create_template_entity
-      ; ld       hl, #flobier_entity_patron_mapa1
-      ; call man_game_create_template_entity
-
-      call crear_objetos_mapa_prueba
+      
+      call cargar_mapa_2
       
 ret
 player_reaparition::
@@ -72,85 +62,15 @@ player_reaparition::
     ld (time_anim_died), a
 ret
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Creacion de los objetos
-;;
-crear_objetos_mapa_prueba:
-
-   ;;;;;;;;;;;;;
-   ;; Helados ;;
-   ;;;;;;;;;;;;;
-
-   ld       ix, #helado_entity
-
-   ld    X(ix), #8
-   ld    Y(ix), #32
-   ld       hl, #helado_entity
-   call man_game_create_template_entity
-
-   ;ld    Y(ix), #48
-   ;ld       hl, #helado_entity
-   ;call man_game_create_template_entity
-
-   ;ld    Y(ix), #64
-   ;ld       hl, #helado_entity
-   ;call man_game_create_template_entity
-
-   ;ld    Y(ix), #136
-   ;ld       hl, #helado_entity
-   ;call man_game_create_template_entity
-
-   ; ld    Y(ix), #152
-   ; ld       hl, #helado_entity
-   ; call man_game_create_template_entity
-
-   ld    Y(ix), #168
-   ld       hl, #helado_entity
-   call man_game_create_template_entity
-
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;
-   ;; Puertas Horizontales ;;
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-   ld       ix, #puerta_horizontal_entity
-
-   ld    X(ix), #8
-   ld    Y(ix), #80
-   ld       hl, #puerta_horizontal_entity
-   call man_game_create_template_entity
-
-   ;;;;;;;;;;;;;;;;;;;;;;;;
-   ;; Puertas Verticales ;;
-   ;;;;;;;;;;;;;;;;;;;;;;;;
-
-   ld       ix, #puerta_vertical_entity
-
-   ld    X(ix), #16
-   ld    Y(ix), #112
-   ld       hl, #puerta_vertical_entity
-   call man_game_create_template_entity
-
-   ;;;;;;;;;;;;
-   ;; Llaves ;;
-   ;;;;;;;;;;;;
-
-   ld       ix, #llave_entity
-
-   ld    X(ix), #56
-   ld    Y(ix), #112
-   ld       hl, #llave_entity
-   call man_game_create_template_entity
-
-   ld    X(ix), #20
-   ld    Y(ix), #32
-   ld       hl, #llave_entity
-   call man_game_create_template_entity
-
-   ret
 ;;;;;;;;;;;;;;;;;;;;
 ;; INIT
 ;;
 man_game_init::
+    ;; Level Screen
+      call man_levelscreen_init
+      levelscreen_loop:
+         call man_levelscreen_update
+         jr    z, levelscreen_loop
     ;; configure videomode, palet y border
        call     _sys_render_init
 
@@ -171,7 +91,7 @@ man_game_init::
 ;;
 
 man_game_play::
-   
+
    ;; infinite loop
    loop:
       ;; call music player
