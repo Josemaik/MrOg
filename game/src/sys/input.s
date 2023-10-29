@@ -1,26 +1,12 @@
 .module System_Input
 .area _DATA
 .area _CODE
+
+.include "input.h.s"
 .include "man/entity.h.s"
 .include "cpctelera.h.s"
-   ;; cpct
-      .globl cpct_scanKeyboard_f_asm
-      .globl cpct_isKeyPressed_asm
-      .globl stop_sprite
-      .globl desactive_animating
-      .globl _man_entity_for_all_matching
-      .globl active_animation
-      .globl choose_axis_x_player
-      .globl choose_axis_y_player
-      .globl check_animation
-    .globl anim_W
-   .globl anim_A
-   .globl anim_S
-   .globl anim_D
-   .globl set_velocity_x_A
-   .globl set_velocity_x_W
-   .globl set_velocity_x_S
-   .globl set_velocity_x_D
+
+   
 sys_input_update_for_one:
     ;; save entity
     push de
@@ -49,52 +35,48 @@ sys_input_update_for_one:
     jp sys_input_update_for_one_end
     sys_physics_A_is_pressed:
         pop de
-        call active_animation
+        call active_animation_player
         ; call choose_axis_x_player
         ld bc, #anim_A
         ld 4(ix), c
         ld 5(ix), b
         ld bc, #DIRECT_A
         call check_animation
-        call set_velocity_x_A
         jr sys_input_update_for_one_end
     sys_physics_D_is_pressed:
         pop de
-        call active_animation
+        call active_animation_player
         ; call choose_axis_x_player
         ld bc, #anim_D
         ld 4(ix), c
         ld 5(ix), b
         ld bc, #DIRECT_D
         call check_animation
-        call set_velocity_x_D
         jr sys_input_update_for_one_end
     sys_physics_W_is_pressed:
         pop de
-        call active_animation
+        call active_animation_player
         ; call choose_axis_y_player
         ld bc, #anim_W
         ld 4(ix), c
         ld 5(ix), b
         ld bc, #DIRECT_W
         call check_animation
-        call set_velocity_x_W
         jr sys_input_update_for_one_end
     sys_physics_S_is_pressed:
         pop de
-        call active_animation
+        call active_animation_player
         ; call choose_axis_y_player
         ld bc, #anim_S
         ld 4(ix), c
         ld 5(ix), b
         ld bc, #DIRECT_S
         call check_animation
-        call set_velocity_x_S
         jr sys_input_update_for_one_end
     sys_input_update_for_one_end:
 ret
 _sys_input_update::          
-        ld      bc, #sys_input_update_for_one
-        ld      hl, #E_CMP_INPUT 
-        call    _man_entity_for_all_matching
+    ld de, #m_entities
+    call sys_input_update_for_one
+
 ret

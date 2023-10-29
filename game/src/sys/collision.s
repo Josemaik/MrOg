@@ -14,6 +14,8 @@ is_colliding_player:: ;; 0 no collision | 1 collision
 colision_actual:
     .db 0x00
 
+tengo_llave:
+    .db 0x00
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Inicializar is_colliding_player
@@ -25,6 +27,9 @@ inicializar_player_colision:
     ld      (is_colliding_player + 1), a
     ld      (is_colliding_player + 2), a
     ld      (is_colliding_player + 3), a
+
+    ld    hl, #colision_actual
+    ld  (hl), #0
 
     ret
 
@@ -38,11 +43,7 @@ comprobar_colision:
     ;; p  = tilemap + ty * tw + tx
 
     ;; A = y
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-
-    push de
+    ld    a, Y(ix)
 
     ;; A = ty (y/8)
     and   #0xF8 ;; #0xb11111000 ;; A = 8*int(ty / 8)
@@ -56,24 +57,14 @@ comprobar_colision:
     add   hl, hl   ;; HL = 32*tx
     add   hl, de   ;; HL = 48*tx
 
-    pop de
-    push hl
-
     ;; A = X
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
+    ld    a, X(ix)
     srl    a ;; | A = tx (x/4)
     srl    a ;; |
-
-    pop hl
-    push de
 
     add_hl_a  ;; HL = ty * tw + tx
     ld     de, #_tilemap_01
     add    hl, de
-
-    pop de
 
     ;; HL = tilemap + ty * tw + tx
     ld      a, (hl)
@@ -135,257 +126,235 @@ comprobar_colision:
 
     ret
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Funciones para poner la velocidad a 0
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Funciones para poner la velocidad y la posicion a 0
 ;;
 sys_collision_player_tilemap_w:
-    ld h , 4(ix)
-    ld l,  5(ix)
-    ld      a, #1
-    ld      (hl), a
-    ld hl, #VY
-    add hl, de
-    ld (hl), #0
+    ld    hl, #is_colliding_player
+    ld  (hl), #1
+
+    ld VY(ix), #0
 
     ret
 sys_collision_player_tilemap_s:
-    ld h , 4(ix)
-    ld l,  5(ix)
-    inc hl
-    ld      a, #1
-    ld      (hl), a
-    ld hl, #VY
-    add hl, de
-    ld (hl), #0
+    ld    hl, #is_colliding_player + 1
+    ld  (hl), #1
+
+    ld VY(ix), #0
 
     ret
 
 sys_collision_player_tilemap_d:
-    ld h , 4(ix)
-    ld l,  5(ix)
-    inc hl
-    inc hl
-    ld      a, #1
-    ld      (hl), a
-    ld hl, #VX
-    add hl, de
-    ld (hl), #0
+    ld    hl, #is_colliding_player + 2
+    ld  (hl), #1
 
-    ld hl, #X
-    add hl, de
-    ld  a, (hl)
-    dec a
-    ld (hl), a
+    ld VX(ix), #0
+
+    ; ld  a, X(ix)
+    ; dec a
+    ; ld  X(ix), a
 
     ret
 
 sys_collision_player_tilemap_a:
-    ld h , 4(ix)
-    ld l,  5(ix)
-    inc hl
-    inc hl
-    inc hl
-    ld      a, #1
-    ld      (hl), a
-    ld hl, #VX
-    add hl, de
-    ld (hl), #0
+    ld    hl, #is_colliding_player + 3
+    ld  (hl), #1
+    
+    ld VX(ix), #0
 
-    ld hl, #X
-    add hl, de
-    ld  a, (hl)
-    inc a
-    ld (hl), a
+    ; ld  a, X(ix)
+    ; inc a
+    ; ld  X(ix), a
 
     ret
-calcular_colisiones_jugador:
- ld    hl, #colision_actual
-    ld  (hl), #0
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; Colision con la parte de arriba (W) ;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Colisiones en las direcciones
+;;
+sys_collision_up:
+
+    ld  a, direction(ix)
+    cp  #DIRECT_W
+    jr  z, colision_parte_arriba
+
+    ret
+
+    colision_parte_arriba:
 
     ld    hl, #colision_actual
     ld  (hl), #1
 
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
+    ld    a, Y(ix)
     dec   a
-    ld    (hl), a
+    ld    Y(ix), a
 
     call comprobar_colision                ;; Upper-left
 
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
+    ld    a, X(ix)
     add   a, #3
-    ld    (hl), a
+    ld    X(ix), a
     call comprobar_colision                ;; Upper-mid
 
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
+    ld    a, X(ix)
     add   a, #4
-    ld    (hl), a
+    ld    X(ix), a
     call comprobar_colision                ;; Upper-right
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
+    ld    a, X(ix)
     sub   a, #7
-    ld    (hl), a
+    ld    X(ix), a
 
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
+    ld    a, Y(ix)
     inc   a
-    ld    (hl), a
+    ld    Y(ix), a
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; Colision con la parte de abajo (S) ;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ret
+
+sys_collision_down:
+
+    ld  a, direction(ix)
+    cp  #DIRECT_S
+    jr  z, colision_parte_abajo
+
+    ret
+
+    colision_parte_abajo:
 
     ld    hl, #colision_actual
     ld  (hl), #2
 
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
+    ld    a, Y(ix)
     add   a, #16
-    ld    (hl), a
+    ld    Y(ix), a
 
     call comprobar_colision                ;; Down-left
 
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
+    ld    a, X(ix)
     add   a, #3
-    ld    (hl), a
+    ld    X(ix), a
     call comprobar_colision                ;; Down-mid
 
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
+    ld    a, X(ix)
     add   a, #4
-    ld    (hl), a
+    ld    X(ix), a
     call comprobar_colision                ;; Down-right
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
+    ld    a, X(ix)
     sub   a, #7
-    ld    (hl), a
+    ld    X(ix), a
 
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
+    ld    a, Y(ix)
     sub   a, #16
-    ld    (hl), a
+    ld    Y(ix), a
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; Colision con la parte de derecha (D) ;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ret
+
+sys_collision_right:
+
+    ld  a, direction(ix)
+    cp  #DIRECT_D
+    jr  z, colision_parte_derecha
+
+    ret
+
+    colision_parte_derecha:
+
+    ld    a, X(ix)
+    inc   a
+    ld    X(ix), a
 
     ld    hl, #colision_actual
     ld  (hl), #3
 
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
+    ld    a, X(ix)
     add   a, #7
-    ld    (hl), a
+    ld    X(ix), a
 
     call comprobar_colision                ;; Right-up
 
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
+    ld    a, Y(ix)
     add   a, #7
-    ld    (hl), a
+    ld    Y(ix), a
     call comprobar_colision                ;; Right-up
 
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
+    ld    a, Y(ix)
     add   a, #8
-    ld    (hl), a
+    ld    Y(ix), a
     call comprobar_colision                ;; Right-down
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
+    ld    a, Y(ix)
     sub   a, #15
-    ld    (hl), a
+    ld    Y(ix), a
 
-    ld   hl, #X
-    add  hl, de
-    ld    a, (hl)
+    ld    a, X(ix)
     sub   a, #7
-    ld    (hl), a
+    ld    X(ix), a
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; Colision con la parte de izquierda (A) ;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ld    a, X(ix)
+    dec   a
+    ld    X(ix), a
+
+    ret
+
+sys_collision_left:
+
+    ld  a, direction(ix)
+    cp  #DIRECT_A
+    jr  z, colision_parte_izquierda
+
+    ret
+
+    colision_parte_izquierda:
+
+    ld    a, X(ix)
+    dec   a
+    ld    X(ix), a
 
     ld    hl, #colision_actual
     ld  (hl), #4
 
-
-    ; ld   hl, #X
-    ; add  hl, de
-    ; ld    a, (hl)
-    ; dec   a
-    ; ld    (hl), a
-
     call comprobar_colision                ;; Left-up
 
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
+    ld    a, Y(ix)
     add   a, #7
-    ld    (hl), a
+    ld    Y(ix), a
     call comprobar_colision                ;; Left-mid
 
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
-
+    ld    a, Y(ix)
     add   a, #8
-    ld    (hl), a
+    ld    Y(ix), a
     call comprobar_colision                ;; Left-down
-    ld   hl, #Y
-    add  hl, de
-    ld    a, (hl)
+    ld    a, Y(ix)
     sub   a, #15
-    ld    (hl), a
+    ld    Y(ix), a
 
-    ;ld   hl, #X
-    ;add  hl, de
-    ;ld    a, (hl)
-    ;inc   a
-    ;ld    (hl), a
+    ld    a, X(ix)
+    inc   a
+    ld    X(ix), a
+
+    ret
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; COLISIONES DEL PLAYER CON EL TILEMAP ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+sys_collision_update_player_tilemap:
+    ;; Inicializamos los valores
+    call inicializar_player_colision
+
+    ld   ix, #m_entities
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Colision con la parte de arriba (W) 
+    call sys_collision_up
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Colision con la parte de abajo (S)
+    call sys_collision_down
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Colision con la parte de derecha (D)
+    call sys_collision_right
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Colision con la parte de izquierda (A)
+    call sys_collision_left
+
 ret
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; UPDATE ONE ENTITY WITH THE TILEMAP
-;;
-sys_collision_update_one_entity:
-
-    ;;;;;;;;;;;;;; Comprobar si es player ;;;;;;;;;;;;;;
-
-    ld hl, #TYPE
-    add hl, de
-    ld a, (hl)
-    cp #E_TYPE_PLAYER
-    jr z, ini_jugador
-    ret
-    ini_jugador:
-        call inicializar_player_colision
-        ld hl, #is_colliding_player
-        ld 4(ix), h
-        ld 5(ix), l
-        call calcular_colisiones_jugador
-
-    ;;;;;;;;;;;; Fin Colisiones ;;;;;;;;;;;;
-    ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UPDATE PAIR ENTITIES
@@ -397,20 +366,42 @@ sys_collisions_update_entities::
     push ix
     push iy
 
-    ld__ix_bc  ;; BC player
+    ld  ix, #m_entities  ;; Player
     ld__iy_de
+
+    ld  b, #0 ;; Inicializar bounding box
 
     ;; Colision jugador con entidad
     ld   a, TYPE(ix)
     and  COLLIDES_AGAINST(iy)
     cp   COLLIDES_AGAINST(iy)
-    jr z, check_collision_between_entities
+    jr z, comprobar_si_es_enemigo
 
     ;; Colision entidad con jugador
     ld   a, TYPE(iy)
     and  COLLIDES_AGAINST(ix)
     cp   COLLIDES_AGAINST(ix)
     jr nz, __no_collision
+
+    ;; Hacer la bounding box mas pequeña si la entidad es un enemigo
+    comprobar_si_es_enemigo:
+
+    ld a, TYPE(iy)
+    cp  #E_TYPE_ENEMY2
+    jr   z, bounding_box_mas_pequeña
+
+    ld a, TYPE(iy)
+    cp  #E_TYPE_ENEMY3
+    jr   z, bounding_box_mas_pequeña
+
+    ld a, TYPE(iy)
+    cp  #E_TYPE_ENEMY4
+    jr   z, bounding_box_mas_pequeña
+
+    jr check_collision_between_entities
+
+    bounding_box_mas_pequeña:
+    ld  b, #3
 
     ;;;;;;;;;;;;;;;;
     ;; Colisiones ;;
@@ -420,7 +411,7 @@ sys_collisions_update_entities::
     ;; if ( X(DE) + WIDTH(DE) - X(BC) < 0 )
     ld a, X(ix)
     add WIDTH(ix)
-    sub #2
+    sub b
     sub X(iy)
     jr c, __no_collision
 
@@ -428,21 +419,22 @@ sys_collisions_update_entities::
     ;; if ( X(BC) + WIDTH(BC) - X(DE) < 0 )
     ld a, X(iy)
     add WIDTH(iy)
-    sub #2
+    sub b
     sub X(ix)
     jr c, __no_collision
 
     ;; if ( Y(DE) + HEIGHT(DE) - Y(BC) < 0 )
     ld a, Y(ix)
     add HEIGHT(ix)
-    sub #4
+    sub b
+    sub b
     sub Y(iy)
     jr c, __no_collision
 
     ;; if ( Y(BC) + HEIGHT(BC) - Y(DE) < 0 )
     ld a, Y(iy)
     add HEIGHT(iy)
-    sub #4
+    sub b
     sub Y(ix)
     jr c, __no_collision
 
@@ -450,47 +442,10 @@ sys_collisions_update_entities::
     ;; Collision ;; --- Comprobamos con que colisionamos
     ;;;;;;;;;;;;;;;
 
-    ld a, TYPE(iy)
-    and #E_TYPE_FOOD
-    cp  #E_TYPE_FOOD
-    jr  z, colision_con_comida
-
-    ld a, TYPE(iy)
-    and #E_TYPE_ENEMY
-    cp  #E_TYPE_ENEMY
-    jr  z, colision_con_enemigo
-
-    ld a, TYPE(iy)
-    and #E_TYPE_ENEMY2
-    cp  #E_TYPE_ENEMY2
-    jr  z, colision_con_enemigo
-
-    ld a, TYPE(iy)
-    and #E_TYPE_ENEMY3
-    cp  #E_TYPE_ENEMY3
-    jr  z, colision_con_enemigo
-
-    ld a, TYPE(iy)
-    and #E_TYPE_ENEMY4
-    cp  #E_TYPE_ENEMY4
-    jr  z, colision_con_enemigo
-
-    jr final_colisiones
-
-;; Colision con el enemigo
-colision_con_enemigo:
-    push de
-        call sys_render_draw_solid_box_player
-    pop de
-    ld X(ix), #20
-    ld Y(ix), #60
-    push de
-        call quitar_vida
-    pop de
-    jr final_colisiones
-;; Colision con la comida
-colision_con_comida:
-    ld TYPE(iy), #E_TYPE_DEAD
+    call check_food
+    call check_door
+    call check_enemy
+    call check_key 
 
     jr final_colisiones
 
@@ -507,13 +462,154 @@ colision_con_comida:
 
     ret
 
+;; Colision con la comida
+check_food:
+    ld a, TYPE(iy)
+    cp  #E_TYPE_FOOD
+    ret nz
+
+    ld TYPE(iy), #E_TYPE_DEAD
+
+    ret
+
+;; Colision con los enemigos
+check_enemy:
+
+    ld a, TYPE(iy)
+    cp  #E_TYPE_ENEMY2
+    jr   z, inicio_check_enemy
+
+    ld a, TYPE(iy)
+    cp  #E_TYPE_ENEMY3
+    jr   z, inicio_check_enemy
+
+    ld a, TYPE(iy)
+    cp  #E_TYPE_ENEMY4
+    jr   z, inicio_check_enemy
+
+    ret
+
+    inicio_check_enemy:
+
+    push de
+        call sys_render_draw_solid_box_player
+    pop de
+
+    ld X(ix), #20 ;; | 
+    ld Y(ix), #60 ;; | Reposicionar al player a la posicion inicial
+    
+    push de
+        call quitar_vida
+    pop de
+
+
+    ret
+
+;; Colision con la puerta     ;; TODO --> colision en el eje X
+check_door:
+
+    ld a, TYPE(iy)
+    cp  #E_TYPE_DOOR
+    jr  z, inicio_check_door
+
+    ret
+
+    inicio_check_door:
+
+    ld  a, direction(ix)
+    cp  #DIRECT_W
+    jr  z, colision_arriba_puerta
+
+    ld  a, direction(ix)
+    cp  #DIRECT_S
+    jr  z, colision_abajo_puerta
+
+    ld  a, direction(ix)
+    cp  #DIRECT_A
+    jr  z, colision_izquierda_puerta
+
+    ld  a, direction(ix)
+    cp  #DIRECT_D
+    jr  z, colision_derecha_puerta
+
+    ret
+
+    colision_arriba_puerta:
+    ld  a, (tengo_llave)
+    cp  #1
+    jr  z, abrir_puerta
+
+    ld   hl, #is_colliding_player
+    ld (hl),  #1
+    ld VY(ix), #0
+    jr final_check_door
+
+    colision_abajo_puerta:
+    ld  a, (tengo_llave)
+    cp  #1
+    jr  z, abrir_puerta
+
+    ld   hl, #is_colliding_player + 1
+    ld (hl),  #1
+    ld VY(ix), #0
+    jr final_check_door
+
+    colision_izquierda_puerta:
+    ld  a, (tengo_llave)
+    cp  #1
+    jr  z, abrir_puerta
+    
+    ld   hl, #is_colliding_player + 2
+    ld (hl),  #1
+    ld VX(ix), #0
+    jr final_check_door
+
+    colision_derecha_puerta:
+    ld  a, (tengo_llave)
+    cp  #1
+    jr  z, abrir_puerta
+    
+    ld   hl, #is_colliding_player + 3
+    ld (hl),  #1
+    ld VX(ix), #0
+
+    jr final_check_door
+
+    abrir_puerta:
+
+    ld  a, #0
+    ld  (tengo_llave), a
+    ld  TYPE(iy), #E_TYPE_DEAD
+
+    final_check_door:
+
+    ret
+
+;; Colision con la llave
+check_key:
+    ld a, TYPE(iy)
+    cp  #E_TYPE_KEY
+    ret nz
+
+    ld  a, (tengo_llave)
+    cp  #1
+    ret  z
+
+    ld  a, #1
+    ld  (tengo_llave), a
+
+    ld TYPE(iy), #E_TYPE_DEAD
+
+    ret
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Sys Collision Update ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;
 _sys_collision_update::
-    ld   bc, #sys_collision_update_one_entity
-    ld   hl, #E_CMP_COLLIDER
-    call _man_entity_for_all_matching
+    call sys_collision_update_player_tilemap
 
     ld bc, #sys_collisions_update_entities
     ld hl, #E_CMP_COLLIDER
-    call _man_entity_for_all_pairs_matching_while1
+    call _man_entity_for_all_matching
 
     ret

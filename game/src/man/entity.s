@@ -245,9 +245,10 @@ _man_entity_for_all::
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FOR ALL MATCHING ENTITIES ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; IN =>   BC -> the function to call                       
+;; IN =>   BC -> the function to call   
+;;         HL -> the condition to call function                    
 ;;
-    _man_entity_for_all_matching::
+_man_entity_for_all_matching::
 
     ;; stack opened
         ld      ix, #-6
@@ -318,135 +319,46 @@ _man_entity_for_all::
     
     ret
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; FOR ALL MATCHING ENTITIES IN PAIRS ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; IN =>   BC -> the function to call                       
-;;
-    _man_entity_for_all_pairs_matching_while1::
-
-    ;; stack opened
-        ld      ix, #-4
-        add     ix, sp
-        ld      sp, ix
-
-    ;; save the function to call
-        ld      0(ix), c
-        ld      1(ix), b
-    ;; save the condition to call function
-        ld      2(ix), l
-        ld      3(ix), h
-
-    ;; load first position of an entity
-        ld      de, #m_entities     
-        push de
-    ;; while
-    man_init_while_l:
-            pop de
-            ;; if
-            ;; go to type of entity
-                    ld      hl, #TYPE
-                    add     hl, de             
-
-            ;; save in a the type and compare with #E_TYPE_INVALID
-                    ld      a, (hl)
-                    cp      #E_TYPE_INVALID    
-                    jr      z, man_end_while_l     
-
-                    push de
-                    ld hl, #CMPs
-                    add hl,de
-                    ld a, (hl)
-                    ld l, 2(ix)
-                    ld h, 3(ix)
-                    and l
-                    cp  l
-                    jr z, man_goto_while_r
-                        jr man_continues_while_l
-              
-                ;; if entity is not movable continue here
-                    man_goto_while_r:
-                            ld      hl, #SPACE_4_ONE_ENTITY
-                            add     hl, de
-                            
-                            call _man_entity_for_all_pairs_matching_while2
-                               
-            man_continues_while_l:
-                                pop de
-
-                                ld      hl, #SPACE_4_ONE_ENTITY
-                                add     hl, de
-                                push hl
-                            ;; HL<=>DE
-                                ld      e, l              
-                                ld      d, h
-
-                                jr      man_init_while_l
-    man_end_while_l:
-        ;; close stack
-            ld      ix, #4
-            add     ix, sp
-            ld      sp, ix
-    
-    ret
-_man_entity_for_all_pairs_matching_while2:
-    ;; save left entity in bc
-    ld c, e
-    ld b, d
-    ;; save right entity in de
-    ld e, l
-    ld d, h
-
-    push bc
-    push de
-
-    man_init_while_r:
-            pop de
-            pop bc
-
-            ld hl, #TYPE
-            add hl, de
-
-            ld a, (hl)
-            cp #E_TYPE_INVALID
-            jr z, man_end_while_r
-
-                ld hl, #CMPs
-                add hl, de
-                ld a, (hl)
-
-                ld l, 2(ix)
-                ld h, 3(ix)
-
-                push bc
-                push de
-
-                and l
-                cp l
-                jr nz, return_code_while_r
-                    ld hl, #return_code_while_r
-                    push hl
-
-                    ld l, 0(ix)
-                    ld h, 1(ix)
-                    push hl
-                    ret
-
-                return_code_while_r:
-                    pop de
-                    pop bc
-
-                    ld hl, #SPACE_4_ONE_ENTITY
-                    add hl, de
-
-                    ex de, hl
-
-                    push bc
-                    push de
-
-                    jr man_init_while_r
-man_end_while_r:
-ret
+;; Intento de optimizacion
+;
+;_man_entity_for_all_matching::
+;
+;    ;; load first position of an entity
+;    ld   ix, #m_entities
+;
+;    ;; while
+;    man_init_for_match:
+;        ;; if
+;            ;; save in a the type and compare with #E_TYPE_INVALID
+;            ld      a, TYPE(ix)
+;            cp      #E_TYPE_INVALID    
+;            jr      z, man_end_for_match     
+;
+;            ;; compare the condition
+;            ld  a, CMPs(ix)
+;            and l
+;            cp  l
+;            jr nz, _return_hear_match       
+;
+;            ;; save returning point
+;            ld      hl, #_return_hear_match
+;            push    hl
+;
+;            ;; call the function
+;            push    bc                  
+;            ret  
+;
+;            ;; if entity is not movable continue here
+;            _return_hear_match:
+;
+;                ld    de, #SPACE_4_ONE_ENTITY
+;                add   ix, de
+;
+;                jr      man_init_for_match       
+;
+;    man_end_for_match:
+;    
+;    ret
 
 ;;;;;;;;;;;;;;;;;;;;
 ;; MANAGER UPDATE ;;
@@ -473,6 +385,7 @@ _man_entity_update::
                 cp      #E_TYPE_DEAD
                 jr      z, man_update_destroy_entity 
                  
+
                 ;; add SPACE_4_ONE_ENTITY De <==> HL
                     ld      hl, #SPACE_4_ONE_ENTITY
                     add     hl, de

@@ -33,6 +33,10 @@
    .globl flobier_entity2
    .globl flobier_entity_patron_mapa1
    .globl helado_entity
+   .globl puerta_horizontal_entity
+   .globl puerta_vertical_entity
+   .globl llave_entity
+
    ;;music
    .globl _song_prueba
    ;; ia

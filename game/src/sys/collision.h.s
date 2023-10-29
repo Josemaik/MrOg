@@ -8,7 +8,6 @@
                               
    ;; managers                            
       .globl _man_entity_for_all_matching 
-      .globl _man_entity_for_all_pairs_matching_while1
       .globl quitar_vida
    ;; systems   
       .globl stop_sprite                       
@@ -21,3 +20,6 @@
 
    ;; render
       .globl sys_render_draw_solid_box_player
+
+   ;; entity
+      .globl m_entities

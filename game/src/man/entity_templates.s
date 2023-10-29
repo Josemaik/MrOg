@@ -6,6 +6,10 @@
 .include "animation.h.s"
 
 .area _DATA
+
+;;;;;;;;;;;;
+;; PLAYER ;;
+;;;;;;;;;;;;
 player_entity:: 
 		.db 	#E_TYPE_PLAYER			;; entity type
       .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_INPUT | #E_CMP_ANIMATED | #E_CMP_COLLIDER;; cmps
@@ -23,8 +27,13 @@ player_entity::
 	  .db 	#0x00				;;collides_against
 	  .dw   #0x0000				;; last draw
 	;   .dw   #0x00C4			;; last draw2
-	  .db   #DIRECT_S			;; direction
+	  .db   0x00			;; direction
 	  .db  #0x00
+
+
+;;;;;;;;;;;;;;
+;; ENEMIGOS ;;
+;;;;;;;;;;;;;;
 flobier_entity:: 
 		.db 	#E_TYPE_ENEMY2			;; entity type
       .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_IA | #E_CMP_ANIMATED | #E_CMP_COLLIDER;; | #E_CMP_ANIMATED |#E_CMP_COLLIDER ;; cmps
@@ -83,6 +92,12 @@ flobier_entity_patron_mapa1::
 	  .db   #DIRECT_S			;; direction
 	  .db  #0x00
 
+
+;;;;;;;;;;;;;
+;; OBJETOS ;;
+;;;;;;;;;;;;;
+
+
 helado_entity::
 		 .db 	#E_TYPE_FOOD			;; entity type
       .db     #E_CMP_RENDER | #E_CMP_COLLIDER ;; cmps
@@ -93,6 +108,66 @@ helado_entity::
 		.db     #0x00                 ;; vx = -1
 		.db     #0x00               ;; vy = 0
 		.dw     #_spr_helado  ;; sprite (2b)
+      .dw     #0x0000;; behaviour
+	  .db 	#0x00					;; ai_counter
+      .dw     #0x00 ;; anim
+      .db     #0x00          ;;contador para morir c = 0
+	  .db 	#E_TYPE_PLAYER				;;collides_against
+	  .dw   #0x0000				;; last draw
+	;   .dw   #0x00C4				;; last draw2
+	  .db   #0x00			;; direction
+	  .db  #0x00
+
+puerta_horizontal_entity::
+		 .db 	#E_TYPE_DOOR			;; entity type
+      .db     #E_CMP_RENDER | #E_CMP_COLLIDER ;; cmps
+		.db     #0x00               ;; x = 38
+		.db     #0x00             ;; y = 180
+		.db     #SPR_PUERTA_HORIZONTAL_W   ;; width 
+		.db     #SPR_PUERTA_HORIZONTAL_H   ;; height
+		.db     #0x00                 ;; vx = -1
+		.db     #0x00               ;; vy = 0
+		.dw     #_spr_puerta_horizontal  ;; sprite (2b)
+      .dw     #0x0000;; behaviour
+	  .db 	#0x00					;; ai_counter
+      .dw     #0x00 ;; anim
+      .db     #0x00          ;;contador para morir c = 0
+	  .db 	#E_TYPE_PLAYER				;;collides_against
+	  .dw   #0x0000				;; last draw
+	;   .dw   #0x00C4				;; last draw2
+	  .db   #0x00			;; direction
+	  .db  #0x00	
+
+puerta_vertical_entity::
+		 .db 	#E_TYPE_DOOR			;; entity type
+      .db     #E_CMP_RENDER | #E_CMP_COLLIDER ;; cmps
+		.db     #0x00               ;; x = 38
+		.db     #0x00             ;; y = 180
+		.db     #SPR_PUERTA_VERTICAL_W   ;; width 
+		.db     #SPR_PUERTA_VERTICAL_H   ;; height
+		.db     #0x00                 ;; vx = -1
+		.db     #0x00               ;; vy = 0
+		.dw     #_spr_puerta_vertical  ;; sprite (2b)
+      .dw     #0x0000;; behaviour
+	  .db 	#0x00					;; ai_counter
+      .dw     #0x00 ;; anim
+      .db     #0x00          ;;contador para morir c = 0
+	  .db 	#E_TYPE_PLAYER				;;collides_against
+	  .dw   #0x0000				;; last draw
+	;   .dw   #0x00C4				;; last draw2
+	  .db   #0x00			;; direction
+	  .db  #0x00	
+
+llave_entity::
+		 .db 	#E_TYPE_KEY			;; entity type
+      .db     #E_CMP_RENDER | #E_CMP_COLLIDER ;; cmps
+		.db     #0x00               ;; x = 38
+		.db     #0x00             ;; y = 180
+		.db     #SPR_LLAVE_W   ;; width 
+		.db     #SPR_LLAVE_H   ;; height
+		.db     #0x00                 ;; vx = -1
+		.db     #0x00               ;; vy = 0
+		.dw     #_spr_llave  ;; sprite (2b)
       .dw     #0x0000;; behaviour
 	  .db 	#0x00					;; ai_counter
       .dw     #0x00 ;; anim
