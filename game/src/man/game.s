@@ -36,6 +36,11 @@ ret
 ;; INIT
 ;;
 man_game_init::
+    ;; Level Screen
+      call man_levelscreen_init
+      levelscreen_loop:
+         call man_levelscreen_update
+         jr    z, levelscreen_loop
     ;; configure videomode, palet y border
        call     _sys_render_init
 
@@ -56,7 +61,7 @@ man_game_init::
 ;;
 
 man_game_play::
-   
+
    ;; infinite loop
    loop:
       ;; call music player

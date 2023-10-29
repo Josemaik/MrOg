@@ -412,6 +412,16 @@ _sys_render_update::
         ;;call change_screen
 ret
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; CAll RENDER SCREEN BLACK ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+_sys_render_level_screen::
+    ld      de, #0xC000
+                ld      a, #0
+                ld      bc, #0x4000
+            ;; execute function
+                call    cpct_memset_asm
+ret
 
 
 ;;;;;;;;;;;;;;;;;;;;;;

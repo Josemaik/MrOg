@@ -6,7 +6,8 @@
       .globl cpct_waitHalts_asm
       .globl cpct_memcpy_asm 
       .globl cpct_akp_musicInit_asm          
-      .globl cpct_akp_musicPlay_asm           
+      .globl cpct_akp_musicPlay_asm     
+
    ;; managers                            
       .globl _man_entity_init             
       .globl _man_entity_update           
@@ -14,7 +15,9 @@
       .globl _man_entity_clone
       .globl _man_entity_set_for_destruction
       .globl man_entity_destroy    
-      .globl create_HUD                  
+      .globl create_HUD   
+      .globl man_levelscreen_init
+      .globl man_levelscreen_update               
    ;; systems                             
       .globl _sys_physics_update          
       .globl _sys_render_update                   
