@@ -167,7 +167,7 @@ llave_entity::
 		.db     #SPR_LLAVE_H   ;; height
 		.db     #0x00                 ;; vx = -1
 		.db     #0x00               ;; vy = 0
-		.dw     #_spr_llave  ;; sprite (2b)
+		.dw     #_spr_llave_0  ;; sprite (2b)
       .dw     #0x0000;; behaviour
 	  .db 	#0x00					;; ai_counter
       .dw     #0x00 ;; anim
