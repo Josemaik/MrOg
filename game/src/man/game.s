@@ -6,6 +6,10 @@
 .area _DATA
 lifes_available::
    .db 0x04 ;; 3 vidas
+player_state:: ;; 0 -> vivo 1 -> muerto
+   .db 0x00
+time_anim_died:: ;; tiempo animacion muerte
+   .db #MAN_ANIM_PLAYER_HIT_ENEMY_TIME
 .area _CODE
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -40,6 +44,14 @@ _inicialize_templates:
 
       call crear_objetos_mapa_prueba
       
+ret
+player_reaparition::
+   push de
+        call sys_render_draw_solid_box_player
+    pop de
+
+    ld X(ix), #20 ;; | 
+    ld Y(ix), #60 ;; | Reposicionar al player a la posicion inicial
 ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

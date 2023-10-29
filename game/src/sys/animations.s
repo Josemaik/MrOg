@@ -53,6 +53,11 @@ check_animation::
        check_animation_end:
 ret
 sys_animations_update_one_entity:
+    ld hl, #TYPE
+    add hl, de
+    ld a, (hl)
+    cp #E_TYPE_KEY
+    jr z, start_animating
 
     ld hl, #TYPE
     add hl, de
@@ -65,7 +70,7 @@ sys_animations_update_one_entity:
     ld a, (hl)
     cp #E_TYPE_ENEMY2
     jr z, start_animating;; si es bomba, va directamente a pasar al siguiente frame
-
+    ;; PLAYER
     ld a , (animation_state_player)
     cp #1
     jr z, start_animating

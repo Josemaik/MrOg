@@ -490,13 +490,20 @@ check_enemy:
     ret
 
     inicio_check_enemy:
+    ;; play anim
+    ld bc, #anim_player_died
+    ld AnimFrame(ix), c
+    inc ix
+    ld (ix), b
+    ;; mark player as died
+    ld a, #1
+    ld (player_state) , a
+    ; push de
+    ;     call sys_render_draw_solid_box_player
+    ; pop de
 
-    push de
-        call sys_render_draw_solid_box_player
-    pop de
-
-    ld X(ix), #20 ;; | 
-    ld Y(ix), #60 ;; | Reposicionar al player a la posicion inicial
+    ; ld X(ix), #20 ;; | 
+    ; ld Y(ix), #60 ;; | Reposicionar al player a la posicion inicial
     
     push de
         ld a , (lifes_available)

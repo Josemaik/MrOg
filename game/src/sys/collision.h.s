@@ -12,9 +12,10 @@
       .globl borrar_llave
       .globl lifes_available
       .globl set_llave
+      .globl player_state
    ;; systems   
       .globl stop_sprite                       
-
+      .globl anim_player_died
    ;; sprites
       .globl cpct_drawSolidBox_asm
 

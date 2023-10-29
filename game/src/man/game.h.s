@@ -23,6 +23,7 @@
       .globl _sys_input_update
       .globl _sys_ai_update
       .globl _sys_collision_update
+      .globl sys_render_draw_solid_box_player
 
    ;; sprites
 

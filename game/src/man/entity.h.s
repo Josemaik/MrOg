@@ -49,10 +49,13 @@
         SPACE_4_ONE_ENTITY     = 20    ;; space for one entity
         TOTAL_ENTITIES         = 11     ;; number of entities                          
         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
-        MAN_ANIM_PLAYER_TIME   = 3
-        MAN_ANIM_PLAYER_ENEMY = 5
         TIME_TO_UPDATE_PHYSICS_X_PLAYER = 3
         TIME_TO_UPDATE_PHYSICS_X_ENEMIE = 6
+        MAN_ANIM_PLAYER_TIME   = 3
+        MAN_ANIM_PLAYER_ENEMY = 5
+        MAN_ANIM_PLAYER_KEY = 10
+        MAN_ANIM_PLAYER_HIT_ENEMY = 4
+        MAN_ANIM_PLAYER_HIT_ENEMY_TIME = 20
     ;; DIRECTIONS
     DIRECT_W == 0x01
     DIRECT_A == 0x02
@@ -85,4 +88,9 @@
     ;;sys     
     .globl anim_enemy_down
     .globl anim_enemy_left
+    .globl anim_llave
+    ;;man
+    .globl player_state
+    .globl time_anim_died
+    .globl player_reaparition
    

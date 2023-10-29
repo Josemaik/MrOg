@@ -10,6 +10,10 @@
 sys_input_update_for_one:
     ;; save entity
     push de
+    ;; check is player is died or alive
+    ld a , (player_state)
+    cp #1
+    jp z, sys_input_update_for_one_end ;; si esta muerto no puedo moverme
      ;; scan keyboard
     call cpct_scanKeyboard_f_asm
     ;; check letter O

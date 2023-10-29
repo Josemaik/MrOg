@@ -211,6 +211,19 @@ create_HUD::
     call renderizar_life ;; creamos las vidas
 
     no_render_lifes:
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; RENDER KEY
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ld de, #array_key
+    ld a, (tengo_llave)
+    cp #1
+    jr nz, no_tengo_llave
+    call set_llave
+    jr continue_with_score
+    no_tengo_llave:
+    call borrar_llave
+
+    continue_with_score:
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; RENDER SCORE
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -229,15 +242,4 @@ create_HUD::
     no_render_score:
     ld a , #TIME_UPDATE_SCORE
     ld (contador_score), a
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; RENDER KEY
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ld de, #array_key
-    ld a, (tengo_llave)
-    cp #1
-    jr nz, no_tengo_llave
-    call set_llave
-    ret
-    no_tengo_llave:
-    call borrar_llave
 ret

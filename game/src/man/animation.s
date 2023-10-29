@@ -51,6 +51,19 @@ anim_D::
     .dw _spr_spritesheet_15
     .db #0x00
     .dw #anim_D
+anim_player_died::
+    .db #MAN_ANIM_PLAYER_HIT_ENEMY
+    .dw _spr_muelte_0
+    .db #MAN_ANIM_PLAYER_HIT_ENEMY
+    .dw _spr_muelte_1
+    .db #MAN_ANIM_PLAYER_HIT_ENEMY
+    .dw _spr_muelte_2
+    .db #MAN_ANIM_PLAYER_HIT_ENEMY
+    .dw _spr_muelte_3
+    .db #MAN_ANIM_PLAYER_HIT_ENEMY
+    .dw _spr_muelte_4
+    .db #0x00
+    .dw #anim_player_died
 
 anim_burro_up::
     .db #MAN_ANIM_PLAYER_TIME
@@ -161,34 +174,23 @@ anim_muelte::
     .db #0x00
     .dw #anim_muelte
 
-anim_golpeado::
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_muelte_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_muelte_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_muelte_0
-    .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_muelte_0
-    .db #0x00
-    .dw #anim_golpeado
     
 anim_llave::
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_llave_0
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_llave_1
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_llave_2
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_llave_3
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_llave_4
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_llave_5
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_llave_6
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_llave_7
     .db #0x00
     .dw #anim_llave
