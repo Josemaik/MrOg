@@ -25,6 +25,7 @@ $(eval $(call IMG2SP, CONVERT, assets/puerta_horizontal.png , 16, 8, spr_puerta_
 $(eval $(call IMG2SP, CONVERT, assets/puerta_vertical.png , 8, 16, spr_puerta_vertical))
 $(eval $(call IMG2SP, CONVERT, assets/llave.png , 16, 16, spr_llave))
 $(eval $(call IMG2SP, CONVERT, assets/llavehud.png , 8, 8, spr_llave_hud))
+$(eval $(call IMG2SP, CONVERT, assets/llavehud_gris.png , 8, 8, spr_llave_hud_gris))
 $(eval $(call IMG2SP, CONVERT, assets/muelte.png , 16, 16, spr_muelte))
 $(eval $(call IMG2SP, CONVERT, assets/efecto_comer.png , 16, 16, spr_comer))
 # $(eval $(call IMG2SP, CONVERT, assets/sprite1_S.png , 16, 16, spr_sprite1_S))
