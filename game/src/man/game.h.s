@@ -25,19 +25,13 @@
       .globl _sys_ai_update
       .globl _sys_collision_update
 
-   ;; sprites
-
+   ;; levels
+      .globl cargar_mapa_1
+      .globl cargar_mapa_2
 
    ;; templates
    .globl player_entity
    .globl bomba_entity
-   .globl flobier_entity
-   .globl flobier_entity2
-   .globl flobier_entity_patron_mapa1
-   .globl helado_entity
-   .globl puerta_horizontal_entity
-   .globl puerta_vertical_entity
-   .globl llave_entity
 
    ;;music
    .globl _song_prueba

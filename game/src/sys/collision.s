@@ -17,6 +17,13 @@ colision_actual:
 tengo_llave:
     .db 0x00
 
+tilemap_position::
+    .db 0x00
+
+position_initial_player::
+    .db 0x00
+    .db 0x00
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Inicializar is_colliding_player
 ;;
@@ -64,6 +71,8 @@ comprobar_colision:
 
     add_hl_a  ;; HL = ty * tw + tx
     ld     de, #_tilemap_01
+    ld      a, (tilemap_position)
+    add_de_a
     add    hl, de
 
     ;; HL = tilemap + ty * tw + tx
@@ -495,8 +504,10 @@ check_enemy:
     call sys_render_draw_solid_box_player
     pop de
 
-    ld X(ix), #20 ;; | 
-    ld Y(ix), #60 ;; | Reposicionar al player a la posicion inicial
+    ld     a, (position_initial_player)         ;; |
+    ld X(ix), a                                 ;; | Reposicionar al player 
+    ld     a, (position_initial_player + 1)     ;; | a la posicion inicial
+    ld Y(ix), a                                 ;; | 
     
     push de
     call quitar_vida

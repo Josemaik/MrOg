@@ -236,13 +236,16 @@ ret
 ;; RENDER TILEMAP ;;
 ;;;;;;;;;;;;;;;;;;;;
 sys_render_tilemap::
+
+    push de
+
     ld   bc, #0x1914      ;; height and width - 25x20 en decimal
     ld   de, #0x30        ;; tilemap width    -    48 en decimal
     ld   hl, #_tiles_00   ;; pointer to tileset
     call cpct_etm_setDrawTilemap4x8_ag_asm
 
     ld   hl, #0xC000      ;; pointer memory location
-    ld   de, #_tilemap_01 ;; pointer to the upper-left tilemap
+    pop  de               ;; pointer to the upper-left tilemap
     call cpct_etm_drawTilemap4x8_ag_asm
 
     ret
@@ -472,6 +475,6 @@ _sys_render_init::
 
 
     ;; cargar mapa
-     call sys_render_tilemap
+     ;;call sys_render_tilemap
 
     ret

@@ -13,8 +13,8 @@
 player_entity:: 
 		.db 	#E_TYPE_PLAYER			;; entity type
       .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_INPUT | #E_CMP_ANIMATED | #E_CMP_COLLIDER;; cmps
-		.db     #20               ;; x = 38
-		.db     #60              ;; y = 180
+		.db     #0x00               ;; x = 38
+		.db     #0x00              ;; y = 180
 		.db     #SPR_SPRITE1_S_W   ;; width 
 		.db     #SPR_SPRITE1_S_H   ;; height
 		.db     #0x00                 ;; vx = 0
