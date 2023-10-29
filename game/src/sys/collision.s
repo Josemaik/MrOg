@@ -14,7 +14,7 @@ is_colliding_player:: ;; 0 no collision | 1 collision
 colision_actual:
     .db 0x00
 
-tengo_llave:
+tengo_llave::
     .db 0x00
 
 tilemap_position::
@@ -501,7 +501,7 @@ check_enemy:
     inicio_check_enemy:
 
     push de
-    call sys_render_draw_solid_box_player
+        call sys_render_draw_solid_box_player
     pop de
 
     ld     a, (position_initial_player)         ;; |
@@ -510,8 +510,15 @@ check_enemy:
     ld Y(ix), a                                 ;; | 
     
     push de
-    call quitar_vida
+        ld a , (lifes_available)
+        cp #0
+        jr z, no_decrease
+        dec a
+        ld (lifes_available) , a
+        call quitar_vida
+        no_decrease:
     pop de
+
 
     ret
 
@@ -589,6 +596,9 @@ check_door:
 
     ld  a, #0
     ld  (tengo_llave), a
+    push de
+    call borrar_llave
+    pop de
     ld  TYPE(iy), #E_TYPE_DEAD
 
     final_check_door:
@@ -607,6 +617,9 @@ check_key:
 
     ld  a, #1
     ld  (tengo_llave), a
+    push de
+        call set_llave
+    pop de
 
     ld TYPE(iy), #E_TYPE_DEAD
 

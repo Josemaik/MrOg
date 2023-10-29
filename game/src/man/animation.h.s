@@ -41,10 +41,6 @@
   .globl _spr_burro_13
   .globl _spr_burro_14
   .globl _spr_burro_15
-  .globl _spr_bomba_0
-  .globl _spr_bomba_1
-  .globl _spr_bomba_2
-  .globl _spr_bomba_3
   .globl _spr_enemigo_flobier_0
   .globl _spr_enemigo_flobier_1
   .globl _spr_enemigo_flobier_2
@@ -56,4 +52,19 @@
   .globl _spr_helado
   .globl _spr_puerta_horizontal
   .globl _spr_puerta_vertical
-  .globl _spr_llave
+  .globl _spr_muelte_0
+  .globl _spr_muelte_1
+  .globl _spr_muelte_2
+  .globl _spr_muelte_3
+  .globl _spr_muelte_4
+  .globl _spr_comer_0
+  .globl _spr_comer_1
+  .globl _spr_comer_2
+  .globl _spr_llave_0
+  .globl _spr_llave_1
+  .globl _spr_llave_2
+  .globl _spr_llave_3
+  .globl _spr_llave_4
+  .globl _spr_llave_5
+  .globl _spr_llave_6
+  .globl _spr_llave_7

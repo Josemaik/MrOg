@@ -9,6 +9,9 @@
    ;; managers                            
       .globl _man_entity_for_all_matching 
       .globl quitar_vida
+      .globl borrar_llave
+      .globl lifes_available
+      .globl set_llave
    ;; systems   
       .globl stop_sprite                       
 
