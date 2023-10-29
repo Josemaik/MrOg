@@ -4,20 +4,24 @@
 .include "level.h.s"
 .include "entity.h.s"
 
+mapa_actual::
+    .db 0x00
+
+helados_actuales::
+    .db 0x00
+
 .area _DATA
 .area _CODE
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Creacion de los mapas
 ;;
-crear_mapa_prueba::
-    call crear_enemigos_mapa_prueba
-    call crear_objetos_mapa_prueba
-ret
-
 cargar_mapa_1::
 
-    ;; Guardar en algun sitio el mapa actual
+    ;; Guardamos en mapa_actual el mapa en el que estamos
+    ld      a, #1
+    ld      (mapa_actual), a
 
     ;; Borrar entidades (menos el player, en el caso de borrarlo crearlo de nuevo, el primero)
 
@@ -42,14 +46,17 @@ cargar_mapa_1::
     call crear_enemigos_mapa_1
     call crear_objetos_mapa_1
 
-    ;; Guardar en algun sitio el numero de helados
-    ;; 3 helados
+    ;; Guardamos en helados_actuales los helados para recoger
+    ld      a, #3
+    ld      (helados_actuales), a
 
 ret
 
 cargar_mapa_2::
 
-    ;; Guardar en algun sitio el mapa actual
+    ;; Guardamos en mapa_actual el mapa en el que estamos
+    ld      a, #2
+    ld      (mapa_actual), a
 
     ;; Borrar entidades (menos el player, en el caso de borrarlo crearlo de nuevo, el primero)
 
@@ -74,8 +81,9 @@ cargar_mapa_2::
     call crear_enemigos_mapa_2
     call crear_objetos_mapa_2
 
-    ;; Guardar en algun sitio el numero de helados
-    ;; 3 helados
+    ;; Guardamos en helados_actuales los helados para recoger
+    ld      a, #3
+    ld      (helados_actuales), a
 
 ret
 
@@ -238,8 +246,7 @@ crear_objetos_mapa_1:
 ret
 
 crear_objetos_mapa_2:
-
-;;;;;;;;;;;;;
+   ;;;;;;;;;;;;;
    ;; Helados ;;
    ;;;;;;;;;;;;;
 
