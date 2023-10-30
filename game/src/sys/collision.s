@@ -485,17 +485,21 @@ check_food:
     ld bc, #anim_eat
     ld AnimFrame(iy), c
     ld 1+AnimFrame(iy), b
-    ; ;; ponerlo a tipo como muerto
-    ; ld TYPE(iy), #E_TYPE_DEAD
-    ; call animation_comer
-    ; ld a, #0
-    ; ld (food_state) , a
+
+    ;; le quito componente de colision
     ld CMPs(iy), #0x00
     ld CMPs(iy), #E_CMP_RENDER | E_CMP_ANIMATED
-    ; ;; decrementamos contador de consumibles
-    ; ld a , (consumibles_actuales)
-    ; dec a
-    ; ld (consumibles_actuales), a
+
+    ;; restar uno a la comida actual
+    ld   a, (helados_actuales)
+    dec  a
+    ld   (helados_actuales), a
+
+    ;; si helados_actuales es 0 --> cambiar de mapa
+    ; jr z, cambiar_de_mapa
+    ; cambiar_de_mapa:
+    ; call cargar_mapa_2
+
 ret
 
 ;; Colision con los enemigos
