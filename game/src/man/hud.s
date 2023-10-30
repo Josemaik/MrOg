@@ -105,6 +105,10 @@ render_score::
     call render_first_digit
     call render_second_digit
     call render_third_digit
+    ;; compruebo si se han consumido todos los consumibles => paro contador
+    ld a, (consumibles_actuales)
+    cp #0
+    jr z, stop_counter
     ;; compruebo si digito 1 y 2 estan a 0 => paro contador
     ld a, (id_first_digit)
     cp #6

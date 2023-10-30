@@ -14,6 +14,7 @@
       .globl set_llave
       .globl player_state
       .globl MAN_ANIM_PLAYER_HIT_ENEMY
+      .globl consumibles_actuales
    ;; systems   
       .globl stop_sprite                       
       .globl anim_player_died

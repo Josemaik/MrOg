@@ -9,6 +9,7 @@
 .globl tengo_llave
 ;;man
 .globl lifes_available
+.globl consumibles_actuales
 ;;array_vidas
     DIE_OR_ALIVE = 0
     X = 1

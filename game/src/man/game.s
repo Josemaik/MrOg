@@ -13,10 +13,11 @@ time_anim_died:: ;; tiempo animacion muerte
 food_state:: ;;0-> viva 1-> muerta
    .db 0x00
 time_anim_eat:: ;; tiempo animacion comer
-   .db 0x64
+   .db 0x1e
 position_initial_player::
     .db 0x00
     .db 0x00
+
 .area _CODE
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

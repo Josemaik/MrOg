@@ -486,6 +486,10 @@ check_food:
     ld AnimFrame(iy), c
     ld 1+AnimFrame(iy), b
 
+    ;; le quito componente de colision
+    ld CMPs(iy), #0x00
+    ld CMPs(iy), #E_CMP_RENDER | E_CMP_ANIMATED
+
     ;; restar uno a la comida actual
     ld   a, (helados_actuales)
     dec  a
