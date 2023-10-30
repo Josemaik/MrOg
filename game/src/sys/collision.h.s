@@ -25,6 +25,7 @@
 
    ;; tilemap
       .globl _tilemap_01
+      .globl helados_actuales
 
    ;; render
       .globl sys_render_draw_solid_box_player
