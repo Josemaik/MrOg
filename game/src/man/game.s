@@ -14,6 +14,9 @@ food_state:: ;;0-> viva 1-> muerta
    .db 0x00
 time_anim_eat:: ;; tiempo animacion comer
    .db 0x64
+position_initial_player::
+    .db 0x00
+    .db 0x00
 .area _CODE
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -53,9 +56,11 @@ player_reaparition::
     ld bc, #anim_S
     ld AnimFrame(ix), c
     ld 1+AnimFrame(ix), b
-    ;; reposicionamos
-    ld X(ix), #20 ;; | 
-    ld Y(ix), #60 ;; | Reposicionar al player a la posicion inicial
+    ;; | Reposicionar al player a la posicion inicial
+    ld a, (position_initial_player)
+    ld X(ix), a ;; 
+    ld a, (position_initial_player + 1)
+    ld Y(ix), a ;; 
     pop ix
     ;; vuelvo a poner contador a su tiempo original
     ld a, #0xaa

@@ -94,6 +94,45 @@ sys_ai_vertical_enemie::
             call move_right_e
         sys_ai_vertical_enemie_end:
 ret
+sys_ai_vertical_enemie_mapa2::
+    ld hl, #Y
+     add hl, de
+     ld a, (hl)
+     cp #104
+     jr z, check_axis_x_m2
+        jr sys_ai_vertical_enemie_end
+    check_axis_x_m2:
+        ld hl, #X
+        add hl, de
+        ld a, (hl)
+        cp #68
+        jr z, mover_izquierda2_m2
+        ;;mover abajo
+        ld hl, #X
+        add hl, de
+        ld a, (hl)
+        cp #20
+        jr z, mover_derecha2_m2
+        jr sys_ai_vertical_enemie_end_m2
+        mover_izquierda2_m2:
+            ld bc, #anim_enemy_left
+            ld 4(ix), c
+            ld 5(ix), b
+            ld bc, #DIRECT_A
+            call check_animation
+            ld hl, #choose_axis_enemy_hunter
+            call move_left_e
+        jr sys_ai_vertical_enemie_end_m2
+        mover_derecha2_m2:
+            ld bc, #anim_enemy_right
+            ld 4(ix), c
+            ld 5(ix), b
+            ld bc, #DIRECT_D
+            call check_animation
+            ld hl, #choose_axis_enemy_hunter
+            call move_right_e
+        sys_ai_vertical_enemie_end_m2:
+ret
 sys_ai_patron_enemie_mapa1::
      ld hl, #X
     add hl, de

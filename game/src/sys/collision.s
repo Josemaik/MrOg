@@ -20,10 +20,6 @@ tengo_llave::
 tilemap_position::
     .db 0x00
 
-position_initial_player::
-    .db 0x00
-    .db 0x00
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Inicializar is_colliding_player
 ;;
@@ -522,7 +518,6 @@ check_enemy:
     ;; mark player as died
     ld a, #1
     ld (player_state) , a
-    
     push de
         ld a , (lifes_available)
         cp #0

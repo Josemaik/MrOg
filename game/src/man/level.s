@@ -111,7 +111,14 @@ crear_enemigos_mapa_1:
 ret
 
 crear_enemigos_mapa_2:
-
+    ld ix, #flobier_entity
+    ld    X(ix), #68
+    ld    Y(ix), #104
+    ld bc, #sys_ai_vertical_enemie_mapa2
+    ld IA_behaviour(ix), c
+    ld 1+IA_behaviour(ix), b
+    ld       hl, #flobier_entity
+    call man_game_create_template_entity
 ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
