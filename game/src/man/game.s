@@ -40,8 +40,6 @@ _inicialize_templates:
       ld       hl, #player_entity
       call man_game_create_template_entity
       
-      call cargar_mapa_2
-      
 ret
 player_reaparition::
     push ix
@@ -91,6 +89,9 @@ man_game_init::
        call cpct_akp_musicInit_asm
    ;; crear hud
       ; call create_HUD
+    ;; cargar mapa
+       call cargar_mapa_1
+
    ret
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; PLAY

@@ -491,16 +491,18 @@ check_food:
     ld CMPs(iy), #E_CMP_RENDER | E_CMP_ANIMATED
 
     ;; restar uno a la comida actual
-    ld   a, (helados_actuales)
+    ld   a, (consumibles_actuales)
     dec  a
-    ld   (helados_actuales), a
-
     ;; si helados_actuales es 0 --> cambiar de mapa
-    ; jr z, cambiar_de_mapa
-    ; cambiar_de_mapa:
-    ; call cargar_mapa_2
+    jr z, cambiar_de_mapa
+    ld   (consumibles_actuales), a
 
-ret
+    ret
+
+    cambiar_de_mapa:
+    call cambio_de_mapa
+
+    ret
 
 ;; Colision con los enemigos
 check_enemy:
