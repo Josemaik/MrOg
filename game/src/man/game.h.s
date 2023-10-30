@@ -41,5 +41,9 @@
    .globl _song_prueba
    ;; ia
    .globl sys_ai_vertical_enemie
-   .globl sys_ai_horizontal_enemie
-   .globl sys_ai_patron_enemie_mapa1
+   ; .globl sys_ai_vertical_enemie_mapa_prueba
+   .globl sys_ai_horizontal_enemie_mapa_prueba
+   .globl sys_ai_patron_enemie_mapa_prueba
+   ; .globl sys_ai_patron_enemie_mapa_prueba
+   ; .globl sys_ai_vertical_enemie_mapa1
+   ; .globl sys_ai_vertical_enemie_mapa2

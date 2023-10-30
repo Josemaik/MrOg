@@ -62,7 +62,7 @@ flobier_entity2::
 		.db     #0x00                 ;; vx = -1
 		.db     #-1               ;; vy = 0
 		.dw     #_spr_enemigo_flobier_0  ;; sprite (2b)
-      .dw     #sys_ai_horizontal_enemie ;; behaviour
+      .dw     #sys_ai_horizontal_enemie_mapa_prueba ;; behaviour
 	  .db 	#0x0c					;; ai_counter
       .dw     #anim_enemy_down ;; anim
       .db     #MAN_ANIM_PLAYER_ENEMY            ;;animcounter c = 0
@@ -80,7 +80,7 @@ flobier_entity_patron_mapa1::
 		.db     #1                ;; vx = -1
 		.db     #0x00               ;; vy = 0
 		.dw     #_spr_enemigo_flobier_0  ;; sprite (2b)
-      .dw     #sys_ai_patron_enemie_mapa1 ;; behaviour
+      .dw     #sys_ai_patron_enemie_mapa_prueba ;; behaviour
 	  .db 	#0x00					;; ai_counter
       .dw     #0x0000 ;; anim
       .db     #MAN_ANIM_PLAYER_ENEMY            ;;animcounter c = 0

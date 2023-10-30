@@ -1,5 +1,6 @@
 ;;man
 .globl _man_entity_for_all_matching
+.globl mapa_actual
 
 ;;Sys
 .globl choose_axis_enemy_hunter

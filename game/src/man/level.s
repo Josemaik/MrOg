@@ -98,25 +98,24 @@ crear_enemigos_mapa_prueba:
     ;; FROBLIES
     ld       hl, #flobier_entity
     call man_game_create_template_entity
-
     ld       hl, #flobier_entity2
     call man_game_create_template_entity
-
     ; ld       hl, #flobier_entity_patron_mapa1
     ; call man_game_create_template_entity
 ret
 
 crear_enemigos_mapa_1:
-
+    ld ix, #flobier_entity
+    ld    X(ix), #68
+    ld    Y(ix), #80
+    ld       hl, #flobier_entity
+    call man_game_create_template_entity
 ret
 
 crear_enemigos_mapa_2:
     ld ix, #flobier_entity
     ld    X(ix), #68
     ld    Y(ix), #104
-    ld bc, #sys_ai_vertical_enemie_mapa2
-    ld IA_behaviour(ix), c
-    ld 1+IA_behaviour(ix), b
     ld       hl, #flobier_entity
     call man_game_create_template_entity
 ret

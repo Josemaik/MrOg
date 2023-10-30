@@ -25,4 +25,5 @@
    ;; Player
    .globl m_entities
    ;; ia
-   .globl sys_ai_vertical_enemie_mapa2
+   .globl sys_ai_vertical_enemie
+   ; .globl sys_ai_vertical_enemie_mapa2
