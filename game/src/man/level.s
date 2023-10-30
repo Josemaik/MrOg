@@ -13,6 +13,30 @@ consumibles_actuales::
 .area _DATA
 .area _CODE
 
+;;;;;;;;;;;;;;;;;;;;;;
+;; Cambio de mapa
+;;
+cambio_de_mapa::
+
+
+    ;; Comprobar que mapa cargamos
+    ld      a, (mapa_actual)
+    dec     a
+    jr      z, mapa_2
+    dec     a
+    jr      z, mapa_3
+
+    ret
+
+    mapa_2:
+    call cargar_mapa_2
+    ret
+
+    mapa_3:
+    ;call cargar_mapa_3
+    ret
+
+ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Creacion de los mapas

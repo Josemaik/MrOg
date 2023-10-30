@@ -493,12 +493,14 @@ check_food:
     ;; restar uno a la comida actual
     ld   a, (consumibles_actuales)
     dec  a
+    ;; si helados_actuales es 0 --> cambiar de mapa
+    jr z, cambiar_de_mapa
     ld   (consumibles_actuales), a
 
-    ;; si helados_actuales es 0 --> cambiar de mapa
-    ; jr z, cambiar_de_mapa
-    ; cambiar_de_mapa:
-    ; call cargar_mapa_2
+    ret
+
+    cambiar_de_mapa:
+    call cambio_de_mapa
 
 ret
 

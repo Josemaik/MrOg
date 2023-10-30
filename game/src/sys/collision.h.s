@@ -26,10 +26,13 @@
 
    ;; tilemap
       .globl _tilemap_01
-      .globl consumibles_actuales
 
    ;; render
       .globl sys_render_draw_solid_box_player
 
    ;; entity
       .globl m_entities
+
+   ;; level
+      .globl consumibles_actuales
+      .globl cambio_de_mapa

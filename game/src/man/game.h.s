@@ -31,6 +31,7 @@
       .globl _spr_spritesheet_00
 
    ;; levels
+      .globl cambio_de_mapa
       .globl cargar_mapa_1
       .globl cargar_mapa_2
 
