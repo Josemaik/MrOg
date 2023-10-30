@@ -17,7 +17,10 @@ consumibles_actuales::
 ;; Cambio de mapa
 ;;
 cambio_de_mapa::
-
+    ;; borramos todas las entidades
+    call _man_entity_init
+    ;; creamos jugador
+    call _inicialize_templates
 
     ;; Comprobar que mapa cargamos
     ld      a, (mapa_actual)

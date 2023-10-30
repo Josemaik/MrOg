@@ -318,7 +318,25 @@ _man_entity_for_all_matching::
             ld      sp, ix
     
     ret
+borrar_entidades::
+    ld c, #TOTAL_SPACE_4_ENTITIES ;; espacio total
+    ld de, #m_entities + #SPACE_4_ONE_ENTITY
+    bucle_borrar:
+        ld a , c
+        cp #0
+        jr z, bucle_borrar_end
+        ld a, #0x00
+        ld (de) , a
+        ;; incrementamos de
+        inc de
+        ;; decrementamos el total en 1
+        ld a , c
+        dec a
+        ld c , a
+        jr bucle_borrar
+bucle_borrar_end:
 
+ret
 ;; Intento de optimizacion
 ;
 ;_man_entity_for_all_matching::
@@ -440,6 +458,11 @@ _man_entity_update::
                     ; ld (hl), #0x00
                     ld a, #0x1e
                     ld (time_anim_eat), a
+                    ;; si consumibles es 0
+                    ;; cambio de mapa
+                    ld a, (consumibles_actuales)
+                    cp #0
+                    jr z, cambio_mapa
                 continuar2:
 
                 ;; add SPACE_4_ONE_ENTITY De <==> HL
@@ -458,7 +481,8 @@ _man_entity_update::
             man_update_not_destroy_entity:  
                 jr      man_update_init_for
             
-
+            cambio_mapa:
+                    call cambio_de_mapa
 
     man_update_end_for:
 

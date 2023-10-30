@@ -15,7 +15,9 @@
    .globl man_game_create_template_entity
    .globl set_burro_animations
    .globl set_burro_animations
-
+   .globl borrar_entidades
+   .globl _man_entity_init
+   .globl _inicialize_templates
    ;; Render
    .globl sys_render_tilemap
 

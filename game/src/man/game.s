@@ -35,7 +35,7 @@ man_game_create_template_entity::
         call cpct_memcpy_asm
         pop de
 ret
-_inicialize_templates:
+_inicialize_templates::
       ;; PLAYER
       ld       hl, #player_entity
       call man_game_create_template_entity
@@ -90,7 +90,7 @@ man_game_init::
    ;; crear hud
       ; call create_HUD
     ;; cargar mapa
-       call cargar_mapa_2
+       call cargar_mapa_1
 
    ret
 ;;;;;;;;;;;;;;;;;;;;;;

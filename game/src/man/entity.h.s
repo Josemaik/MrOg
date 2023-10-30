@@ -96,4 +96,6 @@
     .globl player_reaparition
     .globl food_state
     .globl time_anim_eat
+    .globl consumibles_actuales
+    .globl cambio_de_mapa
    
