@@ -561,23 +561,34 @@ check_door:
 
     ld  a, direction(ix)
     cp  #DIRECT_W
-    jr  z, colision_arriba_puerta
+    jr  z, comprobar_colision_arriba_puerta
 
     ld  a, direction(ix)
     cp  #DIRECT_S
-    jr  z, colision_abajo_puerta
+    jr  z, comprobar_colision_abajo_puerta
 
     ld  a, direction(ix)
     cp  #DIRECT_A
-    jr  z, colision_izquierda_puerta
+    jr  z, comprobar_colision_izquierda_puerta
 
     ld  a, direction(ix)
     cp  #DIRECT_D
-    jr  z, colision_derecha_puerta
+    jr  z, comprobar_colision_derecha_puerta
 
     ret
 
+    ;; COLISION ARRIBA
+
+    comprobar_colision_arriba_puerta:
+
+    ld  a, direction(iy)
+    cp  #DIRECT_S
+    jr  z, colision_arriba_puerta
+
+    jr final_check_door
+
     colision_arriba_puerta:
+
     ld  a, (tengo_llave)
     cp  #1
     jr  z, abrir_puerta
@@ -587,7 +598,18 @@ check_door:
     ld VY(ix), #0
     jr final_check_door
 
+    ;; COLISION ABAJO
+
+    comprobar_colision_abajo_puerta:
+
+    ld  a, direction(iy)
+    cp  #DIRECT_W
+    jr  z, colision_abajo_puerta
+
+    jr final_check_door
+
     colision_abajo_puerta:
+
     ld  a, (tengo_llave)
     cp  #1
     jr  z, abrir_puerta
@@ -597,25 +619,46 @@ check_door:
     ld VY(ix), #0
     jr final_check_door
 
+    ;; COLISION IZQUIERDA
+
+    comprobar_colision_izquierda_puerta:
+
+    ld  a, direction(iy)
+    cp  #DIRECT_D
+    jr  z, colision_izquierda_puerta
+
+    jr final_check_door
+
     colision_izquierda_puerta:
+
     ld  a, (tengo_llave)
     cp  #1
     jr  z, abrir_puerta
-    
+
     ld   hl, #is_colliding_player + 2
     ld (hl),  #1
-    ld VX(ix), #0
+    ld VY(ix), #0
+    jr final_check_door
+
+    ;; COLISION DERECHA
+
+    comprobar_colision_derecha_puerta:
+
+    ld  a, direction(iy)
+    cp  #DIRECT_A
+    jr  z, colision_derecha_puerta
+
     jr final_check_door
 
     colision_derecha_puerta:
+
     ld  a, (tengo_llave)
     cp  #1
     jr  z, abrir_puerta
-    
+
     ld   hl, #is_colliding_player + 3
     ld (hl),  #1
-    ld VX(ix), #0
-
+    ld VY(ix), #0
     jr final_check_door
 
     abrir_puerta:
