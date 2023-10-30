@@ -7,7 +7,7 @@
 mapa_actual::
     .db 0x00
 
-helados_actuales::
+consumibles_actuales::
     .db 0x00
 
 .area _DATA
@@ -48,7 +48,7 @@ cargar_mapa_1::
 
     ;; Guardamos en helados_actuales los helados para recoger
     ld      a, #3
-    ld      (helados_actuales), a
+    ld      (consumibles_actuales), a
 
 ret
 
@@ -83,7 +83,7 @@ cargar_mapa_2::
 
     ;; Guardamos en helados_actuales los helados para recoger
     ld      a, #3
-    ld      (helados_actuales), a
+    ld      (consumibles_actuales), a
 
 ret
 
@@ -207,7 +207,7 @@ crear_objetos_mapa_1:
    ld    Y(ix), #56
    ld       hl, #helado_entity
    call man_game_create_template_entity
-
+   
    ld    Y(ix), #144
    ld       hl, #helado_entity
    call man_game_create_template_entity
@@ -262,7 +262,8 @@ crear_objetos_mapa_2:
    ld    Y(ix), #32
    ld       hl, #helado_entity
    call man_game_create_template_entity
-
+   
+   ld       ix, #helado_entity
    ld    X(ix), #36
    ld    Y(ix), #176
    ld       hl, #helado_entity

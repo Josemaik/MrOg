@@ -485,6 +485,17 @@ check_food:
     ld bc, #anim_eat
     ld AnimFrame(iy), c
     ld 1+AnimFrame(iy), b
+    ; ;; ponerlo a tipo como muerto
+    ; ld TYPE(iy), #E_TYPE_DEAD
+    ; call animation_comer
+    ; ld a, #0
+    ; ld (food_state) , a
+    ld CMPs(iy), #0x00
+    ld CMPs(iy), #E_CMP_RENDER | E_CMP_ANIMATED
+    ; ;; decrementamos contador de consumibles
+    ; ld a , (consumibles_actuales)
+    ; dec a
+    ; ld (consumibles_actuales), a
 ret
 
 ;; Colision con los enemigos

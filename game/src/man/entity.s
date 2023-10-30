@@ -413,6 +413,11 @@ _man_entity_update::
                 ld a, (hl)
                 cp #E_TYPE_FOOD
                 jr nz , continuar2
+                ld hl, #CMPs
+                add hl, de
+                ld a, (hl)
+                cp #E_CMP_RENDER | E_CMP_ANIMATED
+                jr nz, continuar2
                 ld a, (food_state)
                 cp #1
                 jr nz, continuar2
@@ -430,7 +435,10 @@ _man_entity_update::
                     ld hl,#TYPE
                     add hl, de
                     ld (hl), #E_TYPE_DEAD
-                    ld a, #0x64
+                    ; ld hl, #CMPs
+                    ; add hl, de
+                    ; ld (hl), #0x00
+                    ld a, #0x1e
                     ld (time_anim_eat), a
                 continuar2:
 
