@@ -114,20 +114,6 @@ ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Creacion de los enemigos
 ;; 
-crear_enemigos_mapa_prueba:
-    ;; DEFLATOR DENNIS
-    ;   ld       hl, #deflator_Dennis_entity
-    ;   call man_game_create_template_entity
-
-    ;; FROBLIES
-    ld       hl, #flobier_entity
-    call man_game_create_template_entity
-    ld       hl, #flobier_entity2
-    call man_game_create_template_entity
-    ; ld       hl, #flobier_entity_patron_mapa1
-    ; call man_game_create_template_entity
-ret
-
 crear_enemigos_mapa_1:
     ld ix, #flobier_entity
     ld    X(ix), #68
@@ -147,79 +133,6 @@ ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Creacion de los objetos
 ;;
-crear_objetos_mapa_prueba:
-
-   ;;;;;;;;;;;;;
-   ;; Helados ;;
-   ;;;;;;;;;;;;;
-
-   ld       ix, #helado_entity
-
-   ld    X(ix), #8
-   ld    Y(ix), #32
-   ld       hl, #helado_entity
-   call man_game_create_template_entity
-
-   ;ld    Y(ix), #48
-   ;ld       hl, #helado_entity
-   ;call man_game_create_template_entity
-
-   ;ld    Y(ix), #64
-   ;ld       hl, #helado_entity
-   ;call man_game_create_template_entity
-
-   ;ld    Y(ix), #136
-   ;ld       hl, #helado_entity
-   ;call man_game_create_template_entity
-
-   ; ld    Y(ix), #152
-   ; ld       hl, #helado_entity
-   ; call man_game_create_template_entity
-
-   ld    Y(ix), #168
-   ld       hl, #helado_entity
-   call man_game_create_template_entity
-
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;
-   ;; Puertas Horizontales ;;
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-   ld       ix, #puerta_horizontal_entity
-
-   ld    X(ix), #8
-   ld    Y(ix), #80
-   ld       hl, #puerta_horizontal_entity
-   call man_game_create_template_entity
-
-   ;;;;;;;;;;;;;;;;;;;;;;;;
-   ;; Puertas Verticales ;;
-   ;;;;;;;;;;;;;;;;;;;;;;;;
-
-   ld       ix, #puerta_vertical_entity
-
-   ld    X(ix), #16
-   ld    Y(ix), #112
-   ld       hl, #puerta_vertical_entity
-   call man_game_create_template_entity
-
-   ;;;;;;;;;;;;
-   ;; Llaves ;;
-   ;;;;;;;;;;;;
-
-   ld       ix, #llave_entity
-
-   ld    X(ix), #56
-   ld    Y(ix), #112
-   ld       hl, #llave_entity
-   call man_game_create_template_entity
-
-   ld    X(ix), #20
-   ld    Y(ix), #32
-   ld       hl, #llave_entity
-   call man_game_create_template_entity
-
-ret
-
 crear_objetos_mapa_1:
    ;;;;;;;;;;;;;
    ;; Helados ;;
@@ -265,6 +178,7 @@ crear_objetos_mapa_1:
 
    ld    X(ix), #16
    ld    Y(ix), #48
+   ld    direction(ix), #DIRECT_S
    ld       hl, #puerta_horizontal_entity
    call man_game_create_template_entity
 

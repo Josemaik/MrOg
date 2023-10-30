@@ -502,7 +502,7 @@ check_food:
     cambiar_de_mapa:
     call cambio_de_mapa
 
-ret
+    ret
 
 ;; Colision con los enemigos
 check_enemy:
