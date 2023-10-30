@@ -494,13 +494,13 @@ check_food:
     ld   a, (consumibles_actuales)
     dec  a
     ;; si helados_actuales es 0 --> cambiar de mapa
-    jr z, cambiar_de_mapa
+    ; jr z, cambiar_de_mapa
     ld   (consumibles_actuales), a
 
     ret
 
-    cambiar_de_mapa:
-    call cambio_de_mapa
+    ; cambiar_de_mapa:
+    ; call cambio_de_mapa
 
     ret
 
