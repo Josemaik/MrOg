@@ -54,6 +54,7 @@
         MAN_ANIM_PLAYER_TIME   = 3
         MAN_ANIM_PLAYER_ENEMY = 5
         MAN_ANIM_PLAYER_KEY = 10
+        MAN_ANIM_PLAYER_ICECREAM = 10
         MAN_ANIM_PLAYER_HIT_ENEMY == 35
         MAN_ANIM_PLAYER_HIT_ENEMY_TIME = 20
         MAN_ANIM_PLAYER_EAT == 5
@@ -90,6 +91,7 @@
     .globl anim_enemy_down
     .globl anim_enemy_left
     .globl anim_llave
+    .globl anim_helado
     ;;man
     .globl player_state
     .globl time_anim_died

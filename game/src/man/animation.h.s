@@ -49,7 +49,6 @@
   .globl _spr_enemigo_flobier_5
   .globl _spr_enemigo_flobier_6
   .globl _spr_enemigo_flobier_7
-  .globl _spr_helado
   .globl _spr_puerta_horizontal
   .globl _spr_puerta_vertical
   .globl _spr_muelte_0
@@ -68,3 +67,7 @@
   .globl _spr_llave_5
   .globl _spr_llave_6
   .globl _spr_llave_7
+  .globl _spr_helado_0
+  .globl _spr_helado_1
+  .globl _spr_helado_2
+  .globl _spr_helado_3

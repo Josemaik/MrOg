@@ -104,11 +104,11 @@ helado_entity::
 		.db     #SPR_HELADO_H   ;; height
 		.db     #0x00                 ;; vx = -1
 		.db     #0x00               ;; vy = 0
-		.dw     #_spr_helado  ;; sprite (2b)
+		.dw     #_spr_helado_0  ;; sprite (2b)
       .dw     #0x0000;; behaviour
 	  .db 	#0x00					;; ai_counter
-      .dw     #0x00 ;; anim
-      .db     #0x00          ;;contador para morir c = 0
+      .dw     #anim_helado ;; anim
+      .db     #MAN_ANIM_PLAYER_ICECREAM          ;;contador para morir c = 0
 	  .db 	#E_TYPE_PLAYER				;;collides_against
 	  .dw   #0x0000				;; last draw
 	;   .dw   #0x00C4				;; last draw2
