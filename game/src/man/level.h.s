@@ -13,6 +13,8 @@
 
    ;; Manager
    .globl man_game_create_template_entity
+   .globl set_burro_animations
+   .globl set_burro_animations
 
    ;; Render
    .globl sys_render_tilemap

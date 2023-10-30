@@ -69,7 +69,7 @@ cargar_mapa_1::
     ;; Crear enemigos y objetos
     call crear_enemigos_mapa_1
     call crear_objetos_mapa_1
-
+    call set_burro_animations
     ;; Guardamos en helados_actuales los helados para recoger
     ld      a, #3
     ld      (consumibles_actuales), a
@@ -104,6 +104,7 @@ cargar_mapa_2::
     ;; Crear enemigos y objetos
     call crear_enemigos_mapa_2
     call crear_objetos_mapa_2
+    call set_burro_animations
 
     ;; Guardamos en helados_actuales los helados para recoger
     ld      a, #3

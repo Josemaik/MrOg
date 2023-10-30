@@ -19,7 +19,6 @@ array_coordinates_vertical::
 ;;;;;;;;;;;;;;;
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
-
 sys_ai_horizontal_enemie_mapa_prueba::
      ld hl, #X
      add hl, de
@@ -41,7 +40,10 @@ sys_ai_horizontal_enemie_mapa_prueba::
         jr z, mover_abajo2
         jr sys_ai_horizontal_enemie_end
         mover_abajo2:
-            ld bc, #anim_enemy_down
+            ld hl,  #anims_actual_enemy + 2
+            ld c , (hl)
+            ld hl, #anims_actual_enemy + 3
+            ld b, (hl)
             ld 4(ix), c
             ld 5(ix), b
             ld bc, #DIRECT_S
@@ -50,7 +52,10 @@ sys_ai_horizontal_enemie_mapa_prueba::
             call move_down_e
         jr sys_ai_horizontal_enemie_end
         mover_arriba2:
-            ld bc, #anim_enemy_up
+            ld hl,  #anims_actual_enemy
+            ld c , (hl)
+            ld hl, #anims_actual_enemy + 1
+            ld b ,(hl)
             ld 4(ix), c
             ld 5(ix), b
             ld bc, #DIRECT_W
@@ -118,7 +123,10 @@ sys_ai_vertical_enemie::
         jr z, mover_derecha
         jr sys_ai_vertical_enemie_end
         mover_izquierda:
-            ld bc, #anim_enemy_left
+            ld hl,  #anims_actual_enemy + 6
+            ld c , (hl)
+            ld hl, #anims_actual_enemy + 7
+            ld b ,(hl)
             ld 4(ix), c
             ld 5(ix), b
             ld bc, #DIRECT_A
@@ -127,7 +135,10 @@ sys_ai_vertical_enemie::
             call move_left_e
         jr sys_ai_vertical_enemie_end
         mover_derecha:
-            ld bc, #anim_enemy_right
+            ld hl,  #anims_actual_enemy + 4
+            ld c , (hl)
+            ld hl, #anims_actual_enemy + 5
+            ld b ,(hl)
             ld 4(ix), c
             ld 5(ix), b
             ld bc, #DIRECT_D

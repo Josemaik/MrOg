@@ -5,6 +5,11 @@
 .include "entity.h.s"
 .area _DATA
 
+anims_actual_enemy::
+    .dw 0x0000 ;; arriba 0 
+    .dw 0x0000 ;; abajo 2
+    .dw 0x0000 ;; derecha 4
+    .dw 0x0000 ;; izquierda 6
 
 ;;Array de sprites
 anim_W::
@@ -84,7 +89,7 @@ anim_burro_up::
     .db #MAN_ANIM_PLAYER_TIME
     .dw _spr_burro_11
     .db #0x00
-    .dw #anim_W
+    .dw #anim_burro_up
 
 anim_burro_left::
     .db #MAN_ANIM_PLAYER_TIME
@@ -96,7 +101,7 @@ anim_burro_left::
     .db #MAN_ANIM_PLAYER_TIME
     .dw _spr_burro_07
     .db #0x00
-    .dw #anim_A
+    .dw #anim_burro_left
 
 anim_burro_down::
     .db #MAN_ANIM_PLAYER_TIME
@@ -108,7 +113,7 @@ anim_burro_down::
     .db #MAN_ANIM_PLAYER_TIME
     .dw _spr_burro_03
     .db #0x00
-    .dw #anim_S
+    .dw #anim_burro_down
 
 anim_burro_right::
     .db #MAN_ANIM_PLAYER_TIME
@@ -120,7 +125,7 @@ anim_burro_right::
     .db #MAN_ANIM_PLAYER_TIME
     .dw _spr_burro_15
     .db #0x00
-    .dw #anim_D
+    .dw #anim_burro_right
 
 
 
@@ -177,6 +182,58 @@ anim_llave::
     .db #0x00
     .dw #anim_llave
     
-    
+
 .area _CODE
 
+set_burro_animations::
+    ;; arriba
+    ld bc, #anim_burro_up
+    ld a , c
+    ld (anims_actual_enemy) , a
+    ld a , b
+    ld (anims_actual_enemy + 1) , a
+    ;; abajo
+    ld bc, #anim_burro_down
+    ld a , c
+    ld (anims_actual_enemy+ 2) , a
+    ld a , b
+    ld (anims_actual_enemy + 3) , a
+    ;; derecha
+    ld bc, #anim_burro_right
+    ld a , c
+    ld (anims_actual_enemy + 4) , a
+    ld a , b
+    ld (anims_actual_enemy + 5) , a
+    ;; izquierda
+    ld bc, #anim_burro_left
+    ld a , c
+    ld (anims_actual_enemy + 6) , a
+    ld a , b
+    ld (anims_actual_enemy + 7) , a
+ret
+set_lord_animations::
+ ;; arriba
+    ld bc, #anim_enemy_up
+    ld a , c
+    ld (anims_actual_enemy) , a
+    ld a , b
+    ld (anims_actual_enemy + 1) , a
+    ;; abajo
+    ld bc, #anim_enemy_down
+    ld a , c
+    ld (anims_actual_enemy +2) , a
+    ld a , b
+    ld (anims_actual_enemy + 3) , a
+    ;; derecha
+    ld bc, #anim_enemy_right
+    ld a , c
+    ld (anims_actual_enemy+ 4) , a
+    ld a , b
+    ld (anims_actual_enemy + 5) , a
+    ;; izquierda
+    ld bc, #anim_enemy_left
+    ld a , c
+    ld (anims_actual_enemy + 6) , a
+    ld a , b
+    ld (anims_actual_enemy + 7) , a
+ret

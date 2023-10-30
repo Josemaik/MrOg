@@ -29,6 +29,7 @@
       .globl sys_render_draw_solid_box_player
       .globl anim_S
       .globl _spr_spritesheet_00
+      .globl anim_burro_left
 
    ;; levels
       .globl cambio_de_mapa
