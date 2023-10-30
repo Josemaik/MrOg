@@ -491,9 +491,9 @@ check_food:
     ld CMPs(iy), #E_CMP_RENDER | E_CMP_ANIMATED
 
     ;; restar uno a la comida actual
-    ld   a, (helados_actuales)
+    ld   a, (consumibles_actuales)
     dec  a
-    ld   (helados_actuales), a
+    ld   (consumibles_actuales), a
 
     ;; si helados_actuales es 0 --> cambiar de mapa
     ; jr z, cambiar_de_mapa
