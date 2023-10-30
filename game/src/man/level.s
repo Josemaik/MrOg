@@ -236,6 +236,7 @@ crear_objetos_mapa_2:
 
    ld    X(ix), #20
    ld    Y(ix), #120
+   ld    direction(ix), #DIRECT_S
    ld       hl, #puerta_horizontal_entity
    call man_game_create_template_entity
 
