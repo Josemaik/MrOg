@@ -69,13 +69,13 @@ sys_animations_update_one_entity:
     add hl, de
     ld a, (hl)
     cp #E_TYPE_ENEMY3
-    jr z, start_animating;; si es bomba, va directamente a pasar al siguiente frame
+    jr z, start_animating;; si es enemigo, va directamente a pasar al siguiente frame
 
     ld hl, #TYPE
     add hl, de
     ld a, (hl)
     cp #E_TYPE_ENEMY2
-    jr z, start_animating;; si es bomba, va directamente a pasar al siguiente frame
+    jr z, start_animating;; si es enemigo, va directamente a pasar al siguiente frame
     ;; PLAYER
     ld a , (animation_state_player)
     cp #1
