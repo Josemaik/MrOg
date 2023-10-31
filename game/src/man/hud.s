@@ -254,9 +254,10 @@ reset_hud::
     bucle_reset_end:
     ld a, #3
     ld (contador_vidas), a
-    ;; poner contador a ready
-    ld a, #0
-    ld (stop_counter) , a
+    
+    ;; poner contador score
+    ld a , #TIME_UPDATE_SCORE
+    ld (contador_score), a
     ;; poner contador a 600
     ld a, #9
     ld (id_second_digit), a

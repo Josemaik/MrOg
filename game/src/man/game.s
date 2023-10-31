@@ -5,7 +5,7 @@
 .include "entity.h.s"
 .area _DATA
 lifes_available::
-   .db 0x04 ;; 3 vidas
+   .db 0x03 ;; 3 vidas
 player_state:: ;; 0 -> vivo 1 -> muerto
    .db 0x00
 time_anim_died:: ;; tiempo animacion muerte

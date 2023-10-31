@@ -38,6 +38,8 @@ cambio_de_mapa::
     jr      z, mapa_4
     dec     a
     jr      z, mapa_5
+    dec     a
+    jr      z, gotomenu
 
     ret
 
@@ -76,6 +78,13 @@ cambio_de_mapa::
     ;; reseteamos hud
     call reset_hud
     ret
+    gotomenu:
+        Ld a, #3
+        ld (lifes_available), a
+        call reset_hud
+        ld bc, #_main
+        push bc 
+        ret
     
 ret
 
@@ -113,6 +122,10 @@ cargar_mapa_1::
     ;; Guardamos en helados_actuales los helados para recoger
     ld      a, #3
     ld      (consumibles_actuales), a
+     ld a, #3
+    ld      (lifes_available), a
+    ld a, #0
+    ld (stop_score),a
 
 ret
 cargar_mapa_2::
@@ -147,6 +160,10 @@ cargar_mapa_2::
     ;; Guardamos en helados_actuales los helados para recoger
     ld      a, #3
     ld      (consumibles_actuales), a
+     ld a, #3
+    ld      (lifes_available), a
+    ld a, #0
+    ld (stop_score),a
 
 ret
 cargar_mapa_3::
@@ -180,6 +197,10 @@ cargar_mapa_3::
     ;; Guardamos en helados_actuales los helados para recoger
     ld      a, #3
     ld      (consumibles_actuales), a
+     ld a, #3
+    ld      (lifes_available), a
+    ld a, #0
+    ld (stop_score),a
 
 ret
 cargar_mapa_4::
@@ -213,6 +234,10 @@ cargar_mapa_4::
     ;; Guardamos en helados_actuales los helados para recoger
     ld      a, #3
     ld      (consumibles_actuales), a
+    ld a, #3
+    ld      (lifes_available), a
+    ld a, #0
+    ld (stop_score),a
 
 ret
 cargar_mapa_5::
@@ -246,6 +271,10 @@ cargar_mapa_5::
     ;; Guardamos en helados_actuales los helados para recoger
     ld      a, #3
     ld      (consumibles_actuales), a
+     ld a, #3
+    ld      (lifes_available), a
+    ld a, #0
+    ld (stop_score),a 
 
 ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -485,7 +485,18 @@ _man_entity_update::
                     call cambio_de_mapa
 
     man_update_end_for:
-
+    ;; comprobar si no tengo vidas y volver a menu
+    ld a, (lifes_available)
+    cp #0
+    jr z, goto_menu
+    ret
+    goto_menu:
+        Ld a, #3
+        ld (lifes_available), a
+        call reset_hud
+        ld bc, #_main
+        push bc 
+        ret
     ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -104,4 +104,7 @@
     .globl cambio_de_mapa
     .globl set_level_screen
     .globl numeros
+    .globl _main
+    .globl lifes_available
+    .globl reset_hud
    
