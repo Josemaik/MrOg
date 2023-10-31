@@ -17,8 +17,17 @@ consumibles_actuales::
 ;; Cambio de mapa
 ;;
 cambio_de_mapa::
+    call cpct_akp_stop_asm
     ;; borramos todas las entidades
     call _man_entity_init
+
+    ;; Pantalla entre niveles
+    call    man_levelscreen_init
+    levelscreen_loop:
+    call    man_levelscreen_update
+    jr z, levelscreen_loop
+
+    call cpct_akp_musicPlay_asm
     ;; creamos jugador
     call _inicialize_templates
 

@@ -181,6 +181,19 @@ anim_llave::
     .dw _spr_llave_7
     .db #0x00
     .dw #anim_llave
+
+
+anim_helado::
+    .db #MAN_ANIM_PLAYER_ICECREAM
+    .dw _spr_helado_0
+    .db #MAN_ANIM_PLAYER_ICECREAM
+    .dw _spr_helado_1
+    .db #MAN_ANIM_PLAYER_ICECREAM
+    .dw _spr_helado_2
+    .db #MAN_ANIM_PLAYER_ICECREAM
+    .dw _spr_helado_3
+    .db #0x00
+    .dw #anim_helado
     
 
 .area _CODE
