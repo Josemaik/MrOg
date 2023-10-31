@@ -36,3 +36,4 @@
    ;; level
       .globl consumibles_actuales
       .globl cambio_de_mapa
+      .globl mapa_actual
