@@ -65,16 +65,11 @@ player_reaparition::
     ld a, #0xaa
     ld (time_anim_died), a
 ret
-
 ;;;;;;;;;;;;;;;;;;;;
 ;; INIT
 ;;
 man_game_init::
-    ;; Level Screen
-      call man_levelscreen_init
-      levelscreen_loop:
-         call man_levelscreen_update
-         jr    z, levelscreen_loop
+      call set_level_screen
     ;; configure videomode, palet y border
        call     _sys_render_init
 

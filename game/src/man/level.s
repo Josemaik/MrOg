@@ -17,19 +17,17 @@ consumibles_actuales::
 ;; Cambio de mapa
 ;;
 cambio_de_mapa::
+    ;; guardar puntuacion
+    call save_points
+    ;; stop music
     call cpct_akp_stop_asm
+
     ;; borramos todas las entidades
     call _man_entity_init
-
-    ;; Pantalla entre niveles
-    call    man_levelscreen_init
-    levelscreen_loop:
-    call    man_levelscreen_update
-    jr z, levelscreen_loop
-
-    call cpct_akp_musicPlay_asm
     ;; creamos jugador
     call _inicialize_templates
+    ;; reseteamos hud
+    call reset_hud
 
     ;; Comprobar que mapa cargamos
     ld      a, (mapa_actual)
@@ -43,17 +41,26 @@ cambio_de_mapa::
     ret
 
     mapa_2:
+    call set_level_screen
     call cargar_mapa_2
+    ;; play music
+    call cpct_akp_musicPlay_asm
     ret
 
     mapa_3:
+    call set_level_screen
     call cargar_mapa_3
+    ;; play music
+    call cpct_akp_musicPlay_asm
     ret
 
     mapa_4:
+    call set_level_screen
     call cargar_mapa_4
+    ;; play music
+    call cpct_akp_musicPlay_asm
     ret
-
+    
 ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
