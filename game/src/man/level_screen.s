@@ -7,6 +7,7 @@
 .globl cpct_setDrawCharM0_asm
 .globl cpct_drawStringM0_asm
 .globl cpct_getScreenPtr_asm
+.globl cpct_drawCharM0_asm
 .globl _sys_render_level_screen
 .globl _sys_render_level_screen
 .globl mapa_actual
@@ -50,7 +51,7 @@ set_level_screen::
          call man_levelscreen_update
          jr    z, levelscreen_loop
 ret
-set_iy:
+set_e:
    ld a , (hl)
    cp #0
    jr z, poner_iy_0
@@ -159,7 +160,7 @@ man_levelscreen_init::
 
    call cpct_getScreenPtr_asm    ;; Calculate video memory location and return it in HL
 
-    call set_iy
+    ; call set_iy
     ld iy, #string_intro
    call cpct_drawStringM0_asm  ;; Draw the string
 
@@ -174,38 +175,44 @@ man_levelscreen_init::
     ld iy, #string_puntos
    call cpct_drawStringM0_asm  ;; Draw the string
 
-;    ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
-;    ld    b, #85                  ;; B = y coordinate (24 = 0x18)
-;    ld    c, #16                ;; C = x coordinate (16 = 0x10)
+   ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
+   ld    b, #85                  ;; B = y coordinate (24 = 0x18)
+   ld    c, #16                ;; C = x coordinate (16 = 0x10)
 
-;    call cpct_getScreenPtr_asm    ;; Calculate video memory location and return it in HL
+   call cpct_getScreenPtr_asm    ;; Calculate video memory location and return it in HL
+    push hl
+    ld hl , #puntos_conseguidos
+    ld e, (hl)
+    pop hl
+    ; call set_e
+    ; ld iy, #puntos_conseguidos
+   call cpct_drawCharM0_asm  ;; Draw the string
 
-;     ld hl , #puntos_conseguidos
-;     ; call set_iy
-;     ld iy, #puntos_conseguidos
-;    call cpct_drawStringM0_asm  ;; Draw the string
+     ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
+   ld    b, #85                  ;; B = y coordinate (24 = 0x18)
+   ld    c, #22               ;; C = x coordinate (16 = 0x10)
 
-;      ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
-;    ld    b, #85                  ;; B = y coordinate (24 = 0x18)
-;    ld    c, #23               ;; C = x coordinate (16 = 0x10)
+   call cpct_getScreenPtr_asm    ;; Calculate video memory location and return it in HL
+    push hl
+     ld hl , #puntos_conseguidos+1
+     ld e, (hl)
+     pop hl
+    ; call set_e
+    ;;ld iy, #puntos_conseguidos+1
+   call cpct_drawCharM0_asm  ;; Draw the string
 
-;    call cpct_getScreenPtr_asm    ;; Calculate video memory location and return it in HL
+    ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
+   ld    b, #85                 ;; B = y coordinate (24 = 0x18)
+   ld    c, #28            ;; C = x coordinate (16 = 0x10)
 
-;      ld hl , #puntos_conseguidos+1
-;     ; call set_iy
-;     ld iy, #puntos_conseguidos+1
-;    call cpct_drawStringM0_asm  ;; Draw the string
-
-;     ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
-;    ld    b, #85                 ;; B = y coordinate (24 = 0x18)
-;    ld    c, #28            ;; C = x coordinate (16 = 0x10)
-
-;    call cpct_getScreenPtr_asm    ;; Calculate video memory location and return it in HL
-
-;     ld hl , #puntos_conseguidos+2
-;     ; call set_iy
-;     ld iy, #puntos_conseguidos + 2
-;    call cpct_drawStringM0_asm  ;; Draw the string
+   call cpct_getScreenPtr_asm    ;; Calculate video memory location and return it in HL
+    push hl
+    ld hl , #puntos_conseguidos+2
+    ld e, (hl)
+    pop hl
+    ; call set_e
+    ;;ld iy, #puntos_conseguidos + 2
+   call cpct_drawCharM0_asm  ;; Draw the string
 
 ret
 

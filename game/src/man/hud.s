@@ -43,9 +43,9 @@ dec_to_acii_first_digit::
 id_first_digit::
     .db 0x00
 puntos_conseguidos::
-    .db 0x00 ;; dig1
-    .db 0x00 ;; dig2
-    .db 0x00 ;; dig3
+    .db '0' ;; dig1
+    .db '0' ;; dig2
+    .db '0' ;; dig3
 .area _CODE
 
 renderizar_life:
