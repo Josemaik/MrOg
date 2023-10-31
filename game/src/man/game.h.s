@@ -30,6 +30,8 @@
       .globl anim_S
       .globl _spr_spritesheet_00
       .globl anim_burro_left
+      .globl anim_burro_up
+      .globl anim_burro_right
 
    ;; levels
       .globl cambio_de_mapa
@@ -45,9 +47,5 @@
    .globl _song_prueba
    ;; ia
    .globl sys_ai_vertical_enemie
-   ; .globl sys_ai_vertical_enemie_mapa_prueba
-   .globl sys_ai_horizontal_enemie_mapa_prueba
-   .globl sys_ai_patron_enemie_mapa_prueba
-   ; .globl sys_ai_patron_enemie_mapa_prueba
-   ; .globl sys_ai_vertical_enemie_mapa1
-   ; .globl sys_ai_vertical_enemie_mapa2
+   .globl sys_ai_horizontal_enemie
+   .globl sys_ai_patron_enemie

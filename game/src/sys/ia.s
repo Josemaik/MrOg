@@ -7,10 +7,21 @@ indice::
     .db 0x01
 indicador_patron:: ;; 0 -> viene de izq // 1 -> viene de abajo
     .db 0x00
+indicador_patron2:: ;; 0 -> viene de izq // 1 -> viene de arriba
+    .db 0x00
 array_coordinates_vertical::
    .db 0x00 ;; X
    .db 0x00 ;; Y
    .db 0x00 ;; X2
+array_coordinates_horizontal::
+   .db 0x00 ;; X
+   .db 0x00 ;; Y
+   .db 0x00 ;; Y2
+array_coordinates_patron::
+   .db 0x00 ;; X
+   .db 0x00 ;; X1
+   .db 0x00 ;; Y
+   .db 0x00 ;; Y1
 .area _CODE
 .include "man/entity.h.s"
 .include "ia.h.s"
@@ -19,24 +30,39 @@ array_coordinates_vertical::
 ;;;;;;;;;;;;;;;
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
-sys_ai_horizontal_enemie_mapa_prueba::
+sys_ai_horizontal_enemie::
+    ld a, (mapa_actual)
+    cp #3
+    jr z, load_XY_mapa_3
+    load_XY_mapa_3:
+        ld a, #56
+        ld (array_coordinates_horizontal), a
+        ld a, #56
+        ld (array_coordinates_horizontal + 1), a
+        ld a, #129
+        ld (array_coordinates_horizontal + 2), a
+        jr lets_check_hor
+    lets_check_hor:
      ld hl, #X
      add hl, de
      ld a, (hl)
-     cp #32
+     ld hl, #array_coordinates_horizontal
+     cp (hl)
      jr z, check_axis_y
         jr sys_ai_horizontal_enemie_end
     check_axis_y:
         ld hl, #Y
         add hl, de
         ld a, (hl)
-        cp #167
+        ld hl, #array_coordinates_horizontal+2
+        cp (hl)
         jr z, mover_arriba2
         ;;mover abajo
         ld hl, #Y
         add hl, de
         ld a, (hl)
-        cp #57
+        ld hl, #array_coordinates_horizontal+1
+        cp (hl)
         jr z, mover_abajo2
         jr sys_ai_horizontal_enemie_end
         mover_abajo2:
@@ -147,40 +173,67 @@ sys_ai_vertical_enemie::
             call move_right_e
         sys_ai_vertical_enemie_end:
 ret
-sys_ai_patron_enemie_mapa_prueba::
+sys_ai_patron_enemie::
+    ld a, (mapa_actual)
+    cp #4
+    jr z, load_XY_mapa_4
+    load_XY_mapa_4:
+        ld a, #41
+        ld (array_coordinates_patron), a
+        ld a, #68
+        ld (array_coordinates_patron + 1), a
+        ld a, #56
+        ld (array_coordinates_patron + 2), a
+        ld a, #176
+        ld (array_coordinates_patron + 3), a
+        jr lets_check_patron
+    lets_check_patron:
      ld hl, #X
     add hl, de
     ld a, (hl)
-    cp #56
-    jr z, checky4
-        jr check_above_next_corner1
-    checky4:
-        ld hl, #Y
-        add hl, de
-        ld a, (hl)
-        cp #72
-        jr z, mover_derecha1
-            jr check_above_next_corner1
+    ld hl, #array_coordinates_patron
+    cp (hl)
+    jr z, mover_derecha1
+       jr check_above_next_corner2
+    ; checky4:
+    ;     ld hl, #Y
+    ;     add hl, de
+    ;     ld a, (hl)
+    ;     ld hl, #array_coordinates_patron + 2
+    ;     cp (hl)
+    ;     jr z, mover_derecha1
+    ;         jr check_above_next_corner1
         mover_derecha1:
-        ld a, #0
+         ld a, #0
          ld (indicador_patron) , a
+         ld a, #0
+         ld (indicador_patron2) , a
         ld hl, #choose_axis_enemy_patron_mapa1
         call move_right_e
         jp sys_ai_patron_enemie_mapa1_end
-    check_above_next_corner1:
+    ; check_above_next_corner1:
+    ;     ld hl, #Y
+    ;     add hl, de
+    ;     ld a, (hl)
+    ;     ld hl, #array_coordinates_patron + 3
+    ;     cp (hl)
+    ;     jr z, mover_derecha1
+    check_above_next_corner2:
       ld hl, #X
     add hl, de
     ld a, (hl)
-    cp #64
+    ld hl, #array_coordinates_patron + 1
+    cp (hl)
     jr z, checky5
-        jr check_above_next_corner2
+        jr check_above_next_corner3
     checky5:
         ld hl, #Y
         add hl, de
         ld a, (hl)
-        cp #72
+        ld hl, #array_coordinates_patron + 2
+        cp (hl)
         jr z, check_when
-            jr check_above_next_corner2
+            jr check_above_next_corner3
         check_when:
             ld a, (indicador_patron)
             cp #1
@@ -191,31 +244,38 @@ sys_ai_patron_enemie_mapa_prueba::
         call move_left_e
         jp sys_ai_patron_enemie_mapa1_end
         mover_abajo1:
+        ld a, #1
+         ld (indicador_patron2) , a
         ld hl, #choose_axis_enemy_patron_mapa1
         call move_down_e
         jp sys_ai_patron_enemie_mapa1_end
-    check_above_next_corner2:
+    check_above_next_corner3:
       ld hl, #X
     add hl, de
     ld a, (hl)
-    cp #64
+    ld hl, #array_coordinates_patron + 1
+    cp (hl)
     jr z, checky6
         jr sys_ai_patron_enemie_mapa1_end
     checky6:
         ld hl, #Y
         add hl, de
         ld a, (hl)
-        cp #115
-        jr z, mover_arriba1
+        ld hl, #array_coordinates_patron + 3
+        cp (hl)
+        jr z, check_when2
+            jr sys_ai_patron_enemie_mapa1_end
+        check_when2:
+            ld a, (indicador_patron2)
+            cp #1
+            jr z, mover_izquierda1
+                jr mover_arriba1
             jr sys_ai_patron_enemie_mapa1_end
         mover_arriba1:
         ld a, #1
-         ld (indicador_patron) , a
+        ld (indicador_patron) , a
         ld hl, #choose_axis_enemy_patron_mapa1
         call move_above_e
-;; 56 72
-;; 64 72
-;; 64 101
 sys_ai_patron_enemie_mapa1_end:
 ret
 

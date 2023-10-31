@@ -62,17 +62,17 @@ flobier_entity2::
 		.db     #0x00                 ;; vx = -1
 		.db     #-1               ;; vy = 0
 		.dw     #_spr_enemigo_flobier_0  ;; sprite (2b)
-      .dw     #sys_ai_horizontal_enemie_mapa_prueba ;; behaviour
+      .dw     #sys_ai_horizontal_enemie ;; behaviour
 	  .db 	#0x0c					;; ai_counter
-      .dw     #anim_enemy_down ;; anim
+      .dw     #anim_burro_up ;; anim
       .db     #MAN_ANIM_PLAYER_ENEMY            ;;animcounter c = 0
 	  .db 	#E_TYPE_PLAYER				;;collides_against
 	  .dw   #0x0000				;; last draw
 	;   .dw   #0x00C4				;; last draw2
 	  .db   #DIRECT_S			;; direction
-flobier_entity_patron_mapa1:: 
+flobier_entity_patron:: 
 		.db 	#E_TYPE_ENEMY4			;; entity type
-      .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_IA ;;| #E_CMP_COLLIDER;; | #E_CMP_ANIMATED |#E_CMP_COLLIDER ;; cmps
+      .db     #E_CMP_RENDER | #E_CMP_MOVABLE | #E_CMP_COLLIDER | #E_CMP_ANIMATED | #E_CMP_IA;;|#E_CMP_COLLIDER ;; cmps
 		.db     #56               ;; x = 38
 		.db     #72              ;; y = 180
 		.db     #SPR_ENEMIE_FLOBIER_W   ;; width 
@@ -80,11 +80,11 @@ flobier_entity_patron_mapa1::
 		.db     #1                ;; vx = -1
 		.db     #0x00               ;; vy = 0
 		.dw     #_spr_enemigo_flobier_0  ;; sprite (2b)
-      .dw     #sys_ai_patron_enemie_mapa_prueba ;; behaviour
+      .dw     #sys_ai_patron_enemie ;; behaviour
 	  .db 	#0x00					;; ai_counter
-      .dw     #0x0000 ;; anim
+      .dw     #anim_burro_right ;; anim
       .db     #MAN_ANIM_PLAYER_ENEMY            ;;animcounter c = 0
-	  .db 	#0x00				;;collides_against
+	  .db 	#E_TYPE_PLAYER				;;collides_against
 	  .dw   #0x0000				;; last draw
 	;   .dw   #0x00C4				;; last draw2
 	  .db   #DIRECT_S			;; direction

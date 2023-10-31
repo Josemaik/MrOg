@@ -223,11 +223,19 @@ crear_enemigos_mapa_2:
 ret
 
 crear_enemigos_mapa_3:
-
+    ld ix, #flobier_entity2
+    ld    X(ix), #56
+    ld    Y(ix), #129
+    ld       hl, #flobier_entity2
+    call man_game_create_template_entity
 ret
 
 crear_enemigos_mapa_4:
-
+    ld ix, #flobier_entity_patron
+    ld    X(ix), #41
+    ld    Y(ix), #56
+    ld       hl, #flobier_entity_patron
+    call man_game_create_template_entity
 ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

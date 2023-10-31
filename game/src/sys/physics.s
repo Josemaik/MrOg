@@ -202,6 +202,10 @@ sys_physics_update_for_one:
         ld a, (hl)
         cp #E_TYPE_ENEMY3
         jr z, call_check_enemie3
+        ;; enemy patron
+        ld a, (hl)
+        cp #E_TYPE_ENEMY4
+        jr z, call_check_enemie4
         ;;enemygo patron mapa 1
         ld hl, #choose_axis_enemy_patron_mapa1
          call check_enemy
@@ -214,6 +218,10 @@ sys_physics_update_for_one:
             jr end_physics
         call_check_enemie3:
             ld hl, #choose_axis_enemy_hunter2
+            call check_enemy
+            jr end_physics
+        call_check_enemie4:
+            ld hl, #choose_axis_enemy_patron_mapa1
             call check_enemy
             jr end_physics
     end_physics:
