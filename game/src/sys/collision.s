@@ -524,10 +524,12 @@ check_food:
     ;; restar uno a la comida actual
     ld   a, (consumibles_actuales)
     dec  a
+
     ;; si helados_actuales es 0 --> cambiar de mapa
     ; jr z, cambiar_de_mapa
     ld   (consumibles_actuales), a
 
+    call object_sound
     ret
 
     ; cambiar_de_mapa:
@@ -558,6 +560,7 @@ check_enemy:
     jr z, goto_dead_player
     ret
     goto_dead_player:
+    
     ;; play anim
     ld AnimCounter(ix), #MAN_ANIM_PLAYER_HIT_ENEMY
     ld bc, #anim_player_died
@@ -576,6 +579,7 @@ check_enemy:
         no_decrease:
     pop de
 
+    call death_sound
 
     ret
 
@@ -700,7 +704,8 @@ check_door:
     ; call borrar_llave
     ; pop de
     ld  TYPE(iy), #E_TYPE_DEAD
-
+    call object_sound
+    
     final_check_door:
 
     ret
@@ -723,6 +728,8 @@ check_key:
 
     ld TYPE(iy), #E_TYPE_DEAD
 
+    call object_sound
+
     ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -736,3 +743,37 @@ _sys_collision_update::
     call _man_entity_for_all_matching
 
     ret
+
+;; play object sound on getting objects or openning doors
+object_sound:
+    push hl
+    push de
+    push bc
+    ld l, #2
+    ld h, #15
+    ld e, #60
+    ld d, #0
+    ld bc, #0
+    ld a, #2
+    call cpct_akp_SFXPlay_asm
+    pop bc
+    pop de
+    pop hl
+ret
+
+death_sound:
+;; play death sound on getting hit
+    push hl
+    push de
+    push bc
+    ld l, #1
+    ld h, #15
+    ld e, #30
+    ld d, #2
+    ld bc, #0
+    ld a, #2
+    call cpct_akp_SFXPlay_asm
+    pop bc
+    pop de
+    pop hl
+ret

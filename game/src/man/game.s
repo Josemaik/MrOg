@@ -84,6 +84,9 @@ man_game_init::
     ;;music init
        ld de, #_song_prueba
        call cpct_akp_musicInit_asm
+
+       ld de, #_sfx
+       call cpct_akp_SFXInit_asm
    ;; crear hud
       ; call create_HUD
     ;; cargar mapa
