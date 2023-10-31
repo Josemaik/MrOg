@@ -6,7 +6,9 @@
       .globl cpct_waitHalts_asm
       .globl cpct_memcpy_asm 
       .globl cpct_akp_musicInit_asm          
-      .globl cpct_akp_musicPlay_asm     
+      .globl cpct_akp_musicPlay_asm  
+      .globl cpct_akp_SFXInit_asm
+      .globl cpct_akp_SFXPlay_asm
 
    ;; managers                            
       .globl _man_entity_init             
@@ -44,6 +46,7 @@
 
    ;;music
    .globl _song_prueba
+   .globl _sfx
    ;; ia
    .globl sys_ai_vertical_enemie
    ; .globl sys_ai_vertical_enemie_mapa_prueba

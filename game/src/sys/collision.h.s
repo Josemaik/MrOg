@@ -5,6 +5,7 @@
    ;; cpctelera
       .globl cpct_getScreenPtr_asm
       .globl cpct_drawSolidBox_asm
+      .globl cpct_akp_SFXPlay_asm
                               
    ;; managers                            
       .globl _man_entity_for_all_matching 
