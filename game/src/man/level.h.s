@@ -19,8 +19,14 @@
    .globl borrar_entidades
    .globl _man_entity_init
    .globl _inicialize_templates
+
    .globl reset_hud
    .globl save_points
+   .globl man_levelscreen_update
+   .globl man_levelscreen_init
+   .globl cpct_akp_stop_asm
+   .globl cpct_akp_musicPlay_asm
+
    ;; Render
    .globl sys_render_tilemap
 

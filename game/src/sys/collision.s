@@ -18,7 +18,7 @@ tengo_llave::
     .db 0x00
 
 tilemap_position::
-    .db 0x00
+    .dw 0x0000
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Inicializar is_colliding_player
@@ -66,7 +66,29 @@ comprobar_colision:
     srl    a ;; |
 
     add_hl_a  ;; HL = ty * tw + tx
+
+    ;;;;;; Si es mapa 1 o 2
+    ld     a, (mapa_actual)
+    dec    a
+    jr     z, sumar_1_2
+    dec    a
+    jr     z, sumar_1_2
+    ;;;;;; Si es mapa 3 o 4
+    dec    a
+    jr     z, sumar_3_4
+    dec    a
+    jr     z, sumar_3_4
+
+    sumar_1_2:
     ld     de, #_tilemap_01
+    jr continuar_sumando
+    
+    sumar_3_4:
+    ld     de, #_tilemap_01 + 1200
+    jr continuar_sumando
+
+    ;ld      de, #_tilemap_01 + 1200
+    continuar_sumando:
     ld      a, (tilemap_position)
     add_de_a
     add    hl, de
