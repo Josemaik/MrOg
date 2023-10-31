@@ -17,6 +17,8 @@ time_anim_eat:: ;; tiempo animacion comer
 position_initial_player::
     .db 0x00
     .db 0x00
+variable_musica:
+   .db #1
 
 .area _CODE
 
@@ -97,7 +99,11 @@ man_game_play::
    ;; infinite loop
    loop:
       ;; call music player
-         call     cpct_akp_musicPlay_asm
+         ld a, (variable_musica)
+         xor #1
+         ld (variable_musica), a
+         call     z, cpct_akp_musicPlay_asm
+         
       ;; call input
          call     _sys_input_update
       ;; call collisions
@@ -112,7 +118,7 @@ man_game_play::
          call     _sys_render_update
 
          ;; crear hud
-      call create_HUD
+         call     create_HUD
       ;; update manager
          call     _man_entity_update
 
