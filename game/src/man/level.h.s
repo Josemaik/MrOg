@@ -20,6 +20,7 @@
    .globl _man_entity_init
    .globl _inicialize_templates
    .globl reset_hud
+   .globl save_points
    ;; Render
    .globl sys_render_tilemap
 

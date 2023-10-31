@@ -17,6 +17,8 @@ consumibles_actuales::
 ;; Cambio de mapa
 ;;
 cambio_de_mapa::
+    ;; guardar puntuacion
+    call save_points
     ;; borramos todas las entidades
     call _man_entity_init
     ;; creamos jugador

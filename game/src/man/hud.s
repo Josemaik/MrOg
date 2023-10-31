@@ -42,6 +42,10 @@ dec_to_acii_first_digit::
     .db '6', '5', '4', '3', '2', '1', '0'
 id_first_digit::
     .db 0x00
+puntos_conseguidos::
+    .db 0x00 ;; dig1
+    .db 0x00 ;; dig2
+    .db 0x00 ;; dig3
 .area _CODE
 
 renderizar_life:
@@ -69,6 +73,24 @@ renderizar_life:
     bucle_vidas_end:
     ld a,#3
     ld (hl), a
+ret
+save_points::
+    push de
+    ld de, #dec_to_acii_first_digit
+    ld hl, (id_first_digit)
+    ld h, #0x00
+    add hl , de
+    ld a, (hl)
+    ld hl, #puntos_conseguidos
+    ld (hl), a
+    ld de, #dec_to_acii_second_digit
+    ld hl, (id_second_digit)
+    ld h, #0x00
+    add hl, de
+    ld a, (hl)
+    ld hl, #puntos_conseguidos+1
+    ld (hl), a
+    pop de
 ret
 render_first_digit:
 ;; renderizar firs digit
