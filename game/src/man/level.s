@@ -39,6 +39,8 @@ cambio_de_mapa::
     dec     a
     jr      z, mapa_5
     dec     a
+    jr      z, mapa_bonus
+    dec     a
     jr      z, gotomenu
 
     ret
@@ -78,6 +80,7 @@ cambio_de_mapa::
     ;; reseteamos hud
     call reset_hud
     ret
+
     gotomenu:
         Ld a, #3
         ld (lifes_available), a
@@ -85,6 +88,14 @@ cambio_de_mapa::
         ld bc, #_main
         push bc 
         ret
+
+    mapa_bonus:
+    call set_level_screen
+    call cargar_mapa_bonus
+    ;; play music
+    call cpct_akp_musicPlay_asm
+    ret
+
     
 ret
 
@@ -277,6 +288,40 @@ cargar_mapa_5::
     ld (stop_score),a 
 
 ret
+
+cargar_mapa_bonus::
+
+    ;; Guardamos en mapa_actual el mapa en el que estamos
+    ld      a, #6
+    ld      (mapa_actual), a
+
+    ;; Borrar entidades (menos el player, en el caso de borrarlo crearlo de nuevo, el primero)
+
+    ;; Dibujar el tilemap
+    ld    hl, #20
+    ld    (tilemap_position), hl
+    ld   de, #_tilemap_01 + 2420
+    ;add_de_hl
+    call sys_render_tilemap
+
+    ;; Reposicionar el player
+    ld     ix, #m_entities
+    ld  X(ix), #44
+    ld  Y(ix), #40
+    ;; Guardar la posicion inicial del jugador
+    ld     ix, #position_initial_player
+    ld  0(ix), #44
+    ld  1(ix), #40
+
+    ;; Crear enemigos y objetos
+    call crear_enemigos_mapa_bonus
+    call crear_objetos_mapa_bonus
+    call set_burro_animations
+    ;; Guardamos en helados_actuales los helados para recoger
+    ld      a, #1
+    ld      (consumibles_actuales), a
+
+ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Creacion de los enemigos
 ;; 
@@ -315,6 +360,10 @@ crear_enemigos_mapa_5:
     ld    Y(ix), #72
     ld       hl, #flobier_entity
     call man_game_create_template_entity
+ret
+
+crear_enemigos_mapa_bonus:
+
 ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Creacion de los objetos
@@ -627,5 +676,58 @@ crear_objetos_mapa_5:
    ld    direction(ix), #DIRECT_D
    ld       hl, #puerta_vertical_entity
    call man_game_create_template_entity
+
+ret
+
+crear_objetos_mapa_bonus:
+
+    ;;;;;;;;;;;;;
+    ;; AMSTRAD ;;
+    ;;;;;;;;;;;;;
+
+
+
+    ;;;;;;;;;;;;
+    ;; Llaves ;;
+    ;;;;;;;;;;;;
+
+    ld       ix, #llave_entity
+
+    ld    X(ix), #4
+    ld    Y(ix), #32
+    ld       hl, #llave_entity
+    call man_game_create_template_entity
+
+    ld    Y(ix), #56
+    ld       hl, #llave_entity
+    call man_game_create_template_entity
+
+    ld    X(ix), #48
+    ld    Y(ix), #168
+    ld       hl, #llave_entity
+    call man_game_create_template_entity
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Puertas Verticales ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;
+
+    ld       ix, #puerta_vertical_entity
+
+    ld    X(ix), #32
+    ld    Y(ix), #104
+    ld    direction(ix), #DIRECT_A
+    ld       hl, #puerta_vertical_entity
+    call man_game_create_template_entity
+
+    ld    X(ix), #36
+    ld    direction(ix), #DIRECT_A
+    ld       hl, #puerta_vertical_entity
+    call man_game_create_template_entity
+
+    ld    X(ix), #40
+    ld    direction(ix), #DIRECT_A
+    ld       hl, #puerta_vertical_entity
+    call man_game_create_template_entity
+
 
 ret
