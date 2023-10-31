@@ -37,6 +37,8 @@ cambio_de_mapa::
     jr      z, mapa_3
     dec     a
     jr      z, mapa_4
+    dec     a
+    jr      z, mapa_5
 
     ret
 
@@ -57,6 +59,13 @@ cambio_de_mapa::
     mapa_4:
     call set_level_screen
     call cargar_mapa_4
+    ;; play music
+    call cpct_akp_musicPlay_asm
+    ret
+
+    mapa_5:
+    call set_level_screen
+    call cargar_mapa_5
     ;; play music
     call cpct_akp_musicPlay_asm
     ret
@@ -99,7 +108,6 @@ cargar_mapa_1::
     ld      (consumibles_actuales), a
 
 ret
-
 cargar_mapa_2::
 
     ;; Guardamos en mapa_actual el mapa en el que estamos
@@ -134,7 +142,6 @@ cargar_mapa_2::
     ld      (consumibles_actuales), a
 
 ret
-
 cargar_mapa_3::
 
     ;; Guardamos en mapa_actual el mapa en el que estamos
@@ -168,7 +175,6 @@ cargar_mapa_3::
     ld      (consumibles_actuales), a
 
 ret
-
 cargar_mapa_4::
 
     ;; Guardamos en mapa_actual el mapa en el que estamos
@@ -190,8 +196,8 @@ cargar_mapa_4::
     ld  Y(ix), #32
     ;; Guardar la posicion inicial del jugador
     ld     ix, #position_initial_player
-    ld  0(ix), #8
-    ld  1(ix), #40
+    ld  0(ix), #40
+    ld  1(ix), #32
 
     ;; Crear enemigos y objetos
     call crear_enemigos_mapa_4
@@ -202,7 +208,39 @@ cargar_mapa_4::
     ld      (consumibles_actuales), a
 
 ret
+cargar_mapa_5::
 
+    ;; Guardamos en mapa_actual el mapa en el que estamos
+    ld      a, #5
+    ld      (mapa_actual), a
+
+    ;; Borrar entidades (menos el player, en el caso de borrarlo crearlo de nuevo, el primero)
+
+    ;; Dibujar el tilemap
+    ld    hl, #0
+    ld    (tilemap_position), hl
+    ld   de, #_tilemap_01 + 2400
+    ;add_de_hl
+    call sys_render_tilemap
+
+    ;; Reposicionar el player
+    ld     ix, #m_entities
+    ld  X(ix), #36
+    ld  Y(ix), #104
+    ;; Guardar la posicion inicial del jugador
+    ld     ix, #position_initial_player
+    ld  0(ix), #36
+    ld  1(ix), #104
+
+    ;; Crear enemigos y objetos
+    call crear_enemigos_mapa_5
+    call crear_objetos_mapa_5
+    call set_burro_animations
+    ;; Guardamos en helados_actuales los helados para recoger
+    ld      a, #3
+    ld      (consumibles_actuales), a
+
+ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Creacion de los enemigos
 ;; 
@@ -221,15 +259,15 @@ crear_enemigos_mapa_2:
     ld       hl, #flobier_entity
     call man_game_create_template_entity
 ret
-
 crear_enemigos_mapa_3:
 
 ret
-
 crear_enemigos_mapa_4:
 
 ret
+crear_enemigos_mapa_5:
 
+ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Creacion de los objetos
 ;;
@@ -474,6 +512,71 @@ crear_objetos_mapa_4:
    ld    X(ix), #36
    ld    Y(ix), #152
    ld    direction(ix), #DIRECT_A
+   ld       hl, #puerta_vertical_entity
+   call man_game_create_template_entity
+
+ret
+
+crear_objetos_mapa_5:
+
+   ;;;;;;;;;;;;;
+   ;; Helados ;;
+   ;;;;;;;;;;;;;
+
+   ld       ix, #helado_entity
+
+   ld    X(ix), #68
+   ld    Y(ix), #176
+   ld       hl, #helado_entity
+   call man_game_create_template_entity
+   
+   ld       ix, #helado_entity
+   ld    X(ix), #28
+   ld    Y(ix), #160
+   ld       hl, #helado_entity
+   call man_game_create_template_entity
+
+   ld    X(ix), #52
+   ld    Y(ix), #128
+   ld       hl, #helado_entity
+   call man_game_create_template_entity
+
+   ;;;;;;;;;;;;
+   ;; Llaves ;;
+   ;;;;;;;;;;;;
+
+   ld       ix, #llave_entity
+
+   ld    X(ix), #4
+   ld    Y(ix), #32
+   ld       hl, #llave_entity
+   call man_game_create_template_entity
+
+   ld    X(ix), #68
+   ld       hl, #llave_entity
+   call man_game_create_template_entity
+
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;
+   ;; Puertas Horizontales ;;
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+   ld       ix, #puerta_horizontal_entity
+
+   ld    X(ix), #68
+   ld    Y(ix), #168
+   ld    direction(ix), #DIRECT_W
+   ld       hl, #puerta_horizontal_entity
+   call man_game_create_template_entity
+
+   ;;;;;;;;;;;;;;;;;;;;;;;;
+   ;; Puertas Verticales ;;
+   ;;;;;;;;;;;;;;;;;;;;;;;;
+
+   ld       ix, #puerta_vertical_entity
+
+   ld    X(ix), #60
+   ld    Y(ix), #128
+   ld    direction(ix), #DIRECT_D
    ld       hl, #puerta_vertical_entity
    call man_game_create_template_entity
 

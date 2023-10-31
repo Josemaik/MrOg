@@ -37,6 +37,7 @@
       .globl cargar_mapa_2
       .globl cargar_mapa_3
       .globl cargar_mapa_4
+      .globl cargar_mapa_5
 
    ;; templates
    .globl player_entity

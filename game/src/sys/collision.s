@@ -78,6 +78,11 @@ comprobar_colision:
     jr     z, sumar_3_4
     dec    a
     jr     z, sumar_3_4
+    ;;;;;; Si es mapa 5 o 6
+    dec    a
+    jr     z, sumar_5_6
+    dec    a
+    jr     z, sumar_5_6
 
     sumar_1_2:
     ld     de, #_tilemap_01
@@ -85,6 +90,10 @@ comprobar_colision:
     
     sumar_3_4:
     ld     de, #_tilemap_01 + 1200
+    jr continuar_sumando
+
+    sumar_5_6:
+    ld     de, #_tilemap_01 + 2400
     jr continuar_sumando
 
     ;ld      de, #_tilemap_01 + 1200
@@ -657,9 +666,9 @@ check_door:
     cp  #1
     jr  z, abrir_puerta
 
-    ld   hl, #is_colliding_player + 2
+    ld   hl, #is_colliding_player + 3
     ld (hl),  #1
-    ld VY(ix), #0
+    ld VX(ix), #0
     jr final_check_door
 
     ;; COLISION DERECHA
@@ -678,9 +687,9 @@ check_door:
     cp  #1
     jr  z, abrir_puerta
 
-    ld   hl, #is_colliding_player + 3
+    ld   hl, #is_colliding_player + 2
     ld (hl),  #1
-    ld VY(ix), #0
+    ld VX(ix), #0
     jr final_check_door
 
     abrir_puerta:
