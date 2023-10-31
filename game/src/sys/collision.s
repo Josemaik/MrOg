@@ -525,11 +525,11 @@ check_food:
     ld   a, (consumibles_actuales)
     dec  a
 
-    call object_sound
     ;; si helados_actuales es 0 --> cambiar de mapa
     ; jr z, cambiar_de_mapa
     ld   (consumibles_actuales), a
 
+    call object_sound
     ret
 
     ; cambiar_de_mapa:
@@ -579,20 +579,7 @@ check_enemy:
         no_decrease:
     pop de
 
-    ;; play death sound
-    push hl
-    push de
-    push bc
-    ld l, #1
-    ld h, #15
-    ld e, #30
-    ld d, #3
-    ld bc, #0
-    ld a, #2
-    call cpct_akp_SFXPlay_asm
-    pop bc
-    pop de
-    pop hl
+    call death_sound
 
     ret
 
@@ -757,7 +744,7 @@ _sys_collision_update::
 
     ret
 
-;; play object sound
+;; play object sound on getting objects or openning doors
 object_sound:
     push hl
     push de
@@ -772,4 +759,21 @@ object_sound:
     pop bc
     pop de
     pop hl
-    ret
+ret
+
+death_sound:
+;; play death sound on getting hit
+    push hl
+    push de
+    push bc
+    ld l, #1
+    ld h, #15
+    ld e, #30
+    ld d, #2
+    ld bc, #0
+    ld a, #2
+    call cpct_akp_SFXPlay_asm
+    pop bc
+    pop de
+    pop hl
+ret
