@@ -639,4 +639,53 @@ ret
 
 crear_objetos_mapa_bonus:
 
+    ;;;;;;;;;;;;;
+    ;; AMSTRAD ;;
+    ;;;;;;;;;;;;;
+
+
+
+    ;;;;;;;;;;;;
+    ;; Llaves ;;
+    ;;;;;;;;;;;;
+
+    ld       ix, #llave_entity
+
+    ld    X(ix), #4
+    ld    Y(ix), #32
+    ld       hl, #llave_entity
+    call man_game_create_template_entity
+
+    ld    Y(ix), #56
+    ld       hl, #llave_entity
+    call man_game_create_template_entity
+
+    ld    X(ix), #48
+    ld    Y(ix), #168
+    ld       hl, #llave_entity
+    call man_game_create_template_entity
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Puertas Verticales ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;
+
+    ld       ix, #puerta_vertical_entity
+
+    ld    X(ix), #32
+    ld    Y(ix), #104
+    ld    direction(ix), #DIRECT_A
+    ld       hl, #puerta_vertical_entity
+    call man_game_create_template_entity
+
+    ld    X(ix), #36
+    ld    direction(ix), #DIRECT_A
+    ld       hl, #puerta_vertical_entity
+    call man_game_create_template_entity
+
+    ld    X(ix), #40
+    ld    direction(ix), #DIRECT_A
+    ld       hl, #puerta_vertical_entity
+    call man_game_create_template_entity
+
+
 ret
