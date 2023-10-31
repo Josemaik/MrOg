@@ -90,7 +90,7 @@ man_game_init::
    ;; crear hud
       ; call create_HUD
     ;; cargar mapa
-       call cargar_mapa_bonus
+       call cargar_mapa_1
 
    ret
 ;;;;;;;;;;;;;;;;;;;;;;

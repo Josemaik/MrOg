@@ -221,7 +221,7 @@ set_llave::
     ld (hl), b
     call render_key
 ret
-reset_hud::
+reset_vidas_hud::
     ld de, #array_vidas
     ld bc, #_spr_vidas
     ld a, #3
@@ -252,6 +252,38 @@ reset_hud::
         ;; iterar
         jr bucle_reset
     bucle_reset_end:
+ret
+reset_hud::
+    ; ld de, #array_vidas
+    ; ld bc, #_spr_vidas
+    ; ld a, #3
+    ; ld (contador_vidas), a
+    ; bucle_reset:
+    ;     ld a, (contador_vidas)
+    ;     cp #0
+    ;     jr z, bucle_reset_end
+    ;     ;; poner a vivo
+    ;     ld hl, #DIE_OR_ALIVE
+    ;     add hl, de
+    ;     ld a, #0
+    ;     ld (hl), a
+    ;     ;; poner sprite vida
+    ;     ld hl, #sprite
+    ;     add hl, de
+    ;     ld (hl), c
+    ;     inc hl
+    ;     ld (hl), b
+    ;     ;; decreentamos contador
+    ;     ld a, (contador_vidas)
+    ;     dec a
+    ;     ld (contador_vidas), a
+    ;     ;; pasamos a siguiente vida
+    ;     ld hl, #DISTANCE_BETWEEN_VIDAS
+    ;     add hl, de
+    ;     ex de, hl
+    ;     ;; iterar
+    ;     jr bucle_reset
+    ; bucle_reset_end:
     ld a, #3
     ld (contador_vidas), a
     

@@ -107,4 +107,5 @@
     .globl _main
     .globl lifes_available
     .globl reset_hud
+    .globl reset_vidas_hud
    

@@ -133,8 +133,8 @@ cargar_mapa_1::
     ;; Guardamos en helados_actuales los helados para recoger
     ld      a, #3
     ld      (consumibles_actuales), a
-     ld a, #3
-    ld      (lifes_available), a
+    ;  ld a, #3
+    ; ld      (lifes_available), a
     ld a, #0
     ld (stop_score),a
 
@@ -171,8 +171,8 @@ cargar_mapa_2::
     ;; Guardamos en helados_actuales los helados para recoger
     ld      a, #3
     ld      (consumibles_actuales), a
-     ld a, #3
-    ld      (lifes_available), a
+    ;  ld a, #3
+    ; ld      (lifes_available), a
     ld a, #0
     ld (stop_score),a
 
@@ -208,8 +208,8 @@ cargar_mapa_3::
     ;; Guardamos en helados_actuales los helados para recoger
     ld      a, #3
     ld      (consumibles_actuales), a
-     ld a, #3
-    ld      (lifes_available), a
+    ;  ld a, #3
+    ; ld      (lifes_available), a
     ld a, #0
     ld (stop_score),a
 
@@ -245,8 +245,8 @@ cargar_mapa_4::
     ;; Guardamos en helados_actuales los helados para recoger
     ld      a, #3
     ld      (consumibles_actuales), a
-    ld a, #3
-    ld      (lifes_available), a
+    ; ld a, #3
+    ; ld      (lifes_available), a
     ld a, #0
     ld (stop_score),a
 
@@ -282,8 +282,8 @@ cargar_mapa_5::
     ;; Guardamos en helados_actuales los helados para recoger
     ld      a, #3
     ld      (consumibles_actuales), a
-     ld a, #3
-    ld      (lifes_available), a
+    ;  ld a, #3
+    ; ld      (lifes_available), a
     ld a, #0
     ld (stop_score),a 
 
@@ -320,6 +320,10 @@ cargar_mapa_bonus::
     ;; Guardamos en helados_actuales los helados para recoger
     ld      a, #1
     ld      (consumibles_actuales), a
+    ;  ld a, #3
+    ; ld      (lifes_available), a
+     ld a, #0
+    ld (stop_score),a
 
 ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

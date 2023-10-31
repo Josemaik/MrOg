@@ -494,6 +494,7 @@ _man_entity_update::
         Ld a, #3
         ld (lifes_available), a
         call reset_hud
+        call reset_vidas_hud
         ld bc, #_main
         push bc 
         ret
