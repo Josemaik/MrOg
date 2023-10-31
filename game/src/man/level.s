@@ -39,6 +39,8 @@ cambio_de_mapa::
     jr      z, mapa_4
     dec     a
     jr      z, mapa_5
+    dec     a
+    jr      z, mapa_bonus
 
     ret
 
@@ -66,6 +68,13 @@ cambio_de_mapa::
     mapa_5:
     call set_level_screen
     call cargar_mapa_5
+    ;; play music
+    call cpct_akp_musicPlay_asm
+    ret
+
+    mapa_bonus:
+    call set_level_screen
+    call cargar_mapa_bonus
     ;; play music
     call cpct_akp_musicPlay_asm
     ret
@@ -241,6 +250,40 @@ cargar_mapa_5::
     ld      (consumibles_actuales), a
 
 ret
+
+cargar_mapa_bonus::
+
+    ;; Guardamos en mapa_actual el mapa en el que estamos
+    ld      a, #6
+    ld      (mapa_actual), a
+
+    ;; Borrar entidades (menos el player, en el caso de borrarlo crearlo de nuevo, el primero)
+
+    ;; Dibujar el tilemap
+    ld    hl, #20
+    ld    (tilemap_position), hl
+    ld   de, #_tilemap_01 + 2420
+    ;add_de_hl
+    call sys_render_tilemap
+
+    ;; Reposicionar el player
+    ld     ix, #m_entities
+    ld  X(ix), #44
+    ld  Y(ix), #40
+    ;; Guardar la posicion inicial del jugador
+    ld     ix, #position_initial_player
+    ld  0(ix), #44
+    ld  1(ix), #40
+
+    ;; Crear enemigos y objetos
+    call crear_enemigos_mapa_bonus
+    call crear_objetos_mapa_bonus
+    call set_burro_animations
+    ;; Guardamos en helados_actuales los helados para recoger
+    ld      a, #1
+    ld      (consumibles_actuales), a
+
+ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Creacion de los enemigos
 ;; 
@@ -274,6 +317,10 @@ crear_enemigos_mapa_4:
     call man_game_create_template_entity
 ret
 crear_enemigos_mapa_5:
+
+ret
+
+crear_enemigos_mapa_bonus:
 
 ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -587,5 +634,9 @@ crear_objetos_mapa_5:
    ld    direction(ix), #DIRECT_D
    ld       hl, #puerta_vertical_entity
    call man_game_create_template_entity
+
+ret
+
+crear_objetos_mapa_bonus:
 
 ret
