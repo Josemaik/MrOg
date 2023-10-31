@@ -26,8 +26,7 @@ cambio_de_mapa::
     call _man_entity_init
     ;; creamos jugador
     call _inicialize_templates
-    ;; reseteamos hud
-    call reset_hud
+    
 
     ;; Comprobar que mapa cargamos
     ld      a, (mapa_actual)
@@ -47,6 +46,8 @@ cambio_de_mapa::
     call cargar_mapa_2
     ;; play music
     call cpct_akp_musicPlay_asm
+    ;; reseteamos hud
+    call reset_hud
     ret
 
     mapa_3:
@@ -54,6 +55,8 @@ cambio_de_mapa::
     call cargar_mapa_3
     ;; play music
     call cpct_akp_musicPlay_asm
+    ;; reseteamos hud
+    call reset_hud
     ret
 
     mapa_4:
@@ -61,6 +64,8 @@ cambio_de_mapa::
     call cargar_mapa_4
     ;; play music
     call cpct_akp_musicPlay_asm
+    ;; reseteamos hud
+    call reset_hud
     ret
 
     mapa_5:
@@ -68,6 +73,8 @@ cambio_de_mapa::
     call cargar_mapa_5
     ;; play music
     call cpct_akp_musicPlay_asm
+    ;; reseteamos hud
+    call reset_hud
     ret
     
 ret
@@ -274,7 +281,11 @@ crear_enemigos_mapa_4:
     call man_game_create_template_entity
 ret
 crear_enemigos_mapa_5:
-
+    ld ix, #flobier_entity
+    ld    X(ix), #68
+    ld    Y(ix), #72
+    ld       hl, #flobier_entity
+    call man_game_create_template_entity
 ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Creacion de los objetos
