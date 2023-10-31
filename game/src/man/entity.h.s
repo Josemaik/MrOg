@@ -63,7 +63,9 @@
     DIRECT_S == 0x04
     DIRECT_D == 0x08
       
-    ;; PLAYER
+    ;; NIVELES
+    NIVEL1 = 0
+    NIVEL2 = 1
        
     ;;   SPRITE PROPERTIES
        SPR_SPRITE1_S_W = 8
@@ -98,4 +100,6 @@
     .globl time_anim_eat
     .globl consumibles_actuales
     .globl cambio_de_mapa
+    .globl set_level_screen
+    .globl numeros
    

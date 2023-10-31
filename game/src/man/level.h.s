@@ -1,6 +1,7 @@
 ;;;;;;;;;;;;;;;;;;;;
 ;; GLOBAL SYMBOLS ;;
 ;;;;;;;;;;;;;;;;;;;;
+   
 
    ;; Templates
    .globl flobier_entity
@@ -18,6 +19,7 @@
    .globl borrar_entidades
    .globl _man_entity_init
    .globl _inicialize_templates
+   .globl reset_hud
    ;; Render
    .globl sys_render_tilemap
 

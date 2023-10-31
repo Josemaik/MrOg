@@ -9,6 +9,7 @@
 .globl cpct_getScreenPtr_asm
 .globl _sys_render_level_screen
 .globl _sys_render_level_screen
+.globl mapa_actual
 
 nivel_actual:
 .db 0
@@ -16,7 +17,7 @@ nivel_actual:
 string_intro: .asciz "MY SWAMP"
 string: .asciz "LEVEL"
 
-numeros: 
+numeros::
 .db "1"
 .db 0x00
 .db "2"
@@ -35,7 +36,15 @@ numeros:
 .db 0x00
 .db "9"
 .db 0x00
-
+id_numeros::
+    .db 0x01
+set_level_screen::
+;; Level Screen
+      call man_levelscreen_init
+      levelscreen_loop:
+         call man_levelscreen_update
+         jr    z, levelscreen_loop
+ret
 man_levelscreen_init::
     call _sys_render_level_screen
     ld    h, #0
@@ -62,10 +71,19 @@ man_levelscreen_init::
    ld    c, #40                ;; C = x coordinate (16 = 0x10)
 
    call cpct_getScreenPtr_asm    ;; Calculate video memory location and return it in HL
-
-    
+    ld a, (id_numeros)
+    cp #1
+    jr z, set_lvl_1
+    ;;lvl2
+    ld iy , #numeros + 2
+    jr dibujar_lvl
+    set_lvl_1:
     ld iy, #numeros
-   call cpct_drawStringM0_asm  ;; Draw the string
+    dibujar_lvl:
+    call cpct_drawStringM0_asm  ;; Draw the string
+    ld a, (id_numeros)
+    inc a
+    ld (id_numeros), a
 
    ;; Calculate a video-memory location for printing a string
    ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen

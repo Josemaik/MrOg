@@ -21,6 +21,8 @@ cambio_de_mapa::
     call _man_entity_init
     ;; creamos jugador
     call _inicialize_templates
+    ;; reseteamos hud
+    call reset_hud
 
     ;; Comprobar que mapa cargamos
     ld      a, (mapa_actual)
@@ -32,6 +34,7 @@ cambio_de_mapa::
     ret
 
     mapa_2:
+    call set_level_screen
     call cargar_mapa_2
     ret
 
