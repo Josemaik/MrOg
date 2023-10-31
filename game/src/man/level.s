@@ -170,8 +170,8 @@ cargar_mapa_4::
 
     ;; Reposicionar el player
     ld     ix, #m_entities
-    ld  X(ix), #8
-    ld  Y(ix), #40
+    ld  X(ix), #40
+    ld  Y(ix), #32
     ;; Guardar la posicion inicial del jugador
     ld     ix, #position_initial_player
     ld  0(ix), #8
@@ -398,5 +398,67 @@ crear_objetos_mapa_3:
 ret
 
 crear_objetos_mapa_4:
+
+   ;;;;;;;;;;;;;
+   ;; Helados ;;
+   ;;;;;;;;;;;;;
+
+   ld       ix, #helado_entity
+
+   ld    X(ix), #56
+   ld    Y(ix), #80
+   ld       hl, #helado_entity
+   call man_game_create_template_entity
+   
+   ld       ix, #helado_entity
+   ld    X(ix), #28
+   ld    Y(ix), #176
+   ld       hl, #helado_entity
+   call man_game_create_template_entity
+
+   ld    X(ix), #56
+   ld    Y(ix), #152
+   ld       hl, #helado_entity
+   call man_game_create_template_entity
+
+   ;;;;;;;;;;;;
+   ;; Llaves ;;
+   ;;;;;;;;;;;;
+
+   ld       ix, #llave_entity
+
+   ld    X(ix), #28
+   ld    Y(ix), #80
+   ld       hl, #llave_entity
+   call man_game_create_template_entity
+
+   ld    X(ix), #16
+   ld    Y(ix), #120
+   ld       hl, #llave_entity
+   call man_game_create_template_entity
+
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;
+   ;; Puertas Horizontales ;;
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+   ld       ix, #puerta_horizontal_entity
+
+   ld    X(ix), #40
+   ld    Y(ix), #120
+   ld    direction(ix), #DIRECT_S
+   ld       hl, #puerta_horizontal_entity
+   call man_game_create_template_entity
+
+   ;;;;;;;;;;;;;;;;;;;;;;;;
+   ;; Puertas Verticales ;;
+   ;;;;;;;;;;;;;;;;;;;;;;;;
+
+   ld       ix, #puerta_vertical_entity
+
+   ld    X(ix), #36
+   ld    Y(ix), #152
+   ld    direction(ix), #DIRECT_A
+   ld       hl, #puerta_vertical_entity
+   call man_game_create_template_entity
 
 ret
