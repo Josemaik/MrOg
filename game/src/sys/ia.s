@@ -101,6 +101,9 @@ sys_ai_vertical_enemie::
     ld a, (mapa_actual)
     cp #2
     jr z, load_XY_mapa_2
+    ld a, (mapa_actual)
+    cp #5
+    jr z, load_XY_mapa_5
     load_XY_mapa_prueba:
         ld a, #64
         ld (array_coordinates_vertical), a
@@ -123,6 +126,14 @@ sys_ai_vertical_enemie::
         ld a, #104
         ld (array_coordinates_vertical + 1), a
         ld a, #20
+        ld (array_coordinates_vertical + 2), a
+        jr lets_check
+    load_XY_mapa_5:
+        ld a, #68
+        ld (array_coordinates_vertical), a
+        ld a, #72
+        ld (array_coordinates_vertical + 1), a
+        ld a, #4
         ld (array_coordinates_vertical + 2), a
         jr lets_check
     lets_check:

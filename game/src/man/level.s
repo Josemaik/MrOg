@@ -26,8 +26,7 @@ cambio_de_mapa::
     call _man_entity_init
     ;; creamos jugador
     call _inicialize_templates
-    ;; reseteamos hud
-    call reset_hud
+    
 
     ;; Comprobar que mapa cargamos
     ld      a, (mapa_actual)
@@ -41,6 +40,8 @@ cambio_de_mapa::
     jr      z, mapa_5
     dec     a
     jr      z, mapa_bonus
+    dec     a
+    jr      z, gotomenu
 
     ret
 
@@ -49,6 +50,8 @@ cambio_de_mapa::
     call cargar_mapa_2
     ;; play music
     call cpct_akp_musicPlay_asm
+    ;; reseteamos hud
+    call reset_hud
     ret
 
     mapa_3:
@@ -56,6 +59,8 @@ cambio_de_mapa::
     call cargar_mapa_3
     ;; play music
     call cpct_akp_musicPlay_asm
+    ;; reseteamos hud
+    call reset_hud
     ret
 
     mapa_4:
@@ -63,6 +68,8 @@ cambio_de_mapa::
     call cargar_mapa_4
     ;; play music
     call cpct_akp_musicPlay_asm
+    ;; reseteamos hud
+    call reset_hud
     ret
 
     mapa_5:
@@ -70,7 +77,17 @@ cambio_de_mapa::
     call cargar_mapa_5
     ;; play music
     call cpct_akp_musicPlay_asm
+    ;; reseteamos hud
+    call reset_hud
     ret
+
+    gotomenu:
+        Ld a, #3
+        ld (lifes_available), a
+        call reset_hud
+        ld bc, #_main
+        push bc 
+        ret
 
     mapa_bonus:
     call set_level_screen
@@ -78,6 +95,7 @@ cambio_de_mapa::
     ;; play music
     call cpct_akp_musicPlay_asm
     ret
+
     
 ret
 
@@ -115,6 +133,10 @@ cargar_mapa_1::
     ;; Guardamos en helados_actuales los helados para recoger
     ld      a, #3
     ld      (consumibles_actuales), a
+     ld a, #3
+    ld      (lifes_available), a
+    ld a, #0
+    ld (stop_score),a
 
 ret
 cargar_mapa_2::
@@ -149,6 +171,10 @@ cargar_mapa_2::
     ;; Guardamos en helados_actuales los helados para recoger
     ld      a, #3
     ld      (consumibles_actuales), a
+     ld a, #3
+    ld      (lifes_available), a
+    ld a, #0
+    ld (stop_score),a
 
 ret
 cargar_mapa_3::
@@ -182,6 +208,10 @@ cargar_mapa_3::
     ;; Guardamos en helados_actuales los helados para recoger
     ld      a, #3
     ld      (consumibles_actuales), a
+     ld a, #3
+    ld      (lifes_available), a
+    ld a, #0
+    ld (stop_score),a
 
 ret
 cargar_mapa_4::
@@ -215,6 +245,10 @@ cargar_mapa_4::
     ;; Guardamos en helados_actuales los helados para recoger
     ld      a, #3
     ld      (consumibles_actuales), a
+    ld a, #3
+    ld      (lifes_available), a
+    ld a, #0
+    ld (stop_score),a
 
 ret
 cargar_mapa_5::
@@ -248,6 +282,10 @@ cargar_mapa_5::
     ;; Guardamos en helados_actuales los helados para recoger
     ld      a, #3
     ld      (consumibles_actuales), a
+     ld a, #3
+    ld      (lifes_available), a
+    ld a, #0
+    ld (stop_score),a 
 
 ret
 
@@ -317,7 +355,11 @@ crear_enemigos_mapa_4:
     call man_game_create_template_entity
 ret
 crear_enemigos_mapa_5:
-
+    ld ix, #flobier_entity
+    ld    X(ix), #68
+    ld    Y(ix), #72
+    ld       hl, #flobier_entity
+    call man_game_create_template_entity
 ret
 
 crear_enemigos_mapa_bonus:

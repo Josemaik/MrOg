@@ -19,6 +19,8 @@
    .globl borrar_entidades
    .globl _man_entity_init
    .globl _inicialize_templates
+   .globl _main
+   .globl stop_score
 
    .globl reset_hud
    .globl save_points
