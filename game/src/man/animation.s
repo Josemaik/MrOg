@@ -69,6 +69,21 @@ anim_player_died::
     .dw _spr_muelte_4
     .db #0x00
     .dw #anim_player_died
+anim_player_resucitar::
+    .db #MAN_ANIM_PLAYER_HIT_ENEMY
+    .dw _spr_resucitar_0
+    .db #MAN_ANIM_PLAYER_HIT_ENEMY
+    .dw _spr_resucitar_1
+    .db #MAN_ANIM_PLAYER_HIT_ENEMY
+    .dw _spr_resucitar_2
+    .db #MAN_ANIM_PLAYER_HIT_ENEMY
+    .dw _spr_resucitar_3
+    .db #MAN_ANIM_PLAYER_HIT_ENEMY
+    .dw _spr_resucitar_4
+    .db #MAN_ANIM_PLAYER_HIT_ENEMY
+    .dw _spr_resucitar_5
+    .db #0x00
+    .dw #anim_player_resucitar
 anim_eat::
     .db #MAN_ANIM_PLAYER_EAT
     .dw _spr_comer_0

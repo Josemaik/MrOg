@@ -71,3 +71,9 @@
   .globl _spr_helado_1
   .globl _spr_helado_2
   .globl _spr_helado_3
+  .globl _spr_resucitar_0
+  .globl _spr_resucitar_1
+  .globl _spr_resucitar_2
+  .globl _spr_resucitar_3
+  .globl _spr_resucitar_4
+  .globl _spr_resucitar_5

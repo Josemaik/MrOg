@@ -8,7 +8,11 @@ lifes_available::
    .db 0x03 ;; 3 vidas
 player_state:: ;; 0 -> vivo 1 -> muerto
    .db 0x00
+player_reaparition_state:: ;; 0 -> nada 1-> reaparecer
+   .db 0x00
 time_anim_died:: ;; tiempo animacion muerte
+   .db 0xaa
+time_anim_reaparition:: ;; tiempo animacion muerte
    .db 0xaa
 food_state:: ;;0-> viva 1-> muerta
    .db 0x00
@@ -48,6 +52,9 @@ player_reaparition::
     ld__ix_de
     ;; dibujamos solidbox donde muere personaje
     call sys_render_draw_solid_box_player
+    ;; QUE ESTOOOOOOOOOOOO LO HAGA EN OTRA FUNCION QUE SE LLAME CUANDO
+    ;; ANIMACION REAPARECER HA TERMINADO JUNTO A TIMEANIM A ORIGINAL
+    ;; -----------------------------------------------
     ;; ponemos sprite abajo
     ld bc, #_spr_spritesheet_00
     ld SPRITE(ix), c
@@ -57,6 +64,7 @@ player_reaparition::
     ld bc, #anim_S
     ld AnimFrame(ix), c
     ld 1+AnimFrame(ix), b
+    ;;--------------------------------------------------
     ;; | Reposicionar al player a la posicion inicial
     ld a, (position_initial_player)
     ld X(ix), a ;; 
@@ -66,7 +74,24 @@ player_reaparition::
     ;; vuelvo a poner contador a su tiempo original
     ld a, #0xaa
     ld (time_anim_died), a
+    ;; hacer animacion reaparecer
+    ;; YO HARIA AQUI PONER LA ANIMACION
+    ;; play anim
+    ;; hacer esto PERO AQUI CON ANIMACION REAPARECER
+   ;  ld AnimCounter(ix), #MAN_ANIM_PLAYER_HIT_ENEMY
+   ;  ld bc, #anim_player_died
+   ;  ld AnimFrame(ix), c
+   ;  ld 1+AnimFrame(ix), b
+   ;  ;; mark player as died
+   ;  ld a, #1
+   ;  ld (player_state) , a
+   ;  ld a, #1
+   ;  ld (player_reaparition_state), a
 ret
+; player_reaparition_anim::
+;    push ix
+;     ld__ix_de
+; ret
 ;;;;;;;;;;;;;;;;;;;;
 ;; INIT
 ;;

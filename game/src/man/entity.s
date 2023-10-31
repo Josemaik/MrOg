@@ -409,7 +409,7 @@ _man_entity_update::
                 ;; compruebo si esta muerto
                 ld a, (player_state)
                 cp #1
-                jr nz, continuar ;; si esta vivo sigo
+                jr nz, continuar;; check_reaparition ;; si esta vivo sigo
                 ;; jugador esta muerto
                 ;;iniciar contador
                 ld a, (time_anim_died)
@@ -424,8 +424,25 @@ _man_entity_update::
                     ld a, #0
                     ld (player_state) , a
                     call player_reaparition
+                ; check_reaparition:
+                ; ld a, (player_reaparition_state)
+                ; cp #1
+                ; jr nz, continuar ;; no reaparece
+                ; ;; hay que reaparecer
+                ; ;;iniciar contador
+                ; ld a, (time_anim_reaparition)
+                ; cp #0
+                ; jr z, reaparition_anim_end ;; animacion termina
+                ; ;; decremento tiempo
+                ; ld a, (time_anim_reaparition)
+                ; dec a
+                ; ld (time_anim_reaparition) , a
+                ; jr continuar
+                ; reaparition_anim_end:
+                ;     ld a, #0
+                ;     ld (player_reaparition_state) , a
+                ;     call player_reaparition_anim
                 continuar:
-
                 ld      hl, #TYPE
                 add     hl, de   
                 ld a, (hl)
