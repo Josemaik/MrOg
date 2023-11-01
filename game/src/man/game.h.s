@@ -61,3 +61,4 @@
    .globl sys_ai_vertical_enemie
    .globl sys_ai_horizontal_enemie
    .globl sys_ai_patron_enemie
+   .globl sys_ia_patron_360

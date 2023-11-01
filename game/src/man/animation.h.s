@@ -86,6 +86,8 @@
   .globl _spr_cauldron_1
   .globl _spr_cauldron_2
   .globl _spr_cauldron_3
+  .globl _spr_cauldron_4
+  .globl _spr_cauldron_5
   .globl _spr_cauldron_6
   .globl _spr_cauldron_7
   

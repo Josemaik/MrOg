@@ -17,6 +17,7 @@
    .globl man_game_create_template_entity
    .globl set_burro_animations
    .globl set_lord_animations
+   .globl set_cauldron_animations
    .globl borrar_entidades
    .globl _man_entity_init
    .globl _inicialize_templates
@@ -29,7 +30,8 @@
    .globl man_levelscreen_init
    .globl cpct_akp_stop_asm
    .globl cpct_akp_musicPlay_asm
-
+   ;;ia
+   .globl anim_cauldron_up
    ;; Render
    .globl sys_render_tilemap
 
@@ -43,3 +45,4 @@
    ;; ia
    .globl sys_ai_vertical_enemie
    ; .globl sys_ai_vertical_enemie_mapa2
+   .globl sys_ia_patron_360

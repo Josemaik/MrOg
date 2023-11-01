@@ -373,7 +373,7 @@ cargar_mapa_bonus::
     ;; Crear enemigos y objetos
     call crear_enemigos_mapa_bonus
     call crear_objetos_mapa_bonus
-    call set_burro_animations
+    call set_cauldron_animations
     ;; Guardamos en helados_actuales los helados para recoger
     ld      a, #1
     ld      (consumibles_actuales), a
@@ -477,7 +477,17 @@ crear_enemigos_mapa_5:
 ret
 
 crear_enemigos_mapa_bonus:
-
+    ld ix, #flobier_entity_patron
+    ld    X(ix), #56
+    ld    Y(ix), #145
+    ld   bc, #sys_ia_patron_360
+    ld IA_behaviour(ix), c
+    ld 1+IA_behaviour(ix), b
+    ld bc, #anim_cauldron_up
+    ld AnimFrame(ix), c
+    ld 1+AnimFrame(ix), b
+    ld       hl, #flobier_entity_patron
+    call man_game_create_template_entity
 ret
 
 crear_enemigos_mapa_6:
