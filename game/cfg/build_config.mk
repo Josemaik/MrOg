@@ -49,7 +49,7 @@
 # Name of the project (without spaces, as it will be used as filename)
 #   and Z80 memory location where code will start in the generated binary
 PROJNAME   := Mr_Og_The_Sampler
-Z80CODELOC := 0x416D
+Z80CODELOC := 0x116D
 
 ##
 ## Folders 
