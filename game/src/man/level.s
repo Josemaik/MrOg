@@ -887,12 +887,12 @@ crear_objetos_mapa_6::
 
     ld       ix, #llave_entity
 
-    ld    X(ix), #68
+    ld    X(ix), #28
     ld    Y(ix), #128
     ld       hl, #llave_entity
     call man_game_create_template_entity
 
-    ld    Y(ix), #128
+    ld    X(ix), #68
     ld       hl, #llave_entity
     call man_game_create_template_entity
 
@@ -902,22 +902,15 @@ crear_objetos_mapa_6::
 
     ld       ix, #puerta_vertical_entity
 
-    ld    X(ix), #64
+    ld    X(ix), #12
     ld    Y(ix), #32
-    ld    direction(ix), #DIRECT_A
+    ld    direction(ix), #DIRECT_D
     ld       hl, #puerta_vertical_entity
     call man_game_create_template_entity
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; Puertas Horizontales ;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-    ld       ix, #puerta_horizontal_entity
-
-    ld    X(ix), #50
-    ld    Y(ix), #72
-    ld    direction(ix), #DIRECT_W
-    ld       hl, #puerta_horizontal_entity
+    ld    X(ix), #64
+    ld    direction(ix), #DIRECT_A
+    ld       hl, #puerta_vertical_entity
     call man_game_create_template_entity
 ret
 
