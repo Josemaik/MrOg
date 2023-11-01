@@ -33,6 +33,10 @@ string_instrucciones:
 string_score: .asciz "TOTAL SCORE:"
 string_puntos: .asciz "CURRENT POINTS:"
 
+string_died: .asciz "YOU DIED :("
+string_gotomenu: .asciz "PRESS ENTER TO"
+string_gotomenu1: .asciz "GO MENU"
+
 numeros::
 .db "0"
 .db 0x00
@@ -62,6 +66,44 @@ set_level_screen::
       levelscreen_loop:
          call man_levelscreen_update
          jr    z, levelscreen_loop
+ret
+set_died_screen::
+;; Died Screen
+      call man_diedscreen_init
+      levelscreen_loop1:
+         call man_levelscreen_update
+         jr    z, levelscreen_loop1
+ret
+man_diedscreen_init:
+    call _sys_render_level_screen
+    ld    h, #0
+    ld    l, #10     
+    call cpct_setDrawCharM0_asm
+    ;; Calculate a video-memory location for printing a string
+    ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
+    ld    b, #80                  ;; B = y coordinate (24 = 0x18)
+    ld    c, #24                  ;; C = x coordinate (16 = 0x10)
+
+    call cpct_getScreenPtr_asm 
+    ld   iy, #string_died    ;; IY = Pointer to the string 
+    call cpct_drawStringM0_asm  ;; Draw the string
+
+    ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
+    ld    b, #120                  ;; B = y coordinate (24 = 0x18)
+    ld    c, #5                  ;; C = x coordinate (16 = 0x10)
+
+    call cpct_getScreenPtr_asm 
+    ld iy, #string_gotomenu
+    call cpct_drawStringM0_asm  ;; Draw the string
+
+    ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
+    ld    b, #140                  ;; B = y coordinate (24 = 0x18)
+    ld    c, #15                  ;; C = x coordinate (16 = 0x10)
+
+    call cpct_getScreenPtr_asm 
+    ld iy, #string_gotomenu1
+    call cpct_drawStringM0_asm  ;; Draw the string
+
 ret
 man_levelscreen_init::
     call _sys_render_level_screen
@@ -222,6 +264,5 @@ ret
 man_levelscreen_update::
     call cpct_scanKeyboard_f_asm
     ld  hl, #Key_Return
-    call cpct_isKeyPressed_asm
-    
+    call cpct_isKeyPressed_asm 
 ret
