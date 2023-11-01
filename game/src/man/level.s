@@ -457,6 +457,39 @@ cargar_mapa_7::
 ret
 
 cargar_mapa_8::
+    ;; Guardamos en mapa_actual el mapa en el que estamos
+    ld      a, #9
+    ld      (mapa_actual), a
+
+    ;; Borrar entidades (menos el player, en el caso de borrarlo crearlo de nuevo, el primero)
+
+    ;; Dibujar el tilemap
+    ld    hl, #0
+    ld    (tilemap_position), hl
+    ld   de, #_tilemap_01 + 4800
+    ;add_de_hl
+    call sys_render_tilemap
+
+    ;; Reposicionar el player
+    ld     ix, #m_entities
+    ld  X(ix), #8
+    ld  Y(ix), #40
+    ;; Guardar la posicion inicial del jugador
+    ld     ix, #position_initial_player
+    ld  0(ix), #8
+    ld  1(ix), #40
+
+    ;; Crear enemigos y objetos
+    call crear_enemigos_mapa_8
+    call crear_objetos_mapa_8
+    call set_lord_animations
+    ;; Guardamos en helados_actuales los helados para recoger
+    ld      a, #3
+    ld      (consumibles_actuales), a
+    ;  ld a, #3
+    ; ld      (lifes_available), a
+     ld a, #0
+    ld (stop_score),a
 
 ret
 
@@ -534,6 +567,7 @@ ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Creacion de los objetos
 ;;
+;;;;;;;;;;;;;;;; Mundo 1 ;;;;;;;;;;;;;;;;
 crear_objetos_mapa_1:
    ;;;;;;;;;;;;;
    ;; Helados ;;
@@ -897,6 +931,7 @@ crear_objetos_mapa_bonus:
 
 
 ret
+;;;;;;;;;;;;;;;; Mundo 2 ;;;;;;;;;;;;;;;;
 crear_objetos_mapa_6::
     ;;;;;;;;;;;;;;;
     ;; Chocolate ;;
@@ -950,7 +985,6 @@ crear_objetos_mapa_6::
     ld       hl, #puerta_vertical_entity
     call man_game_create_template_entity
 ret
-
 crear_objetos_mapa_7::
     ;;;;;;;;;;;;;;;
     ;; Chocolate ;;
@@ -1014,6 +1048,59 @@ crear_objetos_mapa_7::
 ret
 
 crear_objetos_mapa_8::
+    ;;;;;;;;;;;;;;;
+    ;; Chocolate ;;
+    ;;;;;;;;;;;;;;;
+
+    ld       ix, #chocolate_entity
+
+    ld    X(ix), #68
+    ld    Y(ix), #64
+    ld       hl, #chocolate_entity
+    call man_game_create_template_entity
+    
+    ld    X(ix), #56
+    ld    Y(ix), #64
+    ld       hl, #chocolate_entity
+    call man_game_create_template_entity
+
+    ld    X(ix), #8
+    ld    Y(ix), #120
+    ld       hl, #chocolate_entity
+    call man_game_create_template_entity
+
+    ;;;;;;;;;;;;
+    ;; Llaves ;;
+    ;;;;;;;;;;;;
+
+    ld       ix, #llave_entity
+
+    ld    X(ix), #68
+    ld    Y(ix), #136
+    ld       hl, #llave_entity
+    call man_game_create_template_entity
+
+    ld    Y(ix), #176
+    ld       hl, #llave_entity
+    call man_game_create_template_entity
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Puertas Horizontales ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    ld       ix, #puerta_horizontal_entity
+
+    ld    X(ix), #68
+    ld    Y(ix), #56
+    ld    direction(ix), #DIRECT_W
+    ld       hl, #puerta_horizontal_entity
+    call man_game_create_template_entity
+
+    ld    X(ix), #56
+    ld    Y(ix), #88
+    ld    direction(ix), #DIRECT_S
+    ld       hl, #puerta_horizontal_entity
+    call man_game_create_template_entity
 
 ret
 
