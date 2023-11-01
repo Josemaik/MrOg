@@ -226,11 +226,11 @@ anim_amstrad::
 
 anim_cauldron_up::
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_cauldron_6
+    .dw _spr_cauldron_4
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_cauldron_7
+    .dw _spr_cauldron_5
     .db #0x00
-    .dw #anim_enemy_up
+    .dw #anim_cauldron_up
 
 anim_cauldron_left::
     .db #MAN_ANIM_PLAYER_TIME
@@ -238,15 +238,15 @@ anim_cauldron_left::
     .db #MAN_ANIM_PLAYER_TIME
     .dw _spr_cauldron_1
     .db #0x00
-    .dw #anim_enemy_left
+    .dw #anim_cauldron_left
 
 anim_cauldron_down::
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_cauldron_2
+    .dw _spr_cauldron_6
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_cauldron_3
+    .dw _spr_cauldron_7
     .db #0x00
-    .dw #anim_enemy_down
+    .dw #anim_cauldron_down
 
 anim_cauldron_right::
     .db #MAN_ANIM_PLAYER_TIME
@@ -254,7 +254,7 @@ anim_cauldron_right::
     .db #MAN_ANIM_PLAYER_TIME
     .dw _spr_cauldron_3
     .db #0x00
-    .dw #anim_enemy_right
+    .dw #anim_cauldron_right
 
 .area _CODE
 

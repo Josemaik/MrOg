@@ -104,6 +104,9 @@ sys_ai_vertical_enemie::
     ld a, (mapa_actual)
     cp #5
     jr z, load_XY_mapa_5
+    ld a, (mapa_actual)
+    cp #7
+    jr z, load_XY_mapa_6
     load_XY_mapa_prueba:
         ld a, #64
         ld (array_coordinates_vertical), a
@@ -134,6 +137,14 @@ sys_ai_vertical_enemie::
         ld a, #72
         ld (array_coordinates_vertical + 1), a
         ld a, #4
+        ld (array_coordinates_vertical + 2), a
+        jr lets_check
+    load_XY_mapa_6:
+        ld a, #56
+        ld (array_coordinates_vertical), a
+        ld a, #64
+        ld (array_coordinates_vertical + 1), a
+        ld a, #16
         ld (array_coordinates_vertical + 2), a
         jr lets_check
     lets_check:
@@ -206,14 +217,6 @@ sys_ai_patron_enemie::
     cp (hl)
     jr z, mover_derecha1
        jr check_above_next_corner2
-    ; checky4:
-    ;     ld hl, #Y
-    ;     add hl, de
-    ;     ld a, (hl)
-    ;     ld hl, #array_coordinates_patron + 2
-    ;     cp (hl)
-    ;     jr z, mover_derecha1
-    ;         jr check_above_next_corner1
         mover_derecha1:
          ld a, #0
          ld (indicador_patron) , a
@@ -222,13 +225,6 @@ sys_ai_patron_enemie::
         ld hl, #choose_axis_enemy_patron_mapa1
         call move_right_e
         jp sys_ai_patron_enemie_mapa1_end
-    ; check_above_next_corner1:
-    ;     ld hl, #Y
-    ;     add hl, de
-    ;     ld a, (hl)
-    ;     ld hl, #array_coordinates_patron + 3
-    ;     cp (hl)
-    ;     jr z, mover_derecha1
     check_above_next_corner2:
       ld hl, #X
     add hl, de
@@ -289,7 +285,120 @@ sys_ai_patron_enemie::
         call move_above_e
 sys_ai_patron_enemie_mapa1_end:
 ret
-
+check_below_right:
+     ld hl, #X
+     add hl, de
+     ld a, (hl)
+     cp #56
+     jr z, check_below_right_y
+        jr check_below_right_end
+     check_below_right_y:
+        ld hl, #Y
+        add hl, de
+        ld a, (hl)
+        cp #145
+        jr z, mover_above_br
+            jr check_below_right_end
+     mover_above_br:
+     ld hl,  #anims_actual_enemy
+     ld c , (hl)
+     ld hl, #anims_actual_enemy + 1
+     ld b ,(hl)
+     ld 4(ix), c
+     ld 5(ix), b
+     ld bc, #DIRECT_W
+     call check_animation
+     ld hl, #choose_axis_enemy_patron_mapa1
+     call move_above_e
+     check_below_right_end:
+ret
+check_above_left:
+     ld hl, #X
+     add hl, de
+     ld a, (hl)
+     cp #16
+     jr z, check_above_left_y
+        jr check_above_left_end
+     check_above_left_y:
+        ld hl, #Y
+        add hl, de
+        ld a, (hl)
+        cp #64
+        jr z, mover_down_br
+            jr check_above_left_end
+     mover_down_br:
+     ld hl,  #anims_actual_enemy + 2
+     ld c , (hl)
+     ld hl, #anims_actual_enemy + 3
+     ld b ,(hl)
+     ld 4(ix), c
+     ld 5(ix), b
+     ld bc, #DIRECT_S
+     call check_animation
+     ld hl, #choose_axis_enemy_patron_mapa1
+     call move_down_e
+     check_above_left_end:
+ret
+check_above_right:
+     ld hl, #X
+     add hl, de
+     ld a, (hl)
+     cp #56
+     jr z, check_above_right_y
+        jr check_above_right_end
+     check_above_right_y:
+        ld hl, #Y
+        add hl, de
+        ld a, (hl)
+        cp #64
+        jr z, mover_left_br
+            jr check_below_right_end
+     mover_left_br:
+     ld hl,  #anims_actual_enemy + 6
+     ld c , (hl)
+     ld hl, #anims_actual_enemy + 7
+     ld b ,(hl)
+     ld 4(ix), c
+     ld 5(ix), b
+     ld bc, #DIRECT_A
+     call check_animation
+     ld hl, #choose_axis_enemy_patron_mapa1
+     call move_left_e
+     check_above_right_end:
+ret
+check_below_left:
+     ld hl, #X
+     add hl, de
+     ld a, (hl)
+     cp #16
+     jr z, check_below_left_y
+        jr check_below_left_end
+     check_below_left_y:
+        ld hl, #Y
+        add hl, de
+        ld a, (hl)
+        cp #145
+        jr z, mover_right_br
+            jr check_below_left_end
+     mover_right_br:
+     ld hl,  #anims_actual_enemy + 4
+     ld c , (hl)
+     ld hl, #anims_actual_enemy + 5
+     ld b ,(hl)
+     ld 4(ix), c
+     ld 5(ix), b
+     ld bc, #DIRECT_D
+     call check_animation
+     ld hl, #choose_axis_enemy_patron_mapa1
+     call move_right_e
+     check_below_left_end:
+ret
+sys_ia_patron_360::
+    call check_below_right
+    call check_above_right
+    call check_above_left
+    call check_below_left
+ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UPDATE IA FOR ONE ENTITY
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
