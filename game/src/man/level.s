@@ -495,6 +495,40 @@ ret
 
 cargar_mapa_9::
 
+    ;; Guardamos en mapa_actual el mapa en el que estamos
+    ld      a, #10
+    ld      (mapa_actual), a
+
+    ;; Borrar entidades (menos el player, en el caso de borrarlo crearlo de nuevo, el primero)
+
+    ;; Dibujar el tilemap
+    ld    hl, #20
+    ld    (tilemap_position), hl
+    ld   de, #_tilemap_01 + 4820
+    ;add_de_hl
+    call sys_render_tilemap
+
+    ;; Reposicionar el player
+    ld     ix, #m_entities
+    ld  X(ix), #8
+    ld  Y(ix), #168
+    ;; Guardar la posicion inicial del jugador
+    ld     ix, #position_initial_player
+    ld  0(ix), #8
+    ld  1(ix), #168
+
+    ;; Crear enemigos y objetos
+    call crear_enemigos_mapa_9
+    call crear_objetos_mapa_9
+    call set_lord_animations
+    ;; Guardamos en helados_actuales los helados para recoger
+    ld      a, #3
+    ld      (consumibles_actuales), a
+    ;  ld a, #3
+    ; ld      (lifes_available), a
+     ld a, #0
+    ld (stop_score),a
+
 ret
 
 cargar_mapa_10::
@@ -1105,7 +1139,60 @@ crear_objetos_mapa_8::
 ret
 
 crear_objetos_mapa_9::
+    ;;;;;;;;;;;;;;;
+    ;; Chocolate ;;
+    ;;;;;;;;;;;;;;;
 
+    ld       ix, #chocolate_entity
+
+    ld    X(ix), #4
+    ld    Y(ix), #32
+    ld       hl, #chocolate_entity
+    call man_game_create_template_entity
+    
+    ld    X(ix), #44
+    ld    Y(ix), #112
+    ld       hl, #chocolate_entity
+    call man_game_create_template_entity
+
+    ld    X(ix), #68
+    ld    Y(ix), #176
+    ld       hl, #chocolate_entity
+    call man_game_create_template_entity
+
+    ;;;;;;;;;;;;
+    ;; Llaves ;;
+    ;;;;;;;;;;;;
+
+    ld       ix, #llave_entity
+
+    ld    X(ix), #68
+    ld    Y(ix), #80
+    ld       hl, #llave_entity
+    call man_game_create_template_entity
+
+    ld    X(ix), #28
+    ld    Y(ix), #48
+    ld       hl, #llave_entity
+    call man_game_create_template_entity
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Puertas Horizontales ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    ld       ix, #puerta_horizontal_entity
+
+    ld    X(ix), #68
+    ld    Y(ix), #168
+    ld    direction(ix), #DIRECT_W
+    ld       hl, #puerta_horizontal_entity
+    call man_game_create_template_entity
+
+    ld    X(ix), #44
+    ld    Y(ix), #128
+    ld    direction(ix), #DIRECT_S
+    ld       hl, #puerta_horizontal_entity
+    call man_game_create_template_entity
 ret
 
 crear_objetos_mapa_10::
