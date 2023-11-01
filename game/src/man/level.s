@@ -26,9 +26,7 @@ cambio_de_mapa::
     call _man_entity_init
     ;; creamos jugador
     call _inicialize_templates
-
-    ;; set level screen
-    call set_level_screen
+    
 
     ;; Comprobar que mapa cargamos
     ld      a, (mapa_actual)
@@ -52,12 +50,13 @@ cambio_de_mapa::
     jr      z, mapa_9
     dec     a
     jr      z, mapa_10
-    dec     a
-    jr      z, gotomenu
+    ;dec     a
+    ;jr      z, gotomenu
 
     ret
 
     mapa_2:
+        call set_level_screen
         call cargar_mapa_2
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -66,6 +65,7 @@ cambio_de_mapa::
     ret
 
     mapa_3:
+        call set_level_screen
         call cargar_mapa_3
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -74,6 +74,7 @@ cambio_de_mapa::
     ret
 
     mapa_4:
+        call set_level_screen
         call cargar_mapa_4
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -82,6 +83,7 @@ cambio_de_mapa::
     ret
 
     mapa_5:
+        call set_level_screen
         call cargar_mapa_5
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -90,6 +92,7 @@ cambio_de_mapa::
     ret
 
     mapa_bonus:
+        call set_level_screen
         call cargar_mapa_bonus
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -98,6 +101,7 @@ cambio_de_mapa::
     ret
 
     mapa_6:
+        call set_level_screen
         call cargar_mapa_6
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -106,6 +110,7 @@ cambio_de_mapa::
     ret
 
     mapa_7:
+        call set_level_screen
         call cargar_mapa_7
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -114,6 +119,7 @@ cambio_de_mapa::
     ret
 
     mapa_8:
+        call set_level_screen
         call cargar_mapa_8
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -122,6 +128,7 @@ cambio_de_mapa::
     ret
 
     mapa_9:
+        call set_level_screen
         call cargar_mapa_9
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -130,6 +137,7 @@ cambio_de_mapa::
     ret
 
     mapa_10:
+        call set_level_screen
         call cargar_mapa_10
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -392,11 +400,11 @@ cargar_mapa_6::
 
     ;; Reposicionar el player
     ld     ix, #m_entities
-    ld  X(ix), #36
+    ld  X(ix), #44
     ld  Y(ix), #40
     ;; Guardar la posicion inicial del jugador
     ld     ix, #position_initial_player
-    ld  0(ix), #36
+    ld  0(ix), #44
     ld  1(ix), #40
 
     ;; Crear enemigos y objetos
@@ -404,7 +412,7 @@ cargar_mapa_6::
     call crear_objetos_mapa_6
     call set_burro_animations
     ;; Guardamos en helados_actuales los helados para recoger
-    ld      a, #3
+    ld      a, #1
     ld      (consumibles_actuales), a
     ;  ld a, #3
     ; ld      (lifes_available), a
@@ -853,58 +861,6 @@ crear_objetos_mapa_bonus:
 
 ret
 crear_objetos_mapa_6::
-
-    ;;;;;;;;;;;;;;;
-    ;; Chocolate ;;
-    ;;;;;;;;;;;;;;;
-
-    ld       ix, #chocolate_entity
-
-    ld    X(ix), #4
-    ld    Y(ix), #32
-    ld       hl, #chocolate_entity
-    call man_game_create_template_entity
-    
-    ld    X(ix), #68
-    ld       hl, #chocolate_entity
-    call man_game_create_template_entity
-
-    ld    X(ix), #4
-    ld    Y(ix), #176
-    ld       hl, #chocolate_entity
-    call man_game_create_template_entity
-
-    ;;;;;;;;;;;;
-    ;; Llaves ;;
-    ;;;;;;;;;;;;
-
-    ld       ix, #llave_entity
-
-    ld    X(ix), #28
-    ld    Y(ix), #128
-    ld       hl, #llave_entity
-    call man_game_create_template_entity
-
-    ld    X(ix), #68
-    ld       hl, #llave_entity
-    call man_game_create_template_entity
-
-    ;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; Puertas Verticales ;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;
-
-    ld       ix, #puerta_vertical_entity
-
-    ld    X(ix), #12
-    ld    Y(ix), #32
-    ld    direction(ix), #DIRECT_D
-    ld       hl, #puerta_vertical_entity
-    call man_game_create_template_entity
-
-    ld    X(ix), #64
-    ld    direction(ix), #DIRECT_A
-    ld       hl, #puerta_vertical_entity
-    call man_game_create_template_entity
 
 ret
 
