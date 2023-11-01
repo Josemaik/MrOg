@@ -846,7 +846,12 @@ crear_objetos_mapa_bonus:
     ;; AMSTRAD ;;
     ;;;;;;;;;;;;;
 
+    ld       ix, #amstrad_entity
 
+    ld    X(ix), #44
+    ld    Y(ix), #104
+    ld       hl, #amstrad_entity
+    call man_game_create_template_entity
 
     ;;;;;;;;;;;;
     ;; Llaves ;;

@@ -77,6 +77,8 @@
        SPR_HELADO_H = 16
        SPR_CHOCOLATE_W = 8
        SPR_CHOCOLATE_H = 16
+       SPR_AMSTRAD_W = 8
+       SPR_AMSTRAD_H = 16
 	   SPR_PUERTA_HORIZONTAL_W = 8 
 	   SPR_PUERTA_HORIZONTAL_H = 8 
        SPR_PUERTA_VERTICAL_W = 4
@@ -96,6 +98,7 @@
     .globl anim_enemy_left
     .globl anim_llave
     .globl anim_helado
+    .globl anim_amstrad
     ;;man
     .globl player_state
     .globl time_anim_died

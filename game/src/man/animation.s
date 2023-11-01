@@ -220,6 +220,8 @@ anim_amstrad::
     .dw _spr_amstrad_2
     .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_amstrad_3
+    .db #0x00
+    .dw #anim_amstrad
 
 
 anim_cauldron_up::
