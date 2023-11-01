@@ -68,6 +68,7 @@
   .globl _spr_llave_6
   .globl _spr_llave_7
   .globl _spr_helado_0
+  .globl _spr_chocolate
   .globl _spr_helado_1
   .globl _spr_helado_2
   .globl _spr_helado_3
