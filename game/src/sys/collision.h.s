@@ -5,6 +5,7 @@
    ;; cpctelera
       .globl cpct_getScreenPtr_asm
       .globl cpct_drawSolidBox_asm
+      .globl cpct_akp_SFXPlay_asm
                               
    ;; managers                            
       .globl _man_entity_for_all_matching 
@@ -12,9 +13,15 @@
       .globl borrar_llave
       .globl lifes_available
       .globl set_llave
+      .globl player_state
+      .globl MAN_ANIM_PLAYER_HIT_ENEMY
+      .globl consumibles_actuales
    ;; systems   
       .globl stop_sprite                       
-
+      .globl anim_player_died
+      .globl anim_eat
+      .globl time_anim_eat
+      .globl food_state
    ;; sprites
       .globl cpct_drawSolidBox_asm
 
@@ -26,3 +33,8 @@
 
    ;; entity
       .globl m_entities
+
+   ;; level
+      .globl consumibles_actuales
+      .globl cambio_de_mapa
+      .globl mapa_actual

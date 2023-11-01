@@ -49,17 +49,24 @@
         SPACE_4_ONE_ENTITY     = 20    ;; space for one entity
         TOTAL_ENTITIES         = 11     ;; number of entities                          
         TOTAL_SPACE_4_ENTITIES = SPACE_4_ONE_ENTITY*TOTAL_ENTITIES    ;;;Maximum  number of entities ( 210 )
-        MAN_ANIM_PLAYER_TIME   = 3
-        MAN_ANIM_PLAYER_ENEMY = 5
         TIME_TO_UPDATE_PHYSICS_X_PLAYER = 3
         TIME_TO_UPDATE_PHYSICS_X_ENEMIE = 6
+        MAN_ANIM_PLAYER_TIME   = 3
+        MAN_ANIM_PLAYER_ENEMY = 5
+        MAN_ANIM_PLAYER_KEY = 10
+        MAN_ANIM_PLAYER_ICECREAM = 10
+        MAN_ANIM_PLAYER_HIT_ENEMY == 35
+        MAN_ANIM_PLAYER_HIT_ENEMY_TIME = 20
+        MAN_ANIM_PLAYER_EAT == 5
     ;; DIRECTIONS
     DIRECT_W == 0x01
     DIRECT_A == 0x02
     DIRECT_S == 0x04
     DIRECT_D == 0x08
       
-    ;; PLAYER
+    ;; NIVELES
+    NIVEL1 = 0
+    NIVEL2 = 1
        
     ;;   SPRITE PROPERTIES
        SPR_SPRITE1_S_W = 8
@@ -68,6 +75,8 @@
        SPR_ENEMIE_FLOBIER_H = 16
        SPR_HELADO_W = 8
        SPR_HELADO_H = 16
+       SPR_CHOCOLATE_W = 8
+       SPR_CHOCOLATE_H = 16
 	   SPR_PUERTA_HORIZONTAL_W = 8 
 	   SPR_PUERTA_HORIZONTAL_H = 8 
        SPR_PUERTA_VERTICAL_W = 4
@@ -85,4 +94,25 @@
     ;;sys     
     .globl anim_enemy_down
     .globl anim_enemy_left
+    .globl anim_llave
+    .globl anim_helado
+    ;;man
+    .globl player_state
+    .globl time_anim_died
+    .globl player_reaparition
+    .globl food_state
+    .globl time_anim_eat
+    .globl consumibles_actuales
+    .globl cambio_de_mapa
+    .globl set_level_screen
+    .globl numeros
+    .globl _main
+    .globl lifes_available
+    .globl reset_hud
+    .globl reset_vidas_hud
+    .globl player_reaparition_state
+    .globl time_anim_reaparition
+    .globl player_reaparition_finished
+    .globl set_died_screen
+    .globl id_numeros
    

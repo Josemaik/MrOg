@@ -26,7 +26,7 @@ array_vidas::
     .dw  _spr_vidas;; sprite
 array_key::
     .db 0x43, 0x0a ;; posicion x e y
-    .dw _spr_llave_hud
+    .dw _spr_llave_hud_gris
 contador_vidas::
     .db 0x03
 contador_score::
@@ -42,6 +42,10 @@ dec_to_acii_first_digit::
     .db '6', '5', '4', '3', '2', '1', '0'
 id_first_digit::
     .db 0x00
+puntos_conseguidos::
+    .db '0' ;; dig1
+    .db '0' ;; dig2
+    .db '0' ;; dig3
 .area _CODE
 
 renderizar_life:
@@ -69,6 +73,24 @@ renderizar_life:
     bucle_vidas_end:
     ld a,#3
     ld (hl), a
+ret
+save_points::
+    push de
+    ld de, #dec_to_acii_first_digit
+    ld hl, (id_first_digit)
+    ld h, #0x00
+    add hl , de
+    ld a, (hl)
+    ld hl, #puntos_conseguidos
+    ld (hl), a
+    ld de, #dec_to_acii_second_digit
+    ld hl, (id_second_digit)
+    ld h, #0x00
+    add hl, de
+    ld a, (hl)
+    ld hl, #puntos_conseguidos+1
+    ld (hl), a
+    pop de
 ret
 render_first_digit:
 ;; renderizar firs digit
@@ -105,6 +127,10 @@ render_score::
     call render_first_digit
     call render_second_digit
     call render_third_digit
+    ;; compruebo si se han consumido todos los consumibles => paro contador
+    ld a, (consumibles_actuales)
+    cp #0
+    jr z, stop_counter
     ;; compruebo si digito 1 y 2 estan a 0 => paro contador
     ld a, (id_first_digit)
     cp #6
@@ -175,7 +201,7 @@ render_key:
 ret
 borrar_llave::
     ld de, #array_key
-    ld bc, #sprite_borrar_vida
+    ld bc, #_spr_llave_hud_gris
     ;; go to arraykey->sprite an load bc in this position
     ld hl, #sprite_key
     add hl, de
@@ -193,6 +219,82 @@ set_llave::
     ld (hl), c
     inc hl
     ld (hl), b
+    call render_key
+ret
+reset_vidas_hud::
+    ld de, #array_vidas
+    ld bc, #_spr_vidas
+    ld a, #3
+    ld (contador_vidas), a
+    bucle_reset:
+        ld a, (contador_vidas)
+        cp #0
+        jr z, bucle_reset_end
+        ;; poner a vivo
+        ld hl, #DIE_OR_ALIVE
+        add hl, de
+        ld a, #0
+        ld (hl), a
+        ;; poner sprite vida
+        ld hl, #sprite
+        add hl, de
+        ld (hl), c
+        inc hl
+        ld (hl), b
+        ;; decreentamos contador
+        ld a, (contador_vidas)
+        dec a
+        ld (contador_vidas), a
+        ;; pasamos a siguiente vida
+        ld hl, #DISTANCE_BETWEEN_VIDAS
+        add hl, de
+        ex de, hl
+        ;; iterar
+        jr bucle_reset
+    bucle_reset_end:
+ret
+reset_hud::
+    ; ld de, #array_vidas
+    ; ld bc, #_spr_vidas
+    ; ld a, #3
+    ; ld (contador_vidas), a
+    ; bucle_reset:
+    ;     ld a, (contador_vidas)
+    ;     cp #0
+    ;     jr z, bucle_reset_end
+    ;     ;; poner a vivo
+    ;     ld hl, #DIE_OR_ALIVE
+    ;     add hl, de
+    ;     ld a, #0
+    ;     ld (hl), a
+    ;     ;; poner sprite vida
+    ;     ld hl, #sprite
+    ;     add hl, de
+    ;     ld (hl), c
+    ;     inc hl
+    ;     ld (hl), b
+    ;     ;; decreentamos contador
+    ;     ld a, (contador_vidas)
+    ;     dec a
+    ;     ld (contador_vidas), a
+    ;     ;; pasamos a siguiente vida
+    ;     ld hl, #DISTANCE_BETWEEN_VIDAS
+    ;     add hl, de
+    ;     ex de, hl
+    ;     ;; iterar
+    ;     jr bucle_reset
+    ; bucle_reset_end:
+    ld a, #3
+    ld (contador_vidas), a
+    
+    ;; poner contador score
+    ld a , #TIME_UPDATE_SCORE
+    ld (contador_score), a
+    ;; poner contador a 600
+    ld a, #9
+    ld (id_second_digit), a
+    ld a, #0
+    ld (id_first_digit) , a
 ret
 create_HUD::
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -210,6 +312,19 @@ create_HUD::
     call renderizar_life ;; creamos las vidas
 
     no_render_lifes:
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; RENDER KEY
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ld de, #array_key
+    ld a, (tengo_llave)
+    cp #1
+    jr nz, no_tengo_llave
+    call set_llave
+    jr continue_with_score
+    no_tengo_llave:
+    call borrar_llave
+
+    continue_with_score:
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; RENDER SCORE
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -228,13 +343,4 @@ create_HUD::
     no_render_score:
     ld a , #TIME_UPDATE_SCORE
     ld (contador_score), a
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; RENDER KEY
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ld de, #array_key
-    ld a, (tengo_llave)
-    cp #1
-    jr nz, no_tengo_llave
-    call render_key
-    no_tengo_llave:
 ret

@@ -2,22 +2,22 @@
 // Compresor used:   zx7b
 // Files compressed: [ 'assets/screens/menu_screen.bin' ]
 // Uncompressed:     16384 bytes
-// Compressed:       2673 bytes
-// Space saved:      13711 bytes
+// Compressed:       2389 bytes
+// Space saved:      13995 bytes
 //
 
-#ifndef menu_screen_z_2673_H
-#define menu_screen_z_2673_H
+#ifndef menu_screen_z_2389_H
+#define menu_screen_z_2389_H
 
 
 // Declaration of the compressed array
-extern const unsigned char menu_screen_z[2673];
+extern const unsigned char menu_screen_z[2389];
 
 // Address of the latest byte of the compressed array (for unpacking purposes)
-#define menu_screen_z_end      (menu_screen_z + 2673 - 1)
+#define menu_screen_z_end      (menu_screen_z + 2389 - 1)
 
 // Compressed and uncompressed sizes
-#define menu_screen_z_size_z   2673
+#define menu_screen_z_size_z   2389
 #define menu_screen_z_size     16384
 
 

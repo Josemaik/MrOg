@@ -16,3 +16,5 @@
    .globl set_velocity_x_D
 
    .globl m_entities
+   .globl player_state
+   .globl player_reaparition_state

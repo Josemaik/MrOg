@@ -17,6 +17,9 @@ colision_actual:
 tengo_llave::
     .db 0x00
 
+tilemap_position::
+    .dw 0x0000
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Inicializar is_colliding_player
 ;;
@@ -63,7 +66,77 @@ comprobar_colision:
     srl    a ;; |
 
     add_hl_a  ;; HL = ty * tw + tx
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Segun el mapa que sea ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    ;;;;;; Si es mapa 1 o 2
+    ld     a, (mapa_actual)
+    dec    a
+    jr     z, sumar_1_2
+    dec    a
+    jr     z, sumar_1_2
+    ;;;;;; Si es mapa 3 o 4
+    dec    a
+    jr     z, sumar_3_4
+    dec    a
+    jr     z, sumar_3_4
+    ;;;;;; Si es mapa 5 o 6
+    dec    a
+    jr     z, sumar_5_6
+    dec    a
+    jr     z, sumar_5_6
+    ;;;;;; Si es mapa 7 o 8
+    dec    a
+    jr     z, sumar_7_8
+    dec    a
+    jr     z, sumar_7_8
+    ;;;;;; Si es mapa 9 o 10
+    dec    a
+    jr     z, sumar_9_10
+    dec    a
+    jr     z, sumar_9_10
+    ;;;;;; Si es mapa 11
+    dec    a
+    jr     z, sumar_11
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Sumar direccion al tilemap ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    sumar_1_2:
     ld     de, #_tilemap_01
+    jr continuar_sumando
+    
+    sumar_3_4:
+    ld     de, #_tilemap_01 + 1200
+    jr continuar_sumando
+
+    sumar_5_6:
+    ld     de, #_tilemap_01 + 2400
+    jr continuar_sumando
+
+    sumar_7_8:
+    ld     de, #_tilemap_01 + 3600
+    jr continuar_sumando
+
+    sumar_9_10:
+    ld     de, #_tilemap_01 + 4800
+    jr continuar_sumando
+
+    sumar_11:
+    ld     de, #_tilemap_01 + 6000
+    jr continuar_sumando
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Continuar el programa ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    ;ld      de, #_tilemap_01 + 1200
+    continuar_sumando:
+    ld      a, (tilemap_position)
+    add_de_a
     add    hl, de
 
     ;; HL = tilemap + ty * tw + tx
@@ -464,11 +537,40 @@ sys_collisions_update_entities::
 
 ;; Colision con la comida
 check_food:
+    ld a , (food_state)
+    cp #0
+    jr z, goto_eat
+    ret
+    goto_eat:
     ld a, TYPE(iy)
     cp  #E_TYPE_FOOD
     ret nz
+    ;; poner food como que ha sido comida
+    ld a, #1
+    ld (food_state) , a
+    ;; poner animacion de comer
+    ld AnimCounter(iy), #MAN_ANIM_PLAYER_EAT
+    ld bc, #anim_eat
+    ld AnimFrame(iy), c
+    ld 1+AnimFrame(iy), b
 
-    ld TYPE(iy), #E_TYPE_DEAD
+    ;; le quito componente de colision
+    ld CMPs(iy), #0x00
+    ld CMPs(iy), #E_CMP_RENDER | E_CMP_ANIMATED
+
+    ;; restar uno a la comida actual
+    ld   a, (consumibles_actuales)
+    dec  a
+
+    ;; si helados_actuales es 0 --> cambiar de mapa
+    ; jr z, cambiar_de_mapa
+    ld   (consumibles_actuales), a
+
+    call object_sound
+    ret
+
+    ; cambiar_de_mapa:
+    ; call cambio_de_mapa
 
     ret
 
@@ -490,14 +592,20 @@ check_enemy:
     ret
 
     inicio_check_enemy:
-
-    push de
-        call sys_render_draw_solid_box_player
-    pop de
-
-    ld X(ix), #20 ;; | 
-    ld Y(ix), #60 ;; | Reposicionar al player a la posicion inicial
+    ld a , (player_state)
+    cp #0
+    jr z, goto_dead_player
+    ret
+    goto_dead_player:
     
+    ;; play anim
+    ld AnimCounter(ix), #MAN_ANIM_PLAYER_HIT_ENEMY
+    ld bc, #anim_player_died
+    ld AnimFrame(ix), c
+    ld 1+AnimFrame(ix), b
+    ;; mark player as died
+    ld a, #1
+    ld (player_state) , a
     push de
         ld a , (lifes_available)
         cp #0
@@ -508,10 +616,11 @@ check_enemy:
         no_decrease:
     pop de
 
+    call death_sound
 
     ret
 
-;; Colision con la puerta     ;; TODO --> colision en el eje X
+;; Colision con la puerta 
 check_door:
 
     ld a, TYPE(iy)
@@ -524,23 +633,34 @@ check_door:
 
     ld  a, direction(ix)
     cp  #DIRECT_W
-    jr  z, colision_arriba_puerta
+    jr  z, comprobar_colision_arriba_puerta
 
     ld  a, direction(ix)
     cp  #DIRECT_S
-    jr  z, colision_abajo_puerta
+    jr  z, comprobar_colision_abajo_puerta
 
     ld  a, direction(ix)
     cp  #DIRECT_A
-    jr  z, colision_izquierda_puerta
+    jr  z, comprobar_colision_izquierda_puerta
 
     ld  a, direction(ix)
     cp  #DIRECT_D
-    jr  z, colision_derecha_puerta
+    jr  z, comprobar_colision_derecha_puerta
 
     ret
 
+    ;; COLISION ARRIBA
+
+    comprobar_colision_arriba_puerta:
+
+    ld  a, direction(iy)
+    cp  #DIRECT_S
+    jr  z, colision_arriba_puerta
+
+    jr final_check_door
+
     colision_arriba_puerta:
+
     ld  a, (tengo_llave)
     cp  #1
     jr  z, abrir_puerta
@@ -550,7 +670,18 @@ check_door:
     ld VY(ix), #0
     jr final_check_door
 
+    ;; COLISION ABAJO
+
+    comprobar_colision_abajo_puerta:
+
+    ld  a, direction(iy)
+    cp  #DIRECT_W
+    jr  z, colision_abajo_puerta
+
+    jr final_check_door
+
     colision_abajo_puerta:
+
     ld  a, (tengo_llave)
     cp  #1
     jr  z, abrir_puerta
@@ -560,36 +691,58 @@ check_door:
     ld VY(ix), #0
     jr final_check_door
 
+    ;; COLISION IZQUIERDA
+
+    comprobar_colision_izquierda_puerta:
+
+    ld  a, direction(iy)
+    cp  #DIRECT_D
+    jr  z, colision_izquierda_puerta
+
+    jr final_check_door
+
     colision_izquierda_puerta:
+
     ld  a, (tengo_llave)
     cp  #1
     jr  z, abrir_puerta
-    
-    ld   hl, #is_colliding_player + 2
+
+    ld   hl, #is_colliding_player + 3
     ld (hl),  #1
     ld VX(ix), #0
     jr final_check_door
 
+    ;; COLISION DERECHA
+
+    comprobar_colision_derecha_puerta:
+
+    ld  a, direction(iy)
+    cp  #DIRECT_A
+    jr  z, colision_derecha_puerta
+
+    jr final_check_door
+
     colision_derecha_puerta:
+
     ld  a, (tengo_llave)
     cp  #1
     jr  z, abrir_puerta
-    
-    ld   hl, #is_colliding_player + 3
+
+    ld   hl, #is_colliding_player + 2
     ld (hl),  #1
     ld VX(ix), #0
-
     jr final_check_door
 
     abrir_puerta:
 
     ld  a, #0
     ld  (tengo_llave), a
-    push de
-    call borrar_llave
-    pop de
+    ; push de
+    ; call borrar_llave
+    ; pop de
     ld  TYPE(iy), #E_TYPE_DEAD
-
+    call object_sound
+    
     final_check_door:
 
     ret
@@ -606,11 +759,13 @@ check_key:
 
     ld  a, #1
     ld  (tengo_llave), a
-    push de
-        call set_llave
-    pop de
+    ; push de
+    ;     call set_llave
+    ; pop de
 
     ld TYPE(iy), #E_TYPE_DEAD
+
+    call object_sound
 
     ret
 
@@ -625,3 +780,37 @@ _sys_collision_update::
     call _man_entity_for_all_matching
 
     ret
+
+;; play object sound on getting objects or openning doors
+object_sound:
+    push hl
+    push de
+    push bc
+    ld l, #2
+    ld h, #15
+    ld e, #60
+    ld d, #0
+    ld bc, #0
+    ld a, #2
+    call cpct_akp_SFXPlay_asm
+    pop bc
+    pop de
+    pop hl
+ret
+
+death_sound:
+;; play death sound on getting hit
+    push hl
+    push de
+    push bc
+    ld l, #1
+    ld h, #15
+    ld e, #30
+    ld d, #2
+    ld bc, #0
+    ld a, #2
+    call cpct_akp_SFXPlay_asm
+    pop bc
+    pop de
+    pop hl
+ret

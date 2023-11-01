@@ -48,8 +48,8 @@
 
 # Name of the project (without spaces, as it will be used as filename)
 #   and Z80 memory location where code will start in the generated binary
-PROJNAME   := Shurrek
-Z80CODELOC := 0x408C
+PROJNAME   := Mr_Og_The_Sampler
+Z80CODELOC := 0x01ae
 
 ##
 ## Folders 

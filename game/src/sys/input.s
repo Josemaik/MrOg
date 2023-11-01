@@ -10,6 +10,13 @@
 sys_input_update_for_one:
     ;; save entity
     push de
+    ;; check is player is died or alive
+    ld a , (player_state)
+    cp #1
+    jp z, stop_sprite_player ;; si esta muerto no puedo moverme
+    ld a , (player_reaparition_state)
+    cp #1
+    jp z, stop_sprite_player ;; si esta reapareciendo no puede moverse
      ;; scan keyboard
     call cpct_scanKeyboard_f_asm
     ;; check letter O
@@ -28,8 +35,9 @@ sys_input_update_for_one:
     ld      hl, #Key_S
     call cpct_isKeyPressed_asm
     jr nz, sys_physics_S_is_pressed
-    pop de
     ;; no se ha pulsado ninguna tecla
+    stop_sprite_player:
+    pop de
     call stop_sprite
     call desactive_animating
     jp sys_input_update_for_one_end

@@ -1,6 +1,7 @@
 ;; sprites
 .globl _spr_vidas
 .globl _spr_llave_hud
+.globl _spr_llave_hud_gris
 ;; sys
 .globl sys_render_life
 .globl sys_render_char
@@ -8,6 +9,7 @@
 .globl tengo_llave
 ;;man
 .globl lifes_available
+.globl consumibles_actuales
 ;;array_vidas
     DIE_OR_ALIVE = 0
     X = 1
