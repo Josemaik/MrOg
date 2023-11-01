@@ -96,49 +96,49 @@ anim_eat::
 
 anim_burro_up::
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_08
+    .dw _spr_burro_0
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_09
+    .dw _spr_burro_1
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_10
+    .dw _spr_burro_2
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_11
+    .dw _spr_burro_3
     .db #0x00
     .dw #anim_burro_up
 
 anim_burro_left::
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_04
+    .dw _spr_burro_0
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_05
+    .dw _spr_burro_1
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_06
+    .dw _spr_burro_2
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_07
+    .dw _spr_burro_3
     .db #0x00
     .dw #anim_burro_left
 
 anim_burro_down::
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_00
+    .dw _spr_burro_4
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_01
+    .dw _spr_burro_5
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_02
+    .dw _spr_burro_6
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_03
+    .dw _spr_burro_7
     .db #0x00
     .dw #anim_burro_down
 
 anim_burro_right::
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_12
+    .dw _spr_burro_4
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_13
+    .dw _spr_burro_5
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_14
+    .dw _spr_burro_6
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_15
+    .dw _spr_burro_7
     .db #0x00
     .dw #anim_burro_right
 

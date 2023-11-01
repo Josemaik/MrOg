@@ -25,22 +25,14 @@
   .globl _spr_spritesheet_13
   .globl _spr_spritesheet_14
   .globl _spr_spritesheet_15
-  .globl _spr_burro_00
-  .globl _spr_burro_01
-  .globl _spr_burro_02
-  .globl _spr_burro_03
-  .globl _spr_burro_04
-  .globl _spr_burro_05
-  .globl _spr_burro_06
-  .globl _spr_burro_07
-  .globl _spr_burro_08
-  .globl _spr_burro_09
-  .globl _spr_burro_10
-  .globl _spr_burro_11
-  .globl _spr_burro_12
-  .globl _spr_burro_13
-  .globl _spr_burro_14
-  .globl _spr_burro_15
+  .globl _spr_burro_0
+  .globl _spr_burro_1
+  .globl _spr_burro_2
+  .globl _spr_burro_3
+  .globl _spr_burro_4
+  .globl _spr_burro_5
+  .globl _spr_burro_6
+  .globl _spr_burro_7
   .globl _spr_enemigo_flobier_0
   .globl _spr_enemigo_flobier_1
   .globl _spr_enemigo_flobier_2

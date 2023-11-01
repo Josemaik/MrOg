@@ -43,7 +43,7 @@ flobier_entity::
 		.db     #SPR_ENEMIE_FLOBIER_H   ;; height
 		.db     #-1                 ;; vx = -1
 		.db     #0x00               ;; vy = 0
-		.dw     #_spr_burro_04  ;; sprite (2b)
+		.dw     #_spr_burro_0  ;; sprite (2b)
       .dw     #sys_ai_vertical_enemie ;; behaviour
 	  .db 	#0x0c					;; ai_counter
       .dw     #anim_burro_left ;; anim
