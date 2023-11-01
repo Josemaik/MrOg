@@ -41,62 +41,118 @@ cambio_de_mapa::
     dec     a
     jr      z, mapa_bonus
     dec     a
-    jr      z, gotomenu
+    jr      z, mapa_6
+    dec     a
+    jr      z, mapa_7
+    dec     a
+    jr      z, mapa_8
+    dec     a
+    jr      z, mapa_9
+    dec     a
+    jr      z, mapa_10
+    ;dec     a
+    ;jr      z, gotomenu
 
     ret
 
     mapa_2:
-    call set_level_screen
-    call cargar_mapa_2
-    ;; play music
-    call cpct_akp_musicPlay_asm
-    ;; reseteamos hud
-    call reset_hud
+        call set_level_screen
+        call cargar_mapa_2
+        ;; play music
+        call cpct_akp_musicPlay_asm
+        ;; reseteamos hud
+        call reset_hud
     ret
 
     mapa_3:
-    call set_level_screen
-    call cargar_mapa_3
-    ;; play music
-    call cpct_akp_musicPlay_asm
-    ;; reseteamos hud
-    call reset_hud
+        call set_level_screen
+        call cargar_mapa_3
+        ;; play music
+        call cpct_akp_musicPlay_asm
+        ;; reseteamos hud
+        call reset_hud
     ret
 
     mapa_4:
-    call set_level_screen
-    call cargar_mapa_4
-    ;; play music
-    call cpct_akp_musicPlay_asm
-    ;; reseteamos hud
-    call reset_hud
+        call set_level_screen
+        call cargar_mapa_4
+        ;; play music
+        call cpct_akp_musicPlay_asm
+        ;; reseteamos hud
+        call reset_hud
     ret
 
     mapa_5:
-    call set_level_screen
-    call cargar_mapa_5
-    ;; play music
-    call cpct_akp_musicPlay_asm
-    ;; reseteamos hud
-    call reset_hud
+        call set_level_screen
+        call cargar_mapa_5
+        ;; play music
+        call cpct_akp_musicPlay_asm
+        ;; reseteamos hud
+        call reset_hud
+    ret
+
+    mapa_bonus:
+        call set_level_screen
+        call cargar_mapa_bonus
+        ;; play music
+        call cpct_akp_musicPlay_asm
+        ;; reseteamos hud
+        call reset_hud
+    ret
+
+    mapa_6:
+        call set_level_screen
+        call cargar_mapa_6
+        ;; play music
+        call cpct_akp_musicPlay_asm
+        ;; reseteamos hud
+        call reset_hud
+    ret
+
+    mapa_7:
+        call set_level_screen
+        call cargar_mapa_7
+        ;; play music
+        call cpct_akp_musicPlay_asm
+        ;; reseteamos hud
+        call reset_hud
+    ret
+
+    mapa_8:
+        call set_level_screen
+        call cargar_mapa_8
+        ;; play music
+        call cpct_akp_musicPlay_asm
+        ;; reseteamos hud
+        call reset_hud
+    ret
+
+    mapa_9:
+        call set_level_screen
+        call cargar_mapa_9
+        ;; play music
+        call cpct_akp_musicPlay_asm
+        ;; reseteamos hud
+        call reset_hud
+    ret
+
+    mapa_10:
+        call set_level_screen
+        call cargar_mapa_10
+        ;; play music
+        call cpct_akp_musicPlay_asm
+        ;; reseteamos hud
+        call reset_hud
     ret
 
     gotomenu:
-        Ld a, #3
+        ld a, #3
         ld (lifes_available), a
         call reset_hud
         call reset_vidas_hud
         ld bc, #_main
         push bc 
-        ret
-
-    mapa_bonus:
-    call set_level_screen
-    call cargar_mapa_bonus
-    ;; play music
-    call cpct_akp_musicPlay_asm
     ret
-
     
 ret
 
@@ -327,6 +383,59 @@ cargar_mapa_bonus::
     ld (stop_score),a
 
 ret
+
+cargar_mapa_6::
+    ;; Guardamos en mapa_actual el mapa en el que estamos
+    ld      a, #7
+    ld      (mapa_actual), a
+
+    ;; Borrar entidades (menos el player, en el caso de borrarlo crearlo de nuevo, el primero)
+
+    ;; Dibujar el tilemap
+    ld    hl, #0
+    ld    (tilemap_position), hl
+    ld   de, #_tilemap_01 + 3600
+    ;add_de_hl
+    call sys_render_tilemap
+
+    ;; Reposicionar el player
+    ld     ix, #m_entities
+    ld  X(ix), #44
+    ld  Y(ix), #40
+    ;; Guardar la posicion inicial del jugador
+    ld     ix, #position_initial_player
+    ld  0(ix), #44
+    ld  1(ix), #40
+
+    ;; Crear enemigos y objetos
+    call crear_enemigos_mapa_6
+    call crear_objetos_mapa_6
+    call set_burro_animations
+    ;; Guardamos en helados_actuales los helados para recoger
+    ld      a, #1
+    ld      (consumibles_actuales), a
+    ;  ld a, #3
+    ; ld      (lifes_available), a
+     ld a, #0
+    ld (stop_score),a
+ret
+
+cargar_mapa_7::
+
+ret
+
+cargar_mapa_8::
+
+ret
+
+cargar_mapa_9::
+
+ret
+
+cargar_mapa_10::
+
+ret
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Creacion de los enemigos
 ;; 
@@ -368,6 +477,26 @@ crear_enemigos_mapa_5:
 ret
 
 crear_enemigos_mapa_bonus:
+
+ret
+
+crear_enemigos_mapa_6:
+
+ret
+
+crear_enemigos_mapa_7:
+
+ret
+
+crear_enemigos_mapa_8:
+
+ret
+
+crear_enemigos_mapa_9:
+
+ret
+
+crear_enemigos_mapa_10:
 
 ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -428,7 +557,6 @@ crear_objetos_mapa_1:
 
 
 ret
-
 crear_objetos_mapa_2:
    ;;;;;;;;;;;;;
    ;; Helados ;;
@@ -486,7 +614,6 @@ crear_objetos_mapa_2:
    call man_game_create_template_entity
 
 ret
-
 crear_objetos_mapa_3:
 
    ;;;;;;;;;;;;;
@@ -552,7 +679,6 @@ crear_objetos_mapa_3:
    call man_game_create_template_entity
 
 ret
-
 crear_objetos_mapa_4:
 
    ;;;;;;;;;;;;;
@@ -618,7 +744,6 @@ crear_objetos_mapa_4:
    call man_game_create_template_entity
 
 ret
-
 crear_objetos_mapa_5:
 
    ;;;;;;;;;;;;;
@@ -683,7 +808,6 @@ crear_objetos_mapa_5:
    call man_game_create_template_entity
 
 ret
-
 crear_objetos_mapa_bonus:
 
     ;;;;;;;;;;;;;
@@ -734,5 +858,24 @@ crear_objetos_mapa_bonus:
     ld       hl, #puerta_vertical_entity
     call man_game_create_template_entity
 
+
+ret
+crear_objetos_mapa_6::
+
+ret
+
+crear_objetos_mapa_7::
+
+ret
+
+crear_objetos_mapa_8::
+
+ret
+
+crear_objetos_mapa_9::
+
+ret
+
+crear_objetos_mapa_10::
 
 ret

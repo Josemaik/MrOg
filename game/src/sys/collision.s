@@ -67,6 +67,10 @@ comprobar_colision:
 
     add_hl_a  ;; HL = ty * tw + tx
 
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Segun el mapa que sea ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
     ;;;;;; Si es mapa 1 o 2
     ld     a, (mapa_actual)
     dec    a
@@ -83,6 +87,23 @@ comprobar_colision:
     jr     z, sumar_5_6
     dec    a
     jr     z, sumar_5_6
+    ;;;;;; Si es mapa 7 o 8
+    dec    a
+    jr     z, sumar_7_8
+    dec    a
+    jr     z, sumar_7_8
+    ;;;;;; Si es mapa 9 o 10
+    dec    a
+    jr     z, sumar_9_10
+    dec    a
+    jr     z, sumar_9_10
+    ;;;;;; Si es mapa 11
+    dec    a
+    jr     z, sumar_11
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Sumar direccion al tilemap ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     sumar_1_2:
     ld     de, #_tilemap_01
@@ -95,6 +116,22 @@ comprobar_colision:
     sumar_5_6:
     ld     de, #_tilemap_01 + 2400
     jr continuar_sumando
+
+    sumar_7_8:
+    ld     de, #_tilemap_01 + 3600
+    jr continuar_sumando
+
+    sumar_9_10:
+    ld     de, #_tilemap_01 + 4800
+    jr continuar_sumando
+
+    sumar_11:
+    ld     de, #_tilemap_01 + 6000
+    jr continuar_sumando
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Continuar el programa ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     ;ld      de, #_tilemap_01 + 1200
     continuar_sumando:
@@ -583,7 +620,7 @@ check_enemy:
 
     ret
 
-;; Colision con la puerta     ;; TODO --> colision en el eje X
+;; Colision con la puerta 
 check_door:
 
     ld a, TYPE(iy)
