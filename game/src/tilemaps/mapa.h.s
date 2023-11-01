@@ -1,18 +1,18 @@
 ;;
-;; File assets/mapa.tmx converted to csv using cpct_tmx2data [Tue Oct 31 17:41:27 2023]
+;; File assets/mapa.tmx converted to csv using cpct_tmx2data [Wed Nov  1 14:24:25 2023]
 ;;   * Visible Layers:  1
 ;;   * Layer Width:     48
-;;   * Layer Height:    75
+;;   * Layer Height:    150
 ;;   * Bits per tile:   8
-;;   * Layer Bytes:     3600 (48 x 75 items, 8 bits per item)
-;;   * Total Bytes:     3600 (3600 x 1, bytes per layer times layers)
+;;   * Layer Bytes:     7200 (48 x 150 items, 8 bits per item)
+;;   * Total Bytes:     7200 (7200 x 1, bytes per layer times layers)
 ;;
 ;;#### Width and height constants ####
 _tilemap_01_W = 48
-_tilemap_01_H = 75
+_tilemap_01_H = 150
 
 ;;#### Converted layer tilemaps ####
 ;;   Visible layers: 1
 ;;
 .globl _tilemap_01
-_tilemap_01_SIZE = 3600
+_tilemap_01_SIZE = 7200
