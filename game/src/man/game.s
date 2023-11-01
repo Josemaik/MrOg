@@ -13,7 +13,7 @@ player_reaparition_state:: ;; 0 -> nada 1-> reaparecer
 time_anim_died:: ;; tiempo animacion muerte
    .db 0xaa
 time_anim_reaparition:: ;; tiempo animacion muerte
-   .db 0xaa
+   .db 0xc8
 food_state:: ;;0-> viva 1-> muerta
    .db 0x00
 time_anim_eat:: ;; tiempo animacion comer
@@ -56,6 +56,46 @@ player_reaparition::
     ;; ANIMACION REAPARECER HA TERMINADO JUNTO A TIMEANIM A ORIGINAL
     ;; -----------------------------------------------
     ;; ponemos sprite abajo
+   ;  ld bc, #_spr_spritesheet_00
+   ;  ld SPRITE(ix), c
+   ;  ld 1+SPRITE(ix), b
+   ;  ;; ponemos animacion abajo
+   ;  ld AnimCounter(ix), #0x0c
+   ;  ld bc, #anim_S
+   ;  ld AnimFrame(ix), c
+   ;  ld 1+AnimFrame(ix), b
+    ;;--------------------------------------------------
+    ;; | Reposicionar al player a la posicion inicial
+    ld a, (position_initial_player)
+    ld X(ix), a ;; 
+    ld a, (position_initial_player + 1)
+    ld Y(ix), a ;; 
+
+     ; ponemos sprite abajo
+    ld bc, #_spr_resucitar_0
+    ld SPRITE(ix), c
+    ld 1+SPRITE(ix), b
+  
+    ;; vuelvo a poner contador a su tiempo original
+    ld a, #0xaa
+    ld (time_anim_died), a
+    ;; hacer animacion reaparecer
+    ;; YO HARIA AQUI PONER LA ANIMACION
+    ;; play anim
+    ;; hacer esto PERO AQUI CON ANIMACION REAPARECER
+    ld AnimCounter(ix), #MAN_ANIM_PLAYER_HIT_ENEMY
+    ld bc, #anim_player_resucitar
+    ld AnimFrame(ix), c
+    ld 1+AnimFrame(ix), b
+    pop ix
+    ;; mark player as respawning
+    ld a, #1
+    ld (player_reaparition_state), a
+ret
+player_reaparition_finished::
+   push ix
+    ld__ix_de
+     ; ponemos sprite abajo
     ld bc, #_spr_spritesheet_00
     ld SPRITE(ix), c
     ld 1+SPRITE(ix), b
@@ -64,34 +104,11 @@ player_reaparition::
     ld bc, #anim_S
     ld AnimFrame(ix), c
     ld 1+AnimFrame(ix), b
-    ;;--------------------------------------------------
-    ;; | Reposicionar al player a la posicion inicial
-    ld a, (position_initial_player)
-    ld X(ix), a ;; 
-    ld a, (position_initial_player + 1)
-    ld Y(ix), a ;; 
     pop ix
     ;; vuelvo a poner contador a su tiempo original
-    ld a, #0xaa
-    ld (time_anim_died), a
-    ;; hacer animacion reaparecer
-    ;; YO HARIA AQUI PONER LA ANIMACION
-    ;; play anim
-    ;; hacer esto PERO AQUI CON ANIMACION REAPARECER
-   ;  ld AnimCounter(ix), #MAN_ANIM_PLAYER_HIT_ENEMY
-   ;  ld bc, #anim_player_died
-   ;  ld AnimFrame(ix), c
-   ;  ld 1+AnimFrame(ix), b
-   ;  ;; mark player as died
-   ;  ld a, #1
-   ;  ld (player_state) , a
-   ;  ld a, #1
-   ;  ld (player_reaparition_state), a
+    ld a, #0xc8
+    ld (time_anim_reaparition), a
 ret
-; player_reaparition_anim::
-;    push ix
-;     ld__ix_de
-; ret
 ;;;;;;;;;;;;;;;;;;;;
 ;; INIT
 ;;

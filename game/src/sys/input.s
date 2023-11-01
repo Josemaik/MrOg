@@ -14,6 +14,9 @@ sys_input_update_for_one:
     ld a , (player_state)
     cp #1
     jp z, stop_sprite_player ;; si esta muerto no puedo moverme
+    ld a , (player_reaparition_state)
+    cp #1
+    jp z, stop_sprite_player ;; si esta reapareciendo no puede moverse
      ;; scan keyboard
     call cpct_scanKeyboard_f_asm
     ;; check letter O

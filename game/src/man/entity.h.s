@@ -108,4 +108,7 @@
     .globl lifes_available
     .globl reset_hud
     .globl reset_vidas_hud
+    .globl player_reaparition_state
+    .globl time_anim_reaparition
+    .globl player_reaparition_finished
    

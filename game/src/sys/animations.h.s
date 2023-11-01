@@ -11,7 +11,8 @@
    ;; managers                            
       .globl _man_entity_for_all_matching        
       .globl player_state   
-      .globl food_state       
+      .globl food_state  
+      .globl player_reaparition_state     
    ;; systems                             
 
    ;; sprites

@@ -17,3 +17,4 @@
 
    .globl m_entities
    .globl player_state
+   .globl player_reaparition_state

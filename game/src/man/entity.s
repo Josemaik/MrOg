@@ -378,6 +378,80 @@ ret
 ;    
 ;    ret
 
+check_food_anim:
+                ld hl, #CMPs
+                add hl, de
+                ld a, (hl)
+                cp #E_CMP_RENDER | E_CMP_ANIMATED
+                jr nz, check_food_anim_end
+                ld a, (food_state)
+                cp #1
+                jr nz, check_food_anim_end
+                ld a, (time_anim_eat)
+                cp #0
+                jr z, eat_anim_end
+                ;; decremento tiempo
+                ld a, (time_anim_eat)
+                dec a
+                ld (time_anim_eat) , a
+                jr check_food_anim_end
+                eat_anim_end:
+                    ld a, #0
+                    ld (food_state) , a
+                    ld hl,#TYPE
+                    add hl, de
+                    ld (hl), #E_TYPE_DEAD
+                    ;; reset time
+                    ld a, #0x1e
+                    ld (time_anim_eat), a
+                    ;; si consumibles es 0
+                    ;; cambio de mapa
+                    ld a, (consumibles_actuales)
+                    cp #0
+                    jr z, cambio_mapa
+            check_food_anim_end:
+ret
+check_player_died:
+                ;; compruebo si esta muerto
+                ld a, (player_state)
+                cp #1
+                jr nz, check_player_died_end ;; si esta vivo sigo
+                ;; jugador esta muerto
+                ;;iniciar contador
+                ld a, (time_anim_died)
+                cp #0
+                jr z, died_anim_end ;; animacion termina
+                ;; decremento tiempo
+                ld a, (time_anim_died)
+                dec a
+                ld (time_anim_died) , a
+                jr check_player_died_end
+                died_anim_end:
+                    ld a, #0
+                    ld (player_state) , a
+                    call player_reaparition
+        check_player_died_end:
+ret
+check_player_reaparition:
+                ld a, (player_reaparition_state)
+                cp #1
+                jr nz, check_player_reaparition_end ;; no reaparece
+                ;; hay que reaparecer
+                ;;iniciar contador
+                ld a, (time_anim_reaparition)
+                cp #0
+                jr z, reaparition_anim_end ;; animacion termina
+                ;; decremento tiempo
+                ld a, (time_anim_reaparition)
+                dec a
+                ld (time_anim_reaparition) , a
+                jr check_player_reaparition_end
+                reaparition_anim_end:
+                    ld a, #0
+                    ld (player_reaparition_state) , a
+                    call player_reaparition_finished
+                check_player_reaparition_end:
+ret
 ;;;;;;;;;;;;;;;;;;;;
 ;; MANAGER UPDATE ;;
 ;;;;;;;;;;;;;;;;;;;;
@@ -405,81 +479,21 @@ _man_entity_update::
 
                 ld      a, (hl)
                 cp #E_TYPE_PLAYER
-                jr nz, continuar
-                ;; compruebo si esta muerto
-                ld a, (player_state)
-                cp #1
-                jr nz, continuar;; check_reaparition ;; si esta vivo sigo
-                ;; jugador esta muerto
-                ;;iniciar contador
-                ld a, (time_anim_died)
-                cp #0
-                jr z, died_anim_end ;; animacion termina
-                ;; decremento tiempo
-                ld a, (time_anim_died)
-                dec a
-                ld (time_anim_died) , a
-                jr continuar
-                died_anim_end:
-                    ld a, #0
-                    ld (player_state) , a
-                    call player_reaparition
-                ; check_reaparition:
-                ; ld a, (player_reaparition_state)
-                ; cp #1
-                ; jr nz, continuar ;; no reaparece
-                ; ;; hay que reaparecer
-                ; ;;iniciar contador
-                ; ld a, (time_anim_reaparition)
-                ; cp #0
-                ; jr z, reaparition_anim_end ;; animacion termina
-                ; ;; decremento tiempo
-                ; ld a, (time_anim_reaparition)
-                ; dec a
-                ; ld (time_anim_reaparition) , a
-                ; jr continuar
-                ; reaparition_anim_end:
-                ;     ld a, #0
-                ;     ld (player_reaparition_state) , a
-                ;     call player_reaparition_anim
-                continuar:
+                jr nz, check_food
+
+                call check_player_died
+                call check_player_reaparition
+
+                check_food:
+
                 ld      hl, #TYPE
                 add     hl, de   
                 ld a, (hl)
                 cp #E_TYPE_FOOD
                 jr nz , continuar2
-                ld hl, #CMPs
-                add hl, de
-                ld a, (hl)
-                cp #E_CMP_RENDER | E_CMP_ANIMATED
-                jr nz, continuar2
-                ld a, (food_state)
-                cp #1
-                jr nz, continuar2
-                ld a, (time_anim_eat)
-                cp #0
-                jr z, eat_anim_end
-                ;; decremento tiempo
-                ld a, (time_anim_eat)
-                dec a
-                ld (time_anim_eat) , a
-                jr continuar2
-                eat_anim_end:
-                    ld a, #0
-                    ld (food_state) , a
-                    ld hl,#TYPE
-                    add hl, de
-                    ld (hl), #E_TYPE_DEAD
-                    ; ld hl, #CMPs
-                    ; add hl, de
-                    ; ld (hl), #0x00
-                    ld a, #0x1e
-                    ld (time_anim_eat), a
-                    ;; si consumibles es 0
-                    ;; cambio de mapa
-                    ld a, (consumibles_actuales)
-                    cp #0
-                    jr z, cambio_mapa
+
+                call check_food_anim
+                
                 continuar2:
 
                 ;; add SPACE_4_ONE_ENTITY De <==> HL

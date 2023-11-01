@@ -91,7 +91,12 @@ sys_animations_update_one_entity:
         ld a, (player_state)
         cp #1
         jr z, start_animating ;; animacion muerte
-        ret
+            jr check_reaparition_state
+        check_reaparition_state:
+            ld a, (player_reaparition_state)
+            cp #1
+            jr z, start_animating 
+            ret
     
     start_animating:
     ;; save in a the entity->animcounter
