@@ -209,7 +209,50 @@ anim_helado::
     .dw _spr_helado_3
     .db #0x00
     .dw #anim_helado
-    
+
+
+anim_amstrad::
+    .db #MAN_ANIM_PLAYER_KEY
+    .dw _spr_amstrad_0
+    .db #MAN_ANIM_PLAYER_KEY
+    .dw _spr_amstrad_1
+    .db #MAN_ANIM_PLAYER_KEY
+    .dw _spr_amstrad_2
+    .db #MAN_ANIM_PLAYER_KEY
+    .dw _spr_amstrad_3
+
+
+anim_cauldron_up::
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_cauldron_6
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_cauldron_7
+    .db #0x00
+    .dw #anim_enemy_up
+
+anim_cauldron_left::
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_cauldron_0
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_cauldron_1
+    .db #0x00
+    .dw #anim_enemy_left
+
+anim_cauldron_down::
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_cauldron_2
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_cauldron_3
+    .db #0x00
+    .dw #anim_enemy_down
+
+anim_cauldron_right::
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_cauldron_2
+    .db #MAN_ANIM_PLAYER_TIME
+    .dw _spr_cauldron_3
+    .db #0x00
+    .dw #anim_enemy_right
 
 .area _CODE
 
@@ -260,6 +303,32 @@ set_lord_animations::
     ld (anims_actual_enemy + 5) , a
     ;; izquierda
     ld bc, #anim_enemy_left
+    ld a , c
+    ld (anims_actual_enemy + 6) , a
+    ld a , b
+    ld (anims_actual_enemy + 7) , a
+ret
+set_cauldron_animations::
+ ;; arriba
+    ld bc, #anim_cauldron_up
+    ld a , c
+    ld (anims_actual_enemy) , a
+    ld a , b
+    ld (anims_actual_enemy + 1) , a
+    ;; abajo
+    ld bc, #anim_cauldron_down
+    ld a , c
+    ld (anims_actual_enemy +2) , a
+    ld a , b
+    ld (anims_actual_enemy + 3) , a
+    ;; derecha
+    ld bc, #anim_cauldron_right
+    ld a , c
+    ld (anims_actual_enemy+ 4) , a
+    ld a , b
+    ld (anims_actual_enemy + 5) , a
+    ;; izquierda
+    ld bc, #anim_cauldron_left
     ld a , c
     ld (anims_actual_enemy + 6) , a
     ld a , b

@@ -1,16 +1,8 @@
 .include "cpctelera.h.s"
+.include "level_screen.h.s"
 
 .module Level_Screen_Manager
 
-.globl cpct_scanKeyboard_f_asm
-.globl cpct_isKeyPressed_asm
-.globl cpct_setDrawCharM0_asm
-.globl cpct_drawStringM0_asm
-.globl cpct_getScreenPtr_asm
-.globl cpct_drawCharM0_asm
-.globl _sys_render_level_screen
-.globl mapa_actual
-.globl puntos_conseguidos
 
 nivel_actual:
 .db 0
@@ -34,8 +26,8 @@ string_score: .asciz "TOTAL SCORE:"
 string_puntos: .asciz "CURRENT POINTS:"
 
 string_died: .asciz "YOU DIED :("
-string_gotomenu: .asciz "PRESS ENTER TO"
-string_gotomenu1: .asciz "GO MENU"
+string_gotomenu: .asciz "PRESS [ENTER] TO"
+string_gotomenu1: .asciz "GO TO THE MENU"
 
 numeros::
 .db "0"
@@ -75,6 +67,8 @@ set_died_screen::
          jr    z, levelscreen_loop1
 ret
 man_diedscreen_init:
+    ;; stop music
+        call cpct_akp_stop_asm
     call _sys_render_level_screen
     ld    h, #0
     ld    l, #10     

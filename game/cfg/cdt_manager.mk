@@ -24,7 +24,14 @@
 ############################################################################
 
 ## Set the name of your main game file in the CDT here
-$(eval $(call CDTMAN, SET_FILENAME, Game))
+$(eval $(call CDTMAN, SET_FILENAME, Mr_Og_TheSampler))
+
+
+PALETTE=0 1 2 3 6 9 11 12 13 15 16 18 20 24 25 26
+$(eval $(call CDTMAN, SET_MINILOAD_MODE, 0))
+$(eval $(call CDTMAN, SET_MINILOAD_PALETTE_FW, 3, $(PALETTE)))
+
+$(eval $(call CDTMAN, GEN_MINILOADER, assets/menu_screen.png))
 
 ###############################################################################
 ##                    CASSETE FILE MANAGER HELP INDEX                        ##
