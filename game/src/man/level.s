@@ -400,19 +400,19 @@ cargar_mapa_6::
 
     ;; Reposicionar el player
     ld     ix, #m_entities
-    ld  X(ix), #44
+    ld  X(ix), #36
     ld  Y(ix), #40
     ;; Guardar la posicion inicial del jugador
     ld     ix, #position_initial_player
-    ld  0(ix), #44
+    ld  0(ix), #36
     ld  1(ix), #40
 
     ;; Crear enemigos y objetos
     call crear_enemigos_mapa_6
     call crear_objetos_mapa_6
-    call set_burro_animations
+    call set_lord_animations
     ;; Guardamos en helados_actuales los helados para recoger
-    ld      a, #1
+    ld      a, #3
     ld      (consumibles_actuales), a
     ;  ld a, #3
     ; ld      (lifes_available), a
