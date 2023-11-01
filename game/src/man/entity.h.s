@@ -111,4 +111,6 @@
     .globl player_reaparition_state
     .globl time_anim_reaparition
     .globl player_reaparition_finished
+    .globl set_died_screen
+    .globl id_numeros
    

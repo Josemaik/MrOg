@@ -493,7 +493,7 @@ _man_entity_update::
                 jr nz , continuar2
 
                 call check_food_anim
-                
+
                 continuar2:
 
                 ;; add SPACE_4_ONE_ENTITY De <==> HL
@@ -519,11 +519,18 @@ _man_entity_update::
     ;; comprobar si no tengo vidas y volver a menu
     ld a, (lifes_available)
     cp #0
-    jr z, goto_menu
+    jr z, goto_screen_died
     ret
-    goto_menu:
+    goto_screen_died:
+        call set_died_screen
         Ld a, #3
         ld (lifes_available), a
+        ld a, #0
+        ld (player_state) , a
+        ld a, #0
+        ld (player_reaparition_state) , a
+        ld a, #1
+        ld (id_numeros), a
         call reset_hud
         call reset_vidas_hud
         ld bc, #_main
