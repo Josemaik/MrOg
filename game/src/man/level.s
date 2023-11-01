@@ -491,7 +491,14 @@ crear_enemigos_mapa_bonus:
 ret
 
 crear_enemigos_mapa_6:
-
+    ld ix, #flobier_entity
+    ld    X(ix), #56
+    ld    Y(ix), #64
+    ; ld bc, #anim_enemy_right
+    ; ld AnimFrame(ix), c
+    ; ld 1+AnimFrame(ix), b
+    ld       hl, #flobier_entity
+    call man_game_create_template_entity
 ret
 
 crear_enemigos_mapa_7:

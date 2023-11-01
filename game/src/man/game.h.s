@@ -36,6 +36,7 @@
       .globl anim_burro_up
       .globl anim_burro_right
       .globl anim_player_resucitar
+      .globl anim_enemy_right
 
    ;; levels
       .globl cambio_de_mapa

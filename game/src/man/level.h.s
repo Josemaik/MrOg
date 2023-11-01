@@ -32,6 +32,7 @@
    .globl cpct_akp_musicPlay_asm
    ;;ia
    .globl anim_cauldron_up
+   .globl anim_enemy_right
    ;; Render
    .globl sys_render_tilemap
 
