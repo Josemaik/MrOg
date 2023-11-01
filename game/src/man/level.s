@@ -1251,11 +1251,11 @@ crear_objetos_mapa_10::
     ;; Consumibles ;;
     ;;;;;;;;;;;;;;;;;
 
-    ld       ix, #chocolate_entity
+    ld       ix, #galleta_entity
 
     ld    X(ix), #32
     ld    Y(ix), #40
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
     
     ld       ix, #helado_entity
