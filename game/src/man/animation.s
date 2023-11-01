@@ -58,30 +58,30 @@ anim_D::
     .dw #anim_D
 anim_player_died::
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_muelte_0
+    .dw _spr_spritesheet_16
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_muelte_1
+    .dw _spr_spritesheet_17
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_muelte_2
+    .dw _spr_spritesheet_18
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_muelte_3
+    .dw _spr_spritesheet_19
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_muelte_4
+    .dw _spr_spritesheet_20
     .db #0x00
     .dw #anim_player_died
 anim_player_resucitar::
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_resucitar_0
+    .dw _spr_spritesheet_21
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_resucitar_1
+    .dw _spr_spritesheet_22
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_resucitar_2
+    .dw _spr_spritesheet_23
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_resucitar_3
+    .dw _spr_spritesheet_24
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_resucitar_4
+    .dw _spr_spritesheet_25
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_resucitar_5
+    .dw _spr_spritesheet_26
     .db #0x00
     .dw #anim_player_resucitar
 anim_eat::
@@ -255,6 +255,22 @@ anim_cauldron_right::
     .dw _spr_cauldron_3
     .db #0x00
     .dw #anim_cauldron_right
+
+anim_galleta::
+    .db #MAN_ANIM_PLAYER_ICECREAM
+    .dw _spr_galleta_0
+    .db #MAN_ANIM_PLAYER_ICECREAM
+    .dw _spr_galleta_1
+    .db #MAN_ANIM_PLAYER_ICECREAM
+    .dw _spr_galleta_2
+    .db #MAN_ANIM_PLAYER_ICECREAM
+    .dw _spr_galleta_3
+    .db #MAN_ANIM_PLAYER_ICECREAM
+    .dw _spr_galleta_4
+    .db #MAN_ANIM_PLAYER_ICECREAM
+    .dw _spr_galleta_5
+    .db #0x00
+    .dw #anim_galleta
 
 .area _CODE
 

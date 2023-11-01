@@ -51,11 +51,11 @@
   .globl _spr_enemigo_flobier_7
   .globl _spr_puerta_horizontal
   .globl _spr_puerta_vertical
-  .globl _spr_muelte_0
-  .globl _spr_muelte_1
-  .globl _spr_muelte_2
-  .globl _spr_muelte_3
-  .globl _spr_muelte_4
+  .globl _spr_spritesheet_16
+  .globl _spr_spritesheet_17
+  .globl _spr_spritesheet_18
+  .globl _spr_spritesheet_19
+  .globl _spr_spritesheet_20
   .globl _spr_comer_0
   .globl _spr_comer_1
   .globl _spr_comer_2
@@ -68,16 +68,15 @@
   .globl _spr_llave_6
   .globl _spr_llave_7
   .globl _spr_helado_0
-  .globl _spr_chocolate
   .globl _spr_helado_1
   .globl _spr_helado_2
   .globl _spr_helado_3
-  .globl _spr_resucitar_0
-  .globl _spr_resucitar_1
-  .globl _spr_resucitar_2
-  .globl _spr_resucitar_3
-  .globl _spr_resucitar_4
-  .globl _spr_resucitar_5
+  .globl _spr_spritesheet_21
+  .globl _spr_spritesheet_22
+  .globl _spr_spritesheet_23
+  .globl _spr_spritesheet_24
+  .globl _spr_spritesheet_25
+  .globl _spr_spritesheet_26
   .globl _spr_amstrad_0
   .globl _spr_amstrad_1
   .globl _spr_amstrad_2
@@ -90,4 +89,10 @@
   .globl _spr_cauldron_5
   .globl _spr_cauldron_6
   .globl _spr_cauldron_7
+  .globl _spr_galleta_0
+  .globl _spr_galleta_1
+  .globl _spr_galleta_2
+  .globl _spr_galleta_3
+  .globl _spr_galleta_4
+  .globl _spr_galleta_5
   
