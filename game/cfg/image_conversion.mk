@@ -20,6 +20,8 @@ $(eval $(call IMG2SP, CONVERT, assets/spritesheet.png , 16, 16, spr_spritesheet)
 $(eval $(call IMG2SP, CONVERT, assets/burro.png , 16, 16, spr_burro))
 $(eval $(call IMG2SP, CONVERT, assets/chocolate.png , 16, 16, spr_chocolate))
 $(eval $(call IMG2SP, CONVERT, assets/helado.png , 16, 16, spr_helado))
+$(eval $(call IMG2SP, CONVERT, assets/cauldron.png , 16, 16, spr_cauldron))
+$(eval $(call IMG2SP, CONVERT, assets/amstrad.png , 16, 16, spr_amstrad))
 
 $(eval $(call IMG2SP, CONVERT, assets/puerta_horizontal.png , 16, 8, spr_puerta_horizontal))
 $(eval $(call IMG2SP, CONVERT, assets/puerta_vertical.png , 8, 16, spr_puerta_vertical))

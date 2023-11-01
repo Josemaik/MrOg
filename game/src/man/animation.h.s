@@ -77,3 +77,14 @@
   .globl _spr_resucitar_3
   .globl _spr_resucitar_4
   .globl _spr_resucitar_5
+  .globl _spr_amstrad_0
+  .globl _spr_amstrad_1
+  .globl _spr_amstrad_2
+  .globl _spr_amstrad_3
+  .globl _spr_cauldron_0
+  .globl _spr_cauldron_1
+  .globl _spr_cauldron_2
+  .globl _spr_cauldron_3
+  .globl _spr_cauldron_6
+  .globl _spr_cauldron_7
+  
