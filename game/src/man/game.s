@@ -72,7 +72,7 @@ player_reaparition::
     ld Y(ix), a ;; 
 
      ; ponemos sprite abajo
-    ld bc, #_spr_resucitar_0
+    ld bc, #_spr_spritesheet_21
     ld SPRITE(ix), c
     ld 1+SPRITE(ix), b
   
@@ -113,9 +113,9 @@ ret
 ;; INIT
 ;;
 man_game_init::
-      call set_level_screen
     ;; configure videomode, palet y border
        call     _sys_render_init
+      call set_level_screen
 
     ;; inicialize manager entity
        call     _man_entity_init
