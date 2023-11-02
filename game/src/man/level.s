@@ -26,7 +26,8 @@ cambio_de_mapa::
     call _man_entity_init
     ;; creamos jugador
     call _inicialize_templates
-    
+
+    call set_level_screen    
 
     ;; Comprobar que mapa cargamos
     ld      a, (mapa_actual)
@@ -50,13 +51,12 @@ cambio_de_mapa::
     jr      z, mapa_9
     dec     a
     jr      z, mapa_10
-    ;dec     a
-    ;jr      z, gotomenu
+    dec     a
+    jr      z, gotomenu
 
     ret
 
     mapa_2:
-        call set_level_screen
         call cargar_mapa_2
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -65,7 +65,6 @@ cambio_de_mapa::
     ret
 
     mapa_3:
-        call set_level_screen
         call cargar_mapa_3
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -74,7 +73,6 @@ cambio_de_mapa::
     ret
 
     mapa_4:
-        call set_level_screen
         call cargar_mapa_4
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -83,7 +81,6 @@ cambio_de_mapa::
     ret
 
     mapa_5:
-        call set_level_screen
         call cargar_mapa_5
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -92,7 +89,6 @@ cambio_de_mapa::
     ret
 
     mapa_bonus:
-        call set_level_screen
         call cargar_mapa_bonus
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -101,7 +97,6 @@ cambio_de_mapa::
     ret
 
     mapa_6:
-        call set_level_screen
         call cargar_mapa_6
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -110,7 +105,6 @@ cambio_de_mapa::
     ret
 
     mapa_7:
-        call set_level_screen
         call cargar_mapa_7
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -119,7 +113,6 @@ cambio_de_mapa::
     ret
 
     mapa_8:
-        call set_level_screen
         call cargar_mapa_8
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -128,7 +121,6 @@ cambio_de_mapa::
     ret
 
     mapa_9:
-        call set_level_screen
         call cargar_mapa_9
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -137,7 +129,6 @@ cambio_de_mapa::
     ret
 
     mapa_10:
-        call set_level_screen
         call cargar_mapa_10
         ;; play music
         call cpct_akp_musicPlay_asm
