@@ -20,6 +20,9 @@ tengo_llave::
 tilemap_position::
     .dw 0x0000
 
+screen_width  = 80
+screen_height = 200
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Inicializar is_colliding_player
 ;;
@@ -410,6 +413,39 @@ sys_collision_update_player_tilemap:
     call inicializar_player_colision
 
     ld   ix, #m_entities
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Comprobar que si se sale de la pantalla se reposicione a la posicion original
+    
+    ;; X ;;
+    ld    a, #screen_width + 1
+    sub   WIDTH(ix)
+    ld    c, a
+    ld    a, X(ix)
+    add   VX(ix)
+    cp    c             
+    jr   nc, se_sale_de_los_limites
+
+    ;; Y ;;
+    ld    a, #screen_height + 1
+    sub   HEIGHT(ix)
+    ld    c, a
+    ld    a, Y(ix)
+    add   VY(ix)
+    cp    c             
+    jr   nc, se_sale_de_los_limites
+
+    jr continuar_comprobando_colisiones
+
+    se_sale_de_los_limites:
+        call sys_render_draw_solid_box_player
+        ;; | Reposicionar al player a la posicion inicial
+        ld a, (position_initial_player)
+        ld X(ix), a ;; 
+        ld a, (position_initial_player + 1)
+        ld Y(ix), a ;; 
+
+    continuar_comprobando_colisiones:
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Colision con la parte de arriba (W) 
