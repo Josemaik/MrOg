@@ -24,20 +24,24 @@ string_intro_4:
 .asciz "NOT MY SWAMP"
 string_intro_5:
 .asciz "GOODBYE MY SWAMP"
-string_intro_6:
-.asciz "CONGRATS, AMSTRAD Z80"
-string_intro_7:
-.asciz "CASTLE ME"
-string_intro_8:
-.asciz "MAYBE MY CASTLE"
-string_intro_9:
-.asciz "NO PRINCESS YET"
-string_intro_10:
-.asciz "ON ANOTHER CASTLE"
 string_intro_11:
-.asciz "YOUR AMSTRAD IS HERE"
+.asciz "CONGRATS"
+string_intro_11_1:
+.asciz "AMSTRAD Z80 !"
+string_intro_6:
+.asciz "CASTLE ME"
+string_intro_7:
+.asciz "MAYBE MY CASTLE"
+string_intro_8:
+.asciz "NO PRINCESS YET"
+string_intro_9:
+.asciz "ON ANOTHER CASTLE"
+string_intro_10:
+.asciz "YOUR CASTLE IS HERE"
 string_instrucciones:
-.asciz "EAT ALL ICECREAM IN THE LEAST TIME"
+.asciz "EAT ALL ICECREAM"
+string_instrucciones1:
+.asciz "IN THE LEAST TIME" 
 string_score: .asciz "TOTAL SCORE:"
 string_puntos: .asciz "CURRENT POINTS:"
 
@@ -47,6 +51,7 @@ string_gotomenu1: .asciz "GO TO THE MENU"
 string_bonus: .asciz "BONUS"
 string_10: .asciz "10"
 
+string_enter: .asciz "PRESS ENTER"
 numeros::
 .db "1"
 .db 0x00
@@ -149,11 +154,11 @@ man_levelscreen_init::
     call cpct_getScreenPtr_asm    ;; Calculate video memory location and return it in HL
     
     ld a, (id_numeros)
-    cp #6
+    cp #11
     jr z, bonus_level
     
     ld a, (id_numeros)
-    cp #11
+    cp #10
     jr z, level_10
 
     jr lvl_normal
@@ -175,7 +180,7 @@ man_levelscreen_init::
     ;; Calculate a video-memory location for printing a string
     ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
     ld    b, #50                  ;; B = y coordinate (24 = 0x18)
-    ld    c, #5                ;; C = x coordinate (16 = 0x10)
+    ld    c, #4                ;; C = x coordinate (16 = 0x10)
 
     call cpct_getScreenPtr_asm    ;; Calculate video memory location and return it in HL
 
@@ -266,12 +271,23 @@ man_levelscreen_init::
 
     intro_11:
     ld iy, #string_intro_11
-    jr draw_intro_desp
+    jr draw_intro_desp1
 
     draw_intro_1:
     jr instrucciones
 
     draw_intro_desp:
+    call cpct_drawStringM0_asm
+    jr goto_decrementar
+    draw_intro_desp1:
+    call cpct_drawStringM0_asm
+
+    ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
+    ld    b, #64                  ;; B = y coordinate (24 = 0x18)
+    ld    c, #4                ;; C = x coordinate (16 = 0x10)
+
+    call cpct_getScreenPtr_asm 
+    ld iy, ##string_intro_11_1
     call cpct_drawStringM0_asm
     jr goto_decrementar
     instrucciones:
@@ -284,11 +300,21 @@ man_levelscreen_init::
     ;; Calculate a video-memory location for printing a string
     ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
     ld    b, #80                  ;; B = y coordinate (24 = 0x18)
-    ld    c, #00                ;; C = x coordinate (16 = 0x10)
+    ld    c, #5                ;; C = x coordinate (16 = 0x10)
 
     call cpct_getScreenPtr_asm    ;; Calculate video memory location and return it in HL
 
     ld iy, #string_instrucciones
+    call cpct_drawStringM0_asm
+
+    ;; Calculate a video-memory location for printing a string
+    ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
+    ld    b, #92                  ;; B = y coordinate (24 = 0x18)
+    ld    c, #5                ;; C = x coordinate (16 = 0x10)
+
+    call cpct_getScreenPtr_asm    ;; Calculate video memory location and return it in HL
+
+    ld iy, #string_instrucciones1
     call cpct_drawStringM0_asm
 
     goto_decrementar:
@@ -355,6 +381,18 @@ man_levelscreen_init::
     ; call set_e
     ;;ld iy, #puntos_conseguidos + 2
    call cpct_drawCharM0_asm  ;; Draw the string
+   ;; enter
+    ld    h, #0
+    ld    l, #9     
+    call cpct_setDrawCharM0_asm
+    ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
+    ld    b, #165                  ;; B = y coordinate (24 = 0x18)
+    ld    c, #16              ;; C = x coordinate (16 = 0x10)
+
+    call cpct_getScreenPtr_asm    ;; Calculate video memory location and return it in HL
+
+    ld iy, #string_enter
+    call cpct_drawStringM0_asm
 
 ret
 
