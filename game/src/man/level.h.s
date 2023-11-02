@@ -34,6 +34,7 @@
    ;;ia
    .globl anim_cauldron_up
    .globl anim_enemy_right
+   .globl anim_enemy_up
    ;; Render
    .globl sys_render_tilemap
 

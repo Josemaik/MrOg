@@ -609,7 +609,16 @@ crear_enemigos_mapa_8:
 ret
 
 crear_enemigos_mapa_9:
-
+    ld ix, #flobier_entity2
+    ld    X(ix), #56
+    ld    Y(ix), #178
+    ld bc, #anim_enemy_up
+    ld AnimFrame(ix), c
+    ld 1+AnimFrame(ix), b
+    ld a, #DIRECT_W
+    ld direction(ix), a
+    ld       hl, #flobier_entity2
+    call man_game_create_template_entity
 ret
 
 crear_enemigos_mapa_10:
