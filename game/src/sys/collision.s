@@ -85,24 +85,25 @@ comprobar_colision:
     jr     z, sumar_3_4
     dec    a
     jr     z, sumar_3_4
-    ;;;;;; Si es mapa 5 o 6
+    ;;;;;; Si es mapa 5 o bonus
     dec    a
-    jr     z, sumar_5_6
+    jr     z, sumar_5_bonus
+    ;;;;;; Si es mapa 6 o 7
     dec    a
-    jr     z, sumar_5_6
-    ;;;;;; Si es mapa 7 o 8
+    jr     z, sumar_6_7
     dec    a
-    jr     z, sumar_7_8
+    jr     z, sumar_6_7
+    ;;;;;; Si es mapa 8 o 9
     dec    a
-    jr     z, sumar_7_8
-    ;;;;;; Si es mapa 9 o 10
+    jr     z, sumar_8_9
     dec    a
-    jr     z, sumar_9_10
+    jr     z, sumar_8_9
+    ;;;;;; Si es mapa 10
     dec    a
-    jr     z, sumar_9_10
-    ;;;;;; Si es mapa 11
+    jr     z, sumar_10
+    ;;;;;; Si es mapa bonus
     dec    a
-    jr     z, sumar_11
+    jr     z, sumar_5_bonus
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Sumar direccion al tilemap ;;
@@ -116,19 +117,19 @@ comprobar_colision:
     ld     de, #_tilemap_01 + 1200
     jr continuar_sumando
 
-    sumar_5_6:
+    sumar_5_bonus:
     ld     de, #_tilemap_01 + 2400
     jr continuar_sumando
 
-    sumar_7_8:
+    sumar_6_7:
     ld     de, #_tilemap_01 + 3600
     jr continuar_sumando
 
-    sumar_9_10:
+    sumar_8_9:
     ld     de, #_tilemap_01 + 4800
     jr continuar_sumando
 
-    sumar_11:
+    sumar_10:
     ld     de, #_tilemap_01 + 6000
     jr continuar_sumando
 
