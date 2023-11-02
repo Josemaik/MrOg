@@ -35,10 +35,10 @@ sys_ai_horizontal_enemie::
     cp #3
     jr z, load_XY_mapa_3
     ld a, (mapa_actual)
-    cp #9
+    cp #8
     jr z, load_XY_mapa_9
     ld a, (mapa_actual)
-    cp #10
+    cp #9
     jr z, load_XY_mapa_10
     load_XY_mapa_3:
         ld a, #56
@@ -127,13 +127,13 @@ sys_ai_vertical_enemie::
     cp #5
     jr z, load_XY_mapa_5
     ld a, (mapa_actual)
-    cp #7
+    cp #6
     jr z, load_XY_mapa_6
     ld a, (mapa_actual)
-    cp #8
+    cp #7
     jr z, load_XY_mapa_7
     ld a, (mapa_actual)
-    cp #11
+    cp #10
     jr z, load_XY_mapa_11
     load_XY_mapa_prueba:
         ld a, #64
