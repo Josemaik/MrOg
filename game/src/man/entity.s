@@ -428,7 +428,7 @@ check_food_anim:
                         ld (id_numeros), a
                         call reset_hud
                         call reset_vidas_hud
-                        ld bc, #_main
+                        ld bc, #man_game_init
                         push bc 
                         ret
                         cambio_mapa:
@@ -556,7 +556,7 @@ _man_entity_update::
         ld (id_numeros), a
         call reset_hud
         call reset_vidas_hud
-        ld bc, #_main
+        ld bc, #man_game_init
         push bc 
         ret
     ret

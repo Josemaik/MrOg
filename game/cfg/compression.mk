@@ -38,7 +38,8 @@
 $(eval $(call ADD2PACK,menu_screen_z, assets/screens/menu_screen.bin))
 $(eval $(call PACKZX7B,menu_screen_z, assets/screens))
 
-
+$(eval $(call ADD2PACK,final_screen_z, assets/screens/final_screen.bin))
+$(eval $(call PACKZX7B,final_screen_z, assets/screens))
 
 
 ############################################################################
