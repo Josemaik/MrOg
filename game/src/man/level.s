@@ -626,15 +626,40 @@ crear_enemigos_mapa_6:
 ret
 
 crear_enemigos_mapa_7:
-
+    ld ix, #flobier_entity
+    ld    X(ix), #68
+    ld    Y(ix), #72
+    ld bc, #anim_enemy_left
+    ld AnimFrame(ix), c
+    ld 1+AnimFrame(ix), b
+    ld       hl, #flobier_entity
+    call man_game_create_template_entity
 ret
 
 crear_enemigos_mapa_8:
-
+    ld ix, #flobier_entity2
+    ld    X(ix), #36
+    ld    Y(ix), #178
+    ld bc, #anim_enemy_up
+    ld AnimFrame(ix), c
+    ld 1+AnimFrame(ix), b
+    ld a, #DIRECT_W
+    ld direction(ix), a
+    ld       hl, #flobier_entity2
+    call man_game_create_template_entity
 ret
 
 crear_enemigos_mapa_9:
-
+    ld ix, #flobier_entity2
+    ld    X(ix), #56
+    ld    Y(ix), #178
+    ld bc, #anim_enemy_up
+    ld AnimFrame(ix), c
+    ld 1+AnimFrame(ix), b
+    ld a, #DIRECT_W
+    ld direction(ix), a
+    ld       hl, #flobier_entity2
+    call man_game_create_template_entity
 ret
 
 crear_enemigos_mapa_10:
