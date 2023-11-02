@@ -408,9 +408,35 @@ check_food_anim:
                     ;; cambio de mapa
                     ld a, (consumibles_actuales)
                     cp #0
-                    jr z, cambio_mapa
+                    jr nz, check_food_anim_end
+                        ld a, (mapa_actual)
+                        cp #11
+                        jr nz, cambio_mapa
+                        ;; poner screen_final hasta pulsar enter
+                        call screnn_final
+                        screnn_final_loop:
+                            call man_menu_update
+                            jr    z, screnn_final_loop
+                        ;; al salir de la pantalla final volver a menu
+                        Ld a, #3
+                        ld (lifes_available), a
+                        ld a, #0
+                        ld (player_state) , a
+                        ld a, #0
+                        ld (player_reaparition_state) , a
+                        ld a, #1
+                        ld (id_numeros), a
+                        call reset_hud
+                        call reset_vidas_hud
+                        ld bc, #_main
+                        push bc 
+                        ret
+                        cambio_mapa:
+                        call cambio_de_mapa
             check_food_anim_end:
 ret
+
+
 check_player_died:
                 ;; compruebo si esta muerto
                 ld a, (player_state)
@@ -511,9 +537,6 @@ _man_entity_update::
                 call    man_entity_destroy        
             man_update_not_destroy_entity:  
                 jr      man_update_init_for
-            
-            cambio_mapa:
-                    call cambio_de_mapa
 
     man_update_end_for:
     ;; comprobar si no tengo vidas y volver a menu

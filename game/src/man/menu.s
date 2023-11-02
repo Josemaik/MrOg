@@ -14,7 +14,13 @@ man_menu_init::
     ld  de, #0xFFFF
     call cpct_zx7b_decrunch_s_asm
 ret
+screnn_final::
+    call _sys_render_init
 
+    ld  hl, #_menu_screen_z_end ;; poner la pantalla final
+    ld  de, #0xFFFF
+    call cpct_zx7b_decrunch_s_asm
+ret
 man_menu_update::
     call cpct_scanKeyboard_f_asm
     ld  hl, #Key_Return

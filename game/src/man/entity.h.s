@@ -120,4 +120,7 @@
     .globl player_reaparition_finished
     .globl set_died_screen
     .globl id_numeros
+    .globl mapa_actual
+    .globl screnn_final
+    .globl man_menu_update
    
