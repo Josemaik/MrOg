@@ -26,7 +26,8 @@ cambio_de_mapa::
     call _man_entity_init
     ;; creamos jugador
     call _inicialize_templates
-    
+
+    call set_level_screen    
 
     ;; Comprobar que mapa cargamos
     ld      a, (mapa_actual)
@@ -50,13 +51,12 @@ cambio_de_mapa::
     jr      z, mapa_9
     dec     a
     jr      z, mapa_10
-    ;dec     a
-    ;jr      z, gotomenu
+    dec     a
+    jr      z, gotomenu
 
     ret
 
     mapa_2:
-        call set_level_screen
         call cargar_mapa_2
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -65,7 +65,6 @@ cambio_de_mapa::
     ret
 
     mapa_3:
-        call set_level_screen
         call cargar_mapa_3
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -74,7 +73,6 @@ cambio_de_mapa::
     ret
 
     mapa_4:
-        call set_level_screen
         call cargar_mapa_4
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -83,7 +81,6 @@ cambio_de_mapa::
     ret
 
     mapa_5:
-        call set_level_screen
         call cargar_mapa_5
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -92,7 +89,6 @@ cambio_de_mapa::
     ret
 
     mapa_bonus:
-        call set_level_screen
         call cargar_mapa_bonus
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -101,7 +97,6 @@ cambio_de_mapa::
     ret
 
     mapa_6:
-        call set_level_screen
         call cargar_mapa_6
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -110,7 +105,6 @@ cambio_de_mapa::
     ret
 
     mapa_7:
-        call set_level_screen
         call cargar_mapa_7
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -119,7 +113,6 @@ cambio_de_mapa::
     ret
 
     mapa_8:
-        call set_level_screen
         call cargar_mapa_8
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -128,7 +121,6 @@ cambio_de_mapa::
     ret
 
     mapa_9:
-        call set_level_screen
         call cargar_mapa_9
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -137,7 +129,6 @@ cambio_de_mapa::
     ret
 
     mapa_10:
-        call set_level_screen
         call cargar_mapa_10
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -532,6 +523,40 @@ cargar_mapa_9::
 ret
 
 cargar_mapa_10::
+
+    ;; Guardamos en mapa_actual el mapa en el que estamos
+    ld      a, #11
+    ld      (mapa_actual), a
+
+    ;; Borrar entidades (menos el player, en el caso de borrarlo crearlo de nuevo, el primero)
+
+    ;; Dibujar el tilemap
+    ld    hl, #0
+    ld    (tilemap_position), hl
+    ld   de, #_tilemap_01 + 6000
+    ;add_de_hl
+    call sys_render_tilemap
+
+    ;; Reposicionar el player
+    ld     ix, #m_entities
+    ld  X(ix), #8
+    ld  Y(ix), #120
+    ;; Guardar la posicion inicial del jugador
+    ld     ix, #position_initial_player
+    ld  0(ix), #8
+    ld  1(ix), #120
+
+    ;; Crear enemigos y objetos
+    call crear_enemigos_mapa_10
+    call crear_objetos_mapa_10
+    call set_lord_animations
+    ;; Guardamos en helados_actuales los helados para recoger
+    ld      a, #2
+    ld      (consumibles_actuales), a
+    ;  ld a, #3
+    ; ld      (lifes_available), a
+     ld a, #0
+    ld (stop_score),a
 
 ret
 
@@ -1010,23 +1035,23 @@ ret
 ;;;;;;;;;;;;;;;; Mundo 2 ;;;;;;;;;;;;;;;;
 crear_objetos_mapa_6::
     ;;;;;;;;;;;;;;;
-    ;; Chocolate ;;
+    ;; Galleta ;;
     ;;;;;;;;;;;;;;;
 
-    ld       ix, #chocolate_entity
+    ld       ix, #galleta_entity
 
     ld    X(ix), #4
     ld    Y(ix), #32
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
     
     ld    X(ix), #68
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
 
     ld    X(ix), #4
     ld    Y(ix), #176
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
 
     ;;;;;;;;;;;;
@@ -1063,24 +1088,24 @@ crear_objetos_mapa_6::
 ret
 crear_objetos_mapa_7::
     ;;;;;;;;;;;;;;;
-    ;; Chocolate ;;
+    ;; Galleta ;;
     ;;;;;;;;;;;;;;;
 
-    ld       ix, #chocolate_entity
+    ld       ix, #galleta_entity
 
     ld    X(ix), #68
     ld    Y(ix), #32
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
     
     ld    X(ix), #44
     ld    Y(ix), #152
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
 
     ld    X(ix), #16
     ld    Y(ix), #120
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
 
     ;;;;;;;;;;;;
@@ -1125,24 +1150,24 @@ ret
 
 crear_objetos_mapa_8::
     ;;;;;;;;;;;;;;;
-    ;; Chocolate ;;
+    ;; Galleta ;;
     ;;;;;;;;;;;;;;;
 
-    ld       ix, #chocolate_entity
+    ld       ix, #galleta_entity
 
     ld    X(ix), #68
     ld    Y(ix), #64
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
     
     ld    X(ix), #56
     ld    Y(ix), #64
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
 
     ld    X(ix), #8
     ld    Y(ix), #120
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
 
     ;;;;;;;;;;;;
@@ -1182,24 +1207,24 @@ ret
 
 crear_objetos_mapa_9::
     ;;;;;;;;;;;;;;;
-    ;; Chocolate ;;
+    ;; Galleta ;;
     ;;;;;;;;;;;;;;;
 
-    ld       ix, #chocolate_entity
+    ld       ix, #galleta_entity
 
     ld    X(ix), #4
     ld    Y(ix), #32
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
     
     ld    X(ix), #44
     ld    Y(ix), #112
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
 
     ld    X(ix), #68
     ld    Y(ix), #176
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
 
     ;;;;;;;;;;;;
@@ -1238,5 +1263,53 @@ crear_objetos_mapa_9::
 ret
 
 crear_objetos_mapa_10::
+    ;;;;;;;;;;;;;;;;;
+    ;; Consumibles ;;
+    ;;;;;;;;;;;;;;;;;
 
+    ld       ix, #galleta_entity
+
+    ld    X(ix), #32
+    ld    Y(ix), #40
+    ld       hl, #galleta_entity
+    call man_game_create_template_entity
+    
+    ld       ix, #helado_entity
+
+    ld    X(ix), #40
+    ld    Y(ix), #40
+    ld       hl, #helado_entity
+    call man_game_create_template_entity
+
+    ;;;;;;;;;;;;
+    ;; Llaves ;;
+    ;;;;;;;;;;;;
+
+    ld       ix, #llave_entity
+
+    ld    X(ix), #24
+    ld    Y(ix), #176
+    ld       hl, #llave_entity
+    call man_game_create_template_entity
+
+    ld    X(ix), #56
+    ld    Y(ix), #128
+    ld       hl, #llave_entity
+    call man_game_create_template_entity
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Puertas Horizontales ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    ld       ix, #puerta_horizontal_entity
+
+    ld    X(ix), #36
+    ld    Y(ix), #64
+    ld    direction(ix), #DIRECT_S
+    ld       hl, #puerta_horizontal_entity
+    call man_game_create_template_entity
+
+    ld    Y(ix), #72
+    ld       hl, #puerta_horizontal_entity
+    call man_game_create_template_entity
 ret
