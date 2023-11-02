@@ -19,29 +19,69 @@ sys_input_update_for_one:
     jp z, stop_sprite_player ;; si esta reapareciendo no puede moverse
      ;; scan keyboard
     call cpct_scanKeyboard_f_asm
-    ;; check letter O
+    ;; check left
+    ld      hl, #Key_O
+    call cpct_isKeyPressed_asm
+    jp nz, sys_physics_left_is_pressed
+
+    ld      hl, #Joy0_Left
+    call cpct_isKeyPressed_asm
+    jr nz, sys_physics_left_is_pressed
+
+    ld      hl, #Joy1_Left
+    call cpct_isKeyPressed_asm
+    jr nz, sys_physics_left_is_pressed
+
+    ld      hl, #Key_CursorLeft
+    call cpct_isKeyPressed_asm
+    jr nz, sys_physics_left_is_pressed
+
+    ;; check right
+    ld      hl, #Key_P
+    call cpct_isKeyPressed_asm
+    jr nz, sys_physics_right_is_pressed
+    ld      hl, #Key_CursorRight
+    call cpct_isKeyPressed_asm
+    jr nz, sys_physics_right_is_pressed
+    ld      hl, #Joy0_Right
+    call cpct_isKeyPressed_asm
+    jr nz, sys_physics_right_is_pressed
+    ld      hl, #Joy1_Right
+    call cpct_isKeyPressed_asm
+    jr nz, sys_physics_right_is_pressed
+    ;; check up
+    ld      hl, #Key_Q
+    call cpct_isKeyPressed_asm
+    jr nz, sys_physics_up_is_pressed
+    ld      hl, #Key_CursorUp
+    call cpct_isKeyPressed_asm
+    jr nz, sys_physics_up_is_pressed
+    ld      hl, #Joy0_Up
+    call cpct_isKeyPressed_asm
+    jr nz, sys_physics_up_is_pressed
+    ld      hl, #Joy1_Up
+    call cpct_isKeyPressed_asm
+    jr nz, sys_physics_up_is_pressed
+    ;; check down
     ld      hl, #Key_A
     call cpct_isKeyPressed_asm
-    jr nz, sys_physics_A_is_pressed
-    ;; check letter P
-    ld      hl, #Key_D
+    jr nz, sys_physics_down_is_pressed
+    ld      hl, #Key_CursorDown
     call cpct_isKeyPressed_asm
-    jr nz, sys_physics_D_is_pressed
-    ;; check letter Q
-    ld      hl, #Key_W
+    jr nz, sys_physics_down_is_pressed
+    ld      hl, #Joy0_Down
     call cpct_isKeyPressed_asm
-    jr nz, sys_physics_W_is_pressed
-    ;; check letter A
-    ld      hl, #Key_S
+    jr nz, sys_physics_down_is_pressed
+    ld      hl, #Joy1_Down
     call cpct_isKeyPressed_asm
-    jr nz, sys_physics_S_is_pressed
+    jr nz, sys_physics_down_is_pressed
     ;; no se ha pulsado ninguna tecla
     stop_sprite_player:
     pop de
     call stop_sprite
     call desactive_animating
     jp sys_input_update_for_one_end
-    sys_physics_A_is_pressed:
+    sys_physics_left_is_pressed:
         pop de
         call active_animation_player
         ; call choose_axis_x_player
@@ -51,7 +91,7 @@ sys_input_update_for_one:
         ld bc, #DIRECT_A
         call check_animation
         jr sys_input_update_for_one_end
-    sys_physics_D_is_pressed:
+    sys_physics_right_is_pressed:
         pop de
         call active_animation_player
         ; call choose_axis_x_player
@@ -61,7 +101,7 @@ sys_input_update_for_one:
         ld bc, #DIRECT_D
         call check_animation
         jr sys_input_update_for_one_end
-    sys_physics_W_is_pressed:
+    sys_physics_up_is_pressed:
         pop de
         call active_animation_player
         ; call choose_axis_y_player
@@ -71,7 +111,7 @@ sys_input_update_for_one:
         ld bc, #DIRECT_W
         call check_animation
         jr sys_input_update_for_one_end
-    sys_physics_S_is_pressed:
+    sys_physics_down_is_pressed:
         pop de
         call active_animation_player
         ; call choose_axis_y_player
