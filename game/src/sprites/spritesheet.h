@@ -51,5 +51,41 @@ extern const u8 spr_spritesheet_14[8 * 16];
 #define SPR_SPRITESHEET_15_W 8
 #define SPR_SPRITESHEET_15_H 16
 extern const u8 spr_spritesheet_15[8 * 16];
+#define SPR_SPRITESHEET_16_W 8
+#define SPR_SPRITESHEET_16_H 16
+extern const u8 spr_spritesheet_16[8 * 16];
+#define SPR_SPRITESHEET_17_W 8
+#define SPR_SPRITESHEET_17_H 16
+extern const u8 spr_spritesheet_17[8 * 16];
+#define SPR_SPRITESHEET_18_W 8
+#define SPR_SPRITESHEET_18_H 16
+extern const u8 spr_spritesheet_18[8 * 16];
+#define SPR_SPRITESHEET_19_W 8
+#define SPR_SPRITESHEET_19_H 16
+extern const u8 spr_spritesheet_19[8 * 16];
+#define SPR_SPRITESHEET_20_W 8
+#define SPR_SPRITESHEET_20_H 16
+extern const u8 spr_spritesheet_20[8 * 16];
+#define SPR_SPRITESHEET_21_W 8
+#define SPR_SPRITESHEET_21_H 16
+extern const u8 spr_spritesheet_21[8 * 16];
+#define SPR_SPRITESHEET_22_W 8
+#define SPR_SPRITESHEET_22_H 16
+extern const u8 spr_spritesheet_22[8 * 16];
+#define SPR_SPRITESHEET_23_W 8
+#define SPR_SPRITESHEET_23_H 16
+extern const u8 spr_spritesheet_23[8 * 16];
+#define SPR_SPRITESHEET_24_W 8
+#define SPR_SPRITESHEET_24_H 16
+extern const u8 spr_spritesheet_24[8 * 16];
+#define SPR_SPRITESHEET_25_W 8
+#define SPR_SPRITESHEET_25_H 16
+extern const u8 spr_spritesheet_25[8 * 16];
+#define SPR_SPRITESHEET_26_W 8
+#define SPR_SPRITESHEET_26_H 16
+extern const u8 spr_spritesheet_26[8 * 16];
+#define SPR_SPRITESHEET_27_W 8
+#define SPR_SPRITESHEET_27_H 16
+extern const u8 spr_spritesheet_27[8 * 16];
 
 #endif

@@ -1019,23 +1019,23 @@ ret
 ;;;;;;;;;;;;;;;; Mundo 2 ;;;;;;;;;;;;;;;;
 crear_objetos_mapa_6::
     ;;;;;;;;;;;;;;;
-    ;; Chocolate ;;
+    ;; Galleta ;;
     ;;;;;;;;;;;;;;;
 
-    ld       ix, #chocolate_entity
+    ld       ix, #galleta_entity
 
     ld    X(ix), #4
     ld    Y(ix), #32
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
     
     ld    X(ix), #68
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
 
     ld    X(ix), #4
     ld    Y(ix), #176
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
 
     ;;;;;;;;;;;;
@@ -1072,24 +1072,24 @@ crear_objetos_mapa_6::
 ret
 crear_objetos_mapa_7::
     ;;;;;;;;;;;;;;;
-    ;; Chocolate ;;
+    ;; Galleta ;;
     ;;;;;;;;;;;;;;;
 
-    ld       ix, #chocolate_entity
+    ld       ix, #galleta_entity
 
     ld    X(ix), #68
     ld    Y(ix), #32
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
     
     ld    X(ix), #44
     ld    Y(ix), #152
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
 
     ld    X(ix), #16
     ld    Y(ix), #120
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
 
     ;;;;;;;;;;;;
@@ -1134,24 +1134,24 @@ ret
 
 crear_objetos_mapa_8::
     ;;;;;;;;;;;;;;;
-    ;; Chocolate ;;
+    ;; Galleta ;;
     ;;;;;;;;;;;;;;;
 
-    ld       ix, #chocolate_entity
+    ld       ix, #galleta_entity
 
     ld    X(ix), #68
     ld    Y(ix), #64
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
     
     ld    X(ix), #56
     ld    Y(ix), #64
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
 
     ld    X(ix), #8
     ld    Y(ix), #120
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
 
     ;;;;;;;;;;;;
@@ -1191,24 +1191,24 @@ ret
 
 crear_objetos_mapa_9::
     ;;;;;;;;;;;;;;;
-    ;; Chocolate ;;
+    ;; Galleta ;;
     ;;;;;;;;;;;;;;;
 
-    ld       ix, #chocolate_entity
+    ld       ix, #galleta_entity
 
     ld    X(ix), #4
     ld    Y(ix), #32
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
     
     ld    X(ix), #44
     ld    Y(ix), #112
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
 
     ld    X(ix), #68
     ld    Y(ix), #176
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
 
     ;;;;;;;;;;;;
@@ -1251,11 +1251,11 @@ crear_objetos_mapa_10::
     ;; Consumibles ;;
     ;;;;;;;;;;;;;;;;;
 
-    ld       ix, #chocolate_entity
+    ld       ix, #galleta_entity
 
     ld    X(ix), #32
     ld    Y(ix), #40
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
     
     ld       ix, #helado_entity
