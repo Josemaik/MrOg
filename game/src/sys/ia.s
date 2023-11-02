@@ -35,6 +35,9 @@ sys_ai_horizontal_enemie::
     cp #3
     jr z, load_XY_mapa_3
     ld a, (mapa_actual)
+    cp #9
+    jr z, load_XY_mapa_9
+    ld a, (mapa_actual)
     cp #10
     jr z, load_XY_mapa_10
     load_XY_mapa_3:
@@ -49,6 +52,14 @@ sys_ai_horizontal_enemie::
         ld a, #56
         ld (array_coordinates_horizontal), a
         ld a, #30
+        ld (array_coordinates_horizontal + 1), a
+        ld a, #178
+        ld (array_coordinates_horizontal + 2), a
+        jr lets_check_hor
+    load_XY_mapa_9:
+        ld a, #36
+        ld (array_coordinates_horizontal), a
+        ld a, #31
         ld (array_coordinates_horizontal + 1), a
         ld a, #178
         ld (array_coordinates_horizontal + 2), a
