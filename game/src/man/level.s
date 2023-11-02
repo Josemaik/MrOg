@@ -40,8 +40,6 @@ cambio_de_mapa::
     dec     a
     jr      z, mapa_5
     dec     a
-    jr      z, mapa_bonus
-    dec     a
     jr      z, mapa_6
     dec     a
     jr      z, mapa_7
@@ -51,6 +49,8 @@ cambio_de_mapa::
     jr      z, mapa_9
     dec     a
     jr      z, mapa_10
+    dec     a
+    jr      z, mapa_bonus
     dec     a
     jr      z, gotomenu
 
@@ -340,7 +340,7 @@ ret
 cargar_mapa_bonus::
 
     ;; Guardamos en mapa_actual el mapa en el que estamos
-    ld      a, #6
+    ld      a, #11
     ld      (mapa_actual), a
 
     ;; Borrar entidades (menos el player, en el caso de borrarlo crearlo de nuevo, el primero)
@@ -377,7 +377,7 @@ ret
 
 cargar_mapa_6::
     ;; Guardamos en mapa_actual el mapa en el que estamos
-    ld      a, #7
+    ld      a, #6
     ld      (mapa_actual), a
 
     ;; Borrar entidades (menos el player, en el caso de borrarlo crearlo de nuevo, el primero)
@@ -413,7 +413,7 @@ ret
 
 cargar_mapa_7::
     ;; Guardamos en mapa_actual el mapa en el que estamos
-    ld      a, #8
+    ld      a, #7
     ld      (mapa_actual), a
 
     ;; Borrar entidades (menos el player, en el caso de borrarlo crearlo de nuevo, el primero)
@@ -449,7 +449,7 @@ ret
 
 cargar_mapa_8::
     ;; Guardamos en mapa_actual el mapa en el que estamos
-    ld      a, #9
+    ld      a, #8
     ld      (mapa_actual), a
 
     ;; Borrar entidades (menos el player, en el caso de borrarlo crearlo de nuevo, el primero)
@@ -487,7 +487,7 @@ ret
 cargar_mapa_9::
 
     ;; Guardamos en mapa_actual el mapa en el que estamos
-    ld      a, #10
+    ld      a, #9
     ld      (mapa_actual), a
 
     ;; Borrar entidades (menos el player, en el caso de borrarlo crearlo de nuevo, el primero)
@@ -525,7 +525,7 @@ ret
 cargar_mapa_10::
 
     ;; Guardamos en mapa_actual el mapa en el que estamos
-    ld      a, #11
+    ld      a, #10
     ld      (mapa_actual), a
 
     ;; Borrar entidades (menos el player, en el caso de borrarlo crearlo de nuevo, el primero)
