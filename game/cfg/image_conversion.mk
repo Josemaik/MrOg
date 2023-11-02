@@ -1,5 +1,5 @@
 ## 16 colours palette
-PALETTE=0 1 2 3 6 9 11 12 13 15 16 18 20 24 25 26
+PALETTE=0 2 3 4 6 9 12 13 15 16 17 18 20 24 25 26
 
 ## Default values
 #$(eval $(call IMG2SP, SET_MODE        , 0                  ))  { 0, 1, 2 }

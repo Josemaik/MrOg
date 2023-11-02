@@ -44,6 +44,8 @@ string_puntos: .asciz "CURRENT POINTS:"
 string_died: .asciz "YOU DIED :("
 string_gotomenu: .asciz "PRESS [ENTER] TO"
 string_gotomenu1: .asciz "GO TO THE MENU"
+string_bonus: .asciz "BONUS"
+string_10: .asciz "10"
 
 numeros::
 .db "1"
@@ -58,12 +60,17 @@ numeros::
 .db 0x00
 .db "6"
 .db 0x00
+.db "6"
+.db 0x00
 .db "7"
 .db 0x00
 .db "8"
 .db 0x00
 .db "9"
 .db 0x00
+.db "10"
+.db 0x00
+
 id_numeros::
     .db 0x01
 set_level_screen::
@@ -141,6 +148,25 @@ man_levelscreen_init::
 
     call cpct_getScreenPtr_asm    ;; Calculate video memory location and return it in HL
     
+    ld a, (id_numeros)
+    cp #6
+    jr z, bonus_level
+    
+    ld a, (id_numeros)
+    cp #11
+    jr z, level_10
+
+    jr lvl_normal
+
+    bonus_level:
+    ld iy, #string_bonus
+    jr dibujar_lvl
+
+    level_10:
+    ld iy, #string_10
+    jr dibujar_lvl
+
+    lvl_normal:
     ld iy, #numeros
     dibujar_lvl:
     call cpct_drawStringM0_asm  ;; Draw the string
