@@ -31,7 +31,7 @@ PALETTE=0 2 3 4 6 9 12 13 15 16 17 18 20 24 25 26
 $(eval $(call CDTMAN, SET_MINILOAD_MODE, 0))
 $(eval $(call CDTMAN, SET_MINILOAD_PALETTE_FW, 3, $(PALETTE)))
 
-$(eval $(call CDTMAN, GEN_MINILOADER, assets/menu_screen.png))
+$(eval $(call CDTMAN, GEN_MINILOADER, assets/loading_screen.png))
 
 ###############################################################################
 ##                    CASSETE FILE MANAGER HELP INDEX                        ##
