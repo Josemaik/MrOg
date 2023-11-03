@@ -560,6 +560,12 @@ _man_entity_update::
         ld (player_state) , a
         ld a, #0
         ld (player_reaparition_state) , a
+        ld a , (id_numeros)
+        dec a
+        ld c, a
+        ld a , (numeros)
+        sub c
+        ld (numeros), a
         ld a, #1
         ld (id_numeros), a
         call reset_hud
