@@ -34,12 +34,34 @@ sys_ai_horizontal_enemie::
     ld a, (mapa_actual)
     cp #3
     jr z, load_XY_mapa_3
+    ld a, (mapa_actual)
+    cp #8
+    jr z, load_XY_mapa_9
+    ld a, (mapa_actual)
+    cp #9
+    jr z, load_XY_mapa_10
     load_XY_mapa_3:
         ld a, #56
         ld (array_coordinates_horizontal), a
         ld a, #56
         ld (array_coordinates_horizontal + 1), a
         ld a, #129
+        ld (array_coordinates_horizontal + 2), a
+        jr lets_check_hor
+    load_XY_mapa_10:
+        ld a, #56
+        ld (array_coordinates_horizontal), a
+        ld a, #30
+        ld (array_coordinates_horizontal + 1), a
+        ld a, #178
+        ld (array_coordinates_horizontal + 2), a
+        jr lets_check_hor
+    load_XY_mapa_9:
+        ld a, #36
+        ld (array_coordinates_horizontal), a
+        ld a, #31
+        ld (array_coordinates_horizontal + 1), a
+        ld a, #178
         ld (array_coordinates_horizontal + 2), a
         jr lets_check_hor
     lets_check_hor:
@@ -105,8 +127,14 @@ sys_ai_vertical_enemie::
     cp #5
     jr z, load_XY_mapa_5
     ld a, (mapa_actual)
-    cp #7
+    cp #6
     jr z, load_XY_mapa_6
+    ld a, (mapa_actual)
+    cp #7
+    jr z, load_XY_mapa_7
+    ld a, (mapa_actual)
+    cp #10
+    jr z, load_XY_mapa_11
     load_XY_mapa_prueba:
         ld a, #64
         ld (array_coordinates_vertical), a
@@ -147,6 +175,21 @@ sys_ai_vertical_enemie::
         ld a, #16
         ld (array_coordinates_vertical + 2), a
         jr lets_check
+    load_XY_mapa_7:
+        ld a, #68
+        ld (array_coordinates_vertical), a
+        ld a, #72
+        ld (array_coordinates_vertical + 1), a
+        ld a, #4
+        ld (array_coordinates_vertical + 2), a
+        jr lets_check
+    load_XY_mapa_11:
+        ld a, #68
+        ld (array_coordinates_vertical), a
+        ld a, #96
+        ld (array_coordinates_vertical + 1), a
+        ld a, #4
+        ld (array_coordinates_vertical + 2), a
     lets_check:
     ld hl, #Y
      add hl, de

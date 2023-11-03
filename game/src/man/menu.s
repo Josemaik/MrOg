@@ -1,5 +1,6 @@
 .include "cpctelera.h.s"
 .include "assets/screens/menu_screen_z.h.s"
+.include "assets/screens/final_screen_z.h.s"
 
 .module Menu_Manager
 
@@ -7,6 +8,8 @@
 .globl _sys_render_init
 .globl cpct_scanKeyboard_f_asm
 .globl cpct_isKeyPressed_asm
+.globl cpct_akp_stop_asm
+
 man_menu_init::
     call _sys_render_init
 
@@ -14,7 +17,14 @@ man_menu_init::
     ld  de, #0xFFFF
     call cpct_zx7b_decrunch_s_asm
 ret
+screnn_final::
+    call cpct_akp_stop_asm
+    call _sys_render_init
 
+    ld  hl, #_final_screen_z_end ;; poner la pantalla final
+    ld  de, #0xFFFF
+    call cpct_zx7b_decrunch_s_asm
+ret
 man_menu_update::
     call cpct_scanKeyboard_f_asm
     ld  hl, #Key_Return

@@ -43,7 +43,7 @@ flobier_entity::
 		.db     #SPR_ENEMIE_FLOBIER_H   ;; height
 		.db     #-1                 ;; vx = -1
 		.db     #0x00               ;; vy = 0
-		.dw     #_spr_burro_04  ;; sprite (2b)
+		.dw     #_spr_burro_0  ;; sprite (2b)
       .dw     #sys_ai_vertical_enemie ;; behaviour
 	  .db 	#0x0c					;; ai_counter
       .dw     #anim_burro_left ;; anim
@@ -114,19 +114,38 @@ helado_entity::
 	;   .dw   #0x00C4				;; last draw2
 	  .db   #0x00			;; direction
 
-chocolate_entity::
+galleta_entity::
 		 .db 	#E_TYPE_FOOD			;; entity type
       .db     #E_CMP_RENDER | #E_CMP_COLLIDER | E_CMP_ANIMATED;; cmps
 		.db     #0x00               ;; x = 38
 		.db     #0x00             ;; y = 180
-		.db     #SPR_CHOCOLATE_W   ;; width 
-		.db     #SPR_CHOCOLATE_H   ;; height
+		.db     #SPR_GALLETA_W   ;; width 
+		.db     #SPR_GALLETA_H   ;; height
 		.db     #0x00                 ;; vx = -1
 		.db     #0x00               ;; vy = 0
-		.dw     #_spr_chocolate  ;; sprite (2b)
+		.dw     #_spr_galleta_0 ;; sprite (2b)
       .dw     #0x0000;; behaviour
 	  .db 	#0x00					;; ai_counter
-      .dw     #anim_helado ;; anim
+      .dw     #anim_galleta ;; anim
+      .db     #MAN_ANIM_PLAYER_ICECREAM          ;;contador para morir c = 0
+	  .db 	#E_TYPE_PLAYER				;;collides_against
+	  .dw   #0x0000				;; last draw
+	;   .dw   #0x00C4				;; last draw2
+	  .db   #0x00			;; direction
+
+amstrad_entity::
+		 .db 	#E_TYPE_FOOD			;; entity type
+      .db     #E_CMP_RENDER | #E_CMP_COLLIDER | E_CMP_ANIMATED;; cmps
+		.db     #0x00               ;; x = 38
+		.db     #0x00             ;; y = 180
+		.db     #SPR_AMSTRAD_W   ;; width 
+		.db     #SPR_AMSTRAD_H   ;; height
+		.db     #0x00                 ;; vx = -1
+		.db     #0x00               ;; vy = 0
+		.dw     #_spr_amstrad_0  ;; sprite (2b)
+      .dw     #0x0000;; behaviour
+	  .db 	#0x00					;; ai_counter
+      .dw     #anim_amstrad ;; anim
       .db     #MAN_ANIM_PLAYER_ICECREAM          ;;contador para morir c = 0
 	  .db 	#E_TYPE_PLAYER				;;collides_against
 	  .dw   #0x0000				;; last draw

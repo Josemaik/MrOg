@@ -20,6 +20,9 @@ tengo_llave::
 tilemap_position::
     .dw 0x0000
 
+screen_width  = 80
+screen_height = 200
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Inicializar is_colliding_player
 ;;
@@ -82,24 +85,25 @@ comprobar_colision:
     jr     z, sumar_3_4
     dec    a
     jr     z, sumar_3_4
-    ;;;;;; Si es mapa 5 o 6
+    ;;;;;; Si es mapa 5 o bonus
     dec    a
-    jr     z, sumar_5_6
+    jr     z, sumar_5_bonus
+    ;;;;;; Si es mapa 6 o 7
     dec    a
-    jr     z, sumar_5_6
-    ;;;;;; Si es mapa 7 o 8
+    jr     z, sumar_6_7
     dec    a
-    jr     z, sumar_7_8
+    jr     z, sumar_6_7
+    ;;;;;; Si es mapa 8 o 9
     dec    a
-    jr     z, sumar_7_8
-    ;;;;;; Si es mapa 9 o 10
+    jr     z, sumar_8_9
     dec    a
-    jr     z, sumar_9_10
+    jr     z, sumar_8_9
+    ;;;;;; Si es mapa 10
     dec    a
-    jr     z, sumar_9_10
-    ;;;;;; Si es mapa 11
+    jr     z, sumar_10
+    ;;;;;; Si es mapa bonus
     dec    a
-    jr     z, sumar_11
+    jr     z, sumar_5_bonus
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Sumar direccion al tilemap ;;
@@ -113,19 +117,19 @@ comprobar_colision:
     ld     de, #_tilemap_01 + 1200
     jr continuar_sumando
 
-    sumar_5_6:
+    sumar_5_bonus:
     ld     de, #_tilemap_01 + 2400
     jr continuar_sumando
 
-    sumar_7_8:
+    sumar_6_7:
     ld     de, #_tilemap_01 + 3600
     jr continuar_sumando
 
-    sumar_9_10:
+    sumar_8_9:
     ld     de, #_tilemap_01 + 4800
     jr continuar_sumando
 
-    sumar_11:
+    sumar_10:
     ld     de, #_tilemap_01 + 6000
     jr continuar_sumando
 
@@ -410,6 +414,39 @@ sys_collision_update_player_tilemap:
     call inicializar_player_colision
 
     ld   ix, #m_entities
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Comprobar que si se sale de la pantalla se reposicione a la posicion original
+    
+    ;; X ;;
+    ld    a, #screen_width + 1
+    sub   WIDTH(ix)
+    ld    c, a
+    ld    a, X(ix)
+    add   VX(ix)
+    cp    c             
+    jr   nc, se_sale_de_los_limites
+
+    ;; Y ;;
+    ld    a, #screen_height + 1
+    sub   HEIGHT(ix)
+    ld    c, a
+    ld    a, Y(ix)
+    add   VY(ix)
+    cp    c             
+    jr   nc, se_sale_de_los_limites
+
+    jr continuar_comprobando_colisiones
+
+    se_sale_de_los_limites:
+        call sys_render_draw_solid_box_player
+        ;; | Reposicionar al player a la posicion inicial
+        ld a, (position_initial_player)
+        ld X(ix), a ;; 
+        ld a, (position_initial_player + 1)
+        ld Y(ix), a ;; 
+
+    continuar_comprobando_colisiones:
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Colision con la parte de arriba (W) 

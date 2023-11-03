@@ -58,30 +58,30 @@ anim_D::
     .dw #anim_D
 anim_player_died::
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_muelte_0
+    .dw _spr_spritesheet_16
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_muelte_1
+    .dw _spr_spritesheet_17
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_muelte_2
+    .dw _spr_spritesheet_18
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_muelte_3
+    .dw _spr_spritesheet_19
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_muelte_4
+    .dw _spr_spritesheet_20
     .db #0x00
     .dw #anim_player_died
 anim_player_resucitar::
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_resucitar_0
+    .dw _spr_spritesheet_21
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_resucitar_1
+    .dw _spr_spritesheet_22
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_resucitar_2
+    .dw _spr_spritesheet_23
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_resucitar_3
+    .dw _spr_spritesheet_24
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_resucitar_4
+    .dw _spr_spritesheet_25
     .db #MAN_ANIM_PLAYER_HIT_ENEMY
-    .dw _spr_resucitar_5
+    .dw _spr_spritesheet_26
     .db #0x00
     .dw #anim_player_resucitar
 anim_eat::
@@ -96,82 +96,82 @@ anim_eat::
 
 anim_burro_up::
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_08
+    .dw _spr_burro_0
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_09
+    .dw _spr_burro_1
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_10
+    .dw _spr_burro_2
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_11
+    .dw _spr_burro_3
     .db #0x00
     .dw #anim_burro_up
 
 anim_burro_left::
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_04
+    .dw _spr_burro_0
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_05
+    .dw _spr_burro_1
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_06
+    .dw _spr_burro_2
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_07
+    .dw _spr_burro_3
     .db #0x00
     .dw #anim_burro_left
 
 anim_burro_down::
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_00
+    .dw _spr_burro_4
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_01
+    .dw _spr_burro_5
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_02
+    .dw _spr_burro_6
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_03
+    .dw _spr_burro_7
     .db #0x00
     .dw #anim_burro_down
 
 anim_burro_right::
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_12
+    .dw _spr_burro_4
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_13
+    .dw _spr_burro_5
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_14
+    .dw _spr_burro_6
     .db #MAN_ANIM_PLAYER_TIME
-    .dw _spr_burro_15
+    .dw _spr_burro_7
     .db #0x00
     .dw #anim_burro_right
 
 
 
 anim_enemy_up::
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_enemigo_flobier_6
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_enemigo_flobier_7
     .db #0x00
     .dw #anim_enemy_up
 
 anim_enemy_left::
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_enemigo_flobier_4
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_enemigo_flobier_5
     .db #0x00
     .dw #anim_enemy_left
 
 anim_enemy_down::
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_enemigo_flobier_0
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_enemigo_flobier_1
     .db #0x00
     .dw #anim_enemy_down
 
 anim_enemy_right::
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_enemigo_flobier_2
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_enemigo_flobier_3
     .db #0x00
     .dw #anim_enemy_right
@@ -225,36 +225,52 @@ anim_amstrad::
 
 
 anim_cauldron_up::
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_cauldron_4
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_cauldron_5
     .db #0x00
     .dw #anim_cauldron_up
 
 anim_cauldron_left::
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_cauldron_0
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_cauldron_1
     .db #0x00
     .dw #anim_cauldron_left
 
 anim_cauldron_down::
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_cauldron_6
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_cauldron_7
     .db #0x00
     .dw #anim_cauldron_down
 
 anim_cauldron_right::
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_cauldron_2
-    .db #MAN_ANIM_PLAYER_TIME
+    .db #MAN_ANIM_PLAYER_KEY
     .dw _spr_cauldron_3
     .db #0x00
     .dw #anim_cauldron_right
+
+anim_galleta::
+    .db #MAN_ANIM_PLAYER_ICECREAM
+    .dw _spr_galleta_0
+    .db #MAN_ANIM_PLAYER_ICECREAM
+    .dw _spr_galleta_1
+    .db #MAN_ANIM_PLAYER_ICECREAM
+    .dw _spr_galleta_2
+    .db #MAN_ANIM_PLAYER_ICECREAM
+    .dw _spr_galleta_3
+    .db #MAN_ANIM_PLAYER_ICECREAM
+    .dw _spr_galleta_4
+    .db #MAN_ANIM_PLAYER_ICECREAM
+    .dw _spr_galleta_5
+    .db #0x00
+    .dw #anim_galleta
 
 .area _CODE
 

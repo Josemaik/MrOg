@@ -408,9 +408,39 @@ check_food_anim:
                     ;; cambio de mapa
                     ld a, (consumibles_actuales)
                     cp #0
-                    jr z, cambio_mapa
+                    jr nz, check_food_anim_end
+                        ld a, (mapa_actual)
+                        cp #11
+                        jr nz, cambio_mapa
+                        push de
+                        ;; poner screen_final hasta pulsar enter
+                        call screnn_final
+                        pop de
+                        push de
+                        screnn_final_loop:
+                            call man_menu_update
+                            jr    z, screnn_final_loop
+                        pop de
+                        ;; al salir de la pantalla final volver a menu
+                        Ld a, #3
+                        ld (lifes_available), a
+                        ld a, #0
+                        ld (player_state) , a
+                        ld a, #0
+                        ld (player_reaparition_state) , a
+                        ld a, #1
+                        ld (id_numeros), a
+                        call reset_hud
+                        call reset_vidas_hud
+                        ld bc, #man_game_init
+                        push bc 
+                        ret
+                        cambio_mapa:
+                        call cambio_de_mapa
             check_food_anim_end:
 ret
+
+
 check_player_died:
                 ;; compruebo si esta muerto
                 ld a, (player_state)
@@ -429,7 +459,9 @@ check_player_died:
                 died_anim_end:
                     ld a, #0
                     ld (player_state) , a
+                    push de
                     call player_reaparition
+                    pop de
         check_player_died_end:
 ret
 check_player_reaparition:
@@ -449,7 +481,9 @@ check_player_reaparition:
                 reaparition_anim_end:
                     ld a, #0
                     ld (player_reaparition_state) , a
+                    push de
                     call player_reaparition_finished
+                    pop de
                 check_player_reaparition_end:
 ret
 ;;;;;;;;;;;;;;;;;;;;
@@ -511,9 +545,6 @@ _man_entity_update::
                 call    man_entity_destroy        
             man_update_not_destroy_entity:  
                 jr      man_update_init_for
-            
-            cambio_mapa:
-                    call cambio_de_mapa
 
     man_update_end_for:
     ;; comprobar si no tengo vidas y volver a menu
@@ -529,11 +560,17 @@ _man_entity_update::
         ld (player_state) , a
         ld a, #0
         ld (player_reaparition_state) , a
+        ld a , (id_numeros)
+        dec a
+        ld c, a
+        ld a , (numeros)
+        sub c
+        ld (numeros), a
         ld a, #1
         ld (id_numeros), a
         call reset_hud
         call reset_vidas_hud
-        ld bc, #_main
+        ld bc, #man_game_init
         push bc 
         ret
     ret

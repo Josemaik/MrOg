@@ -75,8 +75,10 @@
        SPR_ENEMIE_FLOBIER_H = 16
        SPR_HELADO_W = 8
        SPR_HELADO_H = 16
-       SPR_CHOCOLATE_W = 8
-       SPR_CHOCOLATE_H = 16
+       SPR_GALLETA_W = 8
+       SPR_GALLETA_H = 16
+       SPR_AMSTRAD_W = 8
+       SPR_AMSTRAD_H = 16
 	   SPR_PUERTA_HORIZONTAL_W = 8 
 	   SPR_PUERTA_HORIZONTAL_H = 8 
        SPR_PUERTA_VERTICAL_W = 4
@@ -96,6 +98,9 @@
     .globl anim_enemy_left
     .globl anim_llave
     .globl anim_helado
+    .globl anim_galleta
+    .globl anim_amstrad
+    
     ;;man
     .globl player_state
     .globl time_anim_died
@@ -115,4 +120,8 @@
     .globl player_reaparition_finished
     .globl set_died_screen
     .globl id_numeros
-   
+    .globl mapa_actual
+    .globl screnn_final
+    .globl man_menu_update
+    .globl man_game_init
+   .globl numeros

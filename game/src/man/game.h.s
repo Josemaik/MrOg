@@ -31,7 +31,7 @@
       .globl sys_render_draw_solid_box_player
       .globl anim_S
       .globl _spr_spritesheet_00
-      .globl _spr_resucitar_0
+      .globl _spr_spritesheet_21
       .globl anim_burro_left
       .globl anim_burro_up
       .globl anim_burro_right

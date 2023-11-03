@@ -8,7 +8,8 @@
    .globl flobier_entity2
    .globl flobier_entity_patron
    .globl helado_entity
-   .globl chocolate_entity
+   .globl galleta_entity
+   .globl amstrad_entity
    .globl puerta_horizontal_entity
    .globl puerta_vertical_entity
    .globl llave_entity
@@ -33,6 +34,7 @@
    ;;ia
    .globl anim_cauldron_up
    .globl anim_enemy_right
+   .globl anim_enemy_up
    ;; Render
    .globl sys_render_tilemap
 

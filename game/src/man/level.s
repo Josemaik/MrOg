@@ -26,7 +26,8 @@ cambio_de_mapa::
     call _man_entity_init
     ;; creamos jugador
     call _inicialize_templates
-    
+
+    call set_level_screen    
 
     ;; Comprobar que mapa cargamos
     ld      a, (mapa_actual)
@@ -39,8 +40,6 @@ cambio_de_mapa::
     dec     a
     jr      z, mapa_5
     dec     a
-    jr      z, mapa_bonus
-    dec     a
     jr      z, mapa_6
     dec     a
     jr      z, mapa_7
@@ -50,13 +49,14 @@ cambio_de_mapa::
     jr      z, mapa_9
     dec     a
     jr      z, mapa_10
-    ;dec     a
-    ;jr      z, gotomenu
+    dec     a
+    jr      z, mapa_bonus
+    dec     a
+    jr      z, gotomenu
 
     ret
 
     mapa_2:
-        call set_level_screen
         call cargar_mapa_2
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -65,7 +65,6 @@ cambio_de_mapa::
     ret
 
     mapa_3:
-        call set_level_screen
         call cargar_mapa_3
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -74,7 +73,6 @@ cambio_de_mapa::
     ret
 
     mapa_4:
-        call set_level_screen
         call cargar_mapa_4
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -83,7 +81,6 @@ cambio_de_mapa::
     ret
 
     mapa_5:
-        call set_level_screen
         call cargar_mapa_5
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -92,7 +89,6 @@ cambio_de_mapa::
     ret
 
     mapa_bonus:
-        call set_level_screen
         call cargar_mapa_bonus
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -101,7 +97,6 @@ cambio_de_mapa::
     ret
 
     mapa_6:
-        call set_level_screen
         call cargar_mapa_6
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -110,7 +105,6 @@ cambio_de_mapa::
     ret
 
     mapa_7:
-        call set_level_screen
         call cargar_mapa_7
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -119,7 +113,6 @@ cambio_de_mapa::
     ret
 
     mapa_8:
-        call set_level_screen
         call cargar_mapa_8
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -128,7 +121,6 @@ cambio_de_mapa::
     ret
 
     mapa_9:
-        call set_level_screen
         call cargar_mapa_9
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -137,7 +129,6 @@ cambio_de_mapa::
     ret
 
     mapa_10:
-        call set_level_screen
         call cargar_mapa_10
         ;; play music
         call cpct_akp_musicPlay_asm
@@ -349,7 +340,7 @@ ret
 cargar_mapa_bonus::
 
     ;; Guardamos en mapa_actual el mapa en el que estamos
-    ld      a, #6
+    ld      a, #11
     ld      (mapa_actual), a
 
     ;; Borrar entidades (menos el player, en el caso de borrarlo crearlo de nuevo, el primero)
@@ -386,7 +377,7 @@ ret
 
 cargar_mapa_6::
     ;; Guardamos en mapa_actual el mapa en el que estamos
-    ld      a, #7
+    ld      a, #6
     ld      (mapa_actual), a
 
     ;; Borrar entidades (menos el player, en el caso de borrarlo crearlo de nuevo, el primero)
@@ -421,18 +412,151 @@ cargar_mapa_6::
 ret
 
 cargar_mapa_7::
+    ;; Guardamos en mapa_actual el mapa en el que estamos
+    ld      a, #7
+    ld      (mapa_actual), a
 
+    ;; Borrar entidades (menos el player, en el caso de borrarlo crearlo de nuevo, el primero)
+
+    ;; Dibujar el tilemap
+    ld    hl, #20
+    ld    (tilemap_position), hl
+    ld   de, #_tilemap_01 + 3620
+    ;add_de_hl
+    call sys_render_tilemap
+
+    ;; Reposicionar el player
+    ld     ix, #m_entities
+    ld  X(ix), #36
+    ld  Y(ix), #40
+    ;; Guardar la posicion inicial del jugador
+    ld     ix, #position_initial_player
+    ld  0(ix), #36
+    ld  1(ix), #40
+
+    ;; Crear enemigos y objetos
+    call crear_enemigos_mapa_7
+    call crear_objetos_mapa_7
+    call set_lord_animations
+    ;; Guardamos en helados_actuales los helados para recoger
+    ld      a, #3
+    ld      (consumibles_actuales), a
+    ;  ld a, #3
+    ; ld      (lifes_available), a
+     ld a, #0
+    ld (stop_score),a
 ret
 
 cargar_mapa_8::
+    ;; Guardamos en mapa_actual el mapa en el que estamos
+    ld      a, #8
+    ld      (mapa_actual), a
+
+    ;; Borrar entidades (menos el player, en el caso de borrarlo crearlo de nuevo, el primero)
+
+    ;; Dibujar el tilemap
+    ld    hl, #0
+    ld    (tilemap_position), hl
+    ld   de, #_tilemap_01 + 4800
+    ;add_de_hl
+    call sys_render_tilemap
+
+    ;; Reposicionar el player
+    ld     ix, #m_entities
+    ld  X(ix), #8
+    ld  Y(ix), #40
+    ;; Guardar la posicion inicial del jugador
+    ld     ix, #position_initial_player
+    ld  0(ix), #8
+    ld  1(ix), #40
+
+    ;; Crear enemigos y objetos
+    call crear_enemigos_mapa_8
+    call crear_objetos_mapa_8
+    call set_lord_animations
+    ;; Guardamos en helados_actuales los helados para recoger
+    ld      a, #3
+    ld      (consumibles_actuales), a
+    ;  ld a, #3
+    ; ld      (lifes_available), a
+     ld a, #0
+    ld (stop_score),a
 
 ret
 
 cargar_mapa_9::
 
+    ;; Guardamos en mapa_actual el mapa en el que estamos
+    ld      a, #9
+    ld      (mapa_actual), a
+
+    ;; Borrar entidades (menos el player, en el caso de borrarlo crearlo de nuevo, el primero)
+
+    ;; Dibujar el tilemap
+    ld    hl, #20
+    ld    (tilemap_position), hl
+    ld   de, #_tilemap_01 + 4820
+    ;add_de_hl
+    call sys_render_tilemap
+
+    ;; Reposicionar el player
+    ld     ix, #m_entities
+    ld  X(ix), #8
+    ld  Y(ix), #168
+    ;; Guardar la posicion inicial del jugador
+    ld     ix, #position_initial_player
+    ld  0(ix), #8
+    ld  1(ix), #168
+
+    ;; Crear enemigos y objetos
+    call crear_enemigos_mapa_9
+    call crear_objetos_mapa_9
+    call set_lord_animations
+    ;; Guardamos en helados_actuales los helados para recoger
+    ld      a, #3
+    ld      (consumibles_actuales), a
+    ;  ld a, #3
+    ; ld      (lifes_available), a
+     ld a, #0
+    ld (stop_score),a
+
 ret
 
 cargar_mapa_10::
+
+    ;; Guardamos en mapa_actual el mapa en el que estamos
+    ld      a, #10
+    ld      (mapa_actual), a
+
+    ;; Borrar entidades (menos el player, en el caso de borrarlo crearlo de nuevo, el primero)
+
+    ;; Dibujar el tilemap
+    ld    hl, #0
+    ld    (tilemap_position), hl
+    ld   de, #_tilemap_01 + 6000
+    ;add_de_hl
+    call sys_render_tilemap
+
+    ;; Reposicionar el player
+    ld     ix, #m_entities
+    ld  X(ix), #8
+    ld  Y(ix), #120
+    ;; Guardar la posicion inicial del jugador
+    ld     ix, #position_initial_player
+    ld  0(ix), #8
+    ld  1(ix), #120
+
+    ;; Crear enemigos y objetos
+    call crear_enemigos_mapa_10
+    call crear_objetos_mapa_10
+    call set_lord_animations
+    ;; Guardamos en helados_actuales los helados para recoger
+    ld      a, #2
+    ld      (consumibles_actuales), a
+    ;  ld a, #3
+    ; ld      (lifes_available), a
+     ld a, #0
+    ld (stop_score),a
 
 ret
 
@@ -502,23 +626,56 @@ crear_enemigos_mapa_6:
 ret
 
 crear_enemigos_mapa_7:
-
+    ld ix, #flobier_entity
+    ld    X(ix), #68
+    ld    Y(ix), #72
+    ld bc, #anim_enemy_left
+    ld AnimFrame(ix), c
+    ld 1+AnimFrame(ix), b
+    ld       hl, #flobier_entity
+    call man_game_create_template_entity
 ret
 
 crear_enemigos_mapa_8:
-
+    ld ix, #flobier_entity2
+    ld    X(ix), #36
+    ld    Y(ix), #178
+    ld bc, #anim_enemy_up
+    ld AnimFrame(ix), c
+    ld 1+AnimFrame(ix), b
+    ld a, #DIRECT_W
+    ld direction(ix), a
+    ld       hl, #flobier_entity2
+    call man_game_create_template_entity
 ret
 
 crear_enemigos_mapa_9:
-
+    ld ix, #flobier_entity2
+    ld    X(ix), #56
+    ld    Y(ix), #178
+    ld bc, #anim_enemy_up
+    ld AnimFrame(ix), c
+    ld 1+AnimFrame(ix), b
+    ld a, #DIRECT_W
+    ld direction(ix), a
+    ld       hl, #flobier_entity2
+    call man_game_create_template_entity
 ret
 
 crear_enemigos_mapa_10:
-
+    ld ix, #flobier_entity
+    ld    X(ix), #68
+    ld    Y(ix), #96
+    ld bc, #anim_enemy_left
+    ld AnimFrame(ix), c
+    ld 1+AnimFrame(ix), b
+    ld       hl, #flobier_entity
+    call man_game_create_template_entity
 ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Creacion de los objetos
 ;;
+;;;;;;;;;;;;;;;; Mundo 1 ;;;;;;;;;;;;;;;;
 crear_objetos_mapa_1:
    ;;;;;;;;;;;;;
    ;; Helados ;;
@@ -831,7 +988,12 @@ crear_objetos_mapa_bonus:
     ;; AMSTRAD ;;
     ;;;;;;;;;;;;;
 
+    ld       ix, #amstrad_entity
 
+    ld    X(ix), #44
+    ld    Y(ix), #104
+    ld       hl, #amstrad_entity
+    call man_game_create_template_entity
 
     ;;;;;;;;;;;;
     ;; Llaves ;;
@@ -877,25 +1039,26 @@ crear_objetos_mapa_bonus:
 
 
 ret
+;;;;;;;;;;;;;;;; Mundo 2 ;;;;;;;;;;;;;;;;
 crear_objetos_mapa_6::
     ;;;;;;;;;;;;;;;
-    ;; Chocolate ;;
+    ;; Galleta ;;
     ;;;;;;;;;;;;;;;
 
-    ld       ix, #chocolate_entity
+    ld       ix, #galleta_entity
 
     ld    X(ix), #4
     ld    Y(ix), #32
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
     
     ld    X(ix), #68
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
 
     ld    X(ix), #4
     ld    Y(ix), #176
-    ld       hl, #chocolate_entity
+    ld       hl, #galleta_entity
     call man_game_create_template_entity
 
     ;;;;;;;;;;;;
@@ -930,19 +1093,230 @@ crear_objetos_mapa_6::
     ld       hl, #puerta_vertical_entity
     call man_game_create_template_entity
 ret
-
 crear_objetos_mapa_7::
+    ;;;;;;;;;;;;;;;
+    ;; Galleta ;;
+    ;;;;;;;;;;;;;;;
 
+    ld       ix, #galleta_entity
+
+    ld    X(ix), #68
+    ld    Y(ix), #32
+    ld       hl, #galleta_entity
+    call man_game_create_template_entity
+    
+    ld    X(ix), #44
+    ld    Y(ix), #152
+    ld       hl, #galleta_entity
+    call man_game_create_template_entity
+
+    ld    X(ix), #16
+    ld    Y(ix), #120
+    ld       hl, #galleta_entity
+    call man_game_create_template_entity
+
+    ;;;;;;;;;;;;
+    ;; Llaves ;;
+    ;;;;;;;;;;;;
+
+    ld       ix, #llave_entity
+
+    ld    X(ix), #68
+    ld    Y(ix), #112
+    ld       hl, #llave_entity
+    call man_game_create_template_entity
+
+    ld    Y(ix), #56
+    ld       hl, #llave_entity
+    call man_game_create_template_entity
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Puertas Verticales ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;
+
+    ld       ix, #puerta_vertical_entity
+
+    ld    X(ix), #64
+    ld    Y(ix), #32
+    ld    direction(ix), #DIRECT_A
+    ld       hl, #puerta_vertical_entity
+    call man_game_create_template_entity
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Puertas Horizontales ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    ld       ix, #puerta_horizontal_entity
+
+    ld    X(ix), #44
+    ld    Y(ix), #144
+    ld    direction(ix), #DIRECT_W
+    ld       hl, #puerta_horizontal_entity
+    call man_game_create_template_entity
 ret
 
 crear_objetos_mapa_8::
+    ;;;;;;;;;;;;;;;
+    ;; Galleta ;;
+    ;;;;;;;;;;;;;;;
+
+    ld       ix, #galleta_entity
+
+    ld    X(ix), #68
+    ld    Y(ix), #64
+    ld       hl, #galleta_entity
+    call man_game_create_template_entity
+    
+    ld    X(ix), #56
+    ld    Y(ix), #64
+    ld       hl, #galleta_entity
+    call man_game_create_template_entity
+
+    ld    X(ix), #8
+    ld    Y(ix), #120
+    ld       hl, #galleta_entity
+    call man_game_create_template_entity
+
+    ;;;;;;;;;;;;
+    ;; Llaves ;;
+    ;;;;;;;;;;;;
+
+    ld       ix, #llave_entity
+
+    ld    X(ix), #68
+    ld    Y(ix), #136
+    ld       hl, #llave_entity
+    call man_game_create_template_entity
+
+    ld    Y(ix), #176
+    ld       hl, #llave_entity
+    call man_game_create_template_entity
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Puertas Horizontales ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    ld       ix, #puerta_horizontal_entity
+
+    ld    X(ix), #68
+    ld    Y(ix), #56
+    ld    direction(ix), #DIRECT_W
+    ld       hl, #puerta_horizontal_entity
+    call man_game_create_template_entity
+
+    ld    X(ix), #56
+    ld    Y(ix), #88
+    ld    direction(ix), #DIRECT_S
+    ld       hl, #puerta_horizontal_entity
+    call man_game_create_template_entity
 
 ret
 
 crear_objetos_mapa_9::
+    ;;;;;;;;;;;;;;;
+    ;; Galleta ;;
+    ;;;;;;;;;;;;;;;
 
+    ld       ix, #galleta_entity
+
+    ld    X(ix), #4
+    ld    Y(ix), #32
+    ld       hl, #galleta_entity
+    call man_game_create_template_entity
+    
+    ld    X(ix), #44
+    ld    Y(ix), #112
+    ld       hl, #galleta_entity
+    call man_game_create_template_entity
+
+    ld    X(ix), #68
+    ld    Y(ix), #176
+    ld       hl, #galleta_entity
+    call man_game_create_template_entity
+
+    ;;;;;;;;;;;;
+    ;; Llaves ;;
+    ;;;;;;;;;;;;
+
+    ld       ix, #llave_entity
+
+    ld    X(ix), #68
+    ld    Y(ix), #80
+    ld       hl, #llave_entity
+    call man_game_create_template_entity
+
+    ld    X(ix), #28
+    ld    Y(ix), #48
+    ld       hl, #llave_entity
+    call man_game_create_template_entity
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Puertas Horizontales ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    ld       ix, #puerta_horizontal_entity
+
+    ld    X(ix), #68
+    ld    Y(ix), #168
+    ld    direction(ix), #DIRECT_W
+    ld       hl, #puerta_horizontal_entity
+    call man_game_create_template_entity
+
+    ld    X(ix), #44
+    ld    Y(ix), #128
+    ld    direction(ix), #DIRECT_S
+    ld       hl, #puerta_horizontal_entity
+    call man_game_create_template_entity
 ret
 
 crear_objetos_mapa_10::
+    ;;;;;;;;;;;;;;;;;
+    ;; Consumibles ;;
+    ;;;;;;;;;;;;;;;;;
 
+    ld       ix, #galleta_entity
+
+    ld    X(ix), #32
+    ld    Y(ix), #40
+    ld       hl, #galleta_entity
+    call man_game_create_template_entity
+    
+    ld       ix, #helado_entity
+
+    ld    X(ix), #40
+    ld    Y(ix), #40
+    ld       hl, #helado_entity
+    call man_game_create_template_entity
+
+    ;;;;;;;;;;;;
+    ;; Llaves ;;
+    ;;;;;;;;;;;;
+
+    ld       ix, #llave_entity
+
+    ld    X(ix), #24
+    ld    Y(ix), #176
+    ld       hl, #llave_entity
+    call man_game_create_template_entity
+
+    ld    X(ix), #56
+    ld    Y(ix), #128
+    ld       hl, #llave_entity
+    call man_game_create_template_entity
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Puertas Horizontales ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    ld       ix, #puerta_horizontal_entity
+
+    ld    X(ix), #36
+    ld    Y(ix), #64
+    ld    direction(ix), #DIRECT_S
+    ld       hl, #puerta_horizontal_entity
+    call man_game_create_template_entity
+
+    ld    Y(ix), #72
+    ld       hl, #puerta_horizontal_entity
+    call man_game_create_template_entity
 ret
