@@ -124,4 +124,4 @@
     .globl screnn_final
     .globl man_menu_update
     .globl man_game_init
-   
+   .globl numeros

@@ -412,11 +412,15 @@ check_food_anim:
                         ld a, (mapa_actual)
                         cp #11
                         jr nz, cambio_mapa
+                        push de
                         ;; poner screen_final hasta pulsar enter
                         call screnn_final
+                        pop de
+                        push de
                         screnn_final_loop:
                             call man_menu_update
                             jr    z, screnn_final_loop
+                        pop de
                         ;; al salir de la pantalla final volver a menu
                         Ld a, #3
                         ld (lifes_available), a
@@ -455,7 +459,9 @@ check_player_died:
                 died_anim_end:
                     ld a, #0
                     ld (player_state) , a
+                    push de
                     call player_reaparition
+                    pop de
         check_player_died_end:
 ret
 check_player_reaparition:
@@ -475,7 +481,9 @@ check_player_reaparition:
                 reaparition_anim_end:
                     ld a, #0
                     ld (player_reaparition_state) , a
+                    push de
                     call player_reaparition_finished
+                    pop de
                 check_player_reaparition_end:
 ret
 ;;;;;;;;;;;;;;;;;;;;

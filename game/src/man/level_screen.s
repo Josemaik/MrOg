@@ -50,7 +50,7 @@ string_gotomenu: .asciz "PRESS [ENTER] TO"
 string_gotomenu1: .asciz "GO TO THE MENU"
 string_bonus: .asciz "BONUS"
 string_10: .asciz "10"
-
+string_controls: .asciz "CONTROLS: Q A O P"
 string_enter: .asciz "PRESS ENTER"
 numeros::
 .db "1"
@@ -324,6 +324,17 @@ man_levelscreen_init::
     ld a, (id_numeros)
     inc a
     ld (id_numeros), a
+    
+
+    ;; string score
+    ld    h, #0
+    ld    l, #10     
+    call cpct_setDrawCharM0_asm
+
+    ld a, (id_numeros)
+    cp #2
+    jP z, goto_controles
+
     ;; string score
     ld    h, #0
     ld    l, #10     
@@ -338,10 +349,6 @@ man_levelscreen_init::
 
     ld iy, #string_score
     call cpct_drawStringM0_asm
-
-
-
-
 ;; draw score
    ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
    ld    b, #130                  ;; B = y coordinate (24 = 0x18)
@@ -381,10 +388,23 @@ man_levelscreen_init::
     ; call set_e
     ;;ld iy, #puntos_conseguidos + 2
    call cpct_drawCharM0_asm  ;; Draw the string
-   ;; enter
+   
+    jp enter_print
+    goto_controles:
+    ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
+    ld    b, #145                  ;; B = y coordinate (24 = 0x18)
+    ld    c, #5              ;; C = x coordinate (16 = 0x10)
+
+    call cpct_getScreenPtr_asm    ;; Calculate video memory location and return it in HL
+
+    ld iy, #string_controls
+    call cpct_drawStringM0_asm
+    enter_print:
+    ;; enter
     ld    h, #0
     ld    l, #9     
     call cpct_setDrawCharM0_asm
+
     ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
     ld    b, #165                  ;; B = y coordinate (24 = 0x18)
     ld    c, #16              ;; C = x coordinate (16 = 0x10)
