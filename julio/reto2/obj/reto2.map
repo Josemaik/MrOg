@@ -1,41 +1,0 @@
-ASxxxx Linker V03.00 + NoICE + sdld,  page 1.
-Hexadecimal  [32-Bits]
-
-Area                                    Addr        Size        Decimal Bytes (Attributes)
---------------------------------        ----        ----        ------- ----- ------------
-.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
-
-      Value  Global                              Global Defined In Module
-      -----  --------------------------------   ------------------------
-     00000000  .__.ABS.                           cpct_keyboard
-     00000000  l__DATA                         
-     00000075  l__CODE                         
-     00004000  s__CODE                         
-     00004075  s__DATA                         
-
-ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
-Hexadecimal  [32-Bits]
-
-Area                                    Addr        Size        Decimal Bytes (Attributes)
---------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    00000075 =         117. bytes (REL,CON)
-
-      Value  Global                              Global Defined In Module
-      -----  --------------------------------   ------------------------
-     00004007  copos_array                        cpct_keyboard
-     00004031  _main                              cpct_keyboard
-
-ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
-
-Files Linked                              [ module(s) ]
-
-obj/main.rel                              [ cpct_keyboard ]
-
-ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
-
-User Base Address Definitions
-
-_CODE = 0x4000
-_DATA = 0x0000
-
-

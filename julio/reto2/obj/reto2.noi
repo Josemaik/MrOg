@@ -1,8 +1,0 @@
-DEF .__.ABS. 0x0
-DEF l__DATA 0x0
-DEF l__CODE 0x75
-DEF s__CODE 0x4000
-DEF s__DATA 0x4075
-DEF copos_array 0x4007
-DEF _main 0x4031
-LOAD obj/reto2.ihx
