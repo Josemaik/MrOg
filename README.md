@@ -17,9 +17,9 @@ This is a video game created by 3 people, programmed in Z80 assembly language (w
 Mr. Og the Sampler is an arcade game inspired by the classic Guzzler, released in 1986. Our project aims to give a twist to Guzzler's gameplay and dynamics by creating increasingly shorter levels that speed up the gaming sessions and make the experience more enjoyable.
 
 <div style="display: flex; flex-direction: row; gap: 10px;">
-  <video src="./game/assets/gameplay0.mp4" width="400" controls>
+  <video src="./assets/gameplay0.mp4" width="400" controls>
   </video>
-  <video src="./game/assets/gameplay1.mp4" width="400" controls>
+  <video src="./assets/gameplay1.mp4" width="400" controls>
   </video>
 </div>
 
